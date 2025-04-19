@@ -5,3 +5,5 @@
 /DUnitXMitbestimmIT.res
 /DUnitXTestProject.identcache
 /*.dcu
+/dcu/
+/Results/

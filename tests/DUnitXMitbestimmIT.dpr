@@ -4,6 +4,7 @@
 
 uses
   System.SysUtils,
+  System.IOUtils,
   DUnitX.Loggers.Console,
   DUnitX.Loggers.XML.NUnit,
   DUnitX.TestFramework,
@@ -18,6 +19,7 @@ var
   results : IRunResults;
   logger : ITestLogger;
   nunitLogger : ITestLogger;
+  path, fname : string;
 begin
   try
     //Create the runner
@@ -31,6 +33,15 @@ begin
       logger := TDUnitXConsoleLogger.Create(TDUnitX.Options.ConsoleMode = TDunitXConsoleMode.Quiet);
       runner.AddLogger(logger);
     end;
+
+
+    path  := TPath.Combine(ExtractFilePath(ParamStr(0)), 'Results');
+    fname := ExtractFileName(ParamStr(0));
+    SetLength(fname, length(fname)-4);
+    fname := fname + '-results.xml';
+
+
+    TDUnitX.Options.XMLOutputFile := TPath.Combine(path, fname);
 
     nunitLogger := TDUnitXXMLNUnitFileLogger.Create(TDUnitX.Options.XMLOutputFile);
     runner.AddLogger(nunitLogger);
