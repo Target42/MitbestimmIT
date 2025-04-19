@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{A0170094-D65F-4FEC-B720-0DCF0A667ED8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="server\MitbestimmITServer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="client\MitbestimmITClientVCL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="tests\DUnitXMitbestimmIT.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MitbestimmITServer">
+        <MSBuild Projects="server\MitbestimmITServer.dproj"/>
+    </Target>
+    <Target Name="MitbestimmITServer:Clean">
+        <MSBuild Projects="server\MitbestimmITServer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MitbestimmITServer:Make">
+        <MSBuild Projects="server\MitbestimmITServer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MitbestimmITClientVCL">
+        <MSBuild Projects="client\MitbestimmITClientVCL.dproj"/>
+    </Target>
+    <Target Name="MitbestimmITClientVCL:Clean">
+        <MSBuild Projects="client\MitbestimmITClientVCL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MitbestimmITClientVCL:Make">
+        <MSBuild Projects="client\MitbestimmITClientVCL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DUnitXMitbestimmIT">
+        <MSBuild Projects="tests\DUnitXMitbestimmIT.dproj"/>
+    </Target>
+    <Target Name="DUnitXMitbestimmIT:Clean">
+        <MSBuild Projects="tests\DUnitXMitbestimmIT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DUnitXMitbestimmIT:Make">
+        <MSBuild Projects="tests\DUnitXMitbestimmIT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MitbestimmITServer;MitbestimmITClientVCL;DUnitXMitbestimmIT"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MitbestimmITServer:Clean;MitbestimmITClientVCL:Clean;DUnitXMitbestimmIT:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MitbestimmITServer:Make;MitbestimmITClientVCL:Make;DUnitXMitbestimmIT:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
