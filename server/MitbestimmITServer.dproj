@@ -108,6 +108,9 @@
             <Form>ServerMethods1</Form>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\berechnungen\u_BER_Berechnungen.pas"/>
+        <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
+        <DCCReference Include="..\berechnungen\u_WahlfristenICS.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

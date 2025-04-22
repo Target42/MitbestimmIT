@@ -2,6 +2,6 @@
 <BorlandProject>
 	<Transactions/>
 	<Default.Personality>
-		<Projects ActiveProject="D:\git_d12\MitbestimmIT\tests\DUnitXMitbestimmIT.dproj"/>
+		<Projects ActiveProject="D:\git_d12\MitbestimmIT\client\MitbestimmITClientVCL.dproj"/>
 	</Default.Personality>
 </BorlandProject>

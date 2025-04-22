@@ -9,8 +9,8 @@ uses
   DUnitX.Loggers.XML.NUnit,
   DUnitX.TestFramework,
   u_testBERBerechnungen in 'u_testBERBerechnungen.pas',
-  u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas';
-
+  u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
+  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas';
 
 {$R *.res}
 

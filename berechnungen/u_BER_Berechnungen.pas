@@ -1,31 +1,50 @@
 ﻿{
-  This unit provides functions for calculating various aspects of Betriebsrat (works council) composition
-  and requirements based on the number of employees and gender distribution.
+  This file is part of the MitbestimmIT project.
 
-  Types:
-    - TGender: Enumeration representing gender (gUnknown, gMale, gFemale, gDiverse).
+  Copyright (C) 2025 Stephan Winter
 
-  Functions:
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <https://www.gnu.org/licenses/>.
+}
+
+unit u_BER_Berechnungen;
+{
+  Diese Unit stellt Funktionen zur Berechnung verschiedener Aspekte der Zusammensetzung
+  und Anforderungen eines Betriebsrats basierend auf der Anzahl der Beschäftigten und der Geschlechterverteilung bereit.
+
+  Typen:
+    - TGender: Enumeration, die das Geschlecht repräsentiert (gUnknown, gMale, gFemale, gDiverse).
+
+  Funktionen:
     - Minderheitengeschlecht(AnzahlMaenner, AnzahlFrauen: Integer): TGender
-        Determines the minority gender based on the number of men and women.
-        Returns gUnknown if the numbers are equal, gMale if men are the minority,
-        and gFemale if women are the minority.
+        Bestimmt das Minderheitengeschlecht basierend auf der Anzahl von Männern und Frauen.
+        Gibt gUnknown zurück, wenn die Zahlen gleich sind, gMale, wenn Männer die Minderheit sind,
+        und gFemale, wenn Frauen die Minderheit sind.
 
     - MindestanzahlMinderheitengeschlecht(AnzahlMaenner, AnzahlFrauen, Betriebsratsgroesse: Integer): Integer
-        Calculates the minimum number of representatives required for the minority gender
-        in the works council based on the total number of men, women, and the council size.
-        Uses the minority gender proportion and rounds up to the nearest integer.
+        Berechnet die Mindestanzahl der Vertreter des Minderheitengeschlechts
+        im Betriebsrat basierend auf der Gesamtzahl von Männern, Frauen und der Größe des Betriebsrats.
+        Verwendet den Anteil des Minderheitengeschlechts und rundet auf die nächste ganze Zahl auf.
 
     - BerechneBetriebsratsgroesse(AnzahlBeschaeftigte: Integer): Integer
-        Computes the size of the works council based on the number of employees.
-        Returns 0 if no council is required, or the appropriate size based on predefined thresholds.
+        Berechnet die Größe des Betriebsrats basierend auf der Anzahl der Beschäftigten.
+        Gibt 0 zurück, wenn kein Betriebsrat erforderlich ist, oder die entsprechende Größe basierend auf vordefinierten Schwellenwerten.
 
     - BerechneAnzahlFreistellungen(Betriebsratsgroesse: Integer): Integer
-        Determines the number of required full-time releases (freistellungen) for works council members
-        based on the size of the council. Returns 0 if no releases are required, or the appropriate
-        number based on predefined thresholds.
+        Bestimmt die Anzahl der erforderlichen Freistellungen (Vollzeitfreistellungen) für Betriebsratsmitglieder
+        basierend auf der Größe des Betriebsrats. Gibt 0 zurück, wenn keine Freistellungen erforderlich sind, oder die entsprechende
+        Anzahl basierend auf vordefinierten Schwellenwerten.
 }
-unit u_BER_Berechnungen;
 
 interface
 
@@ -36,69 +55,11 @@ type
   TGender = (gUnknown, gMale, gFemale, gDiverse);
 
 
-{
-  /**
-   * Determines the minority gender based on the number of men and women.
-   *
-   * @param male The number of men.
-   * @param femal The number of women.
-   * @return TGender The minority gender:
-   *         - gUnknown if the numbers are equal.
-   *         - gMale if the number of men is less than the number of women.
-   *         - gFemale if the number of women is less than the number of men.
-   */
-}
 function Minderheitengeschlecht(male, female: Integer): TGender;
-{
-  This function calculates the minimum number of representatives of the minority gender
-  required in a works council based on the given number of men, women, and the total
-  size of the works council.
-
-  @param male The number of men in the group.
-  @param female The number of women in the group.
-  @param gremium The total size of the works council.
-  @return The minimum number of representatives of the minority gender required.
-}
 function MindestanzahlMinderheitengeschlecht(
   male, female, gremium: Integer): Integer;
-{
-  /**
-   * Berechnet die Größe des Betriebsrats basierend auf der Anzahl der Beschäftigten.
-   *
-   * @param AnzahlBeschaeftigte Die Anzahl der Beschäftigten im Unternehmen.
-   * @return Die Anzahl der Mitglieder im Betriebsrat. Gibt 0 zurück, wenn kein Betriebsrat erforderlich ist.
-   *
-   * Die Berechnung erfolgt nach den folgenden Regeln:
-   * - Bis 5 Beschäftigte: Kein Betriebsrat erforderlich (0 Mitglieder).
-   * - 6 bis 20 Beschäftigte: 1 Mitglied.
-   * - 21 bis 50 Beschäftigte: 3 Mitglieder.
-   * - 51 bis 100 Beschäftigte: 5 Mitglieder.
-   * - 101 bis 200 Beschäftigte: 7 Mitglieder.
-   * - 201 bis 400 Beschäftigte: 9 Mitglieder.
-   * - 401 bis 700 Beschäftigte: 11 Mitglieder.
-   * - 701 bis 1000 Beschäftigte: 13 Mitglieder.
-   * - Über 1000 Beschäftigte: 15 Mitglieder plus 2 zusätzliche Mitglieder für jede weiteren 500 Beschäftigten.
-   */
-}
 function BerechneBetriebsratsgroesse(AnzahlBeschaeftigte: Integer): Integer;
-{
-  This function calculates the number of exemptions (Freistellungen) required
-  based on the size of the works council (Betriebsratsgroesse).
-
-  @param AnzahlBeschaeftigte Integer - The size of the company.
-  @return Integer - The number of exemptions required.
-
-  The calculation is based on the following rules:
-  - If the size is 7 or less, no exemptions are required.
-  - If the size is between 8 and 15, 1 exemption is required.
-  - If the size is between 16 and 31, 2 exemptions are required.
-  - If the size is between 32 and 51, 3 exemptions are required.
-  - If the size is between 52 and 71, 4 exemptions are required.
-  - For sizes greater than 71, 5 exemptions are required plus an additional
-    exemption for every 20 members above 71.
-}
 function BerechneAnzahlFreistellungen(AnzahlBeschaeftigte: Integer): Integer;
-
 function GenderToString(Gender: TGender): string;
 function StringToGender(const GenderStr: string): TGender;
 
@@ -108,11 +69,33 @@ implementation
 uses
   Math;
 
+{
+  TSitze:
+  Ein Record-Typ, der Sitzberechnungen mit den folgenden Feldern darstellt:
+  
+  - min: Integer
+    Die minimale Anzahl an Sitzen.
+  
+  - max: Integer
+    Die maximale Anzahl an Sitzen.
+  
+  - anz: Integer
+    Die aktuelle oder berechnete Anzahl an Sitzen.
+}
 type
   TSitze = record
     min, max, anz: Integer;
   end;
 
+{
+  /**
+   * Determines the minority gender based on the number of males and females.
+   *
+   * @param male The number of males.
+   * @param female The number of females.
+   * @return TGender The gender that is in the minority.
+   */
+}
 function Minderheitengeschlecht(male, female: Integer): TGender;
 begin
   if (male = female) then
@@ -123,6 +106,16 @@ begin
     Result := gFemale;
 end;
 
+{
+  /**
+   * Berechnet die Mindestanzahl der Mitglieder des Minderheitengeschlechts, die in einem Gremium erforderlich sind.
+   *
+   * @param male Die Anzahl der männlichen Mitglieder.
+   * @param female Die Anzahl der weiblichen Mitglieder.
+   * @param gremium Die Gesamtanzahl der Mitglieder im Gremium.
+   * @return Die Mindestanzahl der Mitglieder des Minderheitengeschlechts, die erforderlich sind.
+   */
+}
 function MindestanzahlMinderheitengeschlecht(
   male, female, gremium: Integer): Integer;
 var
@@ -153,10 +146,18 @@ begin
 end;
 
 
+{
+  /**
+   * Berechnet die Größe des Betriebsrats basierend auf der Anzahl der Beschäftigten.
+   *
+   * @param AnzahlBeschaeftigte Die Anzahl der Beschäftigten im Unternehmen.
+   * @return Die berechnete Größe des Betriebsrats als Integer-Wert.
+   */
+}
 function BerechneBetriebsratsgroesse(AnzahlBeschaeftigte: Integer): Integer;
 const
-  // Array for calculating Betriebsratsgroesse based on AnzahlBeschaeftigte.
-  // Note: This array has a range of [0..17].
+  // Array zur Berechnung der Betriebsratsgröße basierend auf der Anzahl der Beschäftigten.
+  // Hinweis: Dieses Array hat einen Bereich von [0..17].
   FreistellungenTabelle : array[0..17] of TSitze =
   (
     (min:0;     max:4;      anz :0 ),
@@ -200,10 +201,18 @@ begin
 
 end;
 
+{
+  /**
+   * Berechnet die Anzahl der Freistellungen basierend auf der Anzahl der Beschäftigten.
+   *
+   * @param AnzahlBeschaeftigte Die Anzahl der Beschäftigten, die als Grundlage für die Berechnung dient.
+   * @return Die berechnete Anzahl der Freistellungen.
+   */
+}
 function BerechneAnzahlFreistellungen(AnzahlBeschaeftigte: Integer): Integer;
 const
-  // Array for calculating exemptions (Freistellungen) based on Betriebsratsgroesse.
-  // Note: This array has a range of [0..12].
+  // Array zur Berechnung der Freistellungen basierend auf der Betriebsratsgröße.
+  // Hinweis: Dieses Array hat einen Bereich von [0..12].
   FreistellungenTabelle : array[0..12] of TSitze =
   (
     (min:0;     max:199;    anz :0 ),
@@ -241,6 +250,12 @@ begin
   end;
 end;
 
+{
+  Konvertiert einen TGender-Wert in seine entsprechende String-Darstellung.
+
+  @param Gender Der TGender-Wert, der konvertiert werden soll.
+  @return Eine String-Darstellung des angegebenen TGender-Werts.
+}
 function GenderToString(Gender: TGender): string;
 begin
   case Gender of
@@ -253,6 +268,14 @@ begin
   end;
 end;
 
+{
+  Konvertiert eine String-Darstellung eines Geschlechts in einen TGender-Enumerationswert.
+
+  @param GenderStr Die String-Darstellung des Geschlechts. Erwartete Werte sollten den
+                   vordefinierten Geschlechts-Strings der Anwendung entsprechen.
+  @return          Der entsprechende TGender-Enumerationswert.
+  @raises          Exception, wenn der Eingabestring keinem gültigen Geschlecht entspricht.
+}
 function StringToGender(const GenderStr: string): TGender;
 begin
   if SameText(GenderStr, 'Unknown') then

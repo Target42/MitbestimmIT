@@ -23,7 +23,10 @@ uses
   Vcl.SvcMgr,
   m_ServerMain in 'm_ServerMain.pas' {ServerMain: TService},
   ServerMethodsUnit1 in 'ServerMethodsUnit1.pas' {ServerMethods1: TDSServerModule},
-  System.SysUtils {ServerMethods1: TDSServerModule};
+  System.SysUtils {ServerMethods1: TDSServerModule},
+  u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
+  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
+  u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas';
 
 {$R *.RES}
 
