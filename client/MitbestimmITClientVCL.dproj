@@ -129,9 +129,84 @@
             <Form>MainClientForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\berechnungen\u_BER_Berechnungen.pas"/>
+        <DCCReference Include="gui\u_fonts.pas"/>
+        <DCCReference Include="f_splash.pas">
+            <Form>Splashform</Form>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
+        <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_5</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Black.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_1</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-BlackItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_2</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Bold.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_3</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-BoldItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_4</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-ExtraBoldItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_6</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-ExtraLight.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_7</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-ExtraLightItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_8</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Italic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_9</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Light.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_10</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-LightItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_11</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Medium.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_12</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-MediumItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_13</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Regular.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_14</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-SemiBold.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_15</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-SemiBoldItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_16</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-Thin.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_17</ResourceId>
+        </RcItem>
+        <RcItem Include="..\fonts\static\Montserrat-ThinItalic.ttf">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>fnt_18</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -167,6 +242,114 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\README.md" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Black.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-BlackItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Bold.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-BoldItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-ExtraBold.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-ExtraBoldItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-ExtraLight.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-ExtraLightItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Italic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Light.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-LightItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Medium.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-MediumItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Regular.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-SemiBold.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-SemiBoldItalic.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-Thin.ttf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\fonts\static\Montserrat-ThinItalic.ttf" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
