@@ -23,10 +23,20 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, System.Actions,
+  Vcl.StdActns, Vcl.Menus;
 
 type
   TMainClientForm = class(TForm)
+    MainMenu1: TMainMenu;
+    ActionList1: TActionList;
+    Programm1: TMenuItem;
+    Programm2: TMenuItem;
+    FileExit1: TFileExit;
+    Windows1: TMenuItem;
+    ac_info: TAction;
+    Info1: TMenuItem;
+    procedure ac_infoExecute(Sender: TObject);
   private
   public
 
@@ -37,6 +47,14 @@ var
 
 implementation
 
+uses
+  f_info;
+
 {$R *.dfm}
+
+procedure TMainClientForm.ac_infoExecute(Sender: TObject);
+begin
+  TinfoForm.ShowInfo;
+end;
 
 end.
