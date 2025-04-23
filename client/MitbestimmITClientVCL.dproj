@@ -133,6 +133,10 @@
         <DCCReference Include="f_splash.pas">
             <Form>Splashform</Form>
         </DCCReference>
+        <DCCReference Include="gui\f_info.pas">
+            <Form>infoForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
@@ -1312,6 +1316,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

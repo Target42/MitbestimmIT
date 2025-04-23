@@ -6,7 +6,8 @@ uses
   Vcl.Forms,
   f_main_client in 'f_main_client.pas' {MainClientForm},
   u_fonts in 'gui\u_fonts.pas',
-  f_splash in 'f_splash.pas' {Splashform};
+  f_splash in 'f_splash.pas' {Splashform},
+  f_info in 'gui\f_info.pas' {infoForm};
 
 {$R *.res}
 
