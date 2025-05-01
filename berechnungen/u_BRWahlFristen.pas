@@ -34,6 +34,7 @@ type
   }
   TWahlVerfahren = (wvAllgemein, wvVereinfacht);
 
+  PTWahlFristen = ^TWahlFristen;
   {
     TWahlFristen ist ein Record, der verschiedene Termine und Fristen im Zusammenhang mit einem Wahlprozess darstellt.
 
@@ -74,6 +75,7 @@ type
     AnfechtungsfristEnde: TDate;
   end;
 
+
   {
     TRegelwahlStatus:
     Dieser Record repräsentiert den Status einer regulären Wahlperiode. Er enthält die folgenden Felder:
@@ -92,6 +94,7 @@ type
 
 function PruefeRegulaereWahlperiode(Heute: TDate): TRegelwahlStatus;
 function BerechneWahlFristen(Wahltag: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
+function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
 
 implementation
 
@@ -151,6 +154,92 @@ begin
   Result.Ende  := EncodeDate(WahlJahr, 5, 31);
   Result.Jahr  := WahlJahr;
   Result.InWahlperiode := (Heute >= Result.Start) and (Heute <= Result.Ende);
+end;
+
+function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
+var
+  days : Integer;
+begin
+  Result := true;
+
+  if fristen.Verfahren = wvVereinfacht then
+  begin
+    days := DaysBetween(fristen.Wahltag, fristen.SpaetesterWahlvorstand);
+    if days < 14 then
+    begin
+      Result := false;
+      msg := msg + Format('Der Wahlvorstand muss mindestens 14 Tage vor der Wahl bestellt werden, es sind aber nur %d%s', [days, #13]);
+    end;
+
+    days := DaysBetween(fristen.WahlausschreibenDatum, fristen.SpaetesterWahlvorstand);
+    if days < 7  then
+    begin
+      Result := false;
+      msg := msg + Format('Das Wahlsausschreiben muss 7 nach der Bestllung des  Wahlvorstandesausgehängt werden werden, es sind aber nur %d%s', [days, #13]);
+    end;
+
+    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.Wahltag);
+    if days < 6 then
+    begin
+      Result := false;
+      msg := msg + Format('Die Einreichungsfrist der Wahlvorschläge endet 6 Tage  vor der Wal, hier sind es sind aber %d%s', [days, #13]);
+    end;
+
+  end
+  else
+  begin
+    days := DaysBetween(fristen.Wahltag, fristen.SpaetesterWahlvorstand);
+    if days < 10 * 7 then
+    begin
+      Result := false;
+      msg := msg + Format('Der Wahlvorstand muss 70 Tage vor der Wahl bestellt werden, es sind aber nur %d%s', [days, #13]);
+    end;
+    days := DaysBetween(fristen.Wahltag, fristen.WahlausschreibenDatum);
+    if days < 6 * 7 then
+    begin
+      Result := false;
+      msg := msg + Format('Das Wahlsausschreiben muss 60 Tage vor der Wahl ausgehängt werden werden, es sind aber nur %d%s', [days, #13]);
+    end;
+    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.WahlausschreibenDatum);
+    if days < 14 then
+    begin
+      Result := false;
+      msg := msg + Format('Die Einreichungsfrist der Wahlvorschläge endet 14 Tage nach dem Aushang des Wahlausschreibens. hier sind es sind aber %d%s', [days, #13]);
+    end;
+
+    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.BekanntgabeVorschlaege);
+    if (days <> 1) then
+    begin
+      Result := false;
+      msg := msg + Format('Die Bekanntgabe der gültigen Wahlvorschläge hat am Tag nach dem Ende der Einreichungsfrist zu erfolgen%s', [#13]);
+    end;
+    if fristen.VorschlagsfristEnde > fristen.BekanntgabeVorschlaege then
+    begin
+      Result := false;
+      msg := msg + Format('Die Bekanntgabe der Vorschkläge kann nicht vor dem Vorschlagsendeerfolgen.%s', [#13]);
+    end;
+
+    days := DaysBetween(fristen.BekanntgabeVorschlaege, fristen.Wahltag);
+    if days < 7  then
+    begin
+      Result := false;
+      msg := msg + Format('Der Wahltag darf frühstens 1 Woche nach bekanntgabe der gültigen Wahlvorschläge sein %s', [#13]);
+    end;
+  end;
+
+  if fristen.Wahltag <> fristen.BekanntgabeErgebnis then
+  begin
+    Result := false;
+    msg := msg + Format('Die Wahlergebnisse müssen am Wahltag bekanntgegeben werden', [#13]);
+  end;
+  days := DaysBetween(fristen.Wahltag, fristen.AnfechtungsfristEnde);
+  if days <> 14  then
+  begin
+    Result := false;
+    msg := msg + Format('die Frist für due Anfechtung der Wahlergebnisse liegt bei genau 14 Tagen! %s', [#13]);
+  end;
+
+
 end;
 
 end.

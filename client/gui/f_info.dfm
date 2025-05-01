@@ -1,9 +1,9 @@
 object infoForm: TinfoForm
   Left = 0
   Top = 0
-  Caption = 'infoForm'
-  ClientHeight = 217
-  ClientWidth = 479
+  Caption = 'Info'
+  ClientHeight = 216
+  ClientWidth = 459
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlue
@@ -11,7 +11,6 @@ object infoForm: TinfoForm
   Font.Name = 'Segoe UI'
   Font.Style = [fsUnderline]
   Position = poMainFormCenter
-  Scaled = False
   TextHeight = 15
   object Image1: TImage
     Left = 32
@@ -1173,7 +1172,7 @@ object infoForm: TinfoForm
   end
   object Label1: TLabel
     Left = 176
-    Top = 55
+    Top = 45
     Width = 232
     Height = 15
     Caption = 'https://github.com/Target42/MitbestimmIT'
@@ -1187,7 +1186,7 @@ object infoForm: TinfoForm
   end
   object Label2: TLabel
     Left = 176
-    Top = 117
+    Top = 101
     Width = 268
     Height = 15
     Caption = 'https://github.com/Target42/MitbestimmIT/issues'
@@ -1195,7 +1194,7 @@ object infoForm: TinfoForm
   end
   object Label3: TLabel
     Left = 176
-    Top = 34
+    Top = 24
     Width = 36
     Height = 15
     Caption = 'Github'
@@ -1208,7 +1207,7 @@ object infoForm: TinfoForm
   end
   object Label4: TLabel
     Left = 176
-    Top = 96
+    Top = 80
     Width = 32
     Height = 15
     Caption = 'Fehler'
@@ -1221,7 +1220,7 @@ object infoForm: TinfoForm
   end
   object Label5: TLabel
     Left = 176
-    Top = 160
+    Top = 137
     Width = 144
     Height = 15
     Margins.Left = 5
