@@ -137,6 +137,43 @@
             <Form>infoForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Planung\f_planungsform.pas">
+            <Form>Planungsform</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Planung\fr_wahlverfahren.pas">
+            <Form>WahlverfahrenFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Planung\fr_wahlfristen.pas">
+            <Form>WahlfristenFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
+        <DCCReference Include="Planung\fr_wahlvorstand.pas">
+            <Form>WahlVorstandFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\lib\fr_base.pas">
+            <Form>BaseFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Planung\f_WahlVorstandPerson.pas">
+            <Form>WahlVorstandPersonForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="m_res.pas">
+            <Form>DataModule1</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Wahlvorstand\u_Wahlvorstand.pas"/>
+        <DCCReference Include="..\lib\u_json.pas"/>
+        <DCCReference Include="..\lib\u_utils.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

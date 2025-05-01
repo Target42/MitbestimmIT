@@ -24,7 +24,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, System.Actions,
-  Vcl.StdActns, Vcl.Menus;
+  Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
 
 type
   TMainClientForm = class(TForm)
@@ -36,7 +36,15 @@ type
     Windows1: TMenuItem;
     ac_info: TAction;
     Info1: TMenuItem;
+    StatusBar1: TStatusBar;
+    Wahl1: TMenuItem;
+    Briefwahl1: TMenuItem;
+    Auszhlung1: TMenuItem;
+    Wahlbro1: TMenuItem;
+    ac_wa_plan: TAction;
+    Planen1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
+    procedure ac_wa_planExecute(Sender: TObject);
   private
   public
 
@@ -48,13 +56,18 @@ var
 implementation
 
 uses
-  f_info;
+  f_info, f_planungsform;
 
 {$R *.dfm}
 
 procedure TMainClientForm.ac_infoExecute(Sender: TObject);
 begin
   TinfoForm.ShowInfo;
+end;
+
+procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
+begin
+  TPlanungsform.Execute;
 end;
 
 end.

@@ -13,6 +13,13 @@ object MainClientForm: TMainClientForm
   Menu = MainMenu1
   Position = poScreenCenter
   TextHeight = 15
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 604
+    Width = 980
+    Height = 19
+    Panels = <>
+  end
   object MainMenu1: TMainMenu
     Left = 24
     Top = 24
@@ -22,6 +29,21 @@ object MainClientForm: TMainClientForm
         Action = FileExit1
       end
     end
+    object Wahl1: TMenuItem
+      Caption = 'Wahl'
+      object Planen1: TMenuItem
+        Action = ac_wa_plan
+      end
+    end
+    object Wahlbro1: TMenuItem
+      Caption = 'Wahlb'#252'ro'
+    end
+    object Briefwahl1: TMenuItem
+      Caption = 'Briefwahl'
+    end
+    object Auszhlung1: TMenuItem
+      Caption = 'Ausz'#228'hlung'
+    end
     object Windows1: TMenuItem
       Caption = 'Windows'
       object Info1: TMenuItem
@@ -30,8 +52,8 @@ object MainClientForm: TMainClientForm
     end
   end
   object ActionList1: TActionList
-    Left = 104
-    Top = 40
+    Left = 96
+    Top = 16
     object FileExit1: TFileExit
       Category = 'Datei'
       Caption = '&Beenden'
@@ -42,6 +64,11 @@ object MainClientForm: TMainClientForm
       Category = 'Window'
       Caption = 'Info'
       OnExecute = ac_infoExecute
+    end
+    object ac_wa_plan: TAction
+      Category = 'Wahl'
+      Caption = 'Planen'
+      OnExecute = ac_wa_planExecute
     end
   end
 end
