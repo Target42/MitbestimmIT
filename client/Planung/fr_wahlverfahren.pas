@@ -19,6 +19,7 @@ type
     m_fristen  : PTWahlFristen;
   public
     procedure init( ptr : PTWahlFristen);
+    procedure release;
   end;
 
 implementation
@@ -42,6 +43,11 @@ end;
 procedure TWahlverfahrenFrame.RadioButton2Click(Sender: TObject);
 begin
   m_fristen^.Verfahren := wvVereinfacht;
+end;
+
+procedure TWahlverfahrenFrame.release;
+begin
+
 end;
 
 end.

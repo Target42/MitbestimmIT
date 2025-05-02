@@ -23,7 +23,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  fr_base;
+  fr_base, u_Wahlvorstand;
 
 type
   TWahlVorstandPersonForm = class(TForm)
@@ -37,10 +37,15 @@ type
     ComboBox1: TComboBox;
     ComboBox2: TComboBox;
     Label2: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
-    { Private-Deklarationen }
+    m_person : IWahlvorstandPerson;
+    function GetPerson: IWahlvorstandPerson;
+    procedure SetPerson(const Value: IWahlvorstandPerson);
+    procedure Updateview;
   public
-    { Public-Deklarationen }
+    property Person: IWahlvorstandPerson read GetPerson write SetPerson;
   end;
 
 var
@@ -49,5 +54,51 @@ var
 implementation
 
 {$R *.dfm}
+
+{ TWahlVorstandPersonForm }
+
+procedure TWahlVorstandPersonForm.BaseFrame1OKBtnClick(Sender: TObject);
+begin
+  // übernehmen der Werte !
+  m_person.Login  := LabeledEdit1.Text;
+  m_person.Name   := LabeledEdit2.Text;
+  m_person.Vorname:= LabeledEdit3.Text;
+  m_person.eMail  := LabeledEdit4.Text;
+
+  m_person.Stimmberechtigt := CheckBox1.Checked;
+  m_person.Anrede := ComboBox2.Items[ComboBox2.ItemIndex];
+  m_person.Rolle  := StringToTWahlvorstandsRolle( ComboBox1.Items[ComboBox1.ItemIndex]);
+end;
+
+procedure TWahlVorstandPersonForm.FormCreate(Sender: TObject);
+begin
+  ComboBox1.Items.Clear;
+  TWahlvorstandsRolleToList( ComboBox1.Items );
+end;
+
+function TWahlVorstandPersonForm.GetPerson: IWahlvorstandPerson;
+begin
+  result := m_person;
+end;
+
+procedure TWahlVorstandPersonForm.SetPerson(const Value: IWahlvorstandPerson);
+begin
+  m_person := value;
+  Updateview;
+end;
+
+procedure TWahlVorstandPersonForm.Updateview;
+begin
+  if not Assigned(m_person) then
+    exit;
+
+  LabeledEdit1.Text := m_person.Login;
+  LabeledEdit2.Text := m_person.Name;
+  LabeledEdit3.Text := m_person.Vorname;
+  LabeledEdit4.Text := m_person.eMail;
+  CheckBox1.Checked := m_person.Stimmberechtigt;
+  ComboBox2.ItemIndex := ComboBox2.Items.IndexOf(m_person.Anrede);
+  ComboBox1.ItemIndex := ComboBox1.Items.IndexOf(TWahlvorstandsRolleToString(m_person.Rolle));
+end;
 
 end.

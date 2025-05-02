@@ -47,6 +47,7 @@ type
   public
     procedure init( ptr : PTWahlFristen);
     procedure setDefaultDate( date : TDateTime );
+    procedure release;
   end;
 
 implementation
@@ -95,6 +96,11 @@ end;
 procedure TWahlfristenFrame.init(ptr: PTWahlFristen);
 begin
   m_fristen := ptr;
+end;
+
+procedure TWahlfristenFrame.release;
+begin
+
 end;
 
 procedure TWahlfristenFrame.setDefaultDate(date: TDateTime);

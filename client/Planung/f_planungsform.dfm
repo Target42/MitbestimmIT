@@ -13,6 +13,7 @@ object Planungsform: TPlanungsform
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
@@ -244,6 +245,10 @@ object Planungsform: TPlanungsform
             Width = 752
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 752
+            inherited btnDelete: TBitBtn
+              Left = 660
+              ExplicitLeft = 660
+            end
           end
         end
       end
