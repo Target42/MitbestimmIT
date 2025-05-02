@@ -1,6 +1,7 @@
 object WahlVorstandPersonForm: TWahlVorstandPersonForm
   Left = 0
   Top = 0
+  ActiveControl = LabeledEdit1
   Caption = 'Mitglied des Wahlvorstandes'
   ClientHeight = 250
   ClientWidth = 465
@@ -11,6 +12,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poOwnerFormCenter
+  OnCreate = FormCreate
   TextHeight = 15
   object Label1: TLabel
     Left = 240
@@ -46,6 +48,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
       ExplicitWidth = 465
       inherited OKBtn: TBitBtn
         Left = 361
+        OnClick = BaseFrame1OKBtnClick
         ExplicitLeft = 361
       end
     end
@@ -69,7 +72,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     EditLabel.Width = 32
     EditLabel.Height = 15
     EditLabel.Caption = 'Name'
-    TabOrder = 2
+    TabOrder = 3
     Text = ''
   end
   object LabeledEdit3: TLabeledEdit
@@ -80,7 +83,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     EditLabel.Width = 47
     EditLabel.Height = 15
     EditLabel.Caption = 'Vorname'
-    TabOrder = 3
+    TabOrder = 4
     Text = ''
   end
   object LabeledEdit4: TLabeledEdit
@@ -91,7 +94,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     EditLabel.Width = 29
     EditLabel.Height = 15
     EditLabel.Caption = 'eMail'
-    TabOrder = 4
+    TabOrder = 5
     Text = ''
   end
   object CheckBox1: TCheckBox
@@ -100,7 +103,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     Width = 121
     Height = 17
     Caption = 'Stimmberechtigt'
-    TabOrder = 5
+    TabOrder = 6
   end
   object ComboBox1: TComboBox
     Left = 240
@@ -108,7 +111,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     Width = 193
     Height = 23
     ItemIndex = 0
-    TabOrder = 6
+    TabOrder = 7
     Text = 'Vorsitzender'
     Items.Strings = (
       'Vorsitzender'
@@ -122,7 +125,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     Width = 145
     Height = 23
     ItemIndex = 0
-    TabOrder = 7
+    TabOrder = 2
     Text = 'Herr'
     Items.Strings = (
       'Herr'

@@ -50,7 +50,6 @@ object WahlVorstandFrame: TWahlVorstandFrame
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitTop = 19
     end
     object Panel1: TPanel
       Left = 2
@@ -62,13 +61,42 @@ object WahlVorstandFrame: TWahlVorstandFrame
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      object BitBtn1: TBitBtn
+      DesignSize = (
+        636
+        41)
+      object btnAdd: TBitBtn
         Left = 32
-        Top = 8
-        Width = 75
-        Height = 25
-        Caption = 'BitBtn1'
+        Top = 6
+        Width = 89
+        Height = 27
+        Caption = 'Hinzuf'#252'gen'
+        ImageIndex = 1
+        Images = DataModule1.PngImageList1
         TabOrder = 0
+        OnClick = btnAddClick
+      end
+      object btnEdit: TBitBtn
+        Left = 144
+        Top = 6
+        Width = 97
+        Height = 27
+        Caption = 'Bearbeiten'
+        ImageIndex = 3
+        Images = DataModule1.PngImageList1
+        TabOrder = 1
+        OnClick = btnEditClick
+      end
+      object btnDelete: TBitBtn
+        Left = 544
+        Top = 6
+        Width = 75
+        Height = 27
+        Anchors = [akTop, akRight]
+        Caption = 'L'#246'schen'
+        ImageIndex = 2
+        Images = DataModule1.PngImageList1
+        TabOrder = 2
+        OnClick = btnDeleteClick
       end
     end
   end

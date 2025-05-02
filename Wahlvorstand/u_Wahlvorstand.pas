@@ -78,12 +78,20 @@ type
 
     property Items : TList<IWahlvorstandPerson> read getItems;
 
+    function new : IWahlvorstandPerson;
+    function add( login : string ) : IWahlvorstandPerson;
+    function get( login : string ) : IWahlvorstandPerson;
+
+    procedure delete( person : IWahlvorstandPerson );
+
     function toJSON : TJSONObject;
     procedure fromJSON( data : TJSONObject );
 
     procedure release;
 
   end;
+
+function createWahlvorstand : IWahlvorstand;
 
 function StringToTWahlvorstandsRolle(const Text: string): TWahlvorstandsRolle;
 function TWahlvorstandsRolleToString(Rolle: TWahlvorstandsRolle): string;
@@ -138,8 +146,10 @@ type
     constructor create;
     Destructor Destroy; override;
 
+    function new : IWahlvorstandPerson;
     function add( login : string ) : IWahlvorstandPerson;
     function get( login : string ) : IWahlvorstandPerson;
+    procedure delete( person : IWahlvorstandPerson );
 
     function toJSON: TJSONObject;
     procedure fromJSON( data : TJSONObject );
@@ -159,6 +169,12 @@ end;
 constructor TWahlvorstandImpl.create;
 begin
   m_items := TList<IWahlvorstandPerson>.Create;
+end;
+
+procedure TWahlvorstandImpl.delete(person: IWahlvorstandPerson);
+begin
+  m_items.Remove(person);
+  person.release;
 end;
 
 destructor TWahlvorstandImpl.Destroy;
@@ -216,6 +232,12 @@ begin
   Result := m_items;
 end;
 
+function TWahlvorstandImpl.new: IWahlvorstandPerson;
+begin
+  Result := TWahlvorstandPersonImpl.create;
+  m_items.Add(Result);
+end;
+
 procedure TWahlvorstandImpl.release;
 var
   person : IWahlvorstandPerson;
@@ -234,7 +256,6 @@ begin
   arr := TJSONArray.Create;
   for person in m_items do
     arr.AddElement(person.toJSON);
-
 
 
   JReplace( Result, 'personen', arr);
@@ -405,6 +426,11 @@ begin
   list.Add(TWahlvorstandsRolleToString(wvErsatz));
   list.Add(TWahlvorstandsRolleToString(wvGewerkschaft));
   list.Add(TWahlvorstandsRolleToString(wvUnbekannt));
+end;
+
+function createWahlvorstand : IWahlvorstand;
+begin
+  Result := TWahlvorstandImpl.create;
 end;
 
 end.

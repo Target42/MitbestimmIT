@@ -33,6 +33,6 @@ begin
 {$ENDIF}
   Application.CreateForm(TDataModule1, DataModule1);
   Application.CreateForm(TMainClientForm, MainClientForm);
-  Application.CreateForm(TWahlVorstandPersonForm, WahlVorstandPersonForm);
+
   Application.Run;
 end.

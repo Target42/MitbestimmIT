@@ -18,6 +18,7 @@ type
     JvWizardInteriorPage2: TJvWizardInteriorPage;
     WahlVorstandFrame1: TWahlVorstandFrame;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     m_fristen : TWahlFristen;
   public
@@ -48,7 +49,15 @@ begin
   WahlfristenFrame1.init(@m_fristen);
   WahlfristenFrame1.setDefaultDate(StrToDate('15.5.2026'));
 
+  WahlVorstandFrame1.init;
 
+end;
+
+procedure TPlanungsform.FormDestroy(Sender: TObject);
+begin
+  WahlVorstandFrame1.release;
+  WahlfristenFrame1.release;
+  WahlverfahrenFrame1.release;
 end;
 
 end.
