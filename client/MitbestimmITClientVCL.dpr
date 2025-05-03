@@ -18,7 +18,10 @@ uses
   m_res in 'm_res.pas' {DataModule1: TDataModule},
   u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas',
   u_json in '..\lib\u_json.pas',
-  u_utils in '..\lib\u_utils.pas';
+  u_utils in '..\lib\u_utils.pas',
+  fr_PlanStart in 'Planung\fr_PlanStart.pas' {WahlPlanungStartFrame: TFrame},
+  f_PassWord in 'gui\f_PassWord.pas' {PasswordDlg},
+  f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerlisteForm};
 
 {$R *.res}
 

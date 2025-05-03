@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, JvWizard, JvExControls,
-  fr_wahlverfahren, fr_wahlfristen, u_BRWahlFristen, fr_wahlvorstand;
+  fr_wahlverfahren, fr_wahlfristen, u_BRWahlFristen, fr_wahlvorstand,
+  fr_PlanStart;
 
 type
   TPlanungsform = class(TForm)
@@ -17,6 +18,8 @@ type
     WahlfristenFrame1: TWahlfristenFrame;
     JvWizardInteriorPage2: TJvWizardInteriorPage;
     WahlVorstandFrame1: TWahlVorstandFrame;
+    JvWizardInteriorPage3: TJvWizardInteriorPage;
+    WahlPlanungStartFrame1: TWahlPlanungStartFrame;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
@@ -43,6 +46,7 @@ end;
 
 procedure TPlanungsform.FormCreate(Sender: TObject);
 begin
+  WahlPlanungStartFrame1.init;
   m_fristen.Verfahren := wvAllgemein;
   WahlverfahrenFrame1.init(@m_fristen);
 
@@ -58,6 +62,7 @@ begin
   WahlVorstandFrame1.release;
   WahlfristenFrame1.release;
   WahlverfahrenFrame1.release;
+  WahlPlanungStartFrame1.release;
 end;
 
 end.

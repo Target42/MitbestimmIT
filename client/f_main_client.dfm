@@ -34,9 +34,27 @@ object MainClientForm: TMainClientForm
       object Planen1: TMenuItem
         Action = ac_wa_plan
       end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Wahlberechtigteaktualisieren1: TMenuItem
+        Action = ac_wa_berechtigte
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object Wahllisten1: TMenuItem
+        Action = ac_wa_listen
+      end
     end
     object Wahlbro1: TMenuItem
       Caption = 'Wahlb'#252'ro'
+      object Rume1: TMenuItem
+        Action = ac_rooms
+      end
+      object Wahlhelfer1: TMenuItem
+        Action = ac_helper
+      end
     end
     object Briefwahl1: TMenuItem
       Caption = 'Briefwahl'
@@ -52,8 +70,8 @@ object MainClientForm: TMainClientForm
     end
   end
   object ActionList1: TActionList
-    Left = 96
-    Top = 16
+    Left = 128
+    Top = 32
     object FileExit1: TFileExit
       Category = 'Datei'
       Caption = '&Beenden'
@@ -69,6 +87,23 @@ object MainClientForm: TMainClientForm
       Category = 'Wahl'
       Caption = 'Planen'
       OnExecute = ac_wa_planExecute
+    end
+    object ac_rooms: TAction
+      Category = 'Wahlb'#252'ro'
+      Caption = 'R'#228'ume'
+    end
+    object ac_helper: TAction
+      Category = 'Wahlb'#252'ro'
+      Caption = 'Wahlhelfer'
+    end
+    object ac_wa_berechtigte: TAction
+      Category = 'Wahl'
+      Caption = 'Wahlberechtigte aktualisieren'
+      OnExecute = ac_wa_berechtigteExecute
+    end
+    object ac_wa_listen: TAction
+      Category = 'Wahl'
+      Caption = 'Wahllisten'
     end
   end
 end
