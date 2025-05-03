@@ -43,8 +43,19 @@ type
     Wahlbro1: TMenuItem;
     ac_wa_plan: TAction;
     Planen1: TMenuItem;
+    ac_rooms: TAction;
+    ac_helper: TAction;
+    Rume1: TMenuItem;
+    Wahlhelfer1: TMenuItem;
+    ac_wa_berechtigte: TAction;
+    Wahlberechtigteaktualisieren1: TMenuItem;
+    ac_wa_listen: TAction;
+    Wahllisten1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
+    procedure ac_wa_berechtigteExecute(Sender: TObject);
   private
   public
 
@@ -56,13 +67,18 @@ var
 implementation
 
 uses
-  f_info, f_planungsform;
+  f_info, f_planungsform, f_waehlerliste;
 
 {$R *.dfm}
 
 procedure TMainClientForm.ac_infoExecute(Sender: TObject);
 begin
   TinfoForm.ShowInfo;
+end;
+
+procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);
+begin
+  TWaehlerlisteForm.ExecuteForm;
 end;
 
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
