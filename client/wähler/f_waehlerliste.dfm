@@ -184,13 +184,14 @@ object WaehlerlisteForm: TWaehlerlisteForm
       ImageIndex = 5
       Images = DataModule1.PngImageList1
       TabOrder = 0
+      OnClick = btnUpdateClick
     end
   end
   object LV: TListView
     Left = 0
-    Top = 201
+    Top = 265
     Width = 624
-    Height = 402
+    Height = 338
     Align = alClient
     Columns = <
       item
@@ -216,6 +217,62 @@ object WaehlerlisteForm: TWaehlerlisteForm
     RowSelect = True
     TabOrder = 4
     ViewStyle = vsReport
+    ExplicitLeft = 40
+    ExplicitTop = 361
+    ExplicitHeight = 402
+  end
+  object GroupBox3: TGroupBox
+    Left = 0
+    Top = 201
+    Width = 624
+    Height = 64
+    Align = alTop
+    Caption = 'Geschlechter'
+    TabOrder = 5
+    object LabeledEdit1: TLabeledEdit
+      Left = 24
+      Top = 35
+      Width = 121
+      Height = 23
+      EditLabel.Width = 50
+      EditLabel.Height = 15
+      EditLabel.Caption = 'M'#228'nnlich'
+      TabOrder = 0
+      Text = ''
+    end
+    object LabeledEdit2: TLabeledEdit
+      Left = 152
+      Top = 35
+      Width = 121
+      Height = 23
+      EditLabel.Width = 46
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Weiblich'
+      TabOrder = 1
+      Text = ''
+    end
+    object LabeledEdit3: TLabeledEdit
+      Left = 279
+      Top = 35
+      Width = 121
+      Height = 23
+      EditLabel.Width = 32
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Divers'
+      TabOrder = 2
+      Text = ''
+    end
+    object btnScan: TBitBtn
+      Left = 420
+      Top = 33
+      Width = 75
+      Height = 25
+      Caption = 'Suchen'
+      ImageIndex = 8
+      Images = DataModule1.PngImageList1
+      TabOrder = 3
+      OnClick = btnScanClick
+    end
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.xlsx'
