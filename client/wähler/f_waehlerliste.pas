@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
   Vcl.ComCtrls, Excel4Delphi,
-  Excel4Delphi.Stream;
+  Excel4Delphi.Stream, Vcl.Mask;
 
 type
   TWaehlerlisteForm = class(TForm)
@@ -32,10 +32,17 @@ type
     LV: TListView;
     btnUse: TBitBtn;
     btnLoad: TBitBtn;
+    GroupBox3: TGroupBox;
+    LabeledEdit1: TLabeledEdit;
+    LabeledEdit2: TLabeledEdit;
+    LabeledEdit3: TLabeledEdit;
+    btnScan: TBitBtn;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnLoadClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnUseClick(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
+    procedure btnScanClick(Sender: TObject);
   private
     m_workBook: TZWorkBook;
     procedure Fillcombos( sheet : TZSheet );
@@ -50,7 +57,8 @@ implementation
 
 {$R *.dfm}
 
-uses m_res;
+uses
+  m_res, System.JSON, u_json;
 
 { TWaehlerlisteForm }
 
@@ -70,6 +78,47 @@ begin
   m_workBook := TZWorkBook.Create(NIL);
   m_workBook.LoadFromFile(fname);
   FillCombos( m_workBook.Sheets[0] );
+end;
+
+procedure TWaehlerlisteForm.btnScanClick(Sender: TObject);
+begin
+  // suche nach begriffen für Frann/Frau/div.
+end;
+
+procedure TWaehlerlisteForm.btnUpdateClick(Sender: TObject);
+var
+  obj : TJSONObject;
+  arr : TJSONArray;
+  item : TListItem;
+  i    : integer;
+  j    : integer;
+  data : TJSONArray;
+begin
+  obj := TJSONObject.Create;
+  arr := TJSONArray.Create;
+  arr.Add('PersNr');
+  arr.Add('Name');
+  arr.Add('Vorname');
+  arr.Add('Anrede');
+  arr.Add('Abteilung');
+
+  JReplace( obj, 'fieldnames', arr);
+
+  data  := TJSONArray.Create;
+  for i := 0 to pred(LV. Items.Count) do
+  begin
+    arr := TJSONArray.Create;
+
+    item := LV.Items[i];
+    arr.Add(item.Caption);
+    for j := 0 to pred(item.SubItems.Count) do
+      arr.Add(item.SubItems[j]);
+
+    data.AddElement(arr);
+  end;
+  JReplace(obj, 'data', data);
+  saveJSON(obj, 'dump.json');
+  obj.Free;
 end;
 
 procedure TWaehlerlisteForm.btnUseClick(Sender: TObject);
