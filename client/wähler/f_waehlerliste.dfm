@@ -35,9 +35,6 @@ object WaehlerlisteForm: TWaehlerlisteForm
       Width = 441
       Height = 23
       TabOrder = 0
-      Text = 
-        'D:\git_d12\MitbestimmIT\testdaten\Firma1\Mitarbeiterliste_120_Pe' +
-        'rsonen.xlsx'
     end
     object btnLoad: TBitBtn
       Left = 528
@@ -140,6 +137,8 @@ object WaehlerlisteForm: TWaehlerlisteForm
       Width = 145
       Height = 17
       Caption = '1.Zeile '#220'berschrift'
+      Checked = True
+      State = cbChecked
       TabOrder = 5
     end
     object btnUse: TBitBtn
@@ -147,6 +146,9 @@ object WaehlerlisteForm: TWaehlerlisteForm
       Top = 80
       Width = 105
       Height = 25
+      Hint = 
+        'Die '#220'berschriftennamen m'#252'ssen so angeordnet werden, das sie der ' +
+        'Liste unten entsprechen'
       Caption = #220'bernehmen'
       ImageIndex = 6
       Images = DataModule1.PngImageList1
@@ -189,9 +191,9 @@ object WaehlerlisteForm: TWaehlerlisteForm
   end
   object LV: TListView
     Left = 0
-    Top = 265
+    Top = 273
     Width = 624
-    Height = 338
+    Height = 330
     Align = alClient
     Columns = <
       item
@@ -217,61 +219,75 @@ object WaehlerlisteForm: TWaehlerlisteForm
     RowSelect = True
     TabOrder = 4
     ViewStyle = vsReport
-    ExplicitLeft = 40
-    ExplicitTop = 361
-    ExplicitHeight = 402
+    ExplicitTop = 265
+    ExplicitHeight = 338
   end
   object GroupBox3: TGroupBox
     Left = 0
     Top = 201
     Width = 624
-    Height = 64
+    Height = 72
     Align = alTop
     Caption = 'Geschlechter'
     TabOrder = 5
-    object LabeledEdit1: TLabeledEdit
-      Left = 24
-      Top = 35
-      Width = 121
-      Height = 23
-      EditLabel.Width = 50
-      EditLabel.Height = 15
-      EditLabel.Caption = 'M'#228'nnlich'
-      TabOrder = 0
-      Text = ''
+    object Label6: TLabel
+      Left = 16
+      Top = 14
+      Width = 50
+      Height = 15
+      Caption = 'M'#228'nnlich'
     end
-    object LabeledEdit2: TLabeledEdit
-      Left = 152
-      Top = 35
-      Width = 121
-      Height = 23
-      EditLabel.Width = 46
-      EditLabel.Height = 15
-      EditLabel.Caption = 'Weiblich'
-      TabOrder = 1
-      Text = ''
+    object Label7: TLabel
+      Left = 167
+      Top = 14
+      Width = 46
+      Height = 15
+      Caption = 'Weiblich'
     end
-    object LabeledEdit3: TLabeledEdit
-      Left = 279
-      Top = 35
-      Width = 121
-      Height = 23
-      EditLabel.Width = 32
-      EditLabel.Height = 15
-      EditLabel.Caption = 'Divers'
-      TabOrder = 2
-      Text = ''
+    object Label8: TLabel
+      Left = 318
+      Top = 14
+      Width = 32
+      Height = 15
+      Caption = 'Divers'
     end
     object btnScan: TBitBtn
-      Left = 420
+      Left = 476
       Top = 33
       Width = 75
       Height = 25
+      Hint = 
+        'Die Bezeichnungen der Geschlechter m'#252'ssen hier eingestellt werde' +
+        'n.'
       Caption = 'Suchen'
       ImageIndex = 8
       Images = DataModule1.PngImageList1
-      TabOrder = 3
+      TabOrder = 0
       OnClick = btnScanClick
+    end
+    object ComboBox6: TComboBox
+      Left = 16
+      Top = 35
+      Width = 145
+      Height = 23
+      TabOrder = 1
+      Text = 'ComboBox6'
+    end
+    object ComboBox7: TComboBox
+      Left = 167
+      Top = 35
+      Width = 145
+      Height = 23
+      TabOrder = 2
+      Text = 'ComboBox6'
+    end
+    object ComboBox8: TComboBox
+      Left = 318
+      Top = 35
+      Width = 145
+      Height = 23
+      TabOrder = 3
+      Text = 'ComboBox6'
     end
   end
   object OpenDialog1: TOpenDialog
