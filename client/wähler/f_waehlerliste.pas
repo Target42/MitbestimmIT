@@ -33,10 +33,13 @@ type
     btnUse: TBitBtn;
     btnLoad: TBitBtn;
     GroupBox3: TGroupBox;
-    LabeledEdit1: TLabeledEdit;
-    LabeledEdit2: TLabeledEdit;
-    LabeledEdit3: TLabeledEdit;
     btnScan: TBitBtn;
+    ComboBox6: TComboBox;
+    ComboBox7: TComboBox;
+    ComboBox8: TComboBox;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnLoadClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -81,8 +84,45 @@ begin
 end;
 
 procedure TWaehlerlisteForm.btnScanClick(Sender: TObject);
+var
+  row : integer;
+  sheet : TZSheet;
+  inx : integer;
+  list : TStringList;
+  s    : string;
+  st   : integer;
 begin
   // suche nach begriffen für Frann/Frau/div.
+  inx := ComboBox2.ItemIndex;
+  if inx = -1 then
+  begin
+    ShowMessage('Es wurde keine Spalte für das Geschlecht bestimmt!!!');
+    exit;
+  end;
+  list := TStringList.Create;
+
+  sheet := m_workBook.Sheets[0];
+  st := 0;
+  if CheckBox1.Checked then
+    st := 1;
+  for row := st to pred(sheet.RowCount) do
+  begin
+    s := trim(Sheet.Cell[inx, row].AsString);
+    if list.IndexOf(s) = -1 then
+      list.Add(s);
+  end;
+  if list.IndexOf('') = -1 then
+    list.Add('');
+
+  ComboBox6.Items.Assign(list);
+  ComboBox7.Items.Assign(list);
+  ComboBox8.Items.Assign(list);
+
+  ComboBox6.ItemIndex := 0;
+  ComboBox7.ItemIndex := 1;
+
+  list.Free;
+
 end;
 
 procedure TWaehlerlisteForm.btnUpdateClick(Sender: TObject);
@@ -199,7 +239,17 @@ end;
 procedure TWaehlerlisteForm.FormCreate(Sender: TObject);
 begin
   m_workBook := NIL;
+  ComboBox1.Text := '';
+  ComboBox2.Text := '';
+  ComboBox3.Text := '';
+  ComboBox4.Text := '';
+  ComboBox5.Text := '';
+  ComboBox6.Text := '';
+  ComboBox7.Text := '';
+  ComboBox8.Text := '';
+{$ifdef DEBUG}
   Edit1.Text := 'D:\git_d12\MitbestimmIT\testdaten\Firma1\Mitarbeiterliste_120_Personen.xlsx';
+{$ENDIF}
 end;
 
 procedure TWaehlerlisteForm.SpeedButton1Click(Sender: TObject);
