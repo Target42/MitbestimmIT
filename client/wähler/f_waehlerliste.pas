@@ -46,9 +46,11 @@ type
     procedure btnUseClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
     procedure btnScanClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     m_workBook: TZWorkBook;
-    procedure Fillcombos( sheet : TZSheet );
+    m_sheet   : TZSheet;
+    procedure Fillcombos;
   public
     class procedure ExecuteForm;
   end;
@@ -76,24 +78,39 @@ begin
     exit;
   end;
   if Assigned(m_workBook) then
+  begin
     FreeAndNil(m_workBook);
+    m_sheet := NIL;
+  end;
 
   m_workBook := TZWorkBook.Create(NIL);
-  m_workBook.LoadFromFile(fname);
-  FillCombos( m_workBook.Sheets[0] );
+  try
+    m_workBook.LoadFromFile(fname);
+    m_sheet := m_workBook.Sheets[0];
+    FillCombos;
+  except
+    on E: Exception do
+    begin
+      FreeAndNil(m_workBook);
+      ShowMessage('Fehler beim Laden der Datei: ' + E.Message);
+      Exit;
+    end;
+  end;
 end;
 
 procedure TWaehlerlisteForm.btnScanClick(Sender: TObject);
 var
   row : integer;
-  sheet : TZSheet;
   inx : integer;
   list : TStringList;
   s    : string;
   st   : integer;
 begin
-  // suche nach begriffen für Frann/Frau/div.
-  inx := ComboBox2.ItemIndex;
+  if not Assigned(m_workBook) or (m_workBook.Sheets.Count = 0) then
+  begin
+    ShowMessage('Arbeitsmappe ist nicht geladen oder enthält keine Blätter!');
+    Exit;
+  end;
   if inx = -1 then
   begin
     ShowMessage('Es wurde keine Spalte für das Geschlecht bestimmt!!!');
@@ -101,13 +118,13 @@ begin
   end;
   list := TStringList.Create;
 
-  sheet := m_workBook.Sheets[0];
+  m_sheet := m_workBook.Sheets[0];
   st := 0;
   if CheckBox1.Checked then
     st := 1;
-  for row := st to pred(sheet.RowCount) do
+  for row := st to pred(m_sheet.RowCount) do
   begin
-    s := trim(Sheet.Cell[inx, row].AsString);
+    s := trim(m_sheet.Cell[inx, row].AsString);
     if list.IndexOf(s) = -1 then
       list.Add(s);
   end;
@@ -167,13 +184,12 @@ var
   item : TListItem;
   st : integer;
   row : integer;
-  sheet : TZSheet;
 
   function getCol( row, inx : integer ) : string;
   begin
     Result := 'N/A';
     if inx > -1 then
-      Result := sheet.Cell[map[inx], row].AsString;
+      Result := m_sheet.Cell[map[inx], row].AsString;
   end;
 
 begin
@@ -188,8 +204,7 @@ begin
   if CheckBox1.Checked then
     st := 1;
 
-  sheet := m_workBook.Sheets[0];
-  for row := st to pred( sheet.RowCount) do
+  for row := st to pred( m_sheet.RowCount) do
   begin
     item := LV.Items.Add;
     item.Caption := getCol( row, 0);
@@ -210,9 +225,10 @@ begin
   end;
 end;
 
-procedure TWaehlerlisteForm.Fillcombos(sheet: TZSheet);
+procedure TWaehlerlisteForm.Fillcombos;
 var
   x : integer;
+
   procedure setindex( cb : TComboBox; inx : integer );
   begin
     if inx < Cb.Items.Count then
@@ -221,14 +237,16 @@ var
 begin
   ComboBox1.Items.Clear;
 
-  for x := 0 to pred(sheet.ColCount) do
+  for x := 0 to pred(m_sheet.ColCount) do
   begin
-    ComboBox1.Items.Add(sheet.Cell[x, 0].AsString);
+    ComboBox1.Items.Add(m_sheet.Cell[x, 0].AsString);
   end;
+
   ComboBox2.Items.Assign(ComboBox1.Items);
   ComboBox3.Items.Assign(ComboBox1.Items);
   ComboBox4.Items.Assign(ComboBox1.Items);
   ComboBox5.Items.Assign(ComboBox1.Items);
+
   setindex(ComboBox1, 0);
   setindex(ComboBox2, 3);
   setindex(ComboBox3, 2);
@@ -239,6 +257,8 @@ end;
 procedure TWaehlerlisteForm.FormCreate(Sender: TObject);
 begin
   m_workBook := NIL;
+  m_sheet := NIL;
+
   ComboBox1.Text := '';
   ComboBox2.Text := '';
   ComboBox3.Text := '';
@@ -247,9 +267,18 @@ begin
   ComboBox6.Text := '';
   ComboBox7.Text := '';
   ComboBox8.Text := '';
+
 {$ifdef DEBUG}
   Edit1.Text := 'D:\git_d12\MitbestimmIT\testdaten\Firma1\Mitarbeiterliste_120_Personen.xlsx';
 {$ENDIF}
+end;
+
+procedure TWaehlerlisteForm.FormDestroy(Sender: TObject);
+begin
+  if Assigned(m_workBook) then
+  begin
+    m_workBook.Free;
+  end;
 end;
 
 procedure TWaehlerlisteForm.SpeedButton1Click(Sender: TObject);
