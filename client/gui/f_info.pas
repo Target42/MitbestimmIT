@@ -34,7 +34,6 @@ uses
 
 procedure TinfoForm.Label1Click(Sender: TObject);
 var
-  lab :TLabel;
   dest : string;
 begin
   dest := ( Sender as TLabel).Caption;

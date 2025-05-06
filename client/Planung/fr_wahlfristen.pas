@@ -115,8 +115,6 @@ end;
 
 procedure TWahlfristenFrame.UpdateEdits;
   procedure setDate( da : TDateTime;  dtp : TDateTimePicker; lab : TLabel );
-  var
-    tag : integer;
   begin
     dtp.Date := da;
     if DayOftheWeek( da ) > 5  then

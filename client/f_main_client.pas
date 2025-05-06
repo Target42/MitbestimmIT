@@ -56,6 +56,7 @@ type
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
+    procedure ac_helperExecute(Sender: TObject);
   private
   public
 
@@ -67,9 +68,14 @@ var
 implementation
 
 uses
-  f_info, f_planungsform, f_waehlerliste;
+  f_info, f_planungsform, f_waehlerliste, f_wahlhelfer;
 
 {$R *.dfm}
+
+procedure TMainClientForm.ac_helperExecute(Sender: TObject);
+begin
+  TWahlhelferForm.Execute;
+end;
 
 procedure TMainClientForm.ac_infoExecute(Sender: TObject);
 begin
