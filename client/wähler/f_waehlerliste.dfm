@@ -12,6 +12,7 @@ object WaehlerlisteForm: TWaehlerlisteForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object GroupBox1: TGroupBox
     Left = 0
@@ -219,8 +220,6 @@ object WaehlerlisteForm: TWaehlerlisteForm
     RowSelect = True
     TabOrder = 4
     ViewStyle = vsReport
-    ExplicitTop = 265
-    ExplicitHeight = 338
   end
   object GroupBox3: TGroupBox
     Left = 0
