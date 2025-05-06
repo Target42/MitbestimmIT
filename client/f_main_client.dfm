@@ -48,7 +48,7 @@ object MainClientForm: TMainClientForm
       end
     end
     object Wahlbro1: TMenuItem
-      Caption = 'Wahlb'#252'ro'
+      Caption = 'Wahllokal'
       object Rume1: TMenuItem
         Action = ac_rooms
       end
@@ -95,6 +95,7 @@ object MainClientForm: TMainClientForm
     object ac_helper: TAction
       Category = 'Wahlb'#252'ro'
       Caption = 'Wahlhelfer'
+      OnExecute = ac_helperExecute
     end
     object ac_wa_berechtigte: TAction
       Category = 'Wahl'

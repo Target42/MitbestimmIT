@@ -21,11 +21,18 @@ uses
   u_utils in '..\lib\u_utils.pas',
   fr_PlanStart in 'Planung\fr_PlanStart.pas' {WahlPlanungStartFrame: TFrame},
   f_PassWord in 'gui\f_PassWord.pas' {PasswordDlg},
-  f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerlisteForm};
+  f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerlisteForm},
+  f_wahlhelfer in 'Wahllokal\f_wahlhelfer.pas' {WahlhelferForm},
+  f_wahlhelfer_person in 'Wahllokal\f_wahlhelfer_person.pas' {WahlhelferPersonForm},
+  u_Wahlhelfer in '..\Wahllokale\u_Wahlhelfer.pas',
+  u_WahlhelferListe in '..\Wahllokale\u_WahlhelferListe.pas';
 
 {$R *.res}
 
 begin
+{$ifdef DEBUG}
+  ReportMemoryLeaksOnShutdown := true;
+{$ENDIF}
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
 
@@ -36,6 +43,5 @@ begin
 {$ENDIF}
   Application.CreateForm(TDataModule1, DataModule1);
   Application.CreateForm(TMainClientForm, MainClientForm);
-
   Application.Run;
 end.
