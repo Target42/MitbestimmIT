@@ -111,6 +111,7 @@ begin
     ShowMessage('Arbeitsmappe ist nicht geladen oder enthält keine Blätter!');
     Exit;
   end;
+  inx := ComboBox2.ItemIndex;
   if inx = -1 then
   begin
     ShowMessage('Es wurde keine Spalte für das Geschlecht bestimmt!!!');
