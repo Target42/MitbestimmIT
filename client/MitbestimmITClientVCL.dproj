@@ -197,6 +197,10 @@
         </DCCReference>
         <DCCReference Include="..\Wahllokale\u_Wahlhelfer.pas"/>
         <DCCReference Include="..\Wahllokale\u_WahlhelferListe.pas"/>
+        <DCCReference Include="Wahllokal\f_wahlklokalForm.pas">
+            <Form>WahllokalForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

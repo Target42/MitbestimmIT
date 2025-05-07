@@ -25,7 +25,8 @@ uses
   f_wahlhelfer in 'Wahllokal\f_wahlhelfer.pas' {WahlhelferForm},
   f_wahlhelfer_person in 'Wahllokal\f_wahlhelfer_person.pas' {WahlhelferPersonForm},
   u_Wahlhelfer in '..\Wahllokale\u_Wahlhelfer.pas',
-  u_WahlhelferListe in '..\Wahllokale\u_WahlhelferListe.pas';
+  u_WahlhelferListe in '..\Wahllokale\u_WahlhelferListe.pas',
+  f_wahlklokalForm in 'Wahllokal\f_wahlklokalForm.pas' {WahllokalForm};
 
 {$R *.res}
 
@@ -43,5 +44,6 @@ begin
 {$ENDIF}
   Application.CreateForm(TDataModule1, DataModule1);
   Application.CreateForm(TMainClientForm, MainClientForm);
+  Application.CreateForm(TWahllokalForm, WahllokalForm);
   Application.Run;
 end.
