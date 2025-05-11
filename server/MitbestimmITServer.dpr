@@ -19,6 +19,10 @@
 
 program MitbestimmITServer;
 
+{$ifdef DEBUG}
+  {$APPTYPE CONSOLE}
+{$endif}
+
 uses
   Vcl.SvcMgr,
   m_ServerMain in 'm_ServerMain.pas' {ServerMain: TService},
@@ -30,6 +34,8 @@ uses
 
 {$R *.RES}
 
+
+
 {$ifdef DEBUG}
 var
   MyDummyBoolean  : Boolean;
@@ -37,14 +43,13 @@ var
 {$ENDIF}
 
 {$IFDEF DEBUG}
-//{$e console.exe}
+// {$e console.exe}
 {$ELSE}
 {$e service.exe}
 {$ENDIF}
 
 begin
 {$ifdef DEBUG}
-//  Application;
   try
     ReportMemoryLeaksOnShutdown := true;
     // In debug mode the server acts as a console application.

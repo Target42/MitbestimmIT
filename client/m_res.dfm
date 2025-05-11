@@ -1,4 +1,4 @@
-object DataModule1: TDataModule1
+object ResMod: TResMod
   Height = 480
   Width = 640
   object PngImageList1: TPngImageList
