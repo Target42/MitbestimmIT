@@ -12,6 +12,7 @@ object MainClientForm: TMainClientForm
   Font.Style = []
   Menu = MainMenu1
   Position = poScreenCenter
+  OnCreate = FormCreate
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
@@ -91,6 +92,7 @@ object MainClientForm: TMainClientForm
     object ac_rooms: TAction
       Category = 'Wahlb'#252'ro'
       Caption = 'R'#228'ume'
+      OnExecute = ac_roomsExecute
     end
     object ac_helper: TAction
       Category = 'Wahlb'#252'ro'
@@ -106,5 +108,10 @@ object MainClientForm: TMainClientForm
       Category = 'Wahl'
       Caption = 'Wahllisten'
     end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 216
+    Top = 32
   end
 end

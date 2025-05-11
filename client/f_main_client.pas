@@ -23,8 +23,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ActnList, System.Actions,
-  Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.ActnList, System.Actions,
+  Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
+  m_glob;
 
 type
   TMainClientForm = class(TForm)
@@ -53,10 +54,14 @@ type
     Wahllisten1: TMenuItem;
     N1: TMenuItem;
     N2: TMenuItem;
+    Timer1: TTimer;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
     procedure ac_helperExecute(Sender: TObject);
+    procedure ac_roomsExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
   public
 
@@ -68,7 +73,8 @@ var
 implementation
 
 uses
-  f_info, f_planungsform, f_waehlerliste, f_wahlhelfer;
+  f_info, f_planungsform, f_waehlerliste, f_wahlhelfer, f_wahlklokalForm,
+  VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet;
 
 {$R *.dfm}
 
@@ -82,6 +88,11 @@ begin
   TinfoForm.ShowInfo;
 end;
 
+procedure TMainClientForm.ac_roomsExecute(Sender: TObject);
+begin
+  TWahllokalForm.execute;
+end;
+
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);
 begin
   TWaehlerlisteForm.ExecuteForm;
@@ -90,6 +101,34 @@ end;
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
 begin
   TPlanungsform.Execute;
+end;
+
+procedure TMainClientForm.FormCreate(Sender: TObject);
+begin
+  Timer1.Enabled := true;
+end;
+
+procedure TMainClientForm.Timer1Timer(Sender: TObject);
+var
+  parseresult : ICommandLineParseResult;
+begin
+
+  Timer1.Enabled := false;
+  if ParamCount >=1 then
+  begin
+    parseresult := TOptionsRegistry.Parse;
+    if parseresult.HasErrors then
+    begin
+      ShowMessage(parseresult.ErrorText);
+    end
+    else
+    begin
+      GM.HostAddress := THostOptions.Host;
+    end;
+  end;
+
+  if not TConnectForm.Execute then
+    self.Close;
 end;
 
 end.
