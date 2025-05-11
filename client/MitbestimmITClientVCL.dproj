@@ -167,7 +167,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="m_res.pas">
-            <Form>DataModule1</Form>
+            <Form>ResMod</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
@@ -199,6 +199,22 @@
         <DCCReference Include="..\Wahllokale\u_WahlhelferListe.pas"/>
         <DCCReference Include="Wahllokal\f_wahlklokalForm.pas">
             <Form>WahllokalForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="m_glob.pas">
+            <Form>GM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Wahllokal\f_wahllokalRaum.pas">
+            <Form>WahllokalRaumform</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Wahllokale\u_wahllokal.pas"/>
+        <DCCReference Include="cli\u_ComandLineConfig.pas"/>
+        <DCCReference Include="cli\u_ComandOptions.pas"/>
+        <DCCReference Include="gui\f_connet.pas">
+            <Form>ConnectForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>

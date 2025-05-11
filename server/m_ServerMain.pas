@@ -128,7 +128,7 @@ end;
 function TServerMain.DoStop: Boolean;
 begin
   DSServer1.Stop;
-  Result := inherited;
+  Result := true;
 end;
 
 procedure TServerMain.ServiceStart(Sender: TService; var Started: Boolean);

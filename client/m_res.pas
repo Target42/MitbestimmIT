@@ -25,7 +25,7 @@ uses
   PngImageList;
 
 type
-  TDataModule1 = class(TDataModule)
+  TResMod = class(TDataModule)
     PngImageList1: TPngImageList;
   private
     { Private-Deklarationen }
@@ -34,7 +34,7 @@ type
   end;
 
 var
-  DataModule1: TDataModule1;
+  ResMod: TResMod;
 
 implementation
 
