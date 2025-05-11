@@ -29,7 +29,6 @@ object WahllokalForm: TWahllokalForm
     Align = alTop
     Caption = 'R'#228'ume'
     TabOrder = 0
-    ExplicitWidth = 528
     object Panel1: TPanel
       Left = 2
       Top = 128
@@ -40,18 +39,17 @@ object WahllokalForm: TWahllokalForm
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 0
-      ExplicitWidth = 580
       DesignSize = (
         595
         47)
       object btnAdd: TBitBtn
-        Left = 24
-        Top = 14
+        Left = 14
+        Top = 16
         Width = 89
         Height = 27
         Caption = 'Hinzuf'#252'gen'
         ImageIndex = 1
-        Images = DataModule1.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 0
       end
       object btnEdit: TBitBtn
@@ -61,7 +59,7 @@ object WahllokalForm: TWahllokalForm
         Height = 27
         Caption = 'Bearbeiten'
         ImageIndex = 3
-        Images = DataModule1.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 1
       end
       object btnDelete: TBitBtn
@@ -72,7 +70,7 @@ object WahllokalForm: TWahllokalForm
         Anchors = [akTop, akRight]
         Caption = 'L'#246'schen'
         ImageIndex = 2
-        Images = DataModule1.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 2
       end
     end
@@ -107,8 +105,6 @@ object WahllokalForm: TWahllokalForm
       RowSelect = True
       TabOrder = 1
       ViewStyle = vsReport
-      ExplicitWidth = 524
-      ExplicitHeight = 117
     end
   end
   object GroupBox2: TGroupBox
@@ -119,8 +115,78 @@ object WahllokalForm: TWahllokalForm
     Align = alClient
     Caption = 'Wahlhelfer'
     TabOrder = 1
+    ExplicitLeft = 8
     ExplicitTop = 181
-    ExplicitWidth = 584
+    object ListView1: TListView
+      Left = 2
+      Top = 17
+      Width = 595
+      Height = 215
+      Align = alClient
+      Columns = <
+        item
+          Caption = 'PersNr'
+        end
+        item
+          Caption = 'Name'
+          Width = 100
+        end
+        item
+          Caption = 'Vorname'
+          Width = 100
+        end
+        item
+          Caption = 'Geschlecht'
+          Width = 100
+        end
+        item
+          Caption = 'Abteilung'
+          Width = 100
+        end>
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+      ExplicitLeft = 3
+      ExplicitTop = 16
+      ExplicitHeight = 193
+    end
+    object Panel2: TPanel
+      Left = 2
+      Top = 232
+      Width = 595
+      Height = 47
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel1'
+      ShowCaption = False
+      TabOrder = 1
+      ExplicitTop = 128
+      DesignSize = (
+        595
+        47)
+      object BitBtn1: TBitBtn
+        Left = 14
+        Top = 16
+        Width = 89
+        Height = 27
+        Caption = 'Hinzuf'#252'gen'
+        ImageIndex = 1
+        Images = ResMod.PngImageList1
+        TabOrder = 0
+      end
+      object BitBtn3: TBitBtn
+        Left = 509
+        Top = 16
+        Width = 75
+        Height = 27
+        Anchors = [akTop, akRight]
+        Caption = 'L'#246'schen'
+        ImageIndex = 2
+        Images = ResMod.PngImageList1
+        TabOrder = 1
+      end
+    end
   end
   inline BaseFrame1: TBaseFrame
     Left = 0
@@ -130,17 +196,19 @@ object WahllokalForm: TWahllokalForm
     Align = alBottom
     AutoSize = True
     TabOrder = 2
-    ExplicitLeft = -56
-    ExplicitTop = 408
+    ExplicitTop = 461
+    ExplicitWidth = 599
     inherited StatusBar1: TStatusBar
       Width = 599
-      ExplicitWidth = 610
+      ExplicitWidth = 599
     end
     inherited Panel1: TPanel
       Width = 599
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 599
       inherited OKBtn: TBitBtn
         Left = 495
+        ExplicitLeft = 495
       end
     end
   end

@@ -63,7 +63,7 @@ object WahlhelferForm: TWahlhelferForm
       Height = 27
       Caption = 'Hinzuf'#252'gen'
       ImageIndex = 1
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = btnAddClick
     end
@@ -74,19 +74,19 @@ object WahlhelferForm: TWahlhelferForm
       Height = 27
       Caption = 'Bearbeiten'
       ImageIndex = 3
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 1
       OnClick = btnEditClick
     end
     object btnDelete: TBitBtn
-      Left = 536
-      Top = 30
+      Left = 520
+      Top = 28
       Width = 75
       Height = 27
       Anchors = [akTop, akRight]
       Caption = 'L'#246'schen'
       ImageIndex = 2
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 2
       OnClick = btnDeleteClick
     end
