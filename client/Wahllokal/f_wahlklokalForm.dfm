@@ -115,8 +115,6 @@ object WahllokalForm: TWahllokalForm
     Align = alClient
     Caption = 'Wahlhelfer'
     TabOrder = 1
-    ExplicitLeft = 8
-    ExplicitTop = 181
     object ListView1: TListView
       Left = 2
       Top = 17
@@ -147,9 +145,6 @@ object WahllokalForm: TWahllokalForm
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 3
-      ExplicitTop = 16
-      ExplicitHeight = 193
     end
     object Panel2: TPanel
       Left = 2
@@ -161,7 +156,6 @@ object WahllokalForm: TWahllokalForm
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      ExplicitTop = 128
       DesignSize = (
         595
         47)

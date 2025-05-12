@@ -14371,7 +14371,7 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
       Height = 25
       Caption = 'Kennwort testen'
       ImageIndex = 4
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 2
       OnClick = btnPwdTestClick
     end

@@ -85,8 +85,8 @@ object WahlhelferPersonForm: TWahlhelferPersonForm
     Align = alBottom
     AutoSize = True
     TabOrder = 5
-    ExplicitLeft = -16
-    ExplicitTop = 272
+    ExplicitTop = 177
+    ExplicitWidth = 409
     inherited StatusBar1: TStatusBar
       Width = 409
       ExplicitWidth = 409
@@ -94,9 +94,11 @@ object WahlhelferPersonForm: TWahlhelferPersonForm
     inherited Panel1: TPanel
       Width = 409
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 409
       inherited OKBtn: TBitBtn
         Left = 305
         OnClick = BaseFrame1OKBtnClick
+        ExplicitLeft = 305
       end
     end
   end
