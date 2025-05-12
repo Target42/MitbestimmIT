@@ -87,8 +87,8 @@ object WahllokalRaumform: TWahllokalRaumform
     Align = alBottom
     AutoSize = True
     TabOrder = 5
-    ExplicitLeft = -180
-    ExplicitTop = 216
+    ExplicitTop = 142
+    ExplicitWidth = 460
     inherited StatusBar1: TStatusBar
       Width = 460
       ExplicitWidth = 460
@@ -96,9 +96,11 @@ object WahllokalRaumform: TWahllokalRaumform
     inherited Panel1: TPanel
       Width = 460
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 460
       inherited OKBtn: TBitBtn
         Left = 356
         OnClick = BaseFrame1OKBtnClick
+        ExplicitLeft = 356
       end
     end
   end

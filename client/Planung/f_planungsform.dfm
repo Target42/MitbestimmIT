@@ -82,23 +82,28 @@ object Planungsform: TPlanungsform
         Height = 436
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 164
-        ExplicitTop = 70
+        ExplicitLeft = 167
+        ExplicitTop = 73
+        ExplicitWidth = 586
+        ExplicitHeight = 436
         inherited Image1: TImage
           Width = 586
           Height = 267
+          ExplicitWidth = 586
+          ExplicitHeight = 267
         end
         inherited GroupBox1: TGroupBox
           Width = 586
-          ExplicitWidth = 592
+          ExplicitWidth = 586
           inherited Edit1: TEdit
             Width = 603
             StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 603
           end
         end
         inherited GroupBox2: TGroupBox
           Width = 586
-          ExplicitWidth = 592
+          ExplicitWidth = 586
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
           end
@@ -127,6 +132,8 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage1'
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline WahlverfahrenFrame1: TWahlverfahrenFrame
         AlignWithMargins = True
         Left = 3
@@ -135,6 +142,7 @@ object Planungsform: TPlanungsform
         Height = 436
         Align = alClient
         TabOrder = 0
+        ExplicitLeft = 3
         ExplicitTop = 70
         ExplicitWidth = 756
         ExplicitHeight = 442
@@ -162,12 +170,12 @@ object Planungsform: TPlanungsform
             '    '#8226' Nur ein Wahlgang'
             '    '#8226' Direktwahl der Kandidaten ohne Listenwahl')
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 756
+          ExplicitWidth = 750
         end
         inherited RichEdit2: TRichEdit
           Width = 750
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 756
+          ExplicitWidth = 750
         end
       end
     end
@@ -189,6 +197,8 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage2'
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline WahlfristenFrame1: TWahlfristenFrame
         AlignWithMargins = True
         Left = 3
@@ -197,6 +207,7 @@ object Planungsform: TPlanungsform
         Height = 436
         Align = alClient
         TabOrder = 0
+        ExplicitLeft = 3
         ExplicitTop = 70
         ExplicitWidth = 756
         ExplicitHeight = 442
@@ -273,6 +284,8 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage3'
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline WahlVorstandFrame1: TWahlVorstandFrame
         AlignWithMargins = True
         Left = 3
@@ -281,6 +294,7 @@ object Planungsform: TPlanungsform
         Height = 436
         Align = alClient
         TabOrder = 0
+        ExplicitLeft = 3
         ExplicitTop = 70
         ExplicitWidth = 756
         ExplicitHeight = 442

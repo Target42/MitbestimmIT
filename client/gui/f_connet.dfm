@@ -30,6 +30,7 @@ object ConnectForm: TConnectForm
     end
     inherited Panel1: TPanel
       Width = 326
+      StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 326
       inherited OKBtn: TBitBtn
         Left = 222

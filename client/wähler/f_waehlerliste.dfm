@@ -44,7 +44,7 @@ object WaehlerlisteForm: TWaehlerlisteForm
       Height = 25
       Caption = 'Laden'
       ImageIndex = 7
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 1
       OnClick = btnLoadClick
     end
@@ -152,7 +152,7 @@ object WaehlerlisteForm: TWaehlerlisteForm
         'Liste unten entsprechen'
       Caption = #220'bernehmen'
       ImageIndex = 6
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 6
       OnClick = btnUseClick
     end
@@ -185,7 +185,7 @@ object WaehlerlisteForm: TWaehlerlisteForm
       Anchors = [akTop, akRight]
       Caption = 'Aktualisieren'
       ImageIndex = 5
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = btnUpdateClick
     end
@@ -260,7 +260,7 @@ object WaehlerlisteForm: TWaehlerlisteForm
         'n.'
       Caption = 'Suchen'
       ImageIndex = 8
-      Images = DataModule1.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = btnScanClick
     end
