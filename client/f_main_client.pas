@@ -41,7 +41,7 @@ type
     Wahl1: TMenuItem;
     Briefwahl1: TMenuItem;
     Auszhlung1: TMenuItem;
-    Wahlbro1: TMenuItem;
+    Wahlbuero1: TMenuItem;
     ac_wa_plan: TAction;
     Planen1: TMenuItem;
     ac_rooms: TAction;
@@ -63,6 +63,13 @@ type
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
+    type
+      TMenuState = (msInit = 0);
+  private
+    procedure setMenuState( state : TMenuState );
+    procedure setPanelText( section : integer; text : string );
+
+    function OpenOrNew : boolean;
   public
 
   end;
@@ -74,7 +81,8 @@ implementation
 
 uses
   f_info, f_planungsform, f_waehlerliste, f_wahlhelfer, f_wahlklokalForm,
-  VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet;
+  VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
+  f_simulation_load;
 
 {$R *.dfm}
 
@@ -105,7 +113,47 @@ end;
 
 procedure TMainClientForm.FormCreate(Sender: TObject);
 begin
+  setMenuState( msInit );
   Timer1.Enabled := true;
+end;
+
+function TMainClientForm.OpenOrNew: boolean;
+begin
+  Result := false;
+  if not GM.IsSimulation then
+  begin
+    if not TConnectForm.Execute then
+    begin
+
+    end;
+  end
+  else
+  begin
+    Result := TSimulationLoadForm.Execute;
+  end;
+
+end;
+
+procedure TMainClientForm.setMenuState(state: TMenuState);
+begin
+  case state of
+    msInit :
+      begin
+        Wahl1.Enabled := false;
+        Wahlbuero1.Enabled := false;
+        Briefwahl1.Enabled := false;
+        Auszhlung1.Enabled := false;
+      end;
+  end;
+end;
+
+procedure TMainClientForm.setPanelText(section: integer; text: string);
+var
+  len : integer;
+begin
+  len := StatusBar1.Canvas.TextWidth(text) + 8;
+  StatusBar1.Panels.Items[section].Width := len;
+  StatusBar1.Panels.Items[section].Text  := text;
 end;
 
 procedure TMainClientForm.Timer1Timer(Sender: TObject);
@@ -124,11 +172,22 @@ begin
     else
     begin
       GM.HostAddress := THostOptions.Host;
+      GM.User        := THostOptions.User;
+      GM.Passwort    := THostOptions.PWd;
     end;
   end;
 
-  if not TConnectForm.Execute then
-    self.Close;
+  if OpenOrNew then
+  begin
+    setPanelText( 0, GM.Host );
+    setPanelText( 1, GM.User );
+  end
+  else
+  begin
+    setPanelText( 0, 'Offline' );
+    setPanelText( 1, '' );
+  end;
 end;
 
 end.
+

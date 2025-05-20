@@ -55,6 +55,9 @@ type
     BitBtn1: TBitBtn;
     Chart1: TChart;
     Series1: TGanttSeries;
+    DateTimePicker8: TDateTimePicker;
+    Label15: TLabel;
+    Label16: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure DateTimePicker1Change(Sender: TObject);
@@ -81,12 +84,11 @@ var
 begin
   if not PruefeWahlFristen(m_fristen^, s) then
     ShowMessage(s);
-
 end;
 
 procedure TWahlfristenFrame.Button1Click(Sender: TObject);
 begin
-  m_fristen^ := BerechneWahlFristen( DateTimePicker1.Date, m_fristen^.Verfahren);
+  m_fristen^ := BerechneWahlFristen( DateTimePicker1.Date, DateTimePicker8.Date, m_fristen^.Verfahren);
   UpdateEdits;
 end;
 
@@ -99,13 +101,14 @@ begin
 
   dtp := sender as TDateTimePicker;
   case dtp.tag of
-    1 : m_fristen^.Wahltag                 := dtp.Date;
+    1 : m_fristen^.WahltagStart            := dtp.Date;
     2 : m_fristen^.SpaetesterWahlvorstand  := dtp.Date;
     3 : m_fristen^.WahlausschreibenDatum   := dtp.Date;
     4 : m_fristen^.VorschlagsfristEnde     := dtp.Date;
     5 : m_fristen^.BekanntgabeVorschlaege  := dtp.Date;
     6 : m_fristen^.BekanntgabeErgebnis     := dtp.Date;
     7 : m_fristen^.AnfechtungsfristEnde    := dtp.Date;
+    8 : m_fristen^.Wahltagende             := dtp.Date;
   end;
 
   UpdateEdits;
@@ -128,6 +131,7 @@ begin
     date := IncDay(date, -1)
   end;
   DateTimePicker1.Date := date;
+  DateTimePicker8.Date := date;
   Button1.Click;
 end;
 
@@ -151,7 +155,8 @@ var
 begin
   m_inUpdate := true;
 
-  setDate(m_fristen^.Wahltag,                DateTimePicker1, Label8);
+  setDate(m_fristen^.WahltagStart,           DateTimePicker1, Label8);
+  setDate(m_fristen^.WahltagEnde ,           DateTimePicker8, Label15);
   setDate(m_fristen^.SpaetesterWahlvorstand, DateTimePicker2, Label9 );
   setDate(m_fristen^.WahlausschreibenDatum,  DateTimePicker3, Label10 );
   setDate(m_fristen^.VorschlagsfristEnde,    DateTimePicker4, Label11 );
@@ -164,8 +169,8 @@ begin
   gn.AddGanttColor(m_fristen^.SpaetesterWahlvorstand,  m_fristen^.WahlausschreibenDatum,   0, 'Wahlausschreiben', clYellow);
   gn.AddGanttColor(m_fristen^.WahlausschreibenDatum,   m_fristen^.VorschlagsfristEnde,     1, 'Vorschlagsfrist',  clGreen);
   gn.AddGanttColor(m_fristen^.BekanntgabeVorschlaege,  m_fristen^.BekanntgabeVorschlaege,  2, 'Bekanntgabe',      clMoneyGreen);
-  gn.AddGanttColor(m_fristen^.Wahltag,                 m_fristen^.Wahltag,                 3, 'Wahltag/Ergbnis',  clRed);
-  gn.AddGanttColor(m_fristen^.Wahltag,                 m_fristen^.AnfechtungsfristEnde,    4, 'Anfechtungsfrist', clNavy);
+  gn.AddGanttColor(m_fristen^.WahltagStart,            m_fristen^.WahltagEnde,             3, 'Wahltag/Ergbnis',  clRed);
+  gn.AddGanttColor(m_fristen^.WahltagEnde,             m_fristen^.AnfechtungsfristEnde,    4, 'Anfechtungsfrist', clNavy);
 
   gn.NextTask[0] := 1;
   gn.NextTask[1] := 2;

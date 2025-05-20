@@ -6,9 +6,10 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
   Align = alClient
   TabOrder = 0
   object RadioButton1: TRadioButton
-    Left = 0
-    Top = 0
-    Width = 640
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 634
     Height = 25
     Align = alTop
     Caption = 'Vereinfachtes Verfahren'
@@ -22,9 +23,10 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
     OnClick = RadioButton1Click
   end
   object RadioButton2: TRadioButton
-    Left = 0
-    Top = 337
-    Width = 640
+    AlignWithMargins = True
+    Left = 3
+    Top = 352
+    Width = 634
     Height = 32
     Align = alTop
     Caption = 'Normales Verfahren'
@@ -38,9 +40,10 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
     OnClick = RadioButton2Click
   end
   object RichEdit1: TRichEdit
-    Left = 0
-    Top = 25
-    Width = 640
+    AlignWithMargins = True
+    Left = 3
+    Top = 34
+    Width = 634
     Height = 312
     Align = alTop
     BevelInner = bvNone
@@ -70,11 +73,12 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
     TabOrder = 2
   end
   object RichEdit2: TRichEdit
-    Left = 0
-    Top = 369
-    Width = 640
-    Height = 96
-    Align = alTop
+    AlignWithMargins = True
+    Left = 3
+    Top = 390
+    Width = 634
+    Height = 273
+    Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
     BorderStyle = bsNone
@@ -90,5 +94,6 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 3
+    ExplicitHeight = 96
   end
 end

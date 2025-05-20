@@ -33,6 +33,41 @@ var
   FontHandle: array[1..18] of DWORD;
 
 
+{
+  ------------------------------------------------------------------------------
+  Prozedur: LoadFontsFromResource
+  Beschreibung:
+    Lädt Schriftarten aus Ressourcen und fügt sie dem Speicher hinzu, damit sie
+    in der Anwendung verwendet werden können. Die Schriftarten werden aus
+    benannten Ressourcen (fnt_1 bis fnt_18) geladen und im Speicher gehalten.
+    
+  Parameter:
+    Keine.
+
+  Lokale Variablen:
+    - Res: TResourceStream
+      Stream, der die Schriftart-Ressource enthält.
+    - FontMemSize: DWORD
+      Größe der Schriftart-Ressource im Speicher.
+    - i: Integer
+      Schleifenvariable, um durch die Schriftart-Ressourcen zu iterieren.
+
+  Ablauf:
+    1. Iteriert durch die Ressourcen mit den Namen 'fnt_1' bis 'fnt_18'.
+    2. Erstellt einen TResourceStream für jede Ressource.
+    3. Reserviert Speicher für die Schriftartdaten und liest die Daten in den
+       Speicher.
+    4. Fügt die Schriftart mit AddFontMemResourceEx dem System hinzu.
+    5. Gibt den TResourceStream nach der Verarbeitung frei.
+
+  Hinweise:
+    - Die Schriftarten werden im Speicher gehalten und müssen später manuell
+      freigegeben werden, um Speicherlecks zu vermeiden.
+    - Die Prozedur setzt voraus, dass die Ressourcen korrekt im Projekt
+      eingebunden sind.
+
+  ------------------------------------------------------------------------------
+}
 procedure LoadFontsFromResource;
 var
   Res: TResourceStream;
@@ -54,6 +89,18 @@ begin
   end;
 end;
 
+{
+  /// <summary>
+  /// Die Prozedur <c>UnloadFonts</c> entfernt Schriftarten aus dem Speicher und gibt den zugewiesenen Speicher frei.
+  /// </summary>
+  /// <remarks>
+  /// Diese Prozedur iteriert über ein Array von Schriftart-Handles und Speicherblöcken, 
+  /// entfernt die Schriftarten mit <c>RemoveFontMemResourceEx</c> und gibt den zugehörigen Speicher mit <c>FreeMem</c> frei.
+  /// </remarks>
+  /// <param name="i">Indexvariable für die Schleife, die von 1 bis 18 iteriert.</param>
+  /// <seealso cref="RemoveFontMemResourceEx"/>
+  /// <seealso cref="FreeMem"/>
+}
 procedure UnloadFonts;
 var
   i   : integer;

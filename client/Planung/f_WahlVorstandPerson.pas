@@ -37,6 +37,7 @@ type
     ComboBox1: TComboBox;
     ComboBox2: TComboBox;
     Label2: TLabel;
+    LabeledEdit5: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
@@ -64,6 +65,7 @@ begin
   m_person.Name   := LabeledEdit2.Text;
   m_person.Vorname:= LabeledEdit3.Text;
   m_person.eMail  := LabeledEdit4.Text;
+  m_person.Login  := LabeledEdit5.Text;
 
   m_person.Stimmberechtigt := CheckBox1.Checked;
   m_person.Anrede := ComboBox2.Items[ComboBox2.ItemIndex];
@@ -96,6 +98,7 @@ begin
   LabeledEdit2.Text := m_person.Name;
   LabeledEdit3.Text := m_person.Vorname;
   LabeledEdit4.Text := m_person.eMail;
+  LabeledEdit5.Text := m_person.Login;
   CheckBox1.Checked := m_person.Stimmberechtigt;
   ComboBox2.ItemIndex := ComboBox2.Items.IndexOf(m_person.Anrede);
   ComboBox1.ItemIndex := ComboBox1.Items.IndexOf(TWahlvorstandsRolleToString(m_person.Rolle));

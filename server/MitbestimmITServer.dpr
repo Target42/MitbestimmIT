@@ -30,7 +30,8 @@ uses
   System.SysUtils {ServerMethods1: TDSServerModule},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
-  u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas';
+  u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas',
+  u_config in 'u_config.pas';
 
 {$R *.RES}
 

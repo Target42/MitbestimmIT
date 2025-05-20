@@ -12,6 +12,7 @@ object ConnectForm: TConnectForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poOwnerFormCenter
+  OnCreate = FormCreate
   TextHeight = 15
   inline BaseFrame1: TBaseFrame
     Left = 0
@@ -21,8 +22,7 @@ object ConnectForm: TConnectForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitLeft = -16
-    ExplicitTop = 304
+    ExplicitTop = 199
     ExplicitWidth = 326
     inherited StatusBar1: TStatusBar
       Width = 326

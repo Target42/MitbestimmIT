@@ -7,13 +7,14 @@ uses System.SysUtils, System.Classes, System.Json,
     Datasnap.DSServer, Datasnap.DSAuth;
 
 type
+  [TRoleAuth('user,admin')]
   TServerMethods1 = class(TDSServerModule)
   private
-    { Private-Deklarationen }
   public
-    { Public-Deklarationen }
-    function EchoString(Value: string): string;
-    function ReverseString(Value: string): string;
+    [TRoleAuth('user')]
+    function hasConfig : boolean;
+    [TRoleAuth('user')]
+    function setInitialconfig( data : TJSONObject ) : TJSONObject;
   end;
 
 implementation
@@ -24,14 +25,17 @@ implementation
 
 uses System.StrUtils;
 
-function TServerMethods1.EchoString(Value: string): string;
+
+{ TServerMethods1 }
+
+function TServerMethods1.hasConfig: boolean;
 begin
-  Result := Value;
+  Result := false;
 end;
 
-function TServerMethods1.ReverseString(Value: string): string;
+function TServerMethods1.setInitialconfig(data: TJSONObject): TJSONObject;
 begin
-  Result := System.StrUtils.ReverseString(Value);
+  Result := NIL;
 end;
 
 end.

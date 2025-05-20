@@ -11,6 +11,8 @@ object WahllokalForm: TWahllokalForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poOwnerFormCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 0
@@ -51,6 +53,7 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 1
         Images = ResMod.PngImageList1
         TabOrder = 0
+        OnClick = btnAddClick
       end
       object btnEdit: TBitBtn
         Left = 136
@@ -61,6 +64,7 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 3
         Images = ResMod.PngImageList1
         TabOrder = 1
+        OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
         Left = 509
@@ -115,7 +119,7 @@ object WahllokalForm: TWahllokalForm
     Align = alClient
     Caption = 'Wahlhelfer'
     TabOrder = 1
-    object ListView1: TListView
+    object Helferview: TListView
       Left = 2
       Top = 17
       Width = 595
@@ -202,6 +206,7 @@ object WahllokalForm: TWahllokalForm
       ExplicitWidth = 599
       inherited OKBtn: TBitBtn
         Left = 495
+        OnClick = BaseFrame1OKBtnClick
         ExplicitLeft = 495
       end
     end

@@ -1,27 +1,28 @@
 object WahlVorstandFrame: TWahlVorstandFrame
   Left = 0
   Top = 0
-  Width = 640
+  Width = 876
   Height = 480
   Align = alClient
   TabOrder = 0
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 640
-    Height = 345
-    Align = alTop
+    Width = 876
+    Height = 480
+    Align = alClient
     Caption = 'Wahlvorstand'
     TabOrder = 0
+    ExplicitWidth = 640
     object LV: TListView
       Left = 2
       Top = 17
-      Width = 636
-      Height = 285
+      Width = 872
+      Height = 420
       Align = alClient
       Columns = <
         item
-          Caption = 'Login'
+          Caption = 'PersNr'
         end
         item
           Caption = 'Name'
@@ -42,6 +43,9 @@ object WahlVorstandFrame: TWahlVorstandFrame
           Width = 120
         end
         item
+          Caption = 'Login'
+        end
+        item
           Caption = 'eMail'
           Width = 300
         end>
@@ -53,16 +57,17 @@ object WahlVorstandFrame: TWahlVorstandFrame
     end
     object Panel1: TPanel
       Left = 2
-      Top = 302
-      Width = 636
+      Top = 437
+      Width = 872
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
+      ExplicitWidth = 636
       DesignSize = (
-        636
+        872
         41)
       object btnAdd: TBitBtn
         Left = 32
@@ -87,7 +92,7 @@ object WahlVorstandFrame: TWahlVorstandFrame
         OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
-        Left = 544
+        Left = 780
         Top = 6
         Width = 75
         Height = 27
@@ -97,6 +102,7 @@ object WahlVorstandFrame: TWahlVorstandFrame
         Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = btnDeleteClick
+        ExplicitLeft = 544
       end
     end
   end
