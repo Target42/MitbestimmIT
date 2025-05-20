@@ -19,7 +19,16 @@ object MainClientForm: TMainClientForm
     Top = 604
     Width = 980
     Height = 19
-    Panels = <>
+    Panels = <
+      item
+        Width = 50
+      end
+      item
+        Width = 50
+      end
+      item
+        Width = 50
+      end>
   end
   object MainMenu1: TMainMenu
     Left = 24
@@ -48,7 +57,7 @@ object MainClientForm: TMainClientForm
         Action = ac_wa_listen
       end
     end
-    object Wahlbro1: TMenuItem
+    object Wahlbuero1: TMenuItem
       Caption = 'Wahllokal'
       object Rume1: TMenuItem
         Action = ac_rooms

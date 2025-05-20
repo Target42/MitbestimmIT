@@ -13,51 +13,52 @@ object WahlfristenFrame: TWahlfristenFrame
     Align = alTop
     ShowCaption = False
     TabOrder = 0
+    ExplicitTop = -6
     object Label1: TLabel
-      Left = 115
+      Left = 88
       Top = 8
-      Width = 44
+      Width = 71
       Height = 15
-      Caption = 'Wahltag'
+      Caption = 'Start Wahltag'
     end
     object Label2: TLabel
       Left = 32
-      Top = 37
+      Top = 66
       Width = 127
       Height = 15
       Caption = 'Wahlvorstand bestimmt'
     end
     object Label3: TLabel
       Left = 63
-      Top = 66
+      Top = 95
       Width = 96
       Height = 15
       Caption = 'Wahlausschreiben'
     end
     object Label4: TLabel
       Left = 41
-      Top = 95
+      Top = 124
       Width = 118
       Height = 15
       Caption = 'Ende Vorschlagsfristen'
     end
     object Label5: TLabel
       Left = 31
-      Top = 124
+      Top = 153
       Width = 129
       Height = 15
       Caption = 'Bekanntgabe Vorschl'#228'ge'
     end
     object Label6: TLabel
       Left = 40
-      Top = 153
+      Top = 182
       Width = 114
       Height = 15
       Caption = 'Bekanntgabe Ergebns'
     end
     object Label7: TLabel
       Left = 42
-      Top = 182
+      Top = 211
       Width = 117
       Height = 15
       Caption = 'Ende Anfechtungsfrist'
@@ -71,45 +72,59 @@ object WahlfristenFrame: TWahlfristenFrame
     end
     object Label9: TLabel
       Left = 357
-      Top = 37
+      Top = 66
       Width = 18
       Height = 15
       Caption = 'Mo'
     end
     object Label10: TLabel
       Left = 357
-      Top = 66
+      Top = 95
       Width = 18
       Height = 15
       Caption = 'Mo'
     end
     object Label11: TLabel
       Left = 357
-      Top = 95
+      Top = 124
       Width = 18
       Height = 15
       Caption = 'Mo'
     end
     object Label12: TLabel
       Left = 357
-      Top = 124
+      Top = 153
       Width = 18
       Height = 15
       Caption = 'Mo'
     end
     object Label13: TLabel
       Left = 357
-      Top = 153
+      Top = 182
       Width = 18
       Height = 15
       Caption = 'Mo'
     end
     object Label14: TLabel
       Left = 357
-      Top = 182
+      Top = 211
       Width = 18
       Height = 15
       Caption = 'Mo'
+    end
+    object Label15: TLabel
+      Left = 357
+      Top = 37
+      Width = 18
+      Height = 15
+      Caption = 'Mo'
+    end
+    object Label16: TLabel
+      Left = 77
+      Top = 37
+      Width = 82
+      Height = 15
+      Caption = 'Letzter Wahltag'
     end
     object DateTimePicker1: TDateTimePicker
       Tag = 1
@@ -125,7 +140,7 @@ object WahlfristenFrame: TWahlfristenFrame
     object DateTimePicker2: TDateTimePicker
       Tag = 2
       Left = 165
-      Top = 37
+      Top = 66
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -136,7 +151,7 @@ object WahlfristenFrame: TWahlfristenFrame
     object DateTimePicker3: TDateTimePicker
       Tag = 3
       Left = 165
-      Top = 66
+      Top = 95
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -147,7 +162,7 @@ object WahlfristenFrame: TWahlfristenFrame
     object DateTimePicker4: TDateTimePicker
       Tag = 4
       Left = 165
-      Top = 95
+      Top = 124
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -158,7 +173,7 @@ object WahlfristenFrame: TWahlfristenFrame
     object DateTimePicker5: TDateTimePicker
       Tag = 5
       Left = 165
-      Top = 124
+      Top = 153
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -168,7 +183,7 @@ object WahlfristenFrame: TWahlfristenFrame
     end
     object DateTimePicker6: TDateTimePicker
       Left = 165
-      Top = 153
+      Top = 182
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -179,7 +194,7 @@ object WahlfristenFrame: TWahlfristenFrame
     object DateTimePicker7: TDateTimePicker
       Tag = 7
       Left = 165
-      Top = 182
+      Top = 211
       Width = 186
       Height = 23
       Date = 45774.000000000000000000
@@ -204,6 +219,17 @@ object WahlfristenFrame: TWahlfristenFrame
       Caption = 'Pr'#252'fen'
       TabOrder = 8
       OnClick = BitBtn1Click
+    end
+    object DateTimePicker8: TDateTimePicker
+      Tag = 8
+      Left = 165
+      Top = 37
+      Width = 186
+      Height = 23
+      Date = 46143.000000000000000000
+      Time = 0.643076203705277300
+      TabOrder = 9
+      OnChange = DateTimePicker1Change
     end
   end
   object Chart1: TChart

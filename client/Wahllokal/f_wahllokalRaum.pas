@@ -41,6 +41,9 @@ type
     procedure setRaum( value : TWahlLokal );
   public
     property Raum: TWahlLokal read FRaum write setRaum;
+
+    class function edit( lokal : TWahlLokal ) : Boolean;
+    class function add : TWahlLokal;
   end;
 
 var
@@ -52,6 +55,17 @@ implementation
 
 { TWahllokalRaumform }
 
+class function TWahllokalRaumform.add: TWahlLokal;
+begin
+  Result := TWahlLokal.create;
+
+  Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
+  WahllokalRaumform.Raum := Result;
+  if WahllokalRaumform.ShowModal <> mrOk then
+    FreeAndNil(Result);
+  WahllokalRaumform.Free;
+end;
+
 procedure TWahllokalRaumform.BaseFrame1OKBtnClick(Sender: TObject);
 begin
   FRaum.Building  := LabeledEdit1.Text;
@@ -61,6 +75,14 @@ begin
   FRaum.Von := DateTimePicker1.DateTime;
   FRaum.bis := DateTimePicker2.DateTime;
 
+end;
+
+class function TWahllokalRaumform.edit(lokal: TWahlLokal): Boolean;
+begin
+  Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
+  WahllokalRaumform.Raum := lokal;
+  Result := WahllokalRaumform.ShowModal = mrOk;
+  WahllokalRaumform.Free;
 end;
 
 procedure TWahllokalRaumform.setRaum(value: TWahlLokal);

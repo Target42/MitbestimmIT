@@ -24,6 +24,7 @@ uses
   System.Generics.Collections, system.JSON, System.Classes;
 
 const
+  wvPersNr            = 'persnr';
   wvIDLogin           = 'login';
   wvIDAnrede          = 'anrede';
   wvIDName            = 'name';
@@ -40,6 +41,8 @@ type
   IWahlvorstandPerson = interface
     ['{49C3CA09-7600-4881-A484-EDE5237C82F2}']
     // private
+    function getPersNr : string;
+    procedure setPersNr( value : string );
     function GetName: string;
     procedure SetName(const Value: string);
     function GetVorname: string;
@@ -56,6 +59,7 @@ type
     procedure SetAnrede(const Value: string);
 
     //public
+    property PersNr : string read getPersNr write setPersNr;
     property Login: string read GetLogin write SetLogin;
     property Anrede: string read GetAnrede write SetAnrede;
     property Name: string read GetName write SetName;
@@ -105,6 +109,7 @@ uses
 type
   TWahlvorstandPersonImpl =  class(TInterfacedObject, IWahlvorstandPerson)
   private
+    m_persNr          : string;
     m_login           : string;
     m_name            : string;
     m_vorname         : string;
@@ -112,6 +117,9 @@ type
     m_rolle           : TWahlvorstandsRolle;
     m_mail            : string;
     m_anrede          : string;
+
+    function getPersNr : string;
+    procedure setPersNr( value : string );
 
     function GetName: string;
     procedure SetName(const Value: string);
@@ -276,6 +284,7 @@ end;
 
 procedure TWahlvorstandPersonImpl.fromJSON(data: TJSONObject);
 begin
+  m_persNr            := JString( data, wvPersNr );
   m_login             := JString( data, wvIDLogin);
   m_anrede            := JString( data, wvIDAnrede);
   m_name              := JString( data, wvIDName);
@@ -303,6 +312,11 @@ end;
 function TWahlvorstandPersonImpl.GetName: string;
 begin
   Result := m_name;
+end;
+
+function TWahlvorstandPersonImpl.getPersNr: string;
+begin
+  Result := m_persNr;
 end;
 
 function TWahlvorstandPersonImpl.GetRolle: TWahlvorstandsRolle;
@@ -345,6 +359,11 @@ begin
   m_name := value;
 end;
 
+procedure TWahlvorstandPersonImpl.setPersNr(value: string);
+begin
+  m_persNr := value;
+end;
+
 procedure TWahlvorstandPersonImpl.SetRolle(const Value: TWahlvorstandsRolle);
 begin
   m_rolle := value;
@@ -383,6 +402,7 @@ function TWahlvorstandPersonImpl.toJSON: TJSONObject;
 begin
   Result := TJSONObject.Create;
 
+  JReplace(Result, wvPersNr,            m_persNr);
   JReplace(Result, wvIDLogin,           m_login );
   JReplace(Result, wvIDAnrede,          m_anrede);
   JReplace(Result, wvIDName,            m_name );

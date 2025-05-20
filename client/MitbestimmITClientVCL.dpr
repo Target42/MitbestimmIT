@@ -32,7 +32,11 @@ uses
   u_wahllokal in '..\Wahllokale\u_wahllokal.pas',
   u_ComandLineConfig in 'cli\u_ComandLineConfig.pas',
   u_ComandOptions in 'cli\u_ComandOptions.pas',
-  f_connet in 'gui\f_connet.pas' {ConnectForm};
+  f_connet in 'gui\f_connet.pas' {ConnectForm},
+  u_stub in 'u_stub.pas',
+  f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
+  u_simulation in 'Simulation\u_simulation.pas',
+  u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas';
 
 {$R *.res}
 
@@ -51,7 +55,5 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
-  Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
-
   Application.Run;
 end.

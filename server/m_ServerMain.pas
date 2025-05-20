@@ -64,7 +64,9 @@ implementation
 
 uses
   Winapi.Windows,
-  ServerMethodsUnit1;
+  system.Hash,
+  ServerMethodsUnit1, u_config;
+
 
 procedure TServerMain.DSServerClass1GetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
@@ -75,10 +77,19 @@ end;
 procedure TServerMain.DSAuthenticationManager1UserAuthenticate(
   Sender: TObject; const Protocol, Context, User, Password: string;
   var valid: Boolean; UserRoles: TStrings);
+var
+  hash : string;
 begin
-  { TODO : Validieren Sie den Client-Benutzer und das Passwort.
-    Wenn eine rollenbasierte Autorisierung erforderlich ist, fügen Sie dem Parameter UserRoles Rollennamen hinzu  }
-  valid := True;
+  valid := false;
+  if SameText(User, 'admin') then
+  begin
+    hash := THashSHA2.GetHashString(Password);
+    valid := SameText( hash, Config.AdminPwd);
+  end
+  else
+  begin
+
+  end;
 end;
 
 procedure TServerMain.DSAuthenticationManager1UserAuthorize(

@@ -21,7 +21,7 @@ unit u_BRWahlFristen;
 interface
 
 uses
-  SysUtils, DateUtils;
+  SysUtils, DateUtils, System.JSON;
 
 type
   {
@@ -64,7 +64,9 @@ type
           Die Frist für die Anfechtung der Wahlergebnisse.
   }
   TWahlFristen = record
-    Wahltag: TDate;
+    WahltagStart: TDate;
+    WahltagEnde: TDate;
+
     Verfahren: TWahlVerfahren;
 
     SpaetesterWahlvorstand: TDate;
@@ -93,8 +95,11 @@ type
   end;
 
 function PruefeRegulaereWahlperiode(Heute: TDate): TRegelwahlStatus;
-function BerechneWahlFristen(Wahltag: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
+function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
 function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
+
+function WahlFristenToJSON( fristen : TWahlFristen ) : TJSONObject;
+function JSONToWahlFristen( data : TJSONObject ) : TWahlFristen;
 
 implementation
 
@@ -102,30 +107,36 @@ implementation
   /**
    * Berechnet die Fristen für eine Wahl basierend auf dem Wahltag und dem Wahlverfahren.
    *
-   * @param Wahltag Das Datum des Wahltags (TDate).
+   * @param WahltagStart Das Datum des Beginns der Wahl (TDate).
+   * @param WahltagEnde Das Datum des Endes der Wahl (TDate).
    * @param Verfahren Das Wahlverfahren, das angewendet wird (TWahlVerfahren).
    * @return Ein TWahlFristen-Objekt, das die berechneten Fristen enthält.
    */
 }
-function BerechneWahlFristen(Wahltag: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
+
+uses
+  u_json;
+
+function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
 begin
-  Result.Wahltag := Wahltag;
-  Result.Verfahren := Verfahren;
-  Result.BekanntgabeErgebnis := Wahltag;
-  Result.AnfechtungsfristEnde := IncDay(Wahltag, 14);
+  Result.WahltagStart         := WahltagStart;
+  Result.WahltagEnde          := WahlTagEnde;
+  Result.Verfahren            := Verfahren;
+  Result.BekanntgabeErgebnis  := WahltagEnde;
+  Result.AnfechtungsfristEnde := IncDay(WahltagEnde, 14);
 
   if Verfahren = wvAllgemein then
   begin
-    Result.WahlausschreibenDatum  := IncDay(Wahltag, -42); // 6 Wochen vor Wahl
+    Result.WahlausschreibenDatum  := IncDay(WahltagStart, -42); // 6 Wochen vor Wahl
     Result.VorschlagsfristEnde    := IncDay(Result.WahlausschreibenDatum, 14); // 2 Wochen danach
     Result.BekanntgabeVorschlaege := IncDay(Result.VorschlagsfristEnde, 1);
-    Result.SpaetesterWahlvorstand := IncDay(Wahltag, -70); // 10 Wochen vor Wahl
+    Result.SpaetesterWahlvorstand := IncDay(WahltagStart, -70); // 10 Wochen vor Wahl
   end
   else // Vereinfachtes Verfahren
   begin
-    Result.SpaetesterWahlvorstand := IncDay(Wahltag, -14); // mindestens 14 Tage vorher
-    Result.WahlausschreibenDatum  := IncDay(Wahltag, -7);   // spätestens 7 Tage vor Wahl
-    Result.VorschlagsfristEnde    := IncDay(Wahltag, -6);     // spätestens 6 Tage vor Wahl
+    Result.SpaetesterWahlvorstand := IncDay(WahltagStart, -14); // mindestens 14 Tage vorher
+    Result.WahlausschreibenDatum  := IncDay(WahltagStart, -7);   // spätestens 7 Tage vor Wahl
+    Result.VorschlagsfristEnde    := IncDay(WahltagStart, -6);     // spätestens 6 Tage vor Wahl
     Result.BekanntgabeVorschlaege := IncDay(Result.VorschlagsfristEnde, 1); // optional
   end;
 end;
@@ -164,7 +175,7 @@ begin
 
   if fristen.Verfahren = wvVereinfacht then
   begin
-    days := DaysBetween(fristen.Wahltag, fristen.SpaetesterWahlvorstand);
+    days := DaysBetween(fristen.WahltagStart, fristen.SpaetesterWahlvorstand);
     if days < 14 then
     begin
       Result := false;
@@ -178,7 +189,7 @@ begin
       msg := msg + Format('Das Wahlsausschreiben muss 7 nach der Bestllung des  Wahlvorstandesausgehängt werden werden, es sind aber nur %d%s', [days, #13]);
     end;
 
-    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.Wahltag);
+    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.WahltagStart);
     if days < 6 then
     begin
       Result := false;
@@ -188,13 +199,13 @@ begin
   end
   else
   begin
-    days := DaysBetween(fristen.Wahltag, fristen.SpaetesterWahlvorstand);
+    days := DaysBetween(fristen.WahltagStart, fristen.SpaetesterWahlvorstand);
     if days < 10 * 7 then
     begin
       Result := false;
       msg := msg + Format('Der Wahlvorstand muss 70 Tage vor der Wahl bestellt werden, es sind aber nur %d%s', [days, #13]);
     end;
-    days := DaysBetween(fristen.Wahltag, fristen.WahlausschreibenDatum);
+    days := DaysBetween(fristen.WahltagStart, fristen.WahlausschreibenDatum);
     if days < 6 * 7 then
     begin
       Result := false;
@@ -219,7 +230,7 @@ begin
       msg := msg + Format('Die Bekanntgabe der Vorschkläge kann nicht vor dem Vorschlagsendeerfolgen.%s', [#13]);
     end;
 
-    days := DaysBetween(fristen.BekanntgabeVorschlaege, fristen.Wahltag);
+    days := DaysBetween(fristen.BekanntgabeVorschlaege, fristen.WahltagStart);
     if days < 7  then
     begin
       Result := false;
@@ -227,12 +238,18 @@ begin
     end;
   end;
 
-  if fristen.Wahltag <> fristen.BekanntgabeErgebnis then
+  if fristen.WahltagEnde < fristen.WahltagStart then
+  begin
+    Result := false;
+    msg := msg + Format('Das Ende der Wahl kann nicht vor dem Start liegen!', [#13]);
+  end;
+
+  if fristen.WahltagEnde <> fristen.BekanntgabeErgebnis then
   begin
     Result := false;
     msg := msg + Format('Die Wahlergebnisse müssen am Wahltag bekanntgegeben werden', [#13]);
   end;
-  days := DaysBetween(fristen.Wahltag, fristen.AnfechtungsfristEnde);
+  days := DaysBetween(fristen.WahltagEnde, fristen.AnfechtungsfristEnde);
   if days <> 14  then
   begin
     Result := false;
@@ -241,6 +258,33 @@ begin
 
 
 end;
+
+function WahlFristenToJSON( fristen : TWahlFristen ) : TJSONObject;
+var
+  fmt : TFormatSettings;
+begin
+  fmt    := TFormatSettings.Create('de-DE');
+  Result := TJSONObject.Create;
+
+{
+    Wahltag: TDate;
+    Verfahren: TWahlVerfahren;
+
+    SpaetesterWahlvorstand: TDate;
+    WahlausschreibenDatum: TDate;
+    VorschlagsfristEnde: TDate;
+    BekanntgabeVorschlaege: TDate;
+    BekanntgabeErgebnis: TDate;
+    AnfechtungsfristEnde: TDate;
+
+}
+end;
+
+function JSONToWahlFristen( data : TJSONObject ) : TWahlFristen;
+begin
+
+end;
+
 
 end.
 

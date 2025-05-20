@@ -24,6 +24,31 @@ uses Winapi.Windows, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Forms,
   Vcl.Controls, Vcl.StdCtrls, Vcl.Buttons;
 
 type
+  {
+    TPasswordDlg
+    Diese Klasse repräsentiert einen Dialog zur Eingabe eines Passworts.
+
+    Eigenschaften:
+      - Label1: TLabel
+        Beschriftung für das Passwortfeld.
+      - Password: TEdit
+        Eingabefeld für das Passwort.
+      - OKBtn: TButton
+        Schaltfläche zur Bestätigung der Eingabe.
+      - CancelBtn: TButton
+        Schaltfläche zum Abbrechen des Dialogs.
+
+    Methoden:
+      - class function getPwd(var pwd: string): Boolean
+        Zeigt den Passwortdialog an und gibt das eingegebene Passwort zurück.
+        Parameter:
+          - pwd: string (var)
+            Variable, in der das eingegebene Passwort gespeichert wird.
+        Rückgabewert:
+          - Boolean
+            Gibt True zurück, wenn der Benutzer den Dialog mit "OK" bestätigt hat,
+            andernfalls False.
+  }
   TPasswordDlg = class(TForm)
     Label1: TLabel;
     Password: TEdit;
@@ -44,6 +69,20 @@ implementation
 
 { TPasswordDlg }
 
+{
+  /**
+   * Statische Funktion, um ein Passwort vom Benutzer abzufragen.
+   *
+   * @param pwd - Eine Variable vom Typ string, in der das eingegebene Passwort gespeichert wird, 
+   *              falls der Benutzer die Eingabe mit "OK" bestätigt.
+   * @return Boolean - Gibt True zurück, wenn der Benutzer die Eingabe mit "OK" bestätigt hat, 
+   *                   andernfalls False.
+   *
+   * Diese Funktion erstellt ein Dialogfenster zur Passworteingabe, zeigt es dem Benutzer an 
+   * und speichert das eingegebene Passwort in der übergebenen Variable, falls die Eingabe 
+   * erfolgreich war. Das Dialogfenster wird nach der Verwendung freigegeben.
+   */
+}
 class function TPasswordDlg.getPwd(var pwd: string): Boolean;
 begin
   Application.CreateForm(TPasswordDlg, PasswordDlg);

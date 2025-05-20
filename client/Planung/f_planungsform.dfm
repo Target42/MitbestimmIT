@@ -1,7 +1,7 @@
 object Planungsform: TPlanungsform
   Left = 0
   Top = 0
-  ActiveControl = WahlPlanungStartFrame1.Edit1
+  ActiveControl = WahlPlanungStartFrame1.LabeledEdit1
   Caption = 'Planungsform'
   ClientHeight = 573
   ClientWidth = 756
@@ -88,26 +88,35 @@ object Planungsform: TPlanungsform
         ExplicitHeight = 436
         inherited Image1: TImage
           Width = 586
-          Height = 267
+          Height = 275
           ExplicitWidth = 586
           ExplicitHeight = 267
         end
-        inherited GroupBox1: TGroupBox
-          Width = 586
-          ExplicitWidth = 586
-          inherited Edit1: TEdit
-            Width = 603
-            StyleElements = [seFont, seClient, seBorder]
-            ExplicitWidth = 603
-          end
-        end
         inherited GroupBox2: TGroupBox
           Width = 586
+          ExplicitTop = 65
           ExplicitWidth = 586
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
           end
           inherited LabeledEdit2: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+        end
+        inherited Panel1: TPanel
+          Width = 586
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitWidth = 586
+          inherited LabeledEdit3: TLabeledEdit
+            EditLabel.ExplicitLeft = 0
+            EditLabel.ExplicitTop = -18
+            EditLabel.ExplicitWidth = 67
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit4: TLabeledEdit
+            EditLabel.ExplicitLeft = 0
+            EditLabel.ExplicitTop = -18
+            EditLabel.ExplicitWidth = 67
             StyleElements = [seFont, seClient, seBorder]
           end
         end
@@ -147,15 +156,15 @@ object Planungsform: TPlanungsform
         ExplicitWidth = 756
         ExplicitHeight = 442
         inherited RadioButton1: TRadioButton
-          Width = 750
+          Width = 744
           ExplicitWidth = 756
         end
         inherited RadioButton2: TRadioButton
-          Width = 750
+          Width = 744
           ExplicitWidth = 756
         end
         inherited RichEdit1: TRichEdit
-          Width = 750
+          Width = 744
           Lines.Strings = (
             ''
             'Ein vereinfachtes Verfahren ist m'#246'glich, wenn:'
@@ -170,12 +179,14 @@ object Planungsform: TPlanungsform
             '    '#8226' Nur ein Wahlgang'
             '    '#8226' Direktwahl der Kandidaten ohne Listenwahl')
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 750
+          ExplicitWidth = 744
         end
         inherited RichEdit2: TRichEdit
-          Width = 750
+          Width = 744
+          Height = 43
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 750
+          ExplicitWidth = 744
+          ExplicitHeight = 43
         end
       end
     end
@@ -255,6 +266,12 @@ object Planungsform: TPlanungsform
             StyleElements = [seFont, seClient, seBorder]
           end
           inherited Label14: TLabel
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited Label15: TLabel
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited Label16: TLabel
             StyleElements = [seFont, seClient, seBorder]
           end
         end

@@ -27,14 +27,16 @@ uses
 
 type
   TWahlPlanungStartFrame = class(TFrame)
-    GroupBox1: TGroupBox;
-    Edit1: TEdit;
     GroupBox2: TGroupBox;
     LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
     btnPwdTest: TBitBtn;
     Image1: TImage;
+    Panel1: TPanel;
+    LabeledEdit3: TLabeledEdit;
+    LabeledEdit4: TLabeledEdit;
     procedure btnPwdTestClick(Sender: TObject);
+    procedure LabeledEdit3KeyPress(Sender: TObject; var Key: Char);
   private
     { Private-Deklarationen }
   public
@@ -47,7 +49,7 @@ implementation
 {$R *.dfm}
 
 uses
-  m_res, f_PassWord;
+  m_res, f_PassWord, system.IOUtils;
 
 { TWahlPlanungStartFrame }
 
@@ -74,6 +76,13 @@ end;
 procedure TWahlPlanungStartFrame.init;
 begin
 
+end;
+
+procedure TWahlPlanungStartFrame.LabeledEdit3KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if not TPath.IsValidPathChar(Key) then
+    key := #0;
 end;
 
 procedure TWahlPlanungStartFrame.release;

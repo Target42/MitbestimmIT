@@ -27,10 +27,21 @@ uses
   VSoft.CommandLine.Options,
   u_ComandOptions;
 
+//------------------------------------------------------------------------------
+// Prozedur: ConfigureOptions
+// Beschreibung: Diese Prozedur konfiguriert die verfügbaren Optionen für die 
+//               Befehlszeilenparameter. Sie registriert eine Option für die 
+//               Angabe des Hosts, zu dem eine Verbindung hergestellt werden soll.
+// Parameter: Keine
+// Rückgabewert: Keine
+// Besonderheiten:
+//   - Der Name-Wert-Trenner für Optionen wird auf '=' gesetzt.
+//   - Eine Option 'host' (Kurzform: 'h') wird registriert, die den Host definiert.
+//   - Der angegebene Hostwert wird in der Klasse THostOptions gespeichert.
+//------------------------------------------------------------------------------
 procedure ConfigureOptions;
 var
   option : IOptionDefinition;
-  cmd    : TCommandDefinition;
 begin
 
   TOptionsRegistry.NameValueSeparator := '=';
@@ -38,7 +49,7 @@ begin
   option := TOptionsRegistry.RegisterOption<string>('host','h','the host to connect',
     procedure(const value : string)
     begin
-        THostOptions.Host := value;
+      THostOptions.Host := value;
     end);
 
 end;

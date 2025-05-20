@@ -105,6 +105,7 @@
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Client\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_RunParams>/host=simulation</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -217,6 +218,13 @@
             <Form>ConnectForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="u_stub.pas"/>
+        <DCCReference Include="Simulation\f_simulation_load.pas">
+            <Form>SimulationLoadForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Simulation\u_simulation.pas"/>
+        <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
@@ -1397,6 +1405,9 @@
                 <Platform value="Win64">True</Platform>
             </Platforms>
             <ModelSupport>False</ModelSupport>
+            <DataSnapProxyLookup>
+                <u_stub>{AEFBC6FD-4AE3-4A88-BC72-BCE5BEFDB22C}</u_stub>
+            </DataSnapProxyLookup>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

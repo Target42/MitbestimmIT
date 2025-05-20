@@ -3,7 +3,7 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
   Top = 0
   ActiveControl = LabeledEdit1
   Caption = 'Mitglied des Wahlvorstandes'
-  ClientHeight = 250
+  ClientHeight = 327
   ClientWidth = 465
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -30,13 +30,13 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
   end
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 190
+    Top = 267
     Width = 465
     Height = 60
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitTop = 190
+    ExplicitTop = 267
     ExplicitWidth = 465
     inherited StatusBar1: TStatusBar
       Width = 465
@@ -58,9 +58,9 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
     Top = 24
     Width = 121
     Height = 23
-    EditLabel.Width = 30
+    EditLabel.Width = 35
     EditLabel.Height = 15
-    EditLabel.Caption = 'Login'
+    EditLabel.Caption = 'PersNr'
     TabOrder = 1
     Text = ''
   end
@@ -131,5 +131,16 @@ object WahlVorstandPersonForm: TWahlVorstandPersonForm
       'Herr'
       'Frau'
       'Div.')
+  end
+  object LabeledEdit5: TLabeledEdit
+    Left = 16
+    Top = 200
+    Width = 185
+    Height = 23
+    EditLabel.Width = 30
+    EditLabel.Height = 15
+    EditLabel.Caption = 'Login'
+    TabOrder = 8
+    Text = ''
   end
 end

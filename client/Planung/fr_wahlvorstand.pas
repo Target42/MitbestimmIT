@@ -172,6 +172,7 @@ begin
   Item.SubItems.Add(person.Vorname);
   Item.SubItems.Add(person.Anrede);
   Item.SubItems.Add( BoolToJaNein(person.Stimmberechtigt));
+  Item.SubItems.Add(person.Login);
   Item.SubItems.Add(person.eMail);
 
   if m_map.TryGetValue(TWahlvorstandsRolleToString(person.Rolle), id) then
