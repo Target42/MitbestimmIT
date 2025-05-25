@@ -232,6 +232,7 @@ begin
     item.SubItems.Add(getCol( row, 3));
     item.SubItems.Add(getCol( row, 4));
   end;
+  btnScan.Click;
 end;
 
 class procedure TWaehlerlisteForm.ExecuteForm;

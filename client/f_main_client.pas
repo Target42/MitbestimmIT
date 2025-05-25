@@ -55,6 +55,13 @@ type
     N1: TMenuItem;
     N2: TMenuItem;
     Timer1: TTimer;
+    ac_wa_vorstand: TAction;
+    Wahlvorstand1: TMenuItem;
+    ac_connect: TAction;
+    ac_disconnect: TAction;
+    Verbinden1: TMenuItem;
+    rennen1: TMenuItem;
+    N3: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -62,14 +69,14 @@ type
     procedure ac_roomsExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure ac_wa_vorstandExecute(Sender: TObject);
+    procedure ac_connectExecute(Sender: TObject);
   private
     type
-      TMenuState = (msInit = 0);
+      TMenuState = (msInit = 0, msLoaded);
   private
     procedure setMenuState( state : TMenuState );
     procedure setPanelText( section : integer; text : string );
-
-    function OpenOrNew : boolean;
   public
 
   end;
@@ -82,9 +89,36 @@ implementation
 uses
   f_info, f_planungsform, f_waehlerliste, f_wahlhelfer, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
-  f_simulation_load;
+  f_simulation_load, f_WahlvorStand, System.JSON, u_json;
 
 {$R *.dfm}
+
+procedure TMainClientForm.ac_connectExecute(Sender: TObject);
+var
+  data : TJSONObject;
+begin
+  if TConnectForm.Execute then
+  begin
+    data := Gm.Storage.select;
+    if Assigned(data) then
+    begin
+      if JBool( data, 'new') then
+      begin
+        if GM.Storage.new then
+        begin
+          ac_wa_plan.Execute;
+          setMenuState( msLoaded );
+        end;
+      end
+      else
+      begin
+        if GM.Storage.load(data) then
+          setMenuState( msLoaded );
+      end;
+      data.Free;
+    end;
+  end;
+end;
 
 procedure TMainClientForm.ac_helperExecute(Sender: TObject);
 begin
@@ -111,28 +145,17 @@ begin
   TPlanungsform.Execute;
 end;
 
+procedure TMainClientForm.ac_wa_vorstandExecute(Sender: TObject);
+begin
+  TWahlVorstandForm.execute;
+end;
+
 procedure TMainClientForm.FormCreate(Sender: TObject);
 begin
   setMenuState( msInit );
   Timer1.Enabled := true;
 end;
 
-function TMainClientForm.OpenOrNew: boolean;
-begin
-  Result := false;
-  if not GM.IsSimulation then
-  begin
-    if not TConnectForm.Execute then
-    begin
-
-    end;
-  end
-  else
-  begin
-    Result := TSimulationLoadForm.Execute;
-  end;
-
-end;
 
 procedure TMainClientForm.setMenuState(state: TMenuState);
 begin
@@ -143,6 +166,17 @@ begin
         Wahlbuero1.Enabled := false;
         Briefwahl1.Enabled := false;
         Auszhlung1.Enabled := false;
+        ac_connect.Enabled := true;
+        ac_disconnect.Enabled := false;
+      end;
+    msLoaded:
+      begin
+        Wahl1.Enabled      := true;
+        Wahlbuero1.Enabled := true;
+        Briefwahl1.Enabled := true;
+        Auszhlung1.Enabled := true;
+        ac_connect.Enabled := false;
+        ac_disconnect.Enabled := true;
       end;
   end;
 end;
@@ -162,6 +196,7 @@ var
 begin
 
   Timer1.Enabled := false;
+
   if ParamCount >=1 then
   begin
     parseresult := TOptionsRegistry.Parse;
@@ -177,16 +212,7 @@ begin
     end;
   end;
 
-  if OpenOrNew then
-  begin
-    setPanelText( 0, GM.Host );
-    setPanelText( 1, GM.User );
-  end
-  else
-  begin
-    setPanelText( 0, 'Offline' );
-    setPanelText( 1, '' );
-  end;
+  ac_connect.Execute;
 end;
 
 end.

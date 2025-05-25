@@ -94,6 +94,5 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 3
-    ExplicitHeight = 96
   end
 end

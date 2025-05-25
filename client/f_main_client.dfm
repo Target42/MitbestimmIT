@@ -35,6 +35,15 @@ object MainClientForm: TMainClientForm
     Top = 24
     object Programm1: TMenuItem
       Caption = 'Programm'
+      object Verbinden1: TMenuItem
+        Action = ac_connect
+      end
+      object rennen1: TMenuItem
+        Action = ac_disconnect
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
       object Programm2: TMenuItem
         Action = FileExit1
       end
@@ -49,6 +58,9 @@ object MainClientForm: TMainClientForm
       end
       object Wahlberechtigteaktualisieren1: TMenuItem
         Action = ac_wa_berechtigte
+      end
+      object Wahlvorstand1: TMenuItem
+        Action = ac_wa_vorstand
       end
       object N1: TMenuItem
         Caption = '-'
@@ -117,8 +129,24 @@ object MainClientForm: TMainClientForm
       Category = 'Wahl'
       Caption = 'Wahllisten'
     end
+    object ac_wa_vorstand: TAction
+      Category = 'Wahl'
+      Caption = 'Wahlvorstand'
+      OnExecute = ac_wa_vorstandExecute
+    end
+    object ac_connect: TAction
+      Category = 'Datei'
+      Caption = 'Verbinden'
+      OnExecute = ac_connectExecute
+    end
+    object ac_disconnect: TAction
+      Category = 'Datei'
+      Caption = 'Trennen'
+    end
   end
   object Timer1: TTimer
+    Enabled = False
+    Interval = 250
     OnTimer = Timer1Timer
     Left = 216
     Top = 32

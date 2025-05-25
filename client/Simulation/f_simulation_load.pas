@@ -23,7 +23,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, fr_base, Vcl.ComCtrls, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls;
+  Vcl.Buttons, Vcl.ExtCtrls, System.JSON;
 
 type
   TSimulationLoadForm = class(TForm)
@@ -34,10 +34,14 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure btnNeueWahlClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
-    procedure Scan;
+    m_newProject : boolean;
   public
-    class function Execute : Boolean;
+    class function Execute( data : TJSONObject ) : TJSONObject;
+
+    procedure fromJSON( data : TJSONObject );
+    function getData : TJSONObject;
   end;
 
 var
@@ -48,30 +52,39 @@ implementation
 {$R *.dfm}
 
 uses
-  m_glob, system.IOUtils, System.Types, m_res;
+  m_glob, system.IOUtils, System.Types, m_res, u_json;
 
 { TSimulationLoadForm }
 
-procedure TSimulationLoadForm.btnNeueWahlClick(Sender: TObject);
+procedure TSimulationLoadForm.BaseFrame1OKBtnClick(Sender: TObject);
 begin
-  //
+  m_newProject := not Assigned(LV.Selected);
+
 end;
 
-class function TSimulationLoadForm.Execute: Boolean;
+procedure TSimulationLoadForm.btnNeueWahlClick(Sender: TObject);
 begin
+  m_newProject := true;
+  LV.Selected := NIL;
+  BaseFrame1.OKBtn.Click;
+end;
+
+class function TSimulationLoadForm.Execute( data : TJSONObject ) : TJSONObject;
+begin
+  Result := NIL;
   Application.CreateForm(TSimulationLoadForm, SimulationLoadForm);
-  Result := SimulationLoadForm.ShowModal = mrOk;
+  SimulationLoadForm.fromJSON(data);
 
-  if Result then
+  if (SimulationLoadForm.ShowModal = mrOk) then
   begin
-
+    Result := SimulationLoadForm.getData;
   end;
   SimulationLoadForm.Free;
 end;
 
 procedure TSimulationLoadForm.FormCreate(Sender: TObject);
 begin
-  Scan;
+  m_newProject := false;
 end;
 
 procedure TSimulationLoadForm.FormDestroy(Sender: TObject);
@@ -79,37 +92,39 @@ begin
   //
 end;
 
-procedure TSimulationLoadForm.Scan;
+procedure TSimulationLoadForm.fromJSON(data: TJSONObject);
 var
-  dirs : TStringDynArray;
-  i    : integer;
-  fname: string;
-  list : TStringList;
+  iter : TArrayIterator;
   item : TListItem;
 begin
-  Screen.Cursor := crHourGlass;
-  list := TStringList.Create;
-  dirs := TDirectory.GetDirectories(GM.SimulationPath);
-  for i := low(dirs) to High(dirs) do
+  LV.Items.Clear;
+  iter := TArrayIterator.Create(JArray(data, 'items'));
+  while iter.Next do
   begin
-    fname := TPath.Combine(dirs[i], 'info.txt');
-    if FileExists(fname) then
-    begin
-      list.LoadFromFile(fname);
-      if list.Count > 0 then
-      begin
-        item := LV.Items.Add;
-        item.Caption := ExtractFileName(dirs[i]);
-        item.SubItems.Add(list[0]);
-      end;
-    end;
+    item := LV.Items.Add;
+    item.Caption := JString( iter.CurrentItem, 'kurz');
+    item.SubItems.Add(JString( iter.CurrentItem, 'name'));
+    item.SubItems.Add(JString( iter.CurrentItem, 'id'));
   end;
-  list.Free;
-  SetLength(dirs, 0);
+  iter.Free;
+end;
 
-  BaseFrame1.OKBtn.Enabled := LV.Items.Count > 0;
 
-  Screen.Cursor := crDefault;
+function TSimulationLoadForm.getData: TJSONObject;
+begin
+  Result := TJSONObject.Create;
+
+  if not m_newProject then
+  begin
+    JReplace( Result, 'load', true);
+    JReplace( Result, 'kurz', LV.Selected.Caption);
+    JReplace( Result, 'name', Lv.Selected.SubItems[0]);
+    JReplace( Result, 'id', Lv.Selected.SubItems[1]);
+  end
+  else
+  begin
+    JReplace( Result, 'new', true);
+  end;
 end;
 
 end.

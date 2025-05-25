@@ -24,7 +24,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, JvWizard, JvExControls,
   fr_wahlverfahren, fr_wahlfristen, u_BRWahlFristen, fr_wahlvorstand,
-  fr_PlanStart;
+  fr_PlanStart, u_WahlDef;
 
 type
   TPlanungsform = class(TForm)
@@ -35,13 +35,19 @@ type
     JvWizardInteriorPage1: TJvWizardInteriorPage;
     WahlfristenFrame1: TWahlfristenFrame;
     JvWizardInteriorPage2: TJvWizardInteriorPage;
-    WahlVorstandFrame1: TWahlVorstandFrame;
-    JvWizardInteriorPage3: TJvWizardInteriorPage;
     WahlPlanungStartFrame1: TWahlPlanungStartFrame;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure JvWizard1FinishButtonClick(Sender: TObject);
+    procedure JvWizard1CancelButtonClick(Sender: TObject);
+    procedure JvWizardInteriorPage2EnterPage(Sender: TObject;
+      const FromPage: TJvWizardCustomPage);
+    procedure JvWizardInteriorPage2FinishButtonClick(Sender: TObject;
+      var Stop: Boolean);
+    procedure JvWizardWelcomePage1NextButtonClick(Sender: TObject;
+      var Stop: Boolean);
   private
-    m_fristen : TWahlFristen;
+    m_def : TWahlDef;
   public
     class procedure Execute;
   end;
@@ -52,6 +58,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses m_glob;
 
 { TPlanungsform }
 
@@ -64,23 +72,63 @@ end;
 
 procedure TPlanungsform.FormCreate(Sender: TObject);
 begin
-  WahlPlanungStartFrame1.init;
-  m_fristen.Verfahren := wvAllgemein;
-  WahlverfahrenFrame1.init(@m_fristen);
+  m_def := GM.Storage.WahlDefinition.getData;
 
-  WahlfristenFrame1.init(@m_fristen);
-  WahlfristenFrame1.setDefaultDate(StrToDate('15.5.2026'));
+  WahlPlanungStartFrame1.init(m_def);
+  WahlverfahrenFrame1.init(@m_def.WahlFristen);
+  WahlfristenFrame1.init(@m_def.WahlFristen);
 
-  WahlVorstandFrame1.init;
-
+  if m_def.WahlFristen.WahltagStart = 0.0 then
+  begin
+    m_Def.WahlFristen.Verfahren := wvVereinfacht;
+    WahlfristenFrame1.setDefaultDate(StrToDate('15.5.2026'));
+  end;
 end;
 
 procedure TPlanungsform.FormDestroy(Sender: TObject);
 begin
-  WahlVorstandFrame1.release;
   WahlfristenFrame1.release;
   WahlverfahrenFrame1.release;
   WahlPlanungStartFrame1.release;
+end;
+
+procedure TPlanungsform.JvWizard1CancelButtonClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TPlanungsform.JvWizard1FinishButtonClick(Sender: TObject);
+begin
+  //
+  Close;
+end;
+
+procedure TPlanungsform.JvWizardInteriorPage2EnterPage(Sender: TObject;
+  const FromPage: TJvWizardCustomPage);
+begin
+    JvWizardInteriorPage2.VisibleButtons := [TJvWizardButtonKind.bkBack, TJvWizardButtonKind.bkCancel, TJvWizardButtonKind.bkFinish];
+end;
+
+
+procedure TPlanungsform.JvWizardInteriorPage2FinishButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  // save ...
+  WahlPlanungStartFrame1.save;
+  WahlverfahrenFrame1.save;
+  WahlfristenFrame1.save;
+  GM.Storage.WahlDefinition.saveData(m_def);
+end;
+
+
+procedure TPlanungsform.JvWizardWelcomePage1NextButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  if not WahlPlanungStartFrame1.isPasswortOk then
+  begin
+    ShowMessage('Das Passwort ist nicht korrekt!');
+    stop := true;
+  end;
 end;
 
 end.

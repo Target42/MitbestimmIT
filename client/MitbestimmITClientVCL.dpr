@@ -2,6 +2,8 @@
 
 {$R *.dres}
 
+{$define SIMU}
+
 uses
   Vcl.Forms,
   f_main_client in 'f_main_client.pas' {MainClientForm},
@@ -33,10 +35,24 @@ uses
   u_ComandLineConfig in 'cli\u_ComandLineConfig.pas',
   u_ComandOptions in 'cli\u_ComandOptions.pas',
   f_connet in 'gui\f_connet.pas' {ConnectForm},
+  u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
+  u_WahlDef in '..\WahlDefininition\u_WahlDef.pas',
+  i_Storage in '..\Storage\i_Storage.pas',
+
+  {$ifdef DS}
   u_stub in 'u_stub.pas',
+  m_ds in 'm_ds.pas' {DSMod: TDataModule},
+  {$ENDIF }
+
+  {$ifdef SIMU}
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
-  u_simulation in 'Simulation\u_simulation.pas',
-  u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas';
+  u_StorageWahlDefinition in '..\Storage\Simulation\u_StorageWahlDefinition.pas',
+  u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas',
+  {$ENDIF}
+
+  f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm};
+
+
 
 {$R *.res}
 

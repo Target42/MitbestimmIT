@@ -1,22 +1,4 @@
-﻿unit fr_wahlfristen;
-
-interface
-
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls,
-  VclTee.TeeGDIPlus, JvExControls, JvCalendar, VCLTee.TeEngine, VCLTee.Series,
-  VCLTee.GanttCh, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart,
-  u_BRWahlFristen, Vcl.StdCtrls, Vcl.Buttons;
-
-type
-  TWahlfristenFrame = class(TFrame)
-    Panel1: TPanel;
-    Label1: TLabel;
-    DateTimePicker1: TDateTimePicker;
-    DateTimePicker2: TDateTimePicker;
-    DateTimePicker3: TDateTimePicker;
-    DateTimePicker4: TDateTimePicker;                                                                                                                     {
+﻿{
   This file is part of the MitbestimmIT project.
 
   Copyright (C) 2025 Stephan Winter
@@ -35,6 +17,25 @@ type
   along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
+unit fr_wahlfristen;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls,
+  VclTee.TeeGDIPlus, JvExControls, JvCalendar, VCLTee.TeEngine, VCLTee.Series,
+  VCLTee.GanttCh, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart,
+  u_BRWahlFristen, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TWahlfristenFrame = class(TFrame)
+    Panel1: TPanel;
+    Label1: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    DateTimePicker3: TDateTimePicker;
+    DateTimePicker4: TDateTimePicker;
     DateTimePicker5: TDateTimePicker;
     DateTimePicker6: TDateTimePicker;
     DateTimePicker7: TDateTimePicker;
@@ -69,6 +70,7 @@ type
     procedure init( ptr : PTWahlFristen);
     procedure setDefaultDate( date : TDateTime );
     procedure release;
+    procedure save;
   end;
 
 implementation
@@ -120,6 +122,11 @@ begin
 end;
 
 procedure TWahlfristenFrame.release;
+begin
+
+end;
+
+procedure TWahlfristenFrame.save;
 begin
 
 end;

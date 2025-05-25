@@ -38,6 +38,8 @@ type
   public
     procedure init( ptr : PTWahlFristen);
     procedure release;
+
+    procedure save;
   end;
 
 implementation
@@ -64,6 +66,11 @@ begin
 end;
 
 procedure TWahlverfahrenFrame.release;
+begin
+
+end;
+
+procedure TWahlverfahrenFrame.save;
 begin
 
 end;

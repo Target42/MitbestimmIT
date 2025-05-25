@@ -41643,10 +41643,43 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
       BF31ED306246F8C12D2B4A28ADC19AB69A17148CFCF4FE7E5FC6FF0161E56192
       C1A7648B0000000049454E44AE426082}
     Proportional = True
-    ExplicitLeft = 136
-    ExplicitTop = 200
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitLeft = 3
+    ExplicitTop = 351
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 640
+    Height = 65
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    ShowCaption = False
+    TabOrder = 0
+    object LabeledEdit3: TLabeledEdit
+      Left = 16
+      Top = 36
+      Width = 121
+      Height = 23
+      EditLabel.Width = 53
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Kurzname'
+      MaxLength = 25
+      TabOrder = 0
+      Text = ''
+      OnKeyPress = LabeledEdit3KeyPress
+    end
+    object LabeledEdit4: TLabeledEdit
+      Left = 160
+      Top = 36
+      Width = 457
+      Height = 23
+      EditLabel.Width = 57
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Wahlname'
+      TabOrder = 1
+      Text = ''
+    end
   end
   object GroupBox2: TGroupBox
     Left = 0
@@ -41655,8 +41688,7 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
     Height = 96
     Align = alTop
     Caption = 'Administratorkennwort'
-    TabOrder = 0
-    ExplicitTop = 73
+    TabOrder = 1
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 48
@@ -41689,41 +41721,6 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
       Images = ResMod.PngImageList1
       TabOrder = 2
       OnClick = btnPwdTestClick
-    end
-  end
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 640
-    Height = 65
-    Align = alTop
-    BevelOuter = bvNone
-    Caption = 'Panel1'
-    ShowCaption = False
-    TabOrder = 1
-    object LabeledEdit3: TLabeledEdit
-      Left = 16
-      Top = 30
-      Width = 121
-      Height = 23
-      EditLabel.Width = 53
-      EditLabel.Height = 15
-      EditLabel.Caption = 'Kurzname'
-      MaxLength = 25
-      TabOrder = 0
-      Text = ''
-      OnKeyPress = LabeledEdit3KeyPress
-    end
-    object LabeledEdit4: TLabeledEdit
-      Left = 160
-      Top = 30
-      Width = 457
-      Height = 23
-      EditLabel.Width = 57
-      EditLabel.Height = 15
-      EditLabel.Caption = 'Wahlname'
-      TabOrder = 1
-      Text = ''
     end
   end
 end
