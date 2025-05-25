@@ -62,7 +62,7 @@ end;
 
 procedure TWahlverfahrenFrame.RadioButton2Click(Sender: TObject);
 begin
-  m_fristen^.Verfahren := wvVereinfacht;
+  m_fristen^.Verfahren := wvAllgemein;
 end;
 
 procedure TWahlverfahrenFrame.release;
@@ -72,7 +72,10 @@ end;
 
 procedure TWahlverfahrenFrame.save;
 begin
-
+  if RadioButton1.Checked then
+    m_fristen^.Verfahren := wvVereinfacht
+  else
+    m_fristen^.Verfahren := wvAllgemein;
 end;
 
 end.

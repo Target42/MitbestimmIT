@@ -41697,6 +41697,7 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
       EditLabel.Width = 51
       EditLabel.Height = 15
       EditLabel.Caption = 'Kennwort'
+      PasswordChar = '*'
       TabOrder = 0
       Text = ''
     end
@@ -41708,6 +41709,7 @@ object WahlPlanungStartFrame: TWahlPlanungStartFrame
       EditLabel.Width = 75
       EditLabel.Height = 15
       EditLabel.Caption = 'Wiederholung'
+      PasswordChar = '*'
       TabOrder = 1
       Text = ''
     end

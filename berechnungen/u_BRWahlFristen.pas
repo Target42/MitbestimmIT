@@ -101,8 +101,6 @@ function PruefeRegulaereWahlperiode(Heute: TDate): TRegelwahlStatus;
 function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
 function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
 
-function WahlFristenToJSON( fristen : TWahlFristen ) : TJSONObject;
-function JSONToWahlFristen( data : TJSONObject ) : TWahlFristen;
 
 implementation
 
@@ -150,7 +148,6 @@ begin
     wvAllgemein:    JReplace( Result, 'verfahren', 'allgemein');
     wvVereinfacht:  JReplace( Result, 'verfahren', 'vereinfacht');
   end;
-
 
 end;
 
@@ -291,7 +288,7 @@ begin
     msg := msg + Format('Das Ende der Wahl kann nicht vor dem Start liegen!', [#13]);
   end;
 
-  if fristen.WahltagEnde <> fristen.BekanntgabeErgebnis then
+  if DaysBetween(fristen.WahltagEnde, fristen.BekanntgabeErgebnis) > 0 then
   begin
     Result := false;
     msg := msg + Format('Die Wahlergebnisse müssen am Wahltag bekanntgegeben werden', [#13]);
@@ -305,33 +302,6 @@ begin
 
 
 end;
-
-function WahlFristenToJSON( fristen : TWahlFristen ) : TJSONObject;
-var
-  fmt : TFormatSettings;
-begin
-  fmt    := TFormatSettings.Create('de-DE');
-  Result := TJSONObject.Create;
-
-{
-    Wahltag: TDate;
-    Verfahren: TWahlVerfahren;
-
-    SpaetesterWahlvorstand: TDate;
-    WahlausschreibenDatum: TDate;
-    VorschlagsfristEnde: TDate;
-    BekanntgabeVorschlaege: TDate;
-    BekanntgabeErgebnis: TDate;
-    AnfechtungsfristEnde: TDate;
-
-}
-end;
-
-function JSONToWahlFristen( data : TJSONObject ) : TWahlFristen;
-begin
-
-end;
-
 
 end.
 
