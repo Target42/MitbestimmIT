@@ -91,6 +91,7 @@ end;
 procedure TWahlfristenFrame.Button1Click(Sender: TObject);
 begin
   m_fristen^ := BerechneWahlFristen( DateTimePicker1.Date, DateTimePicker8.Date, m_fristen^.Verfahren);
+
   UpdateEdits;
 end;
 
@@ -119,6 +120,14 @@ end;
 procedure TWahlfristenFrame.init(ptr: PTWahlFristen);
 begin
   m_fristen := ptr;
+  DateTimePicker1.DateTime := m_fristen^.WahltagStart;
+  DateTimePicker2.DateTime := m_fristen^.SpaetesterWahlvorstand;
+  DateTimePicker3.DateTime := m_fristen^.WahlausschreibenDatum;
+  DateTimePicker4.DateTime := m_fristen^.VorschlagsfristEnde;
+  DateTimePicker5.DateTime := m_fristen^.BekanntgabeVorschlaege;
+  DateTimePicker6.DateTime := m_fristen^.BekanntgabeErgebnis;
+  DateTimePicker7.DateTime := m_fristen^.AnfechtungsfristEnde;
+  DateTimePicker8.DateTime := m_fristen^.Wahltagende;
 end;
 
 procedure TWahlfristenFrame.release;
@@ -128,6 +137,14 @@ end;
 
 procedure TWahlfristenFrame.save;
 begin
+  m_fristen^.WahltagStart            := DateTimePicker1.DateTime;
+  m_fristen^.SpaetesterWahlvorstand  := DateTimePicker2.DateTime;
+  m_fristen^.WahlausschreibenDatum   := DateTimePicker3.DateTime;
+  m_fristen^.VorschlagsfristEnde     := DateTimePicker4.DateTime;
+  m_fristen^.BekanntgabeVorschlaege  := DateTimePicker5.DateTime;
+  m_fristen^.BekanntgabeErgebnis     := DateTimePicker6.DateTime;
+  m_fristen^.AnfechtungsfristEnde    := DateTimePicker7.DateTime;
+  m_fristen^.Wahltagende             := DateTimePicker8.DateTime;
 
 end;
 
