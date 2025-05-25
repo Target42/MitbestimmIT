@@ -105,7 +105,6 @@
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Client\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Debugger_RunParams>/host=simulation</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -128,7 +127,6 @@
         </DelphiCompile>
         <DCCReference Include="f_main_client.pas">
             <Form>MainClientForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="gui\u_fonts.pas"/>
         <DCCReference Include="f_splash.pas">
@@ -136,40 +134,32 @@
         </DCCReference>
         <DCCReference Include="gui\f_info.pas">
             <Form>infoForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Planung\f_planungsform.pas">
             <Form>Planungsform</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Planung\fr_wahlverfahren.pas">
             <Form>WahlverfahrenFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Planung\fr_wahlfristen.pas">
             <Form>WahlfristenFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
         <DCCReference Include="Planung\fr_wahlvorstand.pas">
             <Form>WahlVorstandFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\fr_base.pas">
             <Form>BaseFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Planung\f_WahlVorstandPerson.pas">
             <Form>WahlVorstandPersonForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="m_res.pas">
             <Form>ResMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahlvorstand\u_Wahlvorstand.pas"/>
@@ -177,54 +167,52 @@
         <DCCReference Include="..\lib\u_utils.pas"/>
         <DCCReference Include="Planung\fr_PlanStart.pas">
             <Form>WahlPlanungStartFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="gui\f_PassWord.pas">
             <Form>PasswordDlg</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="wähler\f_waehlerliste.pas">
             <Form>WaehlerlisteForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Wahllokal\f_wahlhelfer.pas">
             <Form>WahlhelferForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Wahllokal\f_wahlhelfer_person.pas">
             <Form>WahlhelferPersonForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Wahllokale\u_Wahlhelfer.pas"/>
         <DCCReference Include="..\Wahllokale\u_WahlhelferListe.pas"/>
         <DCCReference Include="Wahllokal\f_wahlklokalForm.pas">
             <Form>WahllokalForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="m_glob.pas">
             <Form>GM</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="Wahllokal\f_wahllokalRaum.pas">
             <Form>WahllokalRaumform</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Wahllokale\u_wahllokal.pas"/>
         <DCCReference Include="cli\u_ComandLineConfig.pas"/>
         <DCCReference Include="cli\u_ComandOptions.pas"/>
         <DCCReference Include="gui\f_connet.pas">
             <Form>ConnectForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
+        <DCCReference Include="..\WahlDefininition\u_WahlDef.pas"/>
+        <DCCReference Include="..\Storage\i_Storage.pas"/>
         <DCCReference Include="u_stub.pas"/>
         <DCCReference Include="Simulation\f_simulation_load.pas">
             <Form>SimulationLoadForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Simulation\u_simulation.pas"/>
-        <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
+        <DCCReference Include="..\Storage\Simulation\u_StorageWahlDefinition.pas"/>
+        <DCCReference Include="..\Storage\Simulation\u_StorageSimulation.pas">
+            <Form>$ENDIF</Form>
+        </DCCReference>
+        <DCCReference Include="Planung\f_WahlvorStand.pas">
+            <Form>WahlVorstandForm</Form>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

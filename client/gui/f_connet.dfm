@@ -55,6 +55,8 @@ object ConnectForm: TConnectForm
     Width = 97
     Height = 17
     Caption = 'Simulation'
+    Checked = True
+    State = cbChecked
     TabOrder = 2
   end
   object LabeledEdit2: TLabeledEdit

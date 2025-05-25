@@ -206,7 +206,6 @@ object WahllokalForm: TWahllokalForm
       ExplicitWidth = 599
       inherited OKBtn: TBitBtn
         Left = 495
-        OnClick = BaseFrame1OKBtnClick
         ExplicitLeft = 495
       end
     end

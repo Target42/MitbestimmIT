@@ -64,17 +64,20 @@ type
           Die Frist für die Anfechtung der Wahlergebnisse.
   }
   TWahlFristen = record
-    WahltagStart: TDate;
-    WahltagEnde: TDate;
+    WahltagStart : TDate;
+    WahltagEnde  : TDate;
 
-    Verfahren: TWahlVerfahren;
+    Verfahren    : TWahlVerfahren;
 
-    SpaetesterWahlvorstand: TDate;
-    WahlausschreibenDatum: TDate;
-    VorschlagsfristEnde: TDate;
-    BekanntgabeVorschlaege: TDate;
-    BekanntgabeErgebnis: TDate;
-    AnfechtungsfristEnde: TDate;
+    SpaetesterWahlvorstand  : TDate;
+    WahlausschreibenDatum   : TDate;
+    VorschlagsfristEnde     : TDate;
+    BekanntgabeVorschlaege  : TDate;
+    BekanntgabeErgebnis     : TDate;
+    AnfechtungsfristEnde    : TDate;
+
+    procedure fromJSON( data : TJSONObject );
+    function toJSON : TJSONObject;
   end;
 
 
@@ -103,6 +106,54 @@ function JSONToWahlFristen( data : TJSONObject ) : TWahlFristen;
 
 implementation
 
+
+uses
+  u_json;
+
+
+procedure TWahlFristen.fromJSON( data : TJSONObject );
+var
+  fmt : TFormatSettings;
+begin
+  fmt := TFormatSettings.Create('de-DE');
+
+  self.WahltagStart           := StrToDateTimeDef(JString(data, 'wahltagstart'), Now, fmt);
+  self.WahltagEnde            := StrToDateTimeDef(JString(data, 'wahltagende'), Now, fmt);
+  self.SpaetesterWahlvorstand := StrToDateTimeDef(JString(data, 'wahlvorstand'), Now, fmt);
+  self.WahlausschreibenDatum  := StrToDateTimeDef(JString(data, 'wahlausschreiben'), Now, fmt);
+  self.BekanntgabeVorschlaege := StrToDateTimeDef(JString(data, 'vorschlaege'), Now, fmt);
+  self.BekanntgabeErgebnis    := StrToDateTimeDef(JString(data, 'wahlergebnis'), Now, fmt);
+  self.AnfechtungsfristEnde   := StrToDateTimeDef(JString(data, 'anfechtungsende'), Now, fmt);
+
+  if SameText('allgemein', JString(data, 'verfahren', 'allgemein')) then
+    self.Verfahren := wvAllgemein
+  else
+    self.Verfahren := wvVereinfacht;
+end;
+
+function TWahlFristen.toJSON : TJSONObject;
+var
+  fmt : TFormatSettings;
+begin
+  Result := TJSONObject.Create;
+  fmt := TFormatSettings.Create('de-DE');
+
+  JReplace( Result, 'wahltagstart',     FormatDateTime('dd.MM.yyyy hh:mm', Self.WahltagStart, fmt));
+  JReplace( Result, 'wahltagende',      FormatDateTime('dd.MM.yyyy hh:mm', Self.WahltagEnde, fmt));
+  JReplace( Result, 'wahlvorstand',     FormatDateTime('dd.MM.yyyy', Self.SpaetesterWahlvorstand, fmt));
+  JReplace( Result, 'wahlausschreiben', FormatDateTime('dd.MM.yyyy', Self.WahlausschreibenDatum, fmt));
+  JReplace( Result, 'vorschlaege',      FormatDateTime('dd.MM.yyyy', Self.VorschlagsfristEnde, fmt));
+  JReplace( Result, 'wahlergebnis',     FormatDateTime('dd.MM.yyyy', Self.BekanntgabeErgebnis, fmt));
+  JReplace( Result, 'anfechtungsende',  FormatDateTime('dd.MM.yyyy', Self.AnfechtungsfristEnde, fmt));
+
+  case self.Verfahren of
+    wvAllgemein:    JReplace( Result, 'verfahren', 'allgemein');
+    wvVereinfacht:  JReplace( Result, 'verfahren', 'vereinfacht');
+  end;
+
+
+end;
+
 {
   /**
    * Berechnet die Fristen für eine Wahl basierend auf dem Wahltag und dem Wahlverfahren.
@@ -113,10 +164,6 @@ implementation
    * @return Ein TWahlFristen-Objekt, das die berechneten Fristen enthält.
    */
 }
-
-uses
-  u_json;
-
 function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
 begin
   Result.WahltagStart         := WahltagStart;

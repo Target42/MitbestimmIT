@@ -24,7 +24,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  fr_base, m_glob;
+  fr_base, m_glob, System.JSON;
 
 type
   {
@@ -70,6 +70,10 @@ type
     property Host: string read GetHost write SetHost;
     property User: string read GetUser write SetUser;
     property Passwort: string read GetPasswort write SetPasswort;
+
+    function getStorageType : string;
+    function getUserData : TJSONObject;
+
   end;
 
 var
@@ -78,6 +82,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses u_json;
 
 { TConnectForm }
 
@@ -103,9 +109,12 @@ implementation
 class function TConnectForm.Execute: Boolean;
 var
   counter : integer;
+  obj     : TJSONObject;
 begin
+  Result := false;
 {$IFDEF DEBUG}
   GM.HostAddress := 'ds://localhost:211';
+  GM.HostAddress := 'Simulation';
 {$ENDIF}
 
   Application.CreateForm(TConnectForm, ConnectForm);
@@ -119,11 +128,13 @@ begin
 
     if ConnectForm.ShowModal = mrOk then
     begin
-      GM.HostAddress := ConnectForm.Host;
-      GM.user := ConnectForm.User;
-      GM.Passwort  := ConnectForm.Passwort;
+      if not Assigned(GM.Storage) then
+      begin
+        GM.createStorage(ConnectForm.getStorageType);
+      end;
 
-      if GM.connect then
+      obj := ConnectForm.getUserData;
+      if GM.Storage.connect(obj) then
         break;
     end
     else
@@ -131,7 +142,8 @@ begin
     dec( Counter );
   end;
 
-  Result := GM.isConnected;
+  if Assigned(GM.Storage) then
+    Result := GM.Storage.isConnected;
 
   ConnectForm.Free;
 end;
@@ -176,6 +188,13 @@ begin
   Result := LabeledEdit3.Text;
 end;
 
+function TConnectForm.getStorageType: string;
+begin
+  Result := 'datasnap';
+  if CheckBox1.Checked then
+    Result := 'simulation'
+end;
+
 {
   // Gibt den Benutzernamen zurück, der im LabeledEdit2-Feld eingegeben wurde.
   //
@@ -185,6 +204,14 @@ end;
 function TConnectForm.GetUser: string;
 begin
   Result := LabeledEdit2.Text;
+end;
+
+function TConnectForm.getUserData: TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  JReplace( Result, 'host', GetHost);
+  JReplace( Result, 'user', GetUser);
+  JReplace( Result, 'passwort', GetPasswort);
 end;
 
 //------------------------------------------------------------------------------

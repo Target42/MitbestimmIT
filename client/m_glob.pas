@@ -22,8 +22,7 @@ unit m_glob;
 interface
 
 uses
-  System.SysUtils, System.Classes, Data.DB, Data.SqlExpr, Data.DBXDataSnap,
-  Data.DBXCommon, IPPeerClient, DbxCompressionFilter, u_simulation;
+  System.SysUtils, System.Classes, i_Storage;
 
 type
   {
@@ -45,26 +44,23 @@ type
       - isConnected: Überprüft, ob eine Verbindung zur Datenbank besteht. Gibt true zurück, wenn verbunden.
   }
   TGM = class(TDataModule)
-    SQLConnection1: TSQLConnection;
-    procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);
   private
-    FIsSimulation: boolean;
     FHost: string;
     FProtokoll: string;
     FPort: integer;
     FHostAddress: string;
     FUser: string;
     FPasswort: string;
-    FSimulationPath: string;
 
-    m_simulation : TSimulation;
+    m_storage : IStorage;
+
     procedure setHostAddress( value : string);
     procedure setUser( value : string);
-    function GetSimulation: TSimulation;
-    procedure SetSimulation(const Value: TSimulation);
   public
-    property IsSimulation: boolean read FIsSimulation write FIsSimulation;
+
+    property Storage : IStorage read m_storage;
 
     property Protokoll: string read FProtokoll write FProtokoll;
     property Host: string read FHost write FHost;
@@ -75,12 +71,7 @@ type
 
     property HostAddress: string read FHostAddress write setHostAddress;
 
-
-    property SimulationPath: string read FSimulationPath;
-    property Simulation: TSimulation read GetSimulation write SetSimulation;
-
-    function connect : boolean;
-    function isConnected : boolean;
+    function createStorage( name : string ) : Boolean;
   end;
 
 var
@@ -127,6 +118,7 @@ uses
     - Die Funktion verwendet `SQLConnection1`, um die Verbindung zu konfigurieren und zu öffnen.
     - Die Protokoll- und Portkonfiguration erfolgt basierend auf dem Wert von `FProtokoll`.
 }
+{
 function TGM.connect: boolean;
 
   procedure setDSProtocol( protokol : string; defaultPort : integer );
@@ -164,42 +156,23 @@ begin
     end;
   end;
 end;
+}
+function TGM.createStorage(name: string): Boolean;
+begin
+  m_storage := i_Storage.getStorage( name );
+
+  Result := Assigned(m_storage);
+end;
 
 procedure TGM.DataModuleCreate(Sender: TObject);
 begin
-  FSimulationPath := TPath.Combine(TPath.GetDocumentsPath, 'MitbestimmIT');
-  ForceDirectories(FSimulationPath);
-  m_simulation := NIL;
+  m_storage := NIL;
 end;
 
 procedure TGM.DataModuleDestroy(Sender: TObject);
 begin
-  if Assigned(m_simulation) then
-    FreeAndNil(m_simulation);
-end;
-
-function TGM.GetSimulation: TSimulation;
-begin
-  Result := m_simulation;
-end;
-
-{
-  // Überprüft, ob eine Verbindung besteht.
-  // Gibt den Wert von FSimulation zurück, wenn dieser True ist.
-  // Falls FSimulation False ist, wird der Verbindungsstatus von SQLConnection1 überprüft.
-  //
-  // Rückgabewert:
-  //   - True: Wenn entweder FSimulation True ist oder SQLConnection1 verbunden ist.
-  //   - False: Wenn FSimulation False ist und SQLConnection1 nicht verbunden ist.
-}
-function TGM.isConnected: boolean;
-begin
-  Result := FIsSimulation;
-
-  if not Result then
-  begin
-    Result := SQLConnection1.Connected;
-  end;
+  if Assigned(m_storage) then
+    m_storage.release;
 end;
 
 {
@@ -241,31 +214,15 @@ begin
   FProtokoll    := '';
   FHost         := '';
   FPort         := -1;
-  FIsSimulation   := SameText('simulation', FHostAddress);
-
-
-  if not IsSimulation then
+  Match := TRegEx.Match(FHostAddress, Muster);
+  if Match.Success then
   begin
-    Match := TRegEx.Match(FHostAddress, Muster);
-    if Match.Success then
-    begin
-      FProtokoll := Match.Groups[1].Value;
-      FHost := Match.Groups[2].Value;
-      FPort := StrToIntDef(Match.Groups[3].Value, -1);
-    end;
-  end
-  else
-    FHost := 'Simulation';
+    FProtokoll := Match.Groups[1].Value;
+    FHost := Match.Groups[2].Value;
+    FPort := StrToIntDef(Match.Groups[3].Value, -1);
+  end;
 end;
 
-procedure TGM.SetSimulation(const Value: TSimulation);
-begin
-  if Assigned(m_simulation) then
-    FreeAndNil(m_simulation);
-
-  m_simulation := value;
-  FIsSimulation := Assigned(m_simulation);
-end;
 
 procedure TGM.setUser(value: string);
 begin

@@ -44,7 +44,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
-    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
     m_items : TWahlLokalListe;
     procedure UpdateView;
@@ -67,18 +66,6 @@ uses
 {$R *.dfm}
 
 { TWahllokalForm }
-
-procedure TWahllokalForm.BaseFrame1OKBtnClick(Sender: TObject);
-begin
-  if GM.IsSimulation then
-  begin
-    Gm.Simulation.WahlLokale.assign(m_items);
-  end
-  else
-  begin
-
-  end;
-end;
 
 procedure TWahllokalForm.btnAddClick(Sender: TObject);
 var
@@ -125,18 +112,6 @@ end;
 
 procedure TWahllokalForm.load;
 begin
-  if GM.IsSimulation then
-  begin
-    if Assigned(m_items) then
-      FreeAndNil(m_items);
-    m_items := Gm.Simulation.WahlLokale.clone;
-  end
-  else
-  begin
-    if not Assigned(m_items) then
-      m_items := TWahlLokalListe.create;
-
-  end;
   UpdateView;
 end;
 

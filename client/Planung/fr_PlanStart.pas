@@ -23,25 +23,29 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.Mask, Vcl.ExtCtrls, Vcl.Imaging.pngimage;
+  Vcl.Mask, Vcl.ExtCtrls, Vcl.Imaging.pngimage, u_WahlDef;
 
 type
   TWahlPlanungStartFrame = class(TFrame)
-    GroupBox2: TGroupBox;
-    LabeledEdit1: TLabeledEdit;
-    LabeledEdit2: TLabeledEdit;
-    btnPwdTest: TBitBtn;
     Image1: TImage;
     Panel1: TPanel;
     LabeledEdit3: TLabeledEdit;
     LabeledEdit4: TLabeledEdit;
+    GroupBox2: TGroupBox;
+    LabeledEdit1: TLabeledEdit;
+    LabeledEdit2: TLabeledEdit;
+    btnPwdTest: TBitBtn;
     procedure btnPwdTestClick(Sender: TObject);
     procedure LabeledEdit3KeyPress(Sender: TObject; var Key: Char);
   private
-    { Private-Deklarationen }
+    m_def : TWahlDef;
   public
-    procedure init;
+    procedure init(value : TWahlDef);
     procedure release;
+
+    procedure save;
+
+    function isPasswortOk : boolean;
   end;
 
 implementation
@@ -73,21 +77,35 @@ begin
   end;
 end;
 
-procedure TWahlPlanungStartFrame.init;
+procedure TWahlPlanungStartFrame.init(value : TWahlDef );
 begin
+  m_def := value;
+  LabeledEdit3.Text := m_def.WahlKurzName;
+  LabeledEdit4.Text := m_def.WahlName;
+end;
 
+function TWahlPlanungStartFrame.isPasswortOk: boolean;
+begin
+  Result := LabeledEdit1.Text = LabeledEdit2.Text;
 end;
 
 procedure TWahlPlanungStartFrame.LabeledEdit3KeyPress(Sender: TObject;
   var Key: Char);
 begin
-  if not TPath.IsValidPathChar(Key) then
+  if not (TPath.IsValidPathChar(Key) or (key = #8)) then
     key := #0;
 end;
 
 procedure TWahlPlanungStartFrame.release;
 begin
 
+end;
+
+procedure TWahlPlanungStartFrame.save;
+begin
+  m_def.WahlKurzName := trim(LabeledEdit3.Text);
+  m_def.WahlName     := trim(LabeledEdit4.Text);
+  m_def.AdminPasswort:= LabeledEdit1.Text;
 end;
 
 end.

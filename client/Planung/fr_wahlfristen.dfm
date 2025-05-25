@@ -13,7 +13,6 @@ object WahlfristenFrame: TWahlfristenFrame
     Align = alTop
     ShowCaption = False
     TabOrder = 0
-    ExplicitTop = -6
     object Label1: TLabel
       Left = 88
       Top = 8
