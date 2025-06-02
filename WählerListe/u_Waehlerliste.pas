@@ -26,7 +26,7 @@ uses
 
 type
   TWaehler = class
-    private
+    public
       const
         WPersNr = 'persnr';
         WName   = 'name';
@@ -51,32 +51,93 @@ type
       property Abteilung: string read FAbteilung write FAbteilung;
 
 
-      procedure fromJSON( data : TJSONObject );
+      procedure fromJSON( data : TJSONObject ); overload;
+      procedure fromJSON( arr : TJSONArray ); overload;
+
       function toJSON : TJSONObject;
+      function toSimpleJSON : TJSONArray;
+
+      function compare( value : TWaehler ) : Boolean;
+
+      function clone : TWaehler;
+      procedure Assign( value : TWaehler );
+
   end;
 
   TWaehlerListe = class
     private
       const
-        WLItems = 'items';
+        WLItems   = 'items';
+        WLCOLUMNS = 'columns';
+        WLROWS    = 'rows';
     private
       m_items : TList<TWaehler>;
+      m_index : TDictionary<string, TWaehler>;
+      procedure fromSimpleJSON( data : TJSONObject );
+      procedure fromFullJSON( data : TJSONObject );
     public
       constructor create;
       Destructor Destroy; override;
 
-      function add : TWaehler; overload;
-      function add( data : TJSONObject) : TWaehler; overload;
+      property Items : TList<TWaehler> read m_items;
 
-      procedure fromJSON( data : TJSONObject );
+      function new : TWaehler;
+      function add( data : TJSONObject) : TWaehler; overload;
+      function add( arr : TJSONArray) : TWaehler; overload;
+      procedure add( waehler : TWaehler); overload;
+
+      function getWaehler( prsnr : string ) : TWaehler;
+      function hasWaehler( prsnr : string ) : boolean;
+
+      procedure fromJSON( data : TJSONObject );   overload;
+      function loadFromFile( filename : string ) : boolean;
+
       function toJSON : TJSONObject;
+      function toSimpleJSON : TJSONObject;
+      function saveToFile( fname : string ) : Boolean;
+
+      procedure Assign( src : TWaehlerListe );
+      procedure clear;
+
+      procedure delete( persnr : string );
+
   end;
 
 implementation
 
 { TWaehler }
 
-uses u_json;
+uses u_json, System.SysUtils;
+
+procedure TWaehler.Assign(value: TWaehler);
+begin
+  FPersNr     := value.PersNr;
+  FName       := value.Name;
+  FVorname    := value.Vorname;
+  FAnrede     := value.Anrede;
+  FAbteilung  := value.Abteilung;
+end;
+
+function TWaehler.clone: TWaehler;
+begin
+  Result := TWaehler.create;
+
+  Result.PersNr := FPersNr;
+  Result.Name   := FName;
+  Result.Vorname:= FVorname;
+  Result.Anrede := FAnrede;
+  Result.Abteilung:= FAbteilung;
+
+end;
+
+function TWaehler.compare(value: TWaehler): Boolean;
+begin
+  Result := SameText( FPersNr, value.PersNr );
+  Result := Result and SameText( FName, value.Name );
+  Result := Result and SameText( FVorname, value.Vorname );
+  Result := Result and SameText( FAnrede, value.Anrede );
+  Result := Result and SameText( FAbteilung, value.Abteilung );
+end;
 
 constructor TWaehler.create;
 begin
@@ -89,6 +150,21 @@ begin
   inherited;
 end;
 
+procedure TWaehler.fromJSON(arr: TJSONArray);
+var
+  anz : Integer;
+begin
+  if not Assigned(arr) then
+    exit;
+  anz := arr.Count;
+  if anz >= 1 then FPersNr     := arr.Items[0].Value;
+  if anz >= 2 then FName       := arr.Items[1].Value;
+  if anz >= 3 then FVorname    := arr.Items[2].Value;
+  if anz >= 4 then FAnrede     := arr.Items[3].Value;
+  if anz >= 5 then FAbteilung  := arr.Items[4].Value;
+end;
+
+
 procedure TWaehler.fromJSON(data: TJSONObject);
 begin
   FPersNr := JString( data, WPersNr);
@@ -97,6 +173,7 @@ begin
   FAnrede := JString( data, WAnrede);
   FAbteilung:= JString( data, Wabteilung);
 end;
+
 
 function TWaehler.toJSON: TJSONObject;
 begin
@@ -109,23 +186,75 @@ begin
   JReplace( Result, Wabteilung, FAbteilung);
 end;
 
+function TWaehler.toSimpleJSON: TJSONArray;
+begin
+  Result := TJSONArray.Create;
+  Result.Add(FPersNr);
+  Result.Add(FName);
+  Result.Add(FVorname);
+  Result.Add(FAnrede);
+  Result.Add(FAbteilung);
+end;
+
 { TWaehlerListe }
 
 function TWaehlerListe.add(data: TJSONObject): TWaehler;
 begin
-  Result := self.add;
+  Result := self.new;
   Result.fromJSON(data);
+  add(Result);
 end;
 
-function TWaehlerListe.add: TWaehler;
+procedure TWaehlerListe.add(waehler: TWaehler);
 begin
-  Result := TWaehler.create;
-  m_items.Add(Result);
+  if m_items.IndexOf(waehler) = -1 then
+    m_items.Add(waehler);
+  m_index.AddOrSetValue(waehler.PersNr, waehler)
+end;
+
+function TWaehlerListe.add(arr: TJSONArray): TWaehler;
+begin
+  Result := self.new;
+  Result.fromJSON(arr);
+  add(Result);
+end;
+
+procedure TWaehlerListe.Assign(src: TWaehlerListe);
+var
+  w : TWaehler;
+begin
+  clear;
+  for w in src.Items do
+    self.add(w.clone)
+end;
+
+procedure TWaehlerListe.clear;
+var
+  waehler : TWaehler;
+begin
+  for waehler in m_items do
+    waehler.Free;
+  m_items.Clear;
+  m_index.Clear;
 end;
 
 constructor TWaehlerListe.create;
 begin
   m_items := TList<TWaehler>.Create;
+  m_index := TDictionary<string, TWaehler>.Create;
+end;
+
+procedure TWaehlerListe.delete(persnr: string);
+var
+  w : TWaehler;
+begin
+  if m_index.TryGetValue(persnr, w) then
+  begin
+    m_index.Remove(persnr);
+    m_items.Remove(w);
+    w.Free;
+  end;
+
 end;
 
 destructor TWaehlerListe.Destroy;
@@ -136,10 +265,12 @@ begin
     waehler.Free;
 
   m_items.Free;
+  m_index.Free;
+
   inherited;
 end;
 
-procedure TWaehlerListe.fromJSON(data: TJSONObject);
+procedure TWaehlerListe.fromFullJSON(data: TJSONObject);
 var
   iter : TArrayIterator;
 begin
@@ -149,6 +280,75 @@ begin
     add(iter.CurrentItem);
   end;
   iter.Free;
+end;
+
+procedure TWaehlerListe.fromJSON(data: TJSONObject);
+begin
+  if JExistsKey( data, 'rows') then
+    fromSimpleJSON(data)
+  else
+    fromFullJSON(data);
+end;
+
+procedure TWaehlerListe.fromSimpleJSON(data: TJSONObject);
+var
+  arr : TJSONArray;
+  sub : TJSONArray;
+  i   : integer;
+begin
+
+  arr := JArray(data, WLROWS);
+  if Assigned(arr) then
+  begin
+    for i := 0 to pred(arr.Count) do
+    begin
+      sub := arr.Items[i] as TJSONArray;
+      add(sub);
+    end;
+  end;
+end;
+
+function TWaehlerListe.getWaehler(prsnr: string): TWaehler;
+begin
+  Result := NIL;
+
+  m_index.TryGetValue(prsnr, Result);
+end;
+
+function TWaehlerListe.hasWaehler(prsnr: string): boolean;
+begin
+  Result := Assigned(getWaehler(prsnr));
+end;
+
+function TWaehlerListe.loadFromFile(filename: string) : boolean;
+var
+  data : TJSONObject;
+begin
+  Result := false;
+  if not FileExists(filename) then
+    exit;
+  data := loadJSON(filename);
+  fromJSON(data);
+
+  Result := Assigned(data);
+
+  if Result then
+    data.Free;
+
+end;
+
+function TWaehlerListe.new: TWaehler;
+begin
+  Result := TWaehler.create;
+end;
+
+function TWaehlerListe.saveToFile(fname: string): Boolean;
+var
+  data : TJSONObject;
+begin
+  data := self.toSimpleJSON;
+  Result := saveJSON(data, fname);
+  data.Free;
 end;
 
 function TWaehlerListe.toJSON: TJSONObject;
@@ -164,4 +364,31 @@ begin
   JReplace( Result, WLItems, arr);
 end;
 
+
+function TWaehlerListe.toSimpleJSON: TJSONObject;
+  function createNames: TJSONArray;
+  begin
+    Result := TJSONArray.Create;
+    Result.Add(TWaehler.WPersNr);
+    Result.Add(TWaehler.WName);
+    Result.Add(TWaehler.WVorname);
+    Result.Add(TWaehler.WAnrede);
+    Result.Add(TWaehler.Wabteilung);
+  end;
+var
+  rows : TJSONArray;
+  waehler : TWaehler;
+begin
+  Result := TJSONObject.Create;
+  JReplace( Result, WLCOLUMNS, createNames);
+
+  rows := TJSONArray.Create;
+  for waehler in m_items do
+    rows.Add(waehler.toSimpleJSON);
+
+  JReplace( Result, WLROWS, rows);
+end;
+
 end.
+
+

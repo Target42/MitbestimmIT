@@ -62,6 +62,9 @@ type
     Verbinden1: TMenuItem;
     rennen1: TMenuItem;
     N3: TMenuItem;
+    ac_wa_waehlerliste: TAction;
+    Whlerliste1: TMenuItem;
+    N4: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -71,6 +74,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure ac_wa_vorstandExecute(Sender: TObject);
     procedure ac_connectExecute(Sender: TObject);
+    procedure ac_wa_waehlerlisteExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded);
@@ -87,9 +91,9 @@ var
 implementation
 
 uses
-  f_info, f_planungsform, f_waehlerliste, f_wahlhelfer, f_wahlklokalForm,
+  f_info, f_planungsform, f_waehlerliste_import, f_wahlhelfer, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
-  f_simulation_load, f_WahlvorStand, System.JSON, u_json;
+  f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste;
 
 {$R *.dfm}
 
@@ -113,7 +117,9 @@ begin
       else
       begin
         if GM.Storage.load(data) then
+        begin
           setMenuState( msLoaded );
+        end;
       end;
       data.Free;
     end;
@@ -137,7 +143,7 @@ end;
 
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);
 begin
-  TWaehlerlisteForm.ExecuteForm;
+  TWaehlerlisteImportForm.ExecuteForm;
 end;
 
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
@@ -148,6 +154,11 @@ end;
 procedure TMainClientForm.ac_wa_vorstandExecute(Sender: TObject);
 begin
   TWahlVorstandForm.execute;
+end;
+
+procedure TMainClientForm.ac_wa_waehlerlisteExecute(Sender: TObject);
+begin
+  TWaehlerListeForm.executeform;
 end;
 
 procedure TMainClientForm.FormCreate(Sender: TObject);
@@ -177,6 +188,9 @@ begin
         Auszhlung1.Enabled := true;
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;
+
+        setPanelText(0, GM.User);
+        setPanelText(1, GM.HostAddress);
       end;
   end;
 end;

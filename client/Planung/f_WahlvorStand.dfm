@@ -20,16 +20,19 @@ object WahlVorstandForm: TWahlVorstandForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitLeft = -16
-    ExplicitTop = 224
+    ExplicitTop = 381
+    ExplicitWidth = 624
     inherited StatusBar1: TStatusBar
       Width = 624
+      ExplicitWidth = 624
     end
     inherited Panel1: TPanel
       Width = 624
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 624
       inherited OKBtn: TBitBtn
         Left = 520
+        ExplicitLeft = 520
       end
     end
   end
@@ -40,22 +43,28 @@ object WahlVorstandForm: TWahlVorstandForm
     Height = 381
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = -252
-    ExplicitTop = -39
+    ExplicitWidth = 624
+    ExplicitHeight = 381
     inherited GroupBox1: TGroupBox
       Width = 624
       Height = 381
+      ExplicitWidth = 624
+      ExplicitHeight = 381
       inherited LV: TListView
         Width = 620
         Height = 321
+        ExplicitWidth = 620
+        ExplicitHeight = 321
       end
       inherited Panel1: TPanel
         Top = 338
         Width = 620
         StyleElements = [seFont, seClient, seBorder]
+        ExplicitTop = 338
+        ExplicitWidth = 620
         inherited btnDelete: TBitBtn
           Left = 528
-          ExplicitLeft = 780
+          ExplicitLeft = 528
         end
       end
     end

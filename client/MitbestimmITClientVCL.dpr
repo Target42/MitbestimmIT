@@ -15,7 +15,6 @@ uses
   fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
   fr_wahlvorstand in 'Planung\fr_wahlvorstand.pas' {WahlVorstandFrame: TFrame},
-  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
   f_WahlVorstandPerson in 'Planung\f_WahlVorstandPerson.pas' {WahlVorstandPersonForm},
   m_res in 'm_res.pas' {ResMod: TDataModule},
   u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas',
@@ -23,7 +22,7 @@ uses
   u_utils in '..\lib\u_utils.pas',
   fr_PlanStart in 'Planung\fr_PlanStart.pas' {WahlPlanungStartFrame: TFrame},
   f_PassWord in 'gui\f_PassWord.pas' {PasswordDlg},
-  f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerlisteForm},
+  f_waehlerliste_import in 'wähler\f_waehlerliste_import.pas' {WaehlerlisteImportForm},
   f_wahlhelfer in 'Wahllokal\f_wahlhelfer.pas' {WahlhelferForm},
   f_wahlhelfer_person in 'Wahllokal\f_wahlhelfer_person.pas' {WahlhelferPersonForm},
   u_Wahlhelfer in '..\Wahllokale\u_Wahlhelfer.pas',
@@ -38,21 +37,19 @@ uses
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
   u_WahlDef in '..\WahlDefininition\u_WahlDef.pas',
   i_Storage in '..\Storage\i_Storage.pas',
-
   {$ifdef DS}
   u_stub in 'u_stub.pas',
-  m_ds in 'm_ds.pas' {DSMod: TDataModule},
   {$ENDIF }
-
   {$ifdef SIMU}
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_StorageWahlDefinition in '..\Storage\Simulation\u_StorageWahlDefinition.pas',
   u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas',
-  {$ENDIF}
-
-  f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm};
-
-
+  u_StorageWaehlerListe in '..\Storage\Simulation\u_StorageWaehlerListe.pas',
+  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
+  {$ENDIF }
+  f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
+  f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
+  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame};
 
 {$R *.res}
 

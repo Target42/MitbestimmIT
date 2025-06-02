@@ -34,7 +34,7 @@ object SimulationLoadForm: TSimulationLoadForm
       ExplicitWidth = 667
       inherited OKBtn: TBitBtn
         Left = 563
-        OnClick = BaseFrame1OKBtnClick
+        Kind = bkCustom
         ExplicitLeft = 563
       end
     end
@@ -62,6 +62,7 @@ object SimulationLoadForm: TSimulationLoadForm
     RowSelect = True
     TabOrder = 1
     ViewStyle = vsReport
+    OnClick = LVClick
   end
   object Panel1: TPanel
     Left = 0

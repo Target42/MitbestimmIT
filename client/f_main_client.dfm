@@ -59,6 +59,12 @@ object MainClientForm: TMainClientForm
       object Wahlberechtigteaktualisieren1: TMenuItem
         Action = ac_wa_berechtigte
       end
+      object Whlerliste1: TMenuItem
+        Action = ac_wa_waehlerliste
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
       object Wahlvorstand1: TMenuItem
         Action = ac_wa_vorstand
       end
@@ -142,6 +148,11 @@ object MainClientForm: TMainClientForm
     object ac_disconnect: TAction
       Category = 'Datei'
       Caption = 'Trennen'
+    end
+    object ac_wa_waehlerliste: TAction
+      Category = 'Wahl'
+      Caption = 'W'#228'hlerliste'
+      OnExecute = ac_wa_waehlerlisteExecute
     end
   end
   object Timer1: TTimer
