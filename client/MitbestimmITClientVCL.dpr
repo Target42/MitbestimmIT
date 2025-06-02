@@ -49,7 +49,8 @@ uses
   {$ENDIF }
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
-  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame};
+  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas';
 
 {$R *.res}
 

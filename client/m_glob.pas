@@ -22,7 +22,7 @@ unit m_glob;
 interface
 
 uses
-  System.SysUtils, System.Classes, i_Storage, u_Waehlerliste;
+  System.SysUtils, System.Classes, i_Storage, u_Waehlerliste, i_waehlerliste;
 
 type
   {
@@ -55,7 +55,7 @@ type
     FPasswort: string;
 
     m_storage : IStorage;
-    m_waehlerliste : TWaehlerliste;
+    m_waehlerliste : IWaehlerliste;
 
 
     procedure setHostAddress( value : string);
@@ -73,7 +73,7 @@ type
 
     property HostAddress: string read FHostAddress write setHostAddress;
 
-    property WaehlerListe : TWaehlerListe read m_waehlerliste;
+    property WaehlerListe : IWaehlerListe read m_waehlerliste;
 
     function createStorage( name : string ) : Boolean;
   end;
@@ -178,7 +178,7 @@ procedure TGM.DataModuleDestroy(Sender: TObject);
 begin
   if Assigned(m_storage) then
     m_storage.release;
-  m_waehlerliste.Free;
+  m_waehlerliste.release;
 end;
 
 {

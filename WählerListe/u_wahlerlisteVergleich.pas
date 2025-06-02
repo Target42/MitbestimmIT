@@ -21,19 +21,19 @@ unit u_wahlerlisteVergleich;
 interface
 
 uses
-  u_Waehlerliste, System.JSON;
+  u_Waehlerliste, System.JSON, i_waehlerliste;
 
 type
   TWaehlerlisteVergleich = class
     private
-      m_result : TWaehlerListe;
+      m_result : IWaehlerListe;
 
-      m_new : TWaehlerListe;
-      m_old : TWaehlerListe;
+      m_new : IWaehlerListe;
+      m_old : IWaehlerListe;
 
-      m_add : TWaehlerListe;
-      m_del : TWaehlerListe;
-      m_chg : TWaehlerListe;
+      m_add : IWaehlerListe;
+      m_del : IWaehlerListe;
+      m_chg : IWaehlerListe;
 
       procedure clear;
       procedure findDeleted;
@@ -44,12 +44,12 @@ type
       constructor create;
       Destructor Destroy; override;
 
-      property ResultList : TWaehlerListe read m_result;
+      property ResultList : IWaehlerListe read m_result;
 
 
-      property AddList : TWaehlerListe read m_add;
-      property DelList : TWaehlerListe read m_del;
-      property ChgList : TWaehlerListe read m_chg;
+      property AddList : IWaehlerListe read m_add;
+      property DelList : IWaehlerListe read m_del;
+      property ChgList : IWaehlerListe read m_chg;
 
       procedure execute( newList, oldList : TWaehlerListe ); overload;
       procedure execute( newList : TJSONObject; fname : string ); overload;
@@ -93,14 +93,14 @@ end;
 
 destructor TWaehlerlisteVergleich.Destroy;
 begin
-  m_result.Free;
+  m_result.release;
 
-  m_new.Free;
-  m_old.Free;
+  m_new.release;
+  m_old.release;
 
-  m_add.Free;
-  m_del.Free;
-  m_chg.Free;
+  m_add.release;
+  m_del.release;
+  m_chg.release;
 
   inherited;
 end;
@@ -139,7 +139,7 @@ end;
 
 procedure TWaehlerlisteVergleich.findAdded;
 var
-  nw : TWaehler;
+  nw : IWaehler;
 begin
   for nw in m_new.Items do
   begin
@@ -153,7 +153,7 @@ end;
 
 procedure TWaehlerlisteVergleich.findChanged;
 var
-  new, old : TWaehler;
+  new, old : IWaehler;
 begin
   for old in m_result.Items do
   begin
@@ -172,7 +172,7 @@ end;
 
 procedure TWaehlerlisteVergleich.findDeleted;
 var
-  ow : TWaehler;
+  ow : IWaehler;
 begin
   for ow in m_old.Items do
   begin

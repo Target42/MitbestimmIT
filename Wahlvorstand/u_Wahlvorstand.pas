@@ -61,10 +61,11 @@ type
     //public
 
     property PersNr : string read getPersNr write setPersNr;
-    property Login: string read GetLogin write SetLogin;
     property Anrede: string read GetAnrede write SetAnrede;
     property Name: string read GetName write SetName;
     property Vorname: string read GetVorname write SetVorname;
+
+    property Login: string read GetLogin write SetLogin;
     property Stimmberechtigt: boolean read GetStimmberechtigt write SetStimmberechtigt;
     property Rolle: TWahlvorstandsRolle read GetRolle write SetRolle;
     property eMail: string read GeteMail write SeteMail;
