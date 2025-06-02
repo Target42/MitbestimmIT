@@ -34,7 +34,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure btnNeueWahlClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure BaseFrame1OKBtnClick(Sender: TObject);
+    procedure LVClick(Sender: TObject);
   private
     m_newProject : boolean;
   public
@@ -55,12 +55,6 @@ uses
   m_glob, system.IOUtils, System.Types, m_res, u_json;
 
 { TSimulationLoadForm }
-
-procedure TSimulationLoadForm.BaseFrame1OKBtnClick(Sender: TObject);
-begin
-  m_newProject := not Assigned(LV.Selected);
-
-end;
 
 procedure TSimulationLoadForm.btnNeueWahlClick(Sender: TObject);
 begin
@@ -112,19 +106,29 @@ end;
 
 function TSimulationLoadForm.getData: TJSONObject;
 begin
-  Result := TJSONObject.Create;
-
+  Result := NIL;
   if not m_newProject then
   begin
-    JReplace( Result, 'load', true);
-    JReplace( Result, 'kurz', LV.Selected.Caption);
-    JReplace( Result, 'name', Lv.Selected.SubItems[0]);
-    JReplace( Result, 'id', Lv.Selected.SubItems[1]);
+    if Assigned(LV.Selected) then
+    begin
+      Result := TJSONObject.Create;
+      JReplace( Result, 'load', true);
+      JReplace( Result, 'kurz', LV.Selected.Caption);
+      JReplace( Result, 'name', Lv.Selected.SubItems[0]);
+      JReplace( Result, 'id', Lv.Selected.SubItems[1]);
+    end;
   end
   else
   begin
+    Result := TJSONObject.Create;
     JReplace( Result, 'new', true);
   end;
+end;
+
+procedure TSimulationLoadForm.LVClick(Sender: TObject);
+begin
+  if BaseFrame1.OKBtn.Enabled then
+    BaseFrame1.OKBtn.Click;
 end;
 
 end.

@@ -9,7 +9,7 @@ type
   IStorage                = interface;
   IStorageWahlDefinition  = interface;
   IStorageWahlVorstand    = interface;
-  IStorageWahlListe       = interface;
+  IStorageWaehlerListe    = interface;
 
 
   IStorage = interface
@@ -18,7 +18,7 @@ type
     // private
     function getWahlDefininition : IStorageWahlDefinition;
     function getWahlVorstand     : IStorageWahlVorstand;
-    function getWahlListe        : IStorageWahlListe;
+    function getWaehlerListe     : IStorageWaehlerListe;
 
     // public
     function connect( info : TJSONObject ) : Boolean;
@@ -36,7 +36,7 @@ type
 
     property WahlDefinition : IStorageWahlDefinition read getWahlDefininition;
     property WahlVorstand   : IStorageWahlVorstand read getWahlVorstand;
-    property WahlListe      : IStorageWahlListe read getWahlListe;
+    property WaehlerListe   : IStorageWaehlerListe read getWaehlerListe;
   end;
 
   IStorageWahlDefinition  = interface
@@ -53,8 +53,15 @@ type
     ['{54F10517-B422-4837-A786-12A8E9515B2C}']
   end;
 
-  IStorageWahlListe       = interface
+  IStorageWaehlerListe       = interface
     ['{8298252C-7AB1-459B-9688-7F895C26886D}']
+    function upload( data : TJSONObject ) : boolean;
+    function getWaehlerList : TJSONObject;
+    function getChangeList : TJSONObject;
+    function getChange( data : TJSONObject ) : TJSONObject;
+    function getLastChangeDate : TJSONObject;
+
+    procedure release;
   end;
 
   TStorageCreator = function : IStorage;

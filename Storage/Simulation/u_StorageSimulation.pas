@@ -31,9 +31,11 @@ type
     m_connected : boolean;
 
     m_wahlDef : IStorageWahlDefinition;
+    m_waehlerliste  :IStorageWaehlerListe;
+
     function getWahlDefininition : IStorageWahlDefinition;
     function getWahlVorstand     : IStorageWahlVorstand;
-    function getWahlListe        : IStorageWahlListe;
+    function getWaehlerListe     : IStorageWaehlerListe;
 
     procedure setPath;
 
@@ -61,7 +63,7 @@ implementation
 
 uses
   system.IOUtils, u_json, System.SysUtils, System.Types, u_WahlDef,
-  f_simulation_load, System.Win.ComObj;
+  f_simulation_load, System.Win.ComObj, u_StorageWaehlerListe;
 
 { TStorageSimulation }
 
@@ -91,7 +93,8 @@ begin
   m_wahlPath := '';
   m_connected := false;
 
-  m_wahlDef := TStorageWahlDefinition.create;
+  m_wahlDef       := TStorageWahlDefinition.create;
+  m_waehlerliste  := TStorageWaehlerListe.create;
 end;
 
 destructor TStorageSimulation.Destroy;
@@ -149,9 +152,9 @@ begin
   JReplace( Result, 'items', arr);
 end;
 
-function TStorageSimulation.getWahlListe: IStorageWahlListe;
+function TStorageSimulation.getWaehlerListe: IStorageWaehlerListe;
 begin
-  Result := NIL;
+  Result := m_waehlerliste;
 end;
 
 function TStorageSimulation.getWahlVorstand: IStorageWahlVorstand;
@@ -190,7 +193,8 @@ end;
 
 procedure TStorageSimulation.release;
 begin
-
+  m_wahlDef.release;
+  m_waehlerliste.release;
 end;
 
 function TStorageSimulation.select: TJSONObject;
@@ -205,6 +209,7 @@ end;
 procedure TStorageSimulation.setPath;
 begin
   ( m_wahlDef as TStorageWahlDefinition).home := m_wahlPath;
+  ( m_waehlerliste as TStorageWaehlerListe).Home := m_wahlPath;
 end;
 
 initialization

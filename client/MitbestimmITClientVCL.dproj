@@ -151,10 +151,6 @@
             <Form>WahlVorstandFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\lib\fr_base.pas">
-            <Form>BaseFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="Planung\f_WahlVorstandPerson.pas">
             <Form>WahlVorstandPersonForm</Form>
         </DCCReference>
@@ -172,8 +168,8 @@
         <DCCReference Include="gui\f_PassWord.pas">
             <Form>PasswordDlg</Form>
         </DCCReference>
-        <DCCReference Include="wähler\f_waehlerliste.pas">
-            <Form>WaehlerlisteForm</Form>
+        <DCCReference Include="wähler\f_waehlerliste_import.pas">
+            <Form>WaehlerlisteImportForm</Form>
         </DCCReference>
         <DCCReference Include="Wahllokal\f_wahlhelfer.pas">
             <Form>WahlhelferForm</Form>
@@ -210,8 +206,23 @@
         <DCCReference Include="..\Storage\Simulation\u_StorageSimulation.pas">
             <Form>$ENDIF</Form>
         </DCCReference>
+        <DCCReference Include="..\Storage\Simulation\u_StorageWaehlerListe.pas">
+            <Form>$ENDIF</Form>
+        </DCCReference>
+        <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas">
+            <Form>$ENDIF</Form>
+        </DCCReference>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
+        </DCCReference>
+        <DCCReference Include="wähler\f_waehlerliste.pas">
+            <Form>WaehlerListeForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\fr_base.pas">
+            <Form>BaseFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>

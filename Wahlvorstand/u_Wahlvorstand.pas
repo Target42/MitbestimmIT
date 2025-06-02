@@ -59,6 +59,7 @@ type
     procedure SetAnrede(const Value: string);
 
     //public
+
     property PersNr : string read getPersNr write setPersNr;
     property Login: string read GetLogin write SetLogin;
     property Anrede: string read GetAnrede write SetAnrede;
