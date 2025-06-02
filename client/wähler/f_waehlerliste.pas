@@ -27,7 +27,7 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, System.JSON;
+uses m_glob, System.JSON, i_waehlerliste;
 
 class function TWaehlerListeForm.executeform: TWaehler;
 begin
@@ -63,7 +63,7 @@ end;
 
 procedure TWaehlerListeForm.UpdateView;
 var
-  waehler : TWaehler;
+  waehler : IWaehler;
   item    : TListItem;
 begin
   for waehler in GM.WaehlerListe.Items do

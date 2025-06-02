@@ -81,7 +81,7 @@ implementation
 {$R *.dfm}
 
 uses
-  m_res, System.JSON, u_json, u_Waehlerliste, m_glob;
+  m_res, System.JSON, u_json, u_Waehlerliste, m_glob, i_waehlerliste;
 
 { TWaehlerlisteForm }
 
@@ -167,9 +167,9 @@ end;
 
 procedure TWaehlerlisteImportForm.btnUpdateClick(Sender: TObject);
 var
-  liste : TWaehlerListe;
+  liste : IWaehlerListe;
   i     : integer;
-  waehler: TWaehler;
+  waehler: IWaehler;
   item  : TListItem;
 begin
   Screen.Cursor := crHourGlass;
@@ -191,7 +191,7 @@ begin
   end;
   GM.Storage.WaehlerListe.upload(liste.toSimpleJSON);
 
-  liste.Free;
+  liste.release;
   Screen.Cursor := crDefault;
   Close;
 end;

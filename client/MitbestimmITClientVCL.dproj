@@ -224,6 +224,7 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
