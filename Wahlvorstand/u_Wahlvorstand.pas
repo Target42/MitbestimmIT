@@ -57,6 +57,8 @@ type
     procedure SeteMail(const Value: string);
     function GetAnrede: string;
     procedure SetAnrede(const Value: string);
+    function getAbteilung : string;
+    procedure setAbteilung( value : string );
 
     //public
 
@@ -64,6 +66,7 @@ type
     property Anrede: string read GetAnrede write SetAnrede;
     property Name: string read GetName write SetName;
     property Vorname: string read GetVorname write SetVorname;
+    property Abteilung : string read getAbteilung write setAbteilung;
 
     property Login: string read GetLogin write SetLogin;
     property Stimmberechtigt: boolean read GetStimmberechtigt write SetStimmberechtigt;
@@ -119,6 +122,7 @@ type
     m_rolle           : TWahlvorstandsRolle;
     m_mail            : string;
     m_anrede          : string;
+    m_abteilung       : string;
 
     function getPersNr : string;
     procedure setPersNr( value : string );
@@ -137,6 +141,9 @@ type
     procedure SeteMail(const Value: string);
     function GetAnrede: string;
     procedure SetAnrede(const Value: string);
+    function getAbteilung : string;
+    procedure setAbteilung( value : string );
+
   public
     constructor create;
     Destructor Destroy; override;
@@ -296,6 +303,11 @@ begin
   m_rolle             := StringToTWahlvorstandsRolle(JString( data, wvIDRolle));
 end;
 
+function TWahlvorstandPersonImpl.getAbteilung: string;
+begin
+  Result := m_abteilung;
+end;
+
 function TWahlvorstandPersonImpl.GetAnrede: string;
 begin
   Result := m_anrede;
@@ -339,6 +351,11 @@ end;
 procedure TWahlvorstandPersonImpl.release;
 begin
 
+end;
+
+procedure TWahlvorstandPersonImpl.setAbteilung(value: string);
+begin
+  m_abteilung := value;
 end;
 
 procedure TWahlvorstandPersonImpl.SetAnrede(const Value: string);
