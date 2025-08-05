@@ -12,6 +12,9 @@
         <Projects Include="tests\DUnitXMitbestimmIT.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="setup\ServerSetup.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="DUnitXMitbestimmIT:Make">
         <MSBuild Projects="tests\DUnitXMitbestimmIT.dproj" Targets="Make"/>
     </Target>
+    <Target Name="ServerSetup">
+        <MSBuild Projects="setup\ServerSetup.dproj"/>
+    </Target>
+    <Target Name="ServerSetup:Clean">
+        <MSBuild Projects="setup\ServerSetup.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServerSetup:Make">
+        <MSBuild Projects="setup\ServerSetup.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="MitbestimmITServer;MitbestimmITClientVCL;DUnitXMitbestimmIT"/>
+        <CallTarget Targets="MitbestimmITServer;MitbestimmITClientVCL;DUnitXMitbestimmIT;ServerSetup"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="MitbestimmITServer:Clean;MitbestimmITClientVCL:Clean;DUnitXMitbestimmIT:Clean"/>
+        <CallTarget Targets="MitbestimmITServer:Clean;MitbestimmITClientVCL:Clean;DUnitXMitbestimmIT:Clean;ServerSetup:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="MitbestimmITServer:Make;MitbestimmITClientVCL:Make;DUnitXMitbestimmIT:Make"/>
+        <CallTarget Targets="MitbestimmITServer:Make;MitbestimmITClientVCL:Make;DUnitXMitbestimmIT:Make;ServerSetup:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

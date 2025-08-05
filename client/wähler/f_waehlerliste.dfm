@@ -21,7 +21,6 @@ object WaehlerListeForm: TWaehlerListeForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitLeft = -16
     ExplicitTop = 381
     ExplicitWidth = 624
     inherited StatusBar1: TStatusBar
@@ -42,7 +41,7 @@ object WaehlerListeForm: TWaehlerListeForm
     Left = 0
     Top = 0
     Width = 624
-    Height = 381
+    Height = 320
     Align = alClient
     Columns = <
       item
@@ -57,7 +56,7 @@ object WaehlerListeForm: TWaehlerListeForm
         Width = 100
       end
       item
-        Caption = 'Anrede'
+        Caption = 'Geschlecht'
         Width = 75
       end
       item
@@ -68,5 +67,15 @@ object WaehlerListeForm: TWaehlerListeForm
     RowSelect = True
     TabOrder = 1
     ViewStyle = vsReport
+    ExplicitHeight = 305
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 320
+    Width = 624
+    Height = 61
+    Align = alBottom
+    Caption = 'Suche'
+    TabOrder = 2
   end
 end

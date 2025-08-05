@@ -51,6 +51,12 @@ type
 
   IStorageWahlVorstand    = interface
     ['{54F10517-B422-4837-A786-12A8E9515B2C}']
+    function getVorstand : TJSONObject;
+    function saveVorstand( data : TJSONObject ) : TJSONObject;
+    function updatePerson( data : TJSONObject ) : TJSONObject;
+    function removePerson( data : TJSONObject ) : TJSONObject;
+
+    procedure release;
   end;
 
   IStorageWaehlerListe       = interface

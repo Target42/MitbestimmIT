@@ -46,11 +46,12 @@ uses
   u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas',
   u_StorageWaehlerListe in '..\Storage\Simulation\u_StorageWaehlerListe.pas',
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
+  u_StorageWahlvorstand in '..\Storage\Simulation\u_StorageWahlvorstand.pas',
   {$ENDIF }
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
   fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
-  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas';
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas' {$R *.res};
 
 {$R *.res}
 

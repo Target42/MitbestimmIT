@@ -212,19 +212,22 @@
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas">
             <Form>$ENDIF</Form>
         </DCCReference>
+        <DCCReference Include="..\Storage\Simulation\u_StorageWahlvorstand.pas">
+            <Form>$ENDIF</Form>
+        </DCCReference>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
         </DCCReference>
         <DCCReference Include="wähler\f_waehlerliste.pas">
             <Form>WaehlerListeForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\fr_base.pas">
             <Form>BaseFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
+        <DCCReference Include="..\WählerListe\i_waehlerliste.pas">
+            <Form>$R *.res</Form>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

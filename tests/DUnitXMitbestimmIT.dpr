@@ -10,7 +10,8 @@ uses
   DUnitX.TestFramework,
   u_testBERBerechnungen in 'u_testBERBerechnungen.pas',
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
-  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas';
+  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
+  u_json in '..\lib\u_json.pas';
 
 {$R *.res}
 

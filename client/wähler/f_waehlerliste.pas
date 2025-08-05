@@ -4,12 +4,14 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, fr_base, u_Waehlerliste;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, fr_base, u_Waehlerliste,
+  Vcl.StdCtrls;
 
 type
   TWaehlerListeForm = class(TForm)
     BaseFrame1: TBaseFrame;
     LV: TListView;
+    GroupBox1: TGroupBox;
     procedure FormCreate(Sender: TObject);
   private
     procedure UpdateView;

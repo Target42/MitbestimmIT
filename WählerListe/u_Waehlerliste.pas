@@ -51,6 +51,7 @@ type
       procedure setAnrede( value : string );
       function getAbteilung : string;
       procedure setAbteilung( value : string );
+
     public
       constructor create;
       Destructor Destroy; override;
@@ -83,6 +84,8 @@ type
       procedure fromFullJSON( data : TJSONObject );
 
       function getitems: TList<IWaehler>;
+
+      procedure sort;
     public
       constructor create;
       Destructor Destroy; override;
@@ -116,7 +119,7 @@ implementation
 
 { TWaehler }
 
-uses u_json, System.SysUtils;
+uses u_json, System.SysUtils, System.Generics.Defaults;
 
 procedure TWaehler.Assign(value: IWaehler);
 begin
@@ -228,6 +231,7 @@ procedure TWaehler.setVorname(value: string);
 begin
   FVorname := value;
 end;
+
 
 procedure TWaehler.fromJSON(data: TJSONObject);
 begin
@@ -352,6 +356,7 @@ begin
     fromSimpleJSON(data)
   else
     fromFullJSON(data);
+  sort;
 end;
 
 procedure TWaehlerListe.fromSimpleJSON(data: TJSONObject);
@@ -429,6 +434,48 @@ begin
   data := self.toSimpleJSON;
   Result := saveJSON(data, fname);
   data.Free;
+end;
+function CompareWaehler(const A, B: IWaehler): Integer;
+var
+  Cmp: Integer;
+begin
+  // 1. Sortierung nach Name
+  Cmp := System.SysUtils.CompareText(A.Name, B.Name);
+  if Cmp <> 0 then
+    Exit(Cmp);
+
+  // 2. Sortierung nach Vorname (wenn Namen gleich sind)
+  Cmp := System.SysUtils.CompareText(A.Vorname, B.Vorname);
+  if Cmp <> 0 then
+    Exit(Cmp);
+
+  // 3. Sortierung nach Abteilung (wenn Namen und Vornamen gleich sind)
+  Result := System.SysUtils.CompareText(A.Abteilung, B.Abteilung);
+end;
+
+procedure TWaehlerListe.sort;
+begin
+  m_items.Sort(
+  TComparer<IWaehler>.Construct(
+    function(const Left, Right: IWaehler): Integer
+    var
+      Cmp: Integer;
+    begin
+      // 1. Sortierung nach Name
+      Cmp := System.SysUtils.CompareText(left.Name, right.Name);
+      if Cmp = 0 then
+      begin
+        // 2. Sortierung nach Vorname (wenn Namen gleich sind)
+        Cmp := System.SysUtils.CompareText(left.Vorname, right.Vorname);
+        if Cmp = 0 then
+        begin
+          // 3. Sortierung nach Abteilung (wenn Namen und Vornamen gleich sind)
+          cmp := System.SysUtils.CompareText(left.Abteilung, right.Abteilung);
+        end;
+      end;
+      result := cmp;
+    end )
+    );
 end;
 
 function TWaehlerListe.toJSON: TJSONObject;

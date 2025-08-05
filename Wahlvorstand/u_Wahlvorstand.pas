@@ -21,7 +21,7 @@ unit u_Wahlvorstand;
 interface
 
 uses
-  System.Generics.Collections, system.JSON, System.Classes;
+  System.Generics.Collections, system.JSON, System.Classes, i_waehlerliste;
 
 const
   wvPersNr            = 'persnr';
@@ -88,8 +88,8 @@ type
     property Items : TList<IWahlvorstandPerson> read getItems;
 
     function new : IWahlvorstandPerson;
-    function add( login : string ) : IWahlvorstandPerson;
-    function get( login : string ) : IWahlvorstandPerson;
+    function add( persnr : string ) : IWahlvorstandPerson;
+    function get( persnr : string ) : IWahlvorstandPerson;
 
     procedure delete( person : IWahlvorstandPerson );
 
@@ -158,14 +158,15 @@ type
   TWahlvorstandImpl = class(TInterfacedObject, IWahlvorstand)
   private
     m_items : TList<IWahlvorstandPerson>;
+    m_map   : TDictionary<string, IWahlvorstandPerson>;
     function getItems : TList<IWahlvorstandPerson>;
   public
     constructor create;
     Destructor Destroy; override;
 
     function new : IWahlvorstandPerson;
-    function add( login : string ) : IWahlvorstandPerson;
-    function get( login : string ) : IWahlvorstandPerson;
+    function add( persnr : string ) : IWahlvorstandPerson;
+    function get( persnr : string ) : IWahlvorstandPerson;
     procedure delete( person : IWahlvorstandPerson );
 
     function toJSON: TJSONObject;
@@ -178,14 +179,18 @@ type
 
 { TWahlvorstandImpl }
 
-function TWahlvorstandImpl.add(login: string): IWahlvorstandPerson;
+function TWahlvorstandImpl.add(persnr: string): IWahlvorstandPerson;
 begin
-
+  Result := TWahlvorstandPersonImpl.create;
+  Result.PersNr := persnr;
+  m_items.Add(Result);
+  m_map.AddOrSetValue(persnr, Result);
 end;
 
 constructor TWahlvorstandImpl.create;
 begin
   m_items := TList<IWahlvorstandPerson>.Create;
+  m_map   := TDictionary<string, IWahlvorstandPerson>.Create;
 end;
 
 procedure TWahlvorstandImpl.delete(person: IWahlvorstandPerson);
@@ -198,7 +203,7 @@ destructor TWahlvorstandImpl.Destroy;
 begin
   release;
   m_items.Free;
-
+  m_map.Free;
   inherited;
 end;
 
@@ -223,25 +228,11 @@ begin
  end;
 end;
 
-function TWahlvorstandImpl.get(login: string): IWahlvorstandPerson;
-var
-  person : IWahlvorstandPerson;
+function TWahlvorstandImpl.get(persnr: string): IWahlvorstandPerson;
 begin
   Result := NIL;
-  for person in m_items do
-  begin
-    if SameText(login, person.Login) then
-    begin
-      Result := person;
-      break;
-    end;
-  end;
-  if not Assigned(Result) then
-  begin
-    Result := TWahlvorstandPersonImpl.create;
-    Result.Login := login;
-    m_items.Add(Result);
-  end;
+  if not m_map.TryGetValue(persnr, Result) then
+    Result := add(persnr);
 end;
 
 function TWahlvorstandImpl.getItems: TList<IWahlvorstandPerson>;

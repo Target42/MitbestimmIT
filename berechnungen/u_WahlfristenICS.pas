@@ -102,7 +102,8 @@ begin
     ICSZeile(F, 'VERSION:2.0');
     ICSZeile(F, 'PRODID:-//MitbestimmIT//DE');
 
-    ICSKalendereintrag(F, Fristen.Wahltag, 'Wahltag');
+    ICSKalendereintrag(F, Fristen.WahltagStart, 'Wahltagstart');
+    ICSKalendereintrag(F, Fristen.WahltagEnde, 'Wahltagende');
     ICSKalendereintrag(F, Fristen.SpaetesterWahlvorstand, 'Späteste Bestellung Wahlvorstand');
     ICSKalendereintrag(F, Fristen.WahlausschreibenDatum, 'Wahlausschreiben spätestens');
     ICSKalendereintrag(F, Fristen.VorschlagsfristEnde, 'Ende Vorschlagsfrist');

@@ -31,7 +31,10 @@ uses
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
   u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas',
-  u_config in 'u_config.pas';
+  u_config in 'u_config.pas',
+  u_json in '..\lib\u_json.pas',
+  m_db in 'm_db.pas' {DBMod: TDataModule},
+  m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule};
 
 {$R *.RES}
 
@@ -59,6 +62,11 @@ begin
 
     // Create the TService descendant manually.
     ServerMain := TServerMain.Create(nil);
+    DBMod      := TDBMod.Create(ServerMain);
+
+//    CreateDBMode := TCreateDBMode.Create(ServerMain);
+//    CreateDBMode.createDB;
+
     // Simulate service start.
     ServerMain.ServiceStart(ServerMain, MyDummyBoolean);
     // Keep the console box running (ServerContainer1 code runs in the background)
