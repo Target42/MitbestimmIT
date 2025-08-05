@@ -1,0 +1,5 @@
+DBScript RCDATA "Data\\crebas.sql"
+TriggerScript RCDATA "Data\\cretrg.sql"
+FB RCDATA "Data\\FB.zip"
+SSL RCDATA "Data\\ssl.zip"
+Zertifikate RCDATA "Data\\ZertifikatErzeugen.bat"
