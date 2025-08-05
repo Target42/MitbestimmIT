@@ -30,8 +30,9 @@ type
     m_wahlPath : string;
     m_connected : boolean;
 
-    m_wahlDef : IStorageWahlDefinition;
-    m_waehlerliste  :IStorageWaehlerListe;
+    m_wahlDef       : IStorageWahlDefinition;
+    m_waehlerliste  : IStorageWaehlerListe;
+    m_wahlVorstand  : IStorageWahlVorstand;
 
     function getWahlDefininition : IStorageWahlDefinition;
     function getWahlVorstand     : IStorageWahlVorstand;
@@ -63,7 +64,8 @@ implementation
 
 uses
   system.IOUtils, u_json, System.SysUtils, System.Types, u_WahlDef,
-  f_simulation_load, System.Win.ComObj, u_StorageWaehlerListe;
+  f_simulation_load, System.Win.ComObj, u_StorageWaehlerListe,
+  u_StorageWahlvorstand;
 
 { TStorageSimulation }
 
@@ -95,6 +97,7 @@ begin
 
   m_wahlDef       := TStorageWahlDefinition.create;
   m_waehlerliste  := TStorageWaehlerListe.create;
+  m_wahlVorstand  := TStorageWahlVorstandImpl.create;
 end;
 
 destructor TStorageSimulation.Destroy;
@@ -195,6 +198,7 @@ procedure TStorageSimulation.release;
 begin
   m_wahlDef.release;
   m_waehlerliste.release;
+  m_wahlVorstand.release;
 end;
 
 function TStorageSimulation.select: TJSONObject;

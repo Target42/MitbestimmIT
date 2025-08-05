@@ -10,6 +10,8 @@ type
   TWahlVorstandForm = class(TForm)
     BaseFrame1: TBaseFrame;
     WahlVorstandFrame1: TWahlVorstandFrame;
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -30,6 +32,16 @@ begin
   Application.CreateForm(TWahlVorstandForm, WahlVorstandForm);
   WahlVorstandForm.ShowModal;
   WahlVorstandForm.Free;
+end;
+
+procedure TWahlVorstandForm.FormCreate(Sender: TObject);
+begin
+  WahlVorstandFrame1.init;
+end;
+
+procedure TWahlVorstandForm.FormDestroy(Sender: TObject);
+begin
+  WahlVorstandFrame1.release;
 end;
 
 end.

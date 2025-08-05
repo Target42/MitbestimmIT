@@ -112,6 +112,17 @@
         <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
         <DCCReference Include="..\berechnungen\u_WahlfristenICS.pas"/>
         <DCCReference Include="u_config.pas"/>
+        <DCCReference Include="..\lib\u_json.pas"/>
+        <DCCReference Include="m_db.pas">
+            <Form>DBMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="m_db_create.pas">
+            <Form>CreateDBMode</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

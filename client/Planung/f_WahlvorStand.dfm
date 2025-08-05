@@ -11,6 +11,8 @@ object WahlVorstandForm: TWahlVorstandForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poMainFormCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   inline BaseFrame1: TBaseFrame
     Left = 0
