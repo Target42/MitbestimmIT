@@ -18,6 +18,7 @@ var
   os : TStream;
 begin
   Result := false;
+  os := NIL;
   try
     os := TFileStream.Create(filename, fmCreate );
     LoadRCDataToStream( ResName, os );

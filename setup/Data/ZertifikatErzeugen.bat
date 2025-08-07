@@ -15,10 +15,10 @@ set CSR_FILE=csr.pem
 set DAYS_VALID=365
 set SUBJECT=/C=DE/ST=Niedersachsen/L=Hemmingen/O=MitbestimmIT/OU=IT/CN=example.com
 set PASSWORD=%2
-echo %PASSWORD%
 
-echo Generiere privaten Schlüssel (mit Passwortschutz) und selbstsigniertes Zertifikat...
-%OPENSSL_BIN% genpkey -algorithm RSA -out %KEY_FILE% -aes256 -pkeyopt rsa_keygen_bits:2048 -pass pass:%PASSWORD%
+
+echo Generiere privaten Schluessel (mit Passwortschutz) und selbstsigniertes Zertifikat...
+%OPENSSL_BIN% genpkey -algorithm RSA -out %KEY_FILE% -aes256 -pkeyopt rsa_keygen_bits:2048 -pass pass:%PASSWORD% 2> NUL
 IF ERRORLEVEL 1 GOTO error
 
 echo Optional: Generiere eine Zertifikatsanforderung (CSR)...
@@ -42,4 +42,3 @@ echo [FEHLER] Es ist ein Problem aufgetreten. Ist OpenSSL korrekt installiert?
 GOTO end
 
 :end
-pause
