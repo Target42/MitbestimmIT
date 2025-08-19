@@ -1,6 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
+  ActiveControl = MailFrame1.LabeledEdit1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 707
@@ -25,7 +26,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 707
     Height = 479
-    ActivePage = JvWizardInteriorPage3
+    ActivePage = JvWizardInteriorPage5
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -110,8 +111,76 @@ object MainSetupForm: TMainSetupForm
           ''
           
             #10'[Die vollst'#228'ndige Lizenz ist unter https://www.gnu.org/licenses' +
-            '/gpl-3.0.txt abrufbar]')
+            '/gpl-3.0.txt abrufbar]'
+          ''
+          ''
+          'Achtung:'
+          'Ein FireBird 4.x-Server muss installiert sein')
         TabOrder = 1
+      end
+    end
+    object JvWizardInteriorPage5: TJvWizardInteriorPage
+      Header.Title.Color = clNone
+      Header.Title.Text = 'Mailserver'
+      Header.Title.Anchors = [akLeft, akTop, akRight]
+      Header.Title.Font.Charset = DEFAULT_CHARSET
+      Header.Title.Font.Color = clWindowText
+      Header.Title.Font.Height = -16
+      Header.Title.Font.Name = 'Segoe UI'
+      Header.Title.Font.Style = [fsBold]
+      Header.Subtitle.Color = clNone
+      Header.Subtitle.Text = 'Subtitle'
+      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
+      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
+      Header.Subtitle.Font.Color = clWindowText
+      Header.Subtitle.Font.Height = -12
+      Header.Subtitle.Font.Name = 'Segoe UI'
+      Header.Subtitle.Font.Style = []
+      Caption = 'JvWizardInteriorPage5'
+      OnNextButtonClick = JvWizardInteriorPage5NextButtonClick
+      inline MailFrame1: TMailFrame
+        Left = 0
+        Top = 70
+        Width = 707
+        Height = 367
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 70
+        ExplicitWidth = 707
+        ExplicitHeight = 367
+        inherited GroupBox1: TGroupBox
+          Width = 707
+          ExplicitWidth = 707
+          inherited LabeledEdit1: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit2: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit3: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit4: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+        end
+        inherited GroupBox2: TGroupBox
+          Width = 707
+          ExplicitWidth = 707
+          inherited Panel1: TPanel
+            Width = 703
+            StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 703
+            inherited LabeledEdit5: TLabeledEdit
+              StyleElements = [seFont, seClient, seBorder]
+            end
+          end
+          inherited Memo1: TMemo
+            Width = 703
+            StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 703
+          end
+        end
       end
     end
     object JvWizardInteriorPage1: TJvWizardInteriorPage
@@ -164,79 +233,6 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 703
             ExplicitHeight = 265
-          end
-        end
-      end
-    end
-    object JvWizardInteriorPage3: TJvWizardInteriorPage
-      Header.Title.Color = clNone
-      Header.Title.Text = 'Datenbank'
-      Header.Title.Anchors = [akLeft, akTop, akRight]
-      Header.Title.Font.Charset = DEFAULT_CHARSET
-      Header.Title.Font.Color = clWindowText
-      Header.Title.Font.Height = -16
-      Header.Title.Font.Name = 'Segoe UI'
-      Header.Title.Font.Style = [fsBold]
-      Header.Subtitle.Color = clNone
-      Header.Subtitle.Text = 'Erstellen der Datenbank'
-      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
-      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
-      Header.Subtitle.Font.Color = clWindowText
-      Header.Subtitle.Font.Height = -12
-      Header.Subtitle.Font.Name = 'Segoe UI'
-      Header.Subtitle.Font.Style = []
-      Caption = 'JvWizardInteriorPage3'
-      inline DatabaseFrame1: TDatabaseFrame
-        Left = 0
-        Top = 70
-        Width = 707
-        Height = 367
-        Align = alClient
-        TabOrder = 0
-        ExplicitTop = 70
-        ExplicitWidth = 707
-        ExplicitHeight = 367
-        inherited RadioGroup1: TRadioGroup
-          Width = 707
-          ExplicitLeft = 0
-          ExplicitWidth = 707
-        end
-        inherited GroupBox1: TGroupBox
-          Width = 707
-          ExplicitWidth = 707
-          inherited LabeledEdit1: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit2: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited GroupBox2: TGroupBox
-          Width = 707
-          ExplicitWidth = 707
-          inherited LabeledEdit3: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited GroupBox3: TGroupBox
-          Width = 707
-          ExplicitTop = 221
-          ExplicitWidth = 707
-          inherited LabeledEdit4: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited GroupBox4: TGroupBox
-          Width = 707
-          ExplicitTop = 301
-          ExplicitWidth = 707
-          inherited BitBtn1: TBitBtn
-            ImageIndex = 0
-            Images = PngImageList1
-          end
-          inherited BitBtn2: TBitBtn
-            ImageIndex = 0
-            Images = PngImageList1
           end
         end
       end
@@ -329,6 +325,74 @@ object MainSetupForm: TMainSetupForm
         end
       end
     end
+    object JvWizardInteriorPage3: TJvWizardInteriorPage
+      Header.Title.Color = clNone
+      Header.Title.Text = 'Datenbank'
+      Header.Title.Anchors = [akLeft, akTop, akRight]
+      Header.Title.Font.Charset = DEFAULT_CHARSET
+      Header.Title.Font.Color = clWindowText
+      Header.Title.Font.Height = -16
+      Header.Title.Font.Name = 'Segoe UI'
+      Header.Title.Font.Style = [fsBold]
+      Header.Subtitle.Color = clNone
+      Header.Subtitle.Text = 'Erstellen der Datenbank'
+      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
+      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
+      Header.Subtitle.Font.Color = clWindowText
+      Header.Subtitle.Font.Height = -12
+      Header.Subtitle.Font.Name = 'Segoe UI'
+      Header.Subtitle.Font.Style = []
+      Caption = 'JvWizardInteriorPage3'
+      OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
+      inline DatabaseFrame1: TDatabaseFrame
+        Left = 0
+        Top = 70
+        Width = 707
+        Height = 367
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 70
+        ExplicitWidth = 707
+        ExplicitHeight = 367
+        inherited RadioGroup1: TRadioGroup
+          Width = 707
+          ExplicitTop = 0
+          ExplicitWidth = 707
+        end
+        inherited GroupBox1: TGroupBox
+          Width = 707
+          ExplicitWidth = 707
+          inherited LabeledEdit1: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit2: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+        end
+        inherited GroupBox2: TGroupBox
+          Width = 707
+          ExplicitWidth = 707
+          inherited LabeledEdit3: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit4: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+        end
+        inherited GroupBox4: TGroupBox
+          Width = 707
+          ExplicitTop = 221
+          ExplicitWidth = 707
+          inherited Label1: TLabel
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited BitBtn1: TBitBtn
+            ImageIndex = 0
+            Images = PngImageList1
+          end
+        end
+      end
+    end
     object JvWizardInteriorPage4: TJvWizardInteriorPage
       Header.Title.Color = clNone
       Header.Title.Text = 'Zertifikate'
@@ -347,7 +411,6 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage4'
-      OnEnterPage = JvWizardInteriorPage4EnterPage
       OnNextButtonClick = JvWizardInteriorPage4NextButtonClick
       inline ZertifikatFrame1: TZertifikatFrame
         Left = 0
@@ -378,6 +441,8 @@ object MainSetupForm: TMainSetupForm
             Width = 703
             Height = 243
             StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 703
+            ExplicitHeight = 243
           end
         end
       end

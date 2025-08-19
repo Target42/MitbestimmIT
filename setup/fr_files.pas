@@ -21,10 +21,14 @@ type
     procedure log( text : string );
     procedure unzipOpenSSL;
     procedure unzipSSL;
+    procedure upzipFB;
+    procedure unzipFBClient;
   public
     function doCopy : boolean;
 
     procedure prepare;
+
+    procedure search;
   end;
 
 implementation
@@ -44,18 +48,24 @@ var
   done : Boolean;
 begin
   result := true;
-  done := true;
+
+  Glob.HomeDir :=Trim(Edit1.Text);
+  Glob.TempDir := TPath.Combine(Glob.HomeDir, 'temp');
+
+  done := ForceDirectories(Glob.TempDir);
+  if FileExists(TPath.Combine(Glob.TempDir, 'fb_client.zip')) then
+  begin
+    result := true;
+    exit;
+  end;
 
   Screen.Cursor := crHourGlass;
   try
-    Glob.HomeDir :=Trim(Edit1.Text);
-    Glob.TempDir := TPath.Combine(Glob.HomeDir, 'temp');
-
-    done := ForceDirectories(Glob.TempDir);
     if done then
     begin
-      log('Embedded Firebird');
-      done := SaveRCDataToFile('FB', TPath.Combine(Glob.TempDir, 'fb.zip')) and done;
+      log('firebird client');
+      done := SaveRCDataToFile('fbclient', TPath.Combine(Glob.TempDir, 'fb_client.zip')) and done;
+
       log('SSL-Bibliotheken');
       done := SaveRCDataToFile('SSL', TPath.Combine(Glob.TempDir, 'ssl.zip')) and done;
       log('OpenSSL');
@@ -64,9 +74,10 @@ begin
       done := ForceDirectories( TPath.Combine(Glob.HomeDir, 'Zertifikate')) and done;
       done := SaveRCDataToFile('Zertifikate', TPath.Combine(Glob.HomeDir, 'Zertifikate\ZertifikateErzeugen.bat')) and done;
     end;
-    unzipSSL;
 
+    unzipSSL;
     unzipOpenSSL;
+    unzipFBClient;
 
     log('Fertig');
   except
@@ -94,21 +105,47 @@ end;
 
 procedure TFilesFrame.prepare;
 begin
-  if ( SameText( GetEnvironmentVariable('COMPUTERNAME'), 'odin') = true) then
-  begin
-    Edit1.Text := 'D:\DelphiBin\MitbestimmIT\Setup';
-  end
-  else
-  begin
-    var path : string;
-    path := GetEnvironmentVariable('ProgramFiles')+'\';
-    Edit1.Text :=  TPAth.Combine( path, 'MitbestimmIT' );
-  end;
+  Edit1.Text := Glob.HomeDir;
 
   Memo1.Lines.Clear;
 end;
 
+procedure TFilesFrame.search;
+begin
+  if findInPath('fbclient.dll') then
+  begin
+    Memo1.Lines.Add('fbclient.dll im Pfad gefunden.');
+  end
+  else
+  begin
+    Memo1.Lines.Add('fbclient.dll NICHT im Pfad gefunden.');
+  end;
+end;
+
+procedure TFilesFrame.unzipFBClient;
+var
+  zip : TZipFile;
+begin
+  log('Entpacken FB-Client');
+  zip := TZipFile.Create;
+  zip.Open(TPath.Combine(Glob.TempDir, 'fb_client.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
+  zip.Close;
+end;
+
 procedure TFilesFrame.unzipOpenSSL;
+var
+  zip : TZipFile;
+begin
+  log('Entpacken OpenSSL');
+  zip := TZipFile.Create;
+  zip.Open(TPath.Combine(Glob.TempDir, 'openssl.zip'), zmRead);
+  zip.ExtractAll(TPath.Combine(Glob.HomeDir, 'Zertifikate\openssl'));
+  zip.Close;
+
+end;
+
+procedure TFilesFrame.unzipSSL;
 var
   zip : TZipFile;
   path : string;
@@ -129,14 +166,15 @@ begin
 
 end;
 
-procedure TFilesFrame.unzipSSL;
+
+procedure TFilesFrame.upzipFB;
 var
   zip : TZipFile;
 begin
-  log('Entpacken OpenSSL');
+  log('Entpacken Firebird');
   zip := TZipFile.Create;
-  zip.Open(TPath.Combine(Glob.TempDir, 'openssl.zip'), zmRead);
-  zip.ExtractAll(TPath.Combine(Glob.HomeDir, 'Zertifikate\openssl'));
+  zip.Open(TPath.Combine(Glob.TempDir, 'fb.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
   zip.Close;
 
 end;

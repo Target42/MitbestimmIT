@@ -86,8 +86,6 @@ object ZertifikatFrame: TZertifikatFrame
       TabOrder = 0
       OnMouseWheelDown = Memo1MouseWheelDown
       OnMouseWheelUp = Memo1MouseWheelUp
-      ExplicitLeft = -158
-      ExplicitTop = 41
     end
   end
   object IdHTTP1: TIdHTTP

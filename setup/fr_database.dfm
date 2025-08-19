@@ -13,12 +13,13 @@ object DatabaseFrame: TDatabaseFrame
     Align = alTop
     Caption = 'FireBIRD-Typ'
     Columns = 2
-    ItemIndex = 0
+    Enabled = False
+    ItemIndex = 1
     Items.Strings = (
       'Embedded'
       'Externer Server')
     TabOrder = 0
-    ExplicitLeft = 3
+    ExplicitTop = -6
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -48,7 +49,7 @@ object DatabaseFrame: TDatabaseFrame
       EditLabel.Height = 15
       EditLabel.Caption = 'Passwort'
       TabOrder = 1
-      Text = ''
+      Text = 'masterkey'
     end
   end
   object GroupBox2: TGroupBox
@@ -68,39 +69,44 @@ object DatabaseFrame: TDatabaseFrame
       EditLabel.Height = 15
       EditLabel.Caption = 'Name'
       TabOrder = 0
-      Text = ''
+      Text = 'Wahl2026.fdb'
+      OnKeyPress = LabeledEdit3KeyPress
     end
-  end
-  object GroupBox3: TGroupBox
-    Left = 0
-    Top = 221
-    Width = 640
-    Height = 80
-    Align = alTop
-    Caption = 'Externer Server'
-    TabOrder = 3
-    ExplicitTop = 233
     object LabeledEdit4: TLabeledEdit
-      Left = 16
-      Top = 40
+      Left = 335
+      Top = 32
       Width = 121
       Height = 23
       EditLabel.Width = 25
       EditLabel.Height = 15
       EditLabel.Caption = 'Host'
-      TabOrder = 0
+      TabOrder = 1
       Text = 'localhost'
     end
   end
   object GroupBox4: TGroupBox
     Left = 0
-    Top = 301
+    Top = 221
     Width = 640
     Height = 72
     Align = alTop
     Caption = 'Aktionen'
-    TabOrder = 4
-    ExplicitTop = 307
+    TabOrder = 3
+    ExplicitTop = 301
+    object Label1: TLabel
+      Left = 261
+      Top = 35
+      Width = 154
+      Height = 15
+      Caption = 'FireBIRD 4.x Download-Seite'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = LinkLabel1Click
+    end
     object BitBtn1: TBitBtn
       Left = 16
       Top = 32
@@ -108,14 +114,7 @@ object DatabaseFrame: TDatabaseFrame
       Height = 25
       Caption = 'Erstellen'
       TabOrder = 0
-    end
-    object BitBtn2: TBitBtn
-      Left = 144
-      Top = 32
-      Width = 75
-      Height = 25
-      Caption = 'Testen'
-      TabOrder = 1
+      OnClick = BitBtn1Click
     end
   end
 end

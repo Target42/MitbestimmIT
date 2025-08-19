@@ -40,7 +40,6 @@ type
       var ACanTerminate: Boolean);
   private
     m_ok : boolean;
-    function failed: boolean;
   public
     procedure prepare;
 
@@ -113,11 +112,6 @@ procedure TZertifikatFrame.DosCommand1TerminateProcess(ASender: TObject;
   var ACanTerminate: Boolean);
 begin
   BitBtn2.Click;
-end;
-
-function TZertifikatFrame.failed: boolean;
-begin
-
 end;
 
 procedure TZertifikatFrame.IdHTTPServer1CommandGet(AContext: TIdContext;

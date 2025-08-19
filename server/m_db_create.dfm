@@ -1,6 +1,6 @@
 object CreateDBMode: TCreateDBMode
   Height = 480
-  Width = 640
+  Width = 639
   object FDScript1: TFDScript
     SQLScripts = <
       item
@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     30.07.2025  20:21                          ' +
+            '/*   Created on:     05.08.2025  19:37                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -30,49 +30,54 @@ object CreateDBMode: TCreateDBMode
           'create generator gen_sz_id;'
           'create generator gen_lg_id;'
           'create generator gen_aw_id;'
+          'create generator gen_wa_id;'
           
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: WD_WAHLDATEN                                        ' +
+            '/*   Table: SZ_STIMMZETTEL                                      ' +
             '*/'
           
             '/* ============================================================ ' +
             '*/'
-          'create table WD_WAHLDATEN'
+          'create table SZ_STIMMZETTEL'
           '('
           
-            '    WD_ID                           INTEGER                not n' +
+            '    SZ_ID                           INTEGER                not n' +
             'ull,'
           
-            '    WD_KEY                          VARCHAR(100)                ' +
+            '    SZ_NR                           VARCHAR(20)                 ' +
             '   ,'
           
-            '    WD_DATA                         BLOB                        ' +
+            '    SZ_GULTIG                       CHAR(1)                     ' +
             '   ,'
-          '    constraint PK_WD_WAHLDATEN primary key (WD_ID)'
+          '    constraint PK_SZ_STIMMZETTEL primary key (SZ_ID)'
           ');'
           ''
           
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: LG_LOG                                              ' +
+            '/*   Table: WA_WAHL                                             ' +
             '*/'
           
             '/* ============================================================ ' +
             '*/'
-          'create table LG_LOG'
+          'create table WA_WAHL'
           '('
           
-            '    LG_ID                           INTEGER                     ' +
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WA_TITLE                        VARCHAR(150)                ' +
             '   ,'
           
-            '    LG_STAMP                        TIMESTAMP                   ' +
+            '    WA_SIMU                         CHAR(1)                     ' +
             '   ,'
           
-            '    LG_DATA                         BLOB                        ' +
-            '   '
+            '    WA_ACTIVE                       CHAR(1)                     ' +
+            '   ,'
+          '    constraint PK_WA_WAHL primary key (WA_ID)'
           ');'
           ''
           
@@ -90,6 +95,9 @@ object CreateDBMode: TCreateDBMode
             '    MA_ID                           INTEGER                not n' +
             'ull,'
           
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
             '    MA_PERSNR                       VARCHAR(10)                 ' +
             '   ,'
           
@@ -104,7 +112,7 @@ object CreateDBMode: TCreateDBMode
           
             '    MA_ABTEILUNG                    VARCHAR(20)                 ' +
             '   ,'
-          '    constraint PK_MA_MITARBEITER primary key (MA_ID)'
+          '    constraint PK_MA_MITARBEITER primary key (MA_ID, WA_ID)'
           ');'
           ''
           
@@ -137,32 +145,6 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: WL_WAHL_LOKAL                                       ' +
-            '*/'
-          
-            '/* ============================================================ ' +
-            '*/'
-          'create table WL_WAHL_LOKAL'
-          '('
-          
-            '    WL_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    WL_BAU                          VARCHAR(100)                ' +
-            '   ,'
-          
-            '    WL_STOCKWERK                    VARCHAR(10)                 ' +
-            '   ,'
-          
-            '    WL_RAUM                         VARCHAR(10)                 ' +
-            '   ,'
-          '    constraint PK_WL_WAHL_LOKAL primary key (WL_ID)'
-          ');'
-          ''
-          
-            '/* ============================================================ ' +
-            '*/'
-          
             '/*   Table: WT_WAHL_LISTE                                       ' +
             '*/'
           
@@ -173,6 +155,9 @@ object CreateDBMode: TCreateDBMode
           
             '    WT_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
           
             '    WT_NAME                         VARCHAR(150)                ' +
             '   ,'
@@ -199,23 +184,61 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: SZ_STIMMZETTEL                                      ' +
+            '/*   Table: WL_WAHL_LOKAL                                       ' +
             '*/'
           
             '/* ============================================================ ' +
             '*/'
-          'create table SZ_STIMMZETTEL'
+          'create table WL_WAHL_LOKAL'
           '('
           
-            '    SZ_ID                           INTEGER                not n' +
+            '    WL_ID                           INTEGER                not n' +
             'ull,'
           
-            '    SZ_NR                           VARCHAR(20)                 ' +
+            '    WA_ID                           INTEGER                     ' +
             '   ,'
           
-            '    SZ_GULTIG                       CHAR(1)                     ' +
+            '    WL_BAU                          VARCHAR(100)                ' +
             '   ,'
-          '    constraint PK_SZ_STIMMZETTEL primary key (SZ_ID)'
+          
+            '    WL_STOCKWERK                    VARCHAR(10)                 ' +
+            '   ,'
+          
+            '    WL_RAUM                         VARCHAR(10)                 ' +
+            '   ,'
+          '    constraint PK_WL_WAHL_LOKAL primary key (WL_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: BW_BRIEF_WAHL                                       ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table BW_BRIEF_WAHL'
+          '('
+          
+            '    MA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    BW_ANTRAG                       DATE                        ' +
+            '   ,'
+          
+            '    BW_VERSENDET                    DATE                        ' +
+            '   ,'
+          
+            '    BW_EMPFANGEN                    DATE                        ' +
+            '   ,'
+          
+            '    BW_UNGULTIG                     CHAR(1)                     ' +
+            '   ,'
+          '    constraint PK_BW_BRIEF_WAHL primary key (MA_ID)'
           ');'
           ''
           
@@ -232,6 +255,9 @@ object CreateDBMode: TCreateDBMode
           
             '    AW_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    MA_ID                           INTEGER                     ' +
+            '   ,'
           
             '    AW_TITLE                        VARCHAR(100)                ' +
             '   ,'
@@ -265,6 +291,9 @@ object CreateDBMode: TCreateDBMode
             '    MA_ID                           INTEGER                not n' +
             'ull,'
           
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
+          
             '    WH_ROLLE                        VARCHAR(100)                ' +
             '   ,'
           '    constraint PK_WH_WAHL_HELFER primary key (WL_ID, MA_ID)'
@@ -284,6 +313,9 @@ object CreateDBMode: TCreateDBMode
           
             '    MA_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
           
             '    WV_ROLLE                        VARCHAR(100)                ' +
             '   ,'
@@ -310,36 +342,10 @@ object CreateDBMode: TCreateDBMode
           
             '    MA_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
           '    constraint PK_WT_WA primary key (WT_ID, MA_ID)'
-          ');'
-          ''
-          
-            '/* ============================================================ ' +
-            '*/'
-          
-            '/*   Table: BW_BRIEF_WAHL                                       ' +
-            '*/'
-          
-            '/* ============================================================ ' +
-            '*/'
-          'create table BW_BRIEF_WAHL'
-          '('
-          
-            '    MA_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    BW_ANTRAG                       DATE                        ' +
-            '   ,'
-          
-            '    BW_VERSENDET                    DATE                        ' +
-            '   ,'
-          
-            '    BW_EMPFANGEN                    DATE                        ' +
-            '   ,'
-          
-            '    BW_UNGULTIG                     CHAR(1)                     ' +
-            '   ,'
-          '    constraint PK_BW_BRIEF_WAHL primary key (MA_ID)'
           ');'
           ''
           
@@ -368,16 +374,87 @@ object CreateDBMode: TCreateDBMode
           '    constraint PK_AW_SZ primary key (AW_ID, SZ_ID)'
           ');'
           ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: WD_WAHLDATEN                                        ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table WD_WAHLDATEN'
+          '('
+          
+            '    WD_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    WD_KEY                          VARCHAR(100)                ' +
+            '   ,'
+          
+            '    WD_DATA                         BLOB                        ' +
+            '   ,'
+          '    constraint PK_WD_WAHLDATEN primary key (WD_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: LG_LOG                                              ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table LG_LOG'
+          '('
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    LG_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    LG_STAMP                        TIMESTAMP                   ' +
+            '   ,'
+          
+            '    LG_DATA                         BLOB                        ' +
+            '   '
+          ');'
+          ''
+          'alter table MA_MITARBEITER'
+          '    add constraint FK_REF_189 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
+          'alter table WT_WAHL_LISTE'
+          '    add constraint FK_REF_225 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
+          'alter table WL_WAHL_LOKAL'
+          '    add constraint FK_REF_229 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
+          'alter table BW_BRIEF_WAHL'
+          '    add constraint FK_REF_77 foreign key  (MA_ID, WA_ID)'
+          '       references MA_MITARBEITER;'
+          ''
+          'alter table AW_AUSWERTUNG'
+          '    add constraint FK_REF_221 foreign key  (MA_ID)'
+          '       references BW_BRIEF_WAHL;'
+          ''
           'alter table WH_WAHL_HELFER'
           '    add constraint FK_REF_20 foreign key  (WL_ID)'
           '       references WL_WAHL_LOKAL;'
           ''
           'alter table WH_WAHL_HELFER'
-          '    add constraint FK_REF_24 foreign key  (MA_ID)'
+          '    add constraint FK_REF_24 foreign key  (MA_ID, WA_ID)'
           '       references MA_MITARBEITER;'
           ''
           'alter table WV_WAHL_VORSTAND'
-          '    add constraint FK_REF_30 foreign key  (MA_ID)'
+          '    add constraint FK_REF_30 foreign key  (MA_ID, WA_ID)'
           '       references MA_MITARBEITER;'
           ''
           'alter table WT_WA'
@@ -385,11 +462,7 @@ object CreateDBMode: TCreateDBMode
           '       references WT_WAHL_LISTE;'
           ''
           'alter table WT_WA'
-          '    add constraint FK_REF_72 foreign key  (MA_ID)'
-          '       references MA_MITARBEITER;'
-          ''
-          'alter table BW_BRIEF_WAHL'
-          '    add constraint FK_REF_77 foreign key  (MA_ID)'
+          '    add constraint FK_REF_72 foreign key  (MA_ID, WA_ID)'
           '       references MA_MITARBEITER;'
           ''
           'alter table AW_SZ'
@@ -399,6 +472,14 @@ object CreateDBMode: TCreateDBMode
           'alter table AW_SZ'
           '    add constraint FK_REF_100 foreign key  (SZ_ID)'
           '       references SZ_STIMMZETTEL;'
+          ''
+          'alter table WD_WAHLDATEN'
+          '    add constraint FK_REF_213 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
+          'alter table LG_LOG'
+          '    add constraint FK_REF_217 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
           '')
       end
       item
@@ -414,7 +495,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     30.07.2025  20:22                          ' +
+            '/*   Created on:     05.08.2025  19:41                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -502,15 +583,29 @@ object CreateDBMode: TCreateDBMode
     Connection = FDConnection1
     Params = <>
     Macros = <>
-    Left = 312
-    Top = 96
+    Left = 216
+    Top = 64
   end
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'DriverID=FB'
       'User_Name=sysdba'
-      'Password=masterkey')
+      'Password=masterkey'
+      'Protocol=TCPIP'
+      'DriverID=FB')
+    LoginPrompt = False
+    Transaction = FDTransaction1
     Left = 120
     Top = 64
+  end
+  object CreateDBQry: TFDQuery
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    Left = 120
+    Top = 192
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = FDConnection1
+    Left = 120
+    Top = 128
   end
 end

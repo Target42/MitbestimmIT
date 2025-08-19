@@ -13,7 +13,9 @@ uses
   fr_zertifikate in 'fr_zertifikate.pas' {ZertifikatFrame: TFrame},
   u_helper in 'u_helper.pas',
   fr_files in 'fr_files.pas' {FilesFrame: TFrame},
-  m_res in 'm_res.pas' {Resmod: TDataModule};
+  m_res in 'm_res.pas' {Resmod: TDataModule},
+  fr_server in 'fr_server.pas' {ServerFrame: TFrame},
+  fr_mail in 'fr_mail.pas' {MailFrame: TFrame};
 
 {$R *.res}
 

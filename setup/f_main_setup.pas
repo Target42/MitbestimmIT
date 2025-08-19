@@ -10,7 +10,7 @@ uses
   IdHTTPServer, IdContext, IdGlobal, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.ExtCtrls, JvWizard, JvExControls, System.ImageList,
   Vcl.ImgList, PngImageList, fr_admin, fr_database, fr_zertifikate,
-  System.SysUtils, fr_files;
+  System.SysUtils, fr_files, fr_mail;
 
 type
   TMainSetupForm = class(TForm)
@@ -30,15 +30,19 @@ type
     Label1: TLabel;
     FilesFrame1: TFilesFrame;
     PngImageList1: TPngImageList;
+    JvWizardInteriorPage5: TJvWizardInteriorPage;
+    MailFrame1: TMailFrame;
     procedure FormCreate(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure JvWizardInteriorPage1NextButtonClick(Sender: TObject;
       var Stop: Boolean);
     procedure JvWizardInteriorPage2NextButtonClick(Sender: TObject;
       var Stop: Boolean);
-    procedure JvWizardInteriorPage4EnterPage(Sender: TObject;
-      const FromPage: TJvWizardCustomPage);
     procedure JvWizardInteriorPage4NextButtonClick(Sender: TObject;
+      var Stop: Boolean);
+    procedure JvWizardInteriorPage3NextButtonClick(Sender: TObject;
+      var Stop: Boolean);
+    procedure JvWizardInteriorPage5NextButtonClick(Sender: TObject;
       var Stop: Boolean);
   private
   public
@@ -65,8 +69,12 @@ end;
 
 procedure TMainSetupForm.FormCreate(Sender: TObject);
 begin
+  Glob.HomeDir := ExtractFilePath(ParamStr(0));
+
   FilesFrame1.prepare;
+  DatabaseFrame1.prepare;
   ZertifikatFrame1.prepare;
+  MailFrame1.prepare;
 
   JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
 
@@ -85,12 +93,18 @@ begin
   if Stop then
     ShowMessage('Die Kennworte müssen übereinstimmen und drüfen nicht leer sein!');
 
+  Glob.AdminPwd := AdminFrame1.LabeledEdit1.Text;
+  Glob.Faktor2  := AdminFrame1.CheckBox1.Checked;
+
 end;
 
-procedure TMainSetupForm.JvWizardInteriorPage4EnterPage(Sender: TObject;
-  const FromPage: TJvWizardCustomPage);
+procedure TMainSetupForm.JvWizardInteriorPage3NextButtonClick(Sender: TObject;
+  var Stop: Boolean);
 begin
-//  JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish, TJvWizardButtonKind.bkBack];
+  stop := DatabaseFrame1.checkDB = false;
+  if stop then
+    ShowMessage('Die Datenbank ist noch nicht initialisiert!');
+
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage4NextButtonClick(Sender: TObject;
@@ -99,6 +113,14 @@ begin
   stop := not ZertifikatFrame1.ok;
   if stop then
     ShowMessage('Es wurde noch kein Zertifikat erfolgreich erstellt!');
+
+  glob.ZertifikatPWD := ZertifikatFrame1.LabeledEdit1.Text;
+end;
+
+procedure TMainSetupForm.JvWizardInteriorPage5NextButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  stop := not MailFrame1.isOK;
 end;
 
 end.

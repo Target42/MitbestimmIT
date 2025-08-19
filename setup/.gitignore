@@ -2,3 +2,6 @@
 /Win32/
 /ServerSetup.dproj.local
 /ServerSetup.identcache
+/ServerSetup._@emb_.tmp
+/ServerSetup.deployproj
+/__recovery/

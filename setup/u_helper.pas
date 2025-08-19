@@ -7,11 +7,12 @@ uses
 
 function SaveRCDataToFile( const ResName, filename: string ) : boolean;
 procedure LoadRCDataToStream(const ResName: string; Stream: TStream);
+function findInPath( PrgName : string ) : Boolean;
 
 implementation
 
 uses
-  Windows, SysUtils;
+  Windows, SysUtils, system.IOUtils;
 
 function SaveRCDataToFile( const ResName, filename: string ) : boolean;
 var
@@ -60,5 +61,28 @@ begin
   Stream.WriteBuffer(ResPtr^, ResSize);
 end;
 
+function findInPath( PrgName : string ) : Boolean;
+var
+  list : TStringList;
+  i    : integer;
+begin
+  Result := false;
+
+  list := TStringList.Create;
+  list.Delimiter := ';';
+  list.StrictDelimiter := true;
+  list.DelimitedText := GetEnvironmentVariable('PATH');
+
+
+  for I := 0 to pred(list.Count) do
+  begin
+    Result := FileExists(TPath.Combine(list[i], PrgName));
+    if Result then
+      break;
+  end;
+
+  list.Free;
+end;
 
 end.
+

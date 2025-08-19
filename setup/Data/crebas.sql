@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     05.08.2025  19:37                          */
+/*   Created on:     11.08.2025  17:45                          */
 /* ============================================================ */
 
 create generator gen_ma_id;
@@ -245,3 +245,6 @@ alter table LG_LOG
     add constraint FK_REF_217 foreign key  (WA_ID)
        references WA_WAHL;
 
+set generator gen_ma_id to 100;
+
+commit;

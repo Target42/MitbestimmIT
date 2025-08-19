@@ -53,14 +53,16 @@ create generator gen_sz_id;\
 create generator gen_lg_id;\
 create generator gen_aw_id;\
 create generator gen_wa_id;
-
+set generator gen_ma_id to 100;\
+\
+commit;
 0
 
 
 
 
 1753814221
-1754410114
+1754927111
 0
 0
 4
@@ -369,7 +371,7 @@ WA_WAHL
 0
 0
 0
-
+WA_WAHL
 
 
 
@@ -480,7 +482,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -718,7 +720,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -922,7 +924,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 3
 3
@@ -1024,7 +1026,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -1160,7 +1162,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -1330,7 +1332,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 3
 3
@@ -1398,7 +1400,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -1704,7 +1706,7 @@ INTEGER
 1
 0
 0
-
+MA_ID
 
 2
 3
@@ -2044,7 +2046,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -2146,7 +2148,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 1
 3
@@ -2282,7 +2284,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 1
 3
@@ -2316,7 +2318,7 @@ VARCHAR(150)
 1
 0
 0
-
+WA_TITLE
 
 2
 3
@@ -2350,7 +2352,7 @@ CHAR(1)
 1
 0
 0
-
+WA_SIMU
 
 3
 3
@@ -2384,7 +2386,7 @@ CHAR(1)
 1
 0
 0
-
+WA_ACTIVE
 
 4
 /END_TABLE AMCCOLN
@@ -2568,7 +2570,7 @@ REF_189
 1
 0
 0
-
+REF_189
 
 9
 3
@@ -2586,7 +2588,7 @@ REF_213
 1
 0
 0
-
+REF_213
 
 10
 3
@@ -2604,7 +2606,7 @@ REF_217
 1
 0
 0
-
+REF_217
 
 11
 3
@@ -2622,7 +2624,7 @@ REF_221
 1
 0
 0
-
+REF_221
 
 12
 3
@@ -2640,7 +2642,7 @@ REF_225
 1
 0
 0
-
+REF_225
 
 13
 3
@@ -2658,7 +2660,7 @@ REF_229
 1
 0
 0
-
+REF_229
 
 14
 /END_TABLE AMCREFR
@@ -3107,7 +3109,7 @@ set term ;/
 ti_wd_wahldaten
 106
 1
-1
+3
 InsertTrigger
 /*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
 set term /;\
@@ -3120,7 +3122,7 @@ end;/\
 set term ;/
 ti_tab_184
 184
-1
+0
 /END_TABLE AMCTRGR
 
 /BEGIN_TABLE AMCPROC
@@ -3311,10 +3313,6 @@ MS Sans Serif
 Arial
 8
 8
-4
-Courier New
-10
-1
 /END_TABLE AMCFONT
 
 /BEGIN_TABLE AMCPENS
@@ -3912,7 +3910,7 @@ yes
 0
 DataArchitect
 DBOTypeTrgr
-0
+2
 84
 4
 0
@@ -4261,6 +4259,90 @@ no
 DataArchitect
 DBOSqlODBC
 no
+142
+4
+0
+DataArchitect
+DBOCreaTspc
+no
+143
+4
+0
+DataArchitect
+DBOCreaStor
+no
+144
+4
+0
+DataArchitect
+DBOTablComm
+no
+145
+4
+0
+DataArchitect
+DBOColnComm
+no
+146
+4
+0
+DataArchitect
+DBOViewComm
+no
+147
+4
+0
+DataArchitect
+DBODropTspc
+no
+148
+4
+0
+DataArchitect
+DBODropStor
+no
+149
+4
+0
+DataArchitect
+DBODropDtbs
+no
+150
+4
+0
+DataArchitect
+DBOUseTrgUC
+yes
+151
+4
+0
+DataArchitect
+DBOUseTrgUN
+yes
+152
+4
+0
+DataArchitect
+DBOUseTrgUD
+yes
+153
+4
+0
+DataArchitect
+DBOUseTrgDC
+yes
+154
+4
+0
+DataArchitect
+DBOUseTrgDN
+yes
+155
+4
+0
+DataArchitect
+DBOUseTrgDD
+yes
 /END_TABLE AMCPROP
 
 /BEGIN_TABLE AMCSYMB
@@ -4403,10 +4485,10 @@ OID     N8
 0
 0
 0
--97888
-25156
--85439
-30630
+-97889
+25155
+-85440
+30629
 2
 1
 0
@@ -4499,10 +4581,10 @@ OID     N8
 0
 0
 0
--52622
-36633
--40548
-44057
+-52623
+36632
+-40549
+44056
 2
 1
 0
@@ -4691,10 +4773,10 @@ OID     N8
 0
 0
 0
--57008
--10544
--44859
--5070
+-57009
+-10545
+-44860
+-5071
 2
 1
 0
@@ -4748,7 +4830,7 @@ OID     N8
 3
 1493
 290
-0
+2
 15
 0
 1487
@@ -4802,7 +4884,7 @@ OID     N8
 0
 0
 4
-1b3bffffc7620000dae9feffc7620000dae9feffdc6b000087a0feffdc6b0000
+1b3bffffc7620000dae9feffc7620000dae9feffdb6b000086a0feffdb6b0000
 2
 
 
@@ -4898,7 +4980,7 @@ OID     N8
 0
 0
 2
-7f42ffff865000007f42ffffa9980000
+7e42ffff865000007e42ffffa8980000
 2
 
 
@@ -4994,7 +5076,7 @@ dd2e00003cedffffdd2e00000a110000e30900000a110000e3090000472a0000
 0
 0
 4
-2642ffff7cdaffff2642ffffd02a0000ea32ffffd02a0000ea32ffffd26a0000
+2542ffff7bdaffff2542ffffd02a0000ea32ffffd02a0000ea32ffffd26a0000
 2
 
 
@@ -5026,7 +5108,7 @@ dd2e00003cedffffdd2e00000a110000e30900000a110000e3090000472a0000
 0
 0
 3
-a62dffffa9ddffff08f8feffa9ddffff08f8feff03cfffff
+a52dffffa8ddffff08f8feffa8ddffff08f8feff03cfffff
 2
 
 
@@ -5058,7 +5140,7 @@ a62dffffa9ddffff08f8feffa9ddffff08f8feff03cfffff
 0
 0
 2
-583effff6fd8ffff583effff2797ffff
+573effff6ed8ffff573effff2797ffff
 2
 
 
@@ -5090,7 +5172,7 @@ a62dffffa9ddffff08f8feffa9ddffff08f8feff03cfffff
 0
 0
 3
-2653ffffb19500002653ffffb9890000400a0000b9890000
+2553ffffb09500002553ffff8a7c0000f50900008a7c0000
 2
 
 
@@ -5122,7 +5204,7 @@ a62dffffa9ddffff08f8feffa9ddffff08f8feff03cfffff
 0
 0
 3
-5c28ffff17e2ffff5c28ffffc31000007e05ffffc3100000
+5b28ffff16e2ffff5b28ffffc31000007e05ffffc3100000
 2
 
 
@@ -5154,7 +5236,7 @@ a62dffffa9ddffff08f8feffa9ddffff08f8feff03cfffff
 0
 0
 3
-2c49ffffc7e6ffffc572ffffc7e6ffffc572ffff2d0d0000
+2b49ffffc6e6ffffc572ffffc6e6ffffc572ffff2d0d0000
 2
 
 

@@ -31,6 +31,7 @@ object FilesFrame: TFilesFrame
       Width = 777
       Height = 23
       Anchors = [akLeft, akTop, akRight]
+      ReadOnly = True
       TabOrder = 0
       Text = 'Edit1'
     end
@@ -58,8 +59,8 @@ object FilesFrame: TFilesFrame
   end
   object ActionList1: TActionList
     Images = ResMod.PngImageList1
-    Left = 56
-    Top = 176
+    Left = 152
+    Top = 152
     object BrowseForFolder1: TBrowseForFolder
       Category = 'Datei'
       Caption = '...'
