@@ -10,7 +10,7 @@ uses
   IdHTTPServer, IdContext, IdGlobal, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.ExtCtrls, JvWizard, JvExControls, System.ImageList,
   Vcl.ImgList, PngImageList, fr_admin, fr_database, fr_zertifikate,
-  System.SysUtils, fr_files, fr_mail;
+  System.SysUtils, fr_files, fr_mail, fr_pre;
 
 type
   TMainSetupForm = class(TForm)
@@ -32,6 +32,8 @@ type
     PngImageList1: TPngImageList;
     JvWizardInteriorPage5: TJvWizardInteriorPage;
     MailFrame1: TMailFrame;
+    JvWizardInteriorPage6: TJvWizardInteriorPage;
+    PreFrame1: TPreFrame;
     procedure FormCreate(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure JvWizardInteriorPage1NextButtonClick(Sender: TObject;
@@ -75,6 +77,7 @@ begin
   DatabaseFrame1.prepare;
   ZertifikatFrame1.prepare;
   MailFrame1.prepare;
+  PreFrame1.prepare;
 
   JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
 

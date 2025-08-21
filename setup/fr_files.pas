@@ -17,6 +17,7 @@ type
     GroupBox2: TGroupBox;
     Memo1: TMemo;
     procedure BrowseForFolder1Accept(Sender: TObject);
+    procedure FrameResize(Sender: TObject);
   private
     procedure log( text : string );
     procedure unzipOpenSSL;
@@ -95,6 +96,12 @@ begin
     MessageDlg('Es ist ein Fehler beim Auspacken der Dateien passiert.' +
       #13#10 + 'Wählen sie einen anderen Pfad.',  mtWarning, [mbOK], 0);
   end;
+end;
+
+procedure TFilesFrame.FrameResize(Sender: TObject);
+begin
+  Edit1.Width := GroupBox1.Width - Edit1.Left - 64;
+  SpeedButton1.Left := Edit1.Left + Edit1.Width + 32;
 end;
 
 procedure TFilesFrame.log(text: string);

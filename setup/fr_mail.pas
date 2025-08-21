@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  IdEMailAddress;
+  IdEMailAddress, u_glob;
 
 {$R *.dfm}
 
@@ -79,6 +79,16 @@ end;
 function TMailFrame.isOK: boolean;
 begin
   Result := m_ok or CheckBox1.Checked;
+
+  if Result then
+  begin
+    Glob.SMTPNotUsed := CheckBox1.Checked;
+    glob.SMTPHost    := LabeledEdit1.Text;
+    Glob.SMTPPort    := StrToIntDef(LabeledEdit2.Text, 0);
+    glob.SMTPUser    := LabeledEdit3.Text;
+    glob.SMTPPasswort:= LabeledEdit4.Text;
+  end;
+
 end;
 
 procedure TMailFrame.prepare;

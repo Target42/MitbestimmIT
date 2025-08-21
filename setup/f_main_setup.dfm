@@ -1,10 +1,10 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
-  ActiveControl = MailFrame1.LabeledEdit1
+  ActiveControl = JvWizardInteriorPage6
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
-  ClientWidth = 707
+  ClientWidth = 754
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,16 +17,17 @@ object MainSetupForm: TMainSetupForm
   object StatusBar1: TStatusBar
     Left = 0
     Top = 479
-    Width = 707
+    Width = 754
     Height = 19
     Panels = <>
+    ExplicitWidth = 707
   end
   object JvWizard1: TJvWizard
     Left = 0
     Top = 0
-    Width = 707
+    Width = 754
     Height = 479
-    ActivePage = JvWizardInteriorPage5
+    ActivePage = JvWizardInteriorPage6
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -51,8 +52,9 @@ object MainSetupForm: TMainSetupForm
     ButtonHelp.NumGlyphs = 1
     ButtonHelp.Width = 75
     ShowRouteMap = False
+    ExplicitWidth = 707
     DesignSize = (
-      707
+      754
       479)
     object JvWizardWelcomePage1: TJvWizardWelcomePage
       Header.Title.Color = clNone
@@ -72,16 +74,18 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardWelcomePage1'
+      ExplicitWidth = 707
       object Panel1: TPanel
         Left = 164
         Top = 396
-        Width = 543
+        Width = 590
         Height = 41
         Align = alBottom
         BevelOuter = bvNone
         Caption = 'Panel1'
         ShowCaption = False
         TabOrder = 0
+        ExplicitWidth = 543
         object CheckBox1: TCheckBox
           Left = 24
           Top = 8
@@ -95,7 +99,7 @@ object MainSetupForm: TMainSetupForm
       object Memo1: TMemo
         Left = 164
         Top = 70
-        Width = 543
+        Width = 590
         Height = 326
         Align = alClient
         Lines.Strings = (
@@ -117,11 +121,12 @@ object MainSetupForm: TMainSetupForm
           'Achtung:'
           'Ein FireBird 4.x-Server muss installiert sein')
         TabOrder = 1
+        ExplicitWidth = 543
       end
     end
-    object JvWizardInteriorPage5: TJvWizardInteriorPage
+    object JvWizardInteriorPage6: TJvWizardInteriorPage
       Header.Title.Color = clNone
-      Header.Title.Text = 'Mailserver'
+      Header.Title.Text = 'Vorraussetzungen'
       Header.Title.Anchors = [akLeft, akTop, akRight]
       Header.Title.Font.Charset = DEFAULT_CHARSET
       Header.Title.Font.Color = clWindowText
@@ -129,57 +134,26 @@ object MainSetupForm: TMainSetupForm
       Header.Title.Font.Name = 'Segoe UI'
       Header.Title.Font.Style = [fsBold]
       Header.Subtitle.Color = clNone
-      Header.Subtitle.Text = 'Subtitle'
+      Header.Subtitle.Text = 'Dinge, die f'#252'r die Installation ben'#246'tigt werden'
       Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
       Header.Subtitle.Font.Charset = DEFAULT_CHARSET
       Header.Subtitle.Font.Color = clWindowText
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
-      Caption = 'JvWizardInteriorPage5'
-      OnNextButtonClick = JvWizardInteriorPage5NextButtonClick
-      inline MailFrame1: TMailFrame
+      Caption = 'JvWizardInteriorPage6'
+      inline PreFrame1: TPreFrame
         Left = 0
         Top = 70
-        Width = 707
+        Width = 754
         Height = 367
         Align = alClient
         TabOrder = 0
         ExplicitTop = 70
-        ExplicitWidth = 707
-        ExplicitHeight = 367
-        inherited GroupBox1: TGroupBox
-          Width = 707
-          ExplicitWidth = 707
-          inherited LabeledEdit1: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit2: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit3: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit4: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited GroupBox2: TGroupBox
-          Width = 707
-          ExplicitWidth = 707
-          inherited Panel1: TPanel
-            Width = 703
-            StyleElements = [seFont, seClient, seBorder]
-            ExplicitWidth = 703
-            inherited LabeledEdit5: TLabeledEdit
-              StyleElements = [seFont, seClient, seBorder]
-            end
-          end
-          inherited Memo1: TMemo
-            Width = 703
-            StyleElements = [seFont, seClient, seBorder]
-            ExplicitWidth = 703
-          end
+        inherited RichEdit1: TRichEdit
+          Width = 754
+          Height = 367
+          StyleElements = [seFont, seClient, seBorder]
         end
       end
     end
@@ -202,10 +176,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage1'
       OnNextButtonClick = JvWizardInteriorPage1NextButtonClick
+      ExplicitWidth = 707
       inline FilesFrame1: TFilesFrame
         Left = 0
         Top = 70
-        Width = 707
+        Width = 754
         Height = 367
         Align = alClient
         TabOrder = 0
@@ -213,22 +188,23 @@ object MainSetupForm: TMainSetupForm
         ExplicitWidth = 707
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited SpeedButton1: TSpeedButton
-            Left = 672
+            Left = 719
           end
           inherited Edit1: TEdit
+            Width = 824
             StyleElements = [seFont, seClient, seBorder]
           end
         end
         inherited GroupBox2: TGroupBox
-          Width = 707
+          Width = 754
           Height = 284
           ExplicitWidth = 707
           ExplicitHeight = 284
           inherited Memo1: TMemo
-            Width = 703
+            Width = 750
             Height = 265
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 703
@@ -256,6 +232,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage2'
       OnNextButtonClick = JvWizardInteriorPage2NextButtonClick
+      ExplicitWidth = 707
       object Label1: TLabel
         Left = 168
         Top = 280
@@ -266,7 +243,7 @@ object MainSetupForm: TMainSetupForm
       inline AdminFrame1: TAdminFrame
         Left = 0
         Top = 70
-        Width = 707
+        Width = 754
         Height = 367
         Align = alClient
         TabOrder = 0
@@ -274,7 +251,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitWidth = 707
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -284,22 +261,22 @@ object MainSetupForm: TMainSetupForm
           end
         end
         inherited GroupBox2: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited Image1: TImage
-            Left = 443
+            Left = 490
             ExplicitLeft = 443
           end
           inherited Splitter1: TSplitter
-            Left = 440
+            Left = 487
             ExplicitLeft = 440
           end
           inherited Panel1: TPanel
-            Width = 438
+            Width = 485
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 438
             inherited Label1: TLabel
-              Width = 432
+              Width = 479
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 398
@@ -307,18 +284,18 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
-              Width = 438
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
-              Width = 438
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
             inherited CheckBox1: TCheckBox
-              Width = 432
+              Width = 479
               ExplicitWidth = 432
             end
           end
@@ -344,10 +321,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage3'
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
+      ExplicitWidth = 707
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
-        Width = 707
+        Width = 754
         Height = 367
         Align = alClient
         TabOrder = 0
@@ -355,12 +333,12 @@ object MainSetupForm: TMainSetupForm
         ExplicitWidth = 707
         ExplicitHeight = 367
         inherited RadioGroup1: TRadioGroup
-          Width = 707
+          Width = 754
           ExplicitTop = 0
           ExplicitWidth = 707
         end
         inherited GroupBox1: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -370,7 +348,7 @@ object MainSetupForm: TMainSetupForm
           end
         end
         inherited GroupBox2: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited LabeledEdit3: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -380,7 +358,7 @@ object MainSetupForm: TMainSetupForm
           end
         end
         inherited GroupBox4: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitTop = 221
           ExplicitWidth = 707
           inherited Label1: TLabel
@@ -412,10 +390,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage4'
       OnNextButtonClick = JvWizardInteriorPage4NextButtonClick
+      ExplicitWidth = 707
       inline ZertifikatFrame1: TZertifikatFrame
         Left = 0
         Top = 70
-        Width = 707
+        Width = 754
         Height = 367
         Align = alClient
         TabOrder = 0
@@ -423,7 +402,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitWidth = 707
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
-          Width = 707
+          Width = 754
           ExplicitWidth = 707
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -433,16 +412,81 @@ object MainSetupForm: TMainSetupForm
           end
         end
         inherited GroupBox2: TGroupBox
-          Width = 707
+          Width = 754
           Height = 262
           ExplicitWidth = 707
           ExplicitHeight = 262
           inherited Memo1: TRichEdit
-            Width = 703
+            Width = 750
             Height = 243
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 703
             ExplicitHeight = 243
+          end
+        end
+      end
+    end
+    object JvWizardInteriorPage5: TJvWizardInteriorPage
+      Header.Title.Color = clNone
+      Header.Title.Text = 'Mailserver'
+      Header.Title.Anchors = [akLeft, akTop, akRight]
+      Header.Title.Font.Charset = DEFAULT_CHARSET
+      Header.Title.Font.Color = clWindowText
+      Header.Title.Font.Height = -16
+      Header.Title.Font.Name = 'Segoe UI'
+      Header.Title.Font.Style = [fsBold]
+      Header.Subtitle.Color = clNone
+      Header.Subtitle.Text = #220'ber den Mailserver werden wichtige Logs verschickt'
+      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
+      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
+      Header.Subtitle.Font.Color = clWindowText
+      Header.Subtitle.Font.Height = -12
+      Header.Subtitle.Font.Name = 'Segoe UI'
+      Header.Subtitle.Font.Style = []
+      Caption = 'JvWizardInteriorPage5'
+      OnNextButtonClick = JvWizardInteriorPage5NextButtonClick
+      ExplicitWidth = 707
+      inline MailFrame1: TMailFrame
+        Left = 0
+        Top = 70
+        Width = 754
+        Height = 367
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 70
+        ExplicitWidth = 707
+        ExplicitHeight = 367
+        inherited GroupBox1: TGroupBox
+          Width = 754
+          ExplicitWidth = 707
+          inherited LabeledEdit1: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit2: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit3: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+          inherited LabeledEdit4: TLabeledEdit
+            StyleElements = [seFont, seClient, seBorder]
+          end
+        end
+        inherited GroupBox2: TGroupBox
+          Width = 754
+          ExplicitWidth = 707
+          inherited Panel1: TPanel
+            Width = 750
+            StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 703
+            inherited LabeledEdit5: TLabeledEdit
+              StyleElements = [seFont, seClient, seBorder]
+            end
+          end
+          inherited Memo1: TMemo
+            Width = 750
+            StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 703
           end
         end
       end

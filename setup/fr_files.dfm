@@ -5,6 +5,7 @@ object FilesFrame: TFilesFrame
   Height = 420
   Align = alClient
   TabOrder = 0
+  OnResize = FrameResize
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
@@ -18,12 +19,11 @@ object FilesFrame: TFilesFrame
       83)
     object SpeedButton1: TSpeedButton
       Left = 814
-      Top = 35
+      Top = 36
       Width = 23
       Height = 22
       Action = BrowseForFolder1
       Anchors = [akTop, akRight]
-      ExplicitLeft = 672
     end
     object Edit1: TEdit
       Left = 16

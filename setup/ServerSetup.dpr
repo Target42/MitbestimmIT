@@ -15,7 +15,8 @@ uses
   fr_files in 'fr_files.pas' {FilesFrame: TFrame},
   m_res in 'm_res.pas' {Resmod: TDataModule},
   fr_server in 'fr_server.pas' {ServerFrame: TFrame},
-  fr_mail in 'fr_mail.pas' {MailFrame: TFrame};
+  fr_mail in 'fr_mail.pas' {MailFrame: TFrame},
+  fr_pre in 'fr_pre.pas' {PreFrame: TFrame};
 
 {$R *.res}
 

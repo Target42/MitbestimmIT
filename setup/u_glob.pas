@@ -23,6 +23,9 @@ type
     FSMTPNotUsed: boolean;
     FFileName: string;
     FSecret: string;
+    FKeyFile: string;
+    FRootFile: string;
+    FCertFile: string;
   public
     constructor create;
     property FileName: string read FFileName write FFileName;
@@ -40,6 +43,9 @@ type
     property Secret: string read FSecret write FSecret;
 
     property ZertifikatPWD: string read FZertifikatPWD write FZertifikatPWD;
+    property KeyFile: string read FKeyFile write FKeyFile;
+    property RootFile: string read FRootFile write FRootFile;
+    property CertFile: string read FCertFile write FCertFile;
 
     property SMTPNotUsed: boolean read FSMTPNotUsed write FSMTPNotUsed;
     property SMTPHost: string read FSMTPHost write FSMTPHost;
@@ -91,6 +97,9 @@ begin
   FSecret       := ini.ReadString('admin', 'secret', '');
 
   FZertifikatPWD:= ini.ReadString('ssl', 'pwd', '');
+  FKeyFile      := ini.ReadString('ssl', 'keyfile', '');
+  FCertFile     := ini.ReadString('ssl', 'certfile', '');
+  FRootFile     := ini.ReadString('ssl', 'rootfile', '');
 
   FSMTPHost     := ini.ReadString('smtp', 'host', '');
   FSMTPPort     :=ini.ReadInteger('smtp', 'port', 0);
@@ -126,6 +135,9 @@ begin
   ini.WriteString('admin', 'secret', FSecret);
 
   ini.WriteString('ssl', 'pwd', FZertifikatPWD);
+  ini.WriteString('ssl', 'keyfile', FKeyFile);
+  ini.WriteString('ssl', 'certfile', FCertFile);
+  ini.WriteString('ssl', 'rootfile', FRootFile);
 
   ini.WriteString('smtp', 'host', FSMTPHost);
   ini.WriteInteger('smtp', 'port', FSMTPPort);

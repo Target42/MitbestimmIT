@@ -148,6 +148,13 @@ end;
 function TZertifikatFrame.ok: boolean;
 begin
   result := m_ok;
+  if Result then
+  begin
+    Glob.ZertifikatPWD  := LabeledEdit1.Text;
+    Glob.KeyFile        := IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile;
+    Glob.RootFile       := IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile;
+    glob.CertFile       := IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile;
+  end;
 end;
 
 procedure TZertifikatFrame.prepare;
