@@ -24,7 +24,7 @@ uses System.SysUtils, System.Classes,
   DbxCompressionFilter;
 
 type
-  TServerMain = class(TService)
+  TMitbestimmITSrv = class(TService)
     DSServer1: TDSServer;
     DSTCPServerTransport1: TDSTCPServerTransport;
     DSHTTPService1: TDSHTTPService;
@@ -55,7 +55,7 @@ type
   end;
 
 var
-  ServerMain: TServerMain;
+  MitbestimmITSrv: TMitbestimmITSrv;
 
 implementation
 
@@ -68,13 +68,13 @@ uses
   ServerMethodsUnit1, u_config;
 
 
-procedure TServerMain.DSServerClass1GetClass(
+procedure TMitbestimmITSrv.DSServerClass1GetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
   PersistentClass := ServerMethodsUnit1.TServerMethods1;
 end;
 
-procedure TServerMain.DSAuthenticationManager1UserAuthenticate(
+procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthenticate(
   Sender: TObject; const Protocol, Context, User, Password: string;
   var valid: Boolean; UserRoles: TStrings);
 var
@@ -92,7 +92,7 @@ begin
   end;
 end;
 
-procedure TServerMain.DSAuthenticationManager1UserAuthorize(
+procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
   Sender: TObject; EventObject: TDSAuthorizeEventObject;
   var valid: Boolean);
 begin
@@ -103,7 +103,7 @@ begin
   valid := True;
 end;
 
-procedure TServerMain.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APasskey: TStringBuilder);
+procedure TMitbestimmITSrv.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APasskey: TStringBuilder);
 begin
   if APasskey <> nil then
     APasskey.Append('Wahl2026');
@@ -111,43 +111,43 @@ end;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
 begin
-  ServerMain.Controller(CtrlCode);
+  MitbestimmITSrv.Controller(CtrlCode);
 end;
 
-function TServerMain.GetServiceController: TServiceController;
+function TMitbestimmITSrv.GetServiceController: TServiceController;
 begin
   Result := ServiceController;
 end;
 
-function TServerMain.DoContinue: Boolean;
+function TMitbestimmITSrv.DoContinue: Boolean;
 begin
   Result := inherited;
   DSServer1.Start;
 end;
 
-procedure TServerMain.DoInterrogate;
+procedure TMitbestimmITSrv.DoInterrogate;
 begin
   inherited;
 end;
 
-function TServerMain.DoPause: Boolean;
+function TMitbestimmITSrv.DoPause: Boolean;
 begin
   DSServer1.Stop;
   Result := inherited;
 end;
 
-function TServerMain.DoStop: Boolean;
+function TMitbestimmITSrv.DoStop: Boolean;
 begin
   DSServer1.Stop;
   Result := true;
 end;
 
-procedure TServerMain.ServiceStart(Sender: TService; var Started: Boolean);
+procedure TMitbestimmITSrv.ServiceStart(Sender: TService; var Started: Boolean);
 begin
   DSServer1.Start;
 end;
 
-procedure TServerMain.ServiceStop(Sender: TService; var Stopped: Boolean);
+procedure TMitbestimmITSrv.ServiceStop(Sender: TService; var Stopped: Boolean);
 begin
   Stopped := DoStop;
 end;

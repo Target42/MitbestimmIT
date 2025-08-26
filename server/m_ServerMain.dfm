@@ -1,5 +1,5 @@
-object ServerMain: TServerMain
-  DisplayName = 'ServerMain'
+object MitbestimmITSrv: TMitbestimmITSrv
+  DisplayName = 'MitbestimmIT Server'
   OnStart = ServiceStart
   OnStop = ServiceStop
   Height = 470

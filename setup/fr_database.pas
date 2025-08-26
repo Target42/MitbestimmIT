@@ -39,7 +39,6 @@ procedure TDatabaseFrame.BitBtn1Click(Sender: TObject);
 var
   db : TCreateDBMode;
   dbname : string;
-  path   : string;
 begin
 
   if trim(LabeledEdit2.Text) = '' then

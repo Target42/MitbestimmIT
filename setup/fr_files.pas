@@ -24,6 +24,7 @@ type
     procedure unzipSSL;
     procedure upzipFB;
     procedure unzipFBClient;
+    procedure unzipBat;
   public
     function doCopy : boolean;
 
@@ -72,6 +73,8 @@ begin
       log('OpenSSL');
       done := SaveRCDataToFile('openssl', TPath.Combine(Glob.TempDir, 'openssl.zip')) and done;
 
+      done := SaveRCDataToFile('bat', TPath.Combine(Glob.TempDir, 'bat.zip')) and done;
+
       done := ForceDirectories( TPath.Combine(Glob.HomeDir, 'Zertifikate')) and done;
       done := SaveRCDataToFile('Zertifikate', TPath.Combine(Glob.HomeDir, 'Zertifikate\ZertifikateErzeugen.bat')) and done;
     end;
@@ -79,6 +82,7 @@ begin
     unzipSSL;
     unzipOpenSSL;
     unzipFBClient;
+    unzipBat;
 
     log('Fertig');
   except
@@ -127,6 +131,17 @@ begin
   begin
     Memo1.Lines.Add('fbclient.dll NICHT im Pfad gefunden.');
   end;
+end;
+
+procedure TFilesFrame.unzipBat;
+var
+  zip : TZipFile;
+begin
+  log('Entpacken Service-Batch');
+  zip := TZipFile.Create;
+  zip.Open(TPath.Combine(Glob.TempDir, 'bat.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
+  zip.Close;
 end;
 
 procedure TFilesFrame.unzipFBClient;

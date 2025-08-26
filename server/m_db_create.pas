@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  u_helper, vcl.Dialogs, u_glob, system.IOUtils;
+  u_helper, vcl.Dialogs, system.IOUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 

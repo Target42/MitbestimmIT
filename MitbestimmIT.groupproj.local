@@ -2,6 +2,6 @@
 <BorlandProject>
 	<Transactions/>
 	<Default.Personality>
-		<Projects ActiveProject="D:\git_d12\MitbestimmIT\setup\ServerSetup.dproj"/>
+		<Projects ActiveProject="D:\git_d12\MitbestimmIT\server\MitbestimmITServer.dproj"/>
 	</Default.Personality>
 </BorlandProject>

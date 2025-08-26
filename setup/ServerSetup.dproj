@@ -146,7 +146,6 @@
             <Form>ZertifikatFrame</Form>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="u_helper.pas"/>
         <DCCReference Include="fr_files.pas">
             <Form>FilesFrame</Form>
             <DesignClass>TFrame</DesignClass>
@@ -167,6 +166,12 @@
         </DCCReference>
         <DCCReference Include="fr_pre.pas">
             <Form>PreFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\lib\u_helper.pas"/>
+        <DCCReference Include="fr_portcheck.pas">
+            <Form>PortCheckFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -194,6 +199,11 @@
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>pre</ResourceId>
+        </RcItem>
+        <RcItem Include="Data\bat.zip">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>bat</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -239,6 +249,12 @@
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Enabled>false</Enabled>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Data\bat.zip" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

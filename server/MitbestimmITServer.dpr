@@ -25,7 +25,7 @@ program MitbestimmITServer;
 
 uses
   Vcl.SvcMgr,
-  m_ServerMain in 'm_ServerMain.pas' {ServerMain: TService},
+  m_ServerMain in 'm_ServerMain.pas' {MitbestimmITSrv: TService},
   ServerMethodsUnit1 in 'ServerMethodsUnit1.pas' {ServerMethods1: TDSServerModule},
   System.SysUtils {ServerMethods1: TDSServerModule},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
@@ -34,7 +34,8 @@ uses
   u_config in 'u_config.pas',
   u_json in '..\lib\u_json.pas',
   m_db in 'm_db.pas' {DBMod: TDataModule},
-  m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule};
+  m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule},
+  u_helper in '..\lib\u_helper.pas';
 
 {$R *.RES}
 
@@ -47,7 +48,7 @@ var
 {$ENDIF}
 
 {$IFDEF DEBUG}
-// {$e console.exe}
+//{$e console.exe}
 {$ELSE}
 {$e service.exe}
 {$ENDIF}
@@ -61,22 +62,22 @@ begin
     Writeln('q = quit');
 
     // Create the TService descendant manually.
-    ServerMain := TServerMain.Create(nil);
-    DBMod      := TDBMod.Create(ServerMain);
+    MitbestimmITSrv := TMitbestimmITSrv.Create(nil);
+    DBMod      := TDBMod.Create(MitbestimmITSrv);
 
-//    CreateDBMode := TCreateDBMode.Create(ServerMain);
+//    CreateDBMode := TCreateDBMode.Create(MitbestimmITSrv);
 //    CreateDBMode.createDB;
 
     // Simulate service start.
-    ServerMain.ServiceStart(ServerMain, MyDummyBoolean);
+    MitbestimmITSrv.ServiceStart(MitbestimmITSrv, MyDummyBoolean);
     // Keep the console box running (ServerContainer1 code runs in the background)
     repeat
       ReadLn(s);
       s := trim(s);
     until s = 'q';
-    ServerMain.ServiceStop(ServerMain, MyDummyBoolean);
+    MitbestimmITSrv.ServiceStop(MitbestimmITSrv, MyDummyBoolean);
     // On exit, destroy the service object.
-    FreeAndNil(ServerMain);
+    FreeAndNil(MitbestimmITSrv);
   except
     on E: Exception do
     begin
@@ -89,7 +90,7 @@ begin
   if not Application.DelayInitialize or Application.Installing then
     Application.Initialize;
 
-  Application.CreateForm(TServerContainer1, ServerContainer1);
+  Application.CreateForm(TMitbestimmITSrv, MitbestimmITSrv);
   Application.Run;
 {$endif}
 end.

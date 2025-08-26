@@ -26,8 +26,13 @@ type
     FKeyFile: string;
     FRootFile: string;
     FCertFile: string;
+    FPortDS: integer;
+    FPortHttp: integer;
+    FPortHttps: integer;
+    FPortClientHttp: integer;
   public
     constructor create;
+
     property FileName: string read FFileName write FFileName;
     property HomeDir: string read FHomeDir write FHomeDir;
     property TempDir: string read FTempDir write FTempDir;
@@ -53,6 +58,11 @@ type
     property SMTPUser: string read FSMTPUser write FSMTPUser;
     property SMTPPasswort: string read FSMTPPasswort write FSMTPPasswort;
 
+    property PortDS: integer read FPortDS write FPortDS;
+    property PortHttp: integer read FPortHttp write FPortHttp;
+    property PortHttps: integer read FPortHttps write FPortHttps;
+    property PortClientHttp: integer read FPortClientHttp write FPortClientHttp;
+
     function writeData : boolean;
     function readData : boolean;
 
@@ -72,6 +82,9 @@ uses
 constructor TGlob.create;
 begin
   FFileName := ExtractFilePath(ParamStr(0)) + 'config.ini';
+  FPortDS   := 9000;
+  FPortHttp := 9001;
+  FPortHttps:= 9002;
 end;
 
 function TGlob.readData: boolean;
@@ -107,6 +120,11 @@ begin
   FSMTPPasswort := ini.ReadString('smtp', 'pwd', '');
   FSMTPNotUsed  := ini.ReadBool  ('smtp', 'norused', true);
 
+  FPortDS       := ini.ReadInteger('ports', 'ds',   9000);
+  FPortHttp     := ini.ReadInteger('ports', 'http', 9001);
+  FPortHttps    := ini.ReadInteger('ports', 'https',9002);
+
+  FPortClientHttp := ini.ReadInteger('ports', 'client',8080);
   ini.Free;
 
 end;
@@ -125,25 +143,30 @@ begin
   ini.WriteString('app', 'tempir', FTempDir);
 
   ini.WriteBool  ('db', 'embedded', FDBEmbedded);
-  ini.WriteString('db', 'host', FDBHost);
-  ini.WriteString('db', 'name', FDBName);
-  ini.WriteString('db', 'user', FDBUser);
-  ini.WriteString('app', 'pwd', FDBPasswort);
+  ini.WriteString('db', 'host',     FDBHost);
+  ini.WriteString('db', 'name',     FDBName);
+  ini.WriteString('db', 'user',     FDBUser);
+  ini.WriteString('app', 'pwd',     FDBPasswort);
 
-  ini.WriteString('admin', 'pwd', FAdminPwd);
+  ini.WriteString('admin', 'pwd',     FAdminPwd);
   ini.WriteBool  ('admin', 'factor2', FFaktor2);
-  ini.WriteString('admin', 'secret', FSecret);
+  ini.WriteString('admin', 'secret',  FSecret);
 
-  ini.WriteString('ssl', 'pwd', FZertifikatPWD);
-  ini.WriteString('ssl', 'keyfile', FKeyFile);
+  ini.WriteString('ssl', 'pwd',      FZertifikatPWD);
+  ini.WriteString('ssl', 'keyfile',  FKeyFile);
   ini.WriteString('ssl', 'certfile', FCertFile);
   ini.WriteString('ssl', 'rootfile', FRootFile);
 
-  ini.WriteString('smtp', 'host', FSMTPHost);
-  ini.WriteInteger('smtp', 'port', FSMTPPort);
-  ini.WriteString('smtp', 'user', FSMTPUser);
-  ini.WriteString('smtp', 'pwd', FSMTPPasswort);
-  ini.WriteBool  ('smtp', 'norused', FSMTPNotUsed);
+  ini.WriteString('smtp', 'host',     FSMTPHost);
+  ini.WriteInteger('smtp', 'port',    FSMTPPort);
+  ini.WriteString('smtp', 'user',     FSMTPUser);
+  ini.WriteString('smtp', 'pwd',      FSMTPPasswort);
+  ini.WriteBool  ('smtp', 'norused',  FSMTPNotUsed);
+
+  ini.WriteInteger('ports', 'ds',     FPortDS);
+  ini.WriteInteger('ports', 'http',   FPortHttp);
+  ini.WriteInteger('ports', 'https',  FPortHttps);
+  ini.WriteInteger('ports', 'client', FPortClientHttp);
 
   ini.Free;
 end;

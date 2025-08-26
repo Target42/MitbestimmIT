@@ -10,7 +10,7 @@ uses
   IdHTTPServer, IdContext, IdGlobal, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.ExtCtrls, JvWizard, JvExControls, System.ImageList,
   Vcl.ImgList, PngImageList, fr_admin, fr_database, fr_zertifikate,
-  System.SysUtils, fr_files, fr_mail, fr_pre;
+  System.SysUtils, fr_files, fr_mail, fr_pre, fr_portcheck, fr_server;
 
 type
   TMainSetupForm = class(TForm)
@@ -34,6 +34,10 @@ type
     MailFrame1: TMailFrame;
     JvWizardInteriorPage6: TJvWizardInteriorPage;
     PreFrame1: TPreFrame;
+    JvWizardInteriorPage7: TJvWizardInteriorPage;
+    PortCheckFrame1: TPortCheckFrame;
+    JvWizardInteriorPage8: TJvWizardInteriorPage;
+    ServerFrame1: TServerFrame;
     procedure FormCreate(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure JvWizardInteriorPage1NextButtonClick(Sender: TObject;
@@ -46,6 +50,12 @@ type
       var Stop: Boolean);
     procedure JvWizardInteriorPage5NextButtonClick(Sender: TObject;
       var Stop: Boolean);
+    procedure JvWizardInteriorPage7NextButtonClick(Sender: TObject;
+      var Stop: Boolean);
+    procedure JvWizardWelcomePage1FinishButtonClick(Sender: TObject;
+      var Stop: Boolean);
+    procedure JvWizardInteriorPage8EnterPage(Sender: TObject;
+      const FromPage: TJvWizardCustomPage);
   private
   public
     { Public-Deklarationen }
@@ -78,9 +88,11 @@ begin
   ZertifikatFrame1.prepare;
   MailFrame1.prepare;
   PreFrame1.prepare;
+  PortCheckFrame1.prepare;
+  AdminFrame1.prepare;
+  ServerFrame1.prepare;
 
   JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
-
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage1NextButtonClick(Sender: TObject;
@@ -98,7 +110,6 @@ begin
 
   Glob.AdminPwd := AdminFrame1.LabeledEdit1.Text;
   Glob.Faktor2  := AdminFrame1.CheckBox1.Checked;
-
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage3NextButtonClick(Sender: TObject;
@@ -107,7 +118,6 @@ begin
   stop := DatabaseFrame1.checkDB = false;
   if stop then
     ShowMessage('Die Datenbank ist noch nicht initialisiert!');
-
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage4NextButtonClick(Sender: TObject;
@@ -124,6 +134,30 @@ procedure TMainSetupForm.JvWizardInteriorPage5NextButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
   stop := not MailFrame1.isOK;
+end;
+
+procedure TMainSetupForm.JvWizardInteriorPage7NextButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  stop := not PortCheckFrame1.isOk;
+
+  if stop then
+  begin
+    ShowMessage('Bitte alle Ports testen und doppelt Belegung vermeiden!');
+  end;
+end;
+
+procedure TMainSetupForm.JvWizardInteriorPage8EnterPage(Sender: TObject;
+  const FromPage: TJvWizardCustomPage);
+begin
+  Glob.writeData;
+  ServerFrame1.updateData;
+end;
+
+procedure TMainSetupForm.JvWizardWelcomePage1FinishButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  Glob.writeData;
 end;
 
 end.
