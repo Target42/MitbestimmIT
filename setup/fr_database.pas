@@ -52,11 +52,9 @@ begin
     exit;
   end;
 
+  Screen.Cursor := crSQLWait;
   if RadioGroup1.ItemIndex = 0 then
-  begin
-    dbname        := TPath.Combine( Glob.HomeDir, 'db\'+ExtractFileName(LabeledEdit3.Text));
-    ForceDirectories(ExtractFilePath(dbname));
-  end
+    dbname        := TPath.Combine( Glob.HomeDir, 'db\'+ExtractFileName(LabeledEdit3.Text))
   else
     dbname := LabeledEdit3.Text;
 
@@ -87,7 +85,8 @@ begin
 
   end;
   db.Free;
-
+  Screen.Cursor := crDefault;
+  ShowMessage('Datenbank wurde erzeugt')
 
 end;
 
@@ -102,8 +101,11 @@ begin
   db.DBPasswort := glob.DBPasswort;
   DB.DBName     := Glob.DBName;
 
-  Result := db.createDB;
+  Result := db.testConnection;
   db.Free;
+
+  if Result then
+    glob.writeData;
 end;
 
 procedure TDatabaseFrame.LabeledEdit3KeyPress(Sender: TObject; var Key: Char);
@@ -131,6 +133,16 @@ end;
 procedure TDatabaseFrame.prepare;
 begin
   LabeledEdit3.Text := TPath.Combine(ExtractFilePath(paramstr(0)), 'db\Wahl2026.fdb');
+
+  if Glob.DBEmbedded then
+    RadioGroup1.ItemIndex := 0
+  else
+    RadioGroup1.ItemIndex := 1;
+
+  LabeledEdit1.Text := Glob.DBUser;
+  LabeledEdit2.Text := Glob.DBPasswort;
+  LabeledEdit3.Text := Glob.DBName;
+  LabeledEdit4.Text := Glob.DBHost;
 end;
 
 end.

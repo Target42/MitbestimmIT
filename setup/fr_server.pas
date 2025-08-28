@@ -110,6 +110,7 @@ procedure TServerFrame.DosCommand2Terminated(Sender: TObject);
 begin
   Memo1.Lines.Add('Fertig');
   updateData;
+  findService;
 end;
 
 procedure TServerFrame.findService;

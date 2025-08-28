@@ -19,7 +19,6 @@ object DatabaseFrame: TDatabaseFrame
       'Embedded'
       'Externer Server')
     TabOrder = 0
-    ExplicitTop = -6
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -92,7 +91,6 @@ object DatabaseFrame: TDatabaseFrame
     Align = alTop
     Caption = 'Aktionen'
     TabOrder = 3
-    ExplicitTop = 301
     object Label1: TLabel
       Left = 261
       Top = 35

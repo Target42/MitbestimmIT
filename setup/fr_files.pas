@@ -60,6 +60,7 @@ begin
     result := true;
     exit;
   end;
+  ForceDirectories(TPath.Combine(Glob.HomeDir, 'db'));
 
   Screen.Cursor := crHourGlass;
   try
@@ -99,7 +100,10 @@ begin
     result := false;
     MessageDlg('Es ist ein Fehler beim Auspacken der Dateien passiert.' +
       #13#10 + 'Wählen sie einen anderen Pfad.',  mtWarning, [mbOK], 0);
-  end;
+  end
+  else
+    Glob.writeData;
+
 end;
 
 procedure TFilesFrame.FrameResize(Sender: TObject);

@@ -5,8 +5,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
   Height = 470
   Width = 479
   object DSServer1: TDSServer
-    Left = 144
-    Top = 17
+    Left = 72
+    Top = 25
   end
   object DSTCPServerTransport1: TDSTCPServerTransport
     Server = DSServer1
@@ -29,8 +29,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
           'CompressMoreThan=1024')
       end>
     AuthenticationManager = DSAuthenticationManager1
-    Left = 144
-    Top = 110
+    Left = 72
+    Top = 94
   end
   object DSHTTPService1: TDSHTTPService
     HttpPort = 8080
@@ -54,8 +54,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
           'CompressMoreThan=1024')
       end>
     AuthenticationManager = DSAuthenticationManager1
-    Left = 144
-    Top = 203
+    Left = 72
+    Top = 163
   end
   object DSCertFiles1: TDSCertFiles
     SSLVersion = sslvSSLv23
@@ -63,8 +63,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
     CertFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\cert.pem'
     KeyFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\key.pem'
     OnGetPEMFileSBPasskey = DSCertFiles1GetPEMFileSBPasskey
-    Left = 324
-    Top = 312
+    Left = 188
+    Top = 240
   end
   object DSHTTPService2: TDSHTTPService
     HttpPort = 8081
@@ -77,20 +77,20 @@ object MitbestimmITSrv: TMitbestimmITSrv
           'CompressMoreThan=1024')
       end>
     AuthenticationManager = DSAuthenticationManager1
-    Left = 300
-    Top = 203
+    Left = 204
+    Top = 171
   end
   object DSAuthenticationManager1: TDSAuthenticationManager
     OnUserAuthenticate = DSAuthenticationManager1UserAuthenticate
     OnUserAuthorize = DSAuthenticationManager1UserAuthorize
     Roles = <>
-    Left = 144
-    Top = 296
+    Left = 72
+    Top = 240
   end
   object DSServerClass1: TDSServerClass
     OnGetClass = DSServerClass1GetClass
     Server = DSServer1
-    Left = 300
-    Top = 17
+    Left = 340
+    Top = 25
   end
 end

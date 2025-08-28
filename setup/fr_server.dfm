@@ -20,8 +20,6 @@ object ServerFrame: TServerFrame
     Align = alLeft
     Caption = 'Dienste'
     TabOrder = 0
-    ExplicitLeft = -304
-    ExplicitTop = -8
     object LV: TListView
       Left = 2
       Top = 17
@@ -44,8 +42,6 @@ object ServerFrame: TServerFrame
       StateImages = PngImageList1
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 3
-      ExplicitTop = 16
     end
   end
   object GroupBox2: TGroupBox
@@ -56,7 +52,6 @@ object ServerFrame: TServerFrame
     Align = alClient
     Caption = 'Aktionen'
     TabOrder = 1
-    ExplicitLeft = 322
     object Splitter2: TSplitter
       Left = 2
       Top = 293
@@ -75,7 +70,6 @@ object ServerFrame: TServerFrame
       Align = alBottom
       Caption = 'Log'
       TabOrder = 0
-      ExplicitWidth = 320
       object Memo1: TMemo
         Left = 2
         Top = 17
@@ -92,7 +86,6 @@ object ServerFrame: TServerFrame
         ParentFont = False
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitWidth = 316
       end
     end
     object Panel1: TPanel
@@ -105,8 +98,6 @@ object ServerFrame: TServerFrame
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      ExplicitLeft = 6
-      ExplicitTop = 14
       object BitBtn1: TBitBtn
         Left = 32
         Top = 40

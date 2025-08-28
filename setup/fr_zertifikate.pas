@@ -86,7 +86,7 @@ begin
     IdHTTP1.Get(Format('https://localhost:%d/', [IdHTTPServer1.DefaultPort]));
     if IdHTTP1.ResponseCode = 200 then
     begin
-      ShowMessage('Test ist erfolgreich!');
+      Memo1.Lines.Add('Test ist erfolgreich!');
       m_ok := true;
     end;
 
@@ -154,13 +154,24 @@ begin
     Glob.KeyFile        := IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile;
     Glob.RootFile       := IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile;
     glob.CertFile       := IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile;
+    Glob.writeData;
   end;
 end;
 
 procedure TZertifikatFrame.prepare;
 begin
+  m_ok := false;
+
   Memo1.Lines.Clear;
-  m_ok := false
+
+  LabeledEdit1.Text := Glob.ZertifikatPWD;
+  LabeledEdit2.Text := Glob.ZertifikatPWD;
+  IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile       := Glob.KeyFile;
+  IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile  := Glob.RootFile;
+  IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile      := glob.CertFile;
+
+  if LabeledEdit1.Text <> '' then
+    BitBtn2.Click;
 end;
 
 end.

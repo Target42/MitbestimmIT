@@ -95,7 +95,6 @@ object AdminFrame: TAdminFrame
         Align = alTop
         Alignment = taCenter
         Caption = 'Code'
-        ExplicitTop = 84
         ExplicitWidth = 28
       end
       object CodeLab: TLabel
@@ -112,7 +111,6 @@ object AdminFrame: TAdminFrame
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitTop = 99
         ExplicitWidth = 66
       end
       object CheckBox1: TCheckBox

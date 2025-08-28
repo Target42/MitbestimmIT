@@ -80,21 +80,37 @@ function TMailFrame.isOK: boolean;
 begin
   Result := m_ok or CheckBox1.Checked;
 
-  if Result then
+  if not CheckBox1.Checked then
   begin
-    Glob.SMTPNotUsed := CheckBox1.Checked;
     glob.SMTPHost    := LabeledEdit1.Text;
-    Glob.SMTPPort    := StrToIntDef(LabeledEdit2.Text, 0);
+    Glob.SMTPPort    := StrToIntDef(LabeledEdit2.Text, 465);
     glob.SMTPUser    := LabeledEdit3.Text;
     glob.SMTPPasswort:= LabeledEdit4.Text;
+    Glob.SMTPTest    := LabeledEdit5.Text;
   end;
+
+  Glob.SMTPNotUsed := CheckBox1.Checked;
+  Glob.SMTPOk      := result;
+  Glob.writeData;
 
 end;
 
 procedure TMailFrame.prepare;
 begin
-  m_ok := false;
+  m_ok := Glob.SMTPOk;
+
   LabeledEdit2.Text := intToStr(IdSMTP1.Port);
+  CheckBox1.Checked := Glob.SMTPNotUsed;
+  LabeledEdit1.Text := glob.SMTPHost;
+  LabeledEdit2.Text := IntToStr(Glob.SMTPPort);
+
+  LabeledEdit3.Text := glob.SMTPUser;
+  LabeledEdit4.Text := glob.SMTPPasswort;
+  LabeledEdit5.Text := Glob.SMTPTest;
+
+  if LabeledEdit4.Text = '' then
+    LabeledEdit4.Text := GetEnvironmentVariable('MAILPWD');
+
 end;
 
 end.

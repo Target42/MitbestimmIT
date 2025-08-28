@@ -48,7 +48,7 @@ implementation
 {$R *.dfm}
 
 uses
-  u_totp, system.DateUtils;
+  u_totp, system.DateUtils, u_glob;
 
 { TFrame1 }
 
@@ -78,10 +78,22 @@ end;
 function TAdminFrame.CheckPwd: boolean;
 begin
   Result := ( trim(LabeledEdit1.Text) <> '' ) and (LabeledEdit1.Text = LabeledEdit2.Text);
+
+  if Result then
+  begin
+    Glob.AdminPwd := LabeledEdit1.Text;
+    Glob.Faktor2  := CheckBox1.Checked;
+    Glob.writeData;
+  end;
+
 end;
 
 procedure TAdminFrame.enter;
 begin
+  LabeledEdit1.Text := Glob.AdminPwd;
+  LabeledEdit2.Text := Glob.AdminPwd;
+  CheckBox1.Checked := Glob.Faktor2;
+
   if CheckBox1.Checked then
   begin
     Timer1.Enabled := true;
@@ -99,6 +111,7 @@ end;
 
 procedure TAdminFrame.leave;
 begin
+
   Timer1.Enabled := false;
 end;
 

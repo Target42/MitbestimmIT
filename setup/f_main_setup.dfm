@@ -1,7 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
-  ActiveControl = ServerFrame1.LV
+  ActiveControl = CheckBox1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -26,7 +26,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardInteriorPage8
+    ActivePage = JvWizardWelcomePage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -51,6 +51,8 @@ object MainSetupForm: TMainSetupForm
     ButtonHelp.NumGlyphs = 1
     ButtonHelp.Width = 75
     ShowRouteMap = False
+    OnFinishButtonClick = JvWizard1FinishButtonClick
+    OnCancelButtonClick = JvWizard1CancelButtonClick
     DesignSize = (
       754
       479)
@@ -72,6 +74,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardWelcomePage1'
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnFinishButtonClick = JvWizardWelcomePage1FinishButtonClick
       object Panel1: TPanel
         Left = 164
@@ -138,6 +141,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage6'
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline PreFrame1: TPreFrame
         Left = 0
         Top = 70
@@ -176,6 +180,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage1'
       OnNextButtonClick = JvWizardInteriorPage1NextButtonClick
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline FilesFrame1: TFilesFrame
         Left = 0
         Top = 70
@@ -233,6 +238,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage7'
       OnNextButtonClick = JvWizardInteriorPage7NextButtonClick
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline PortCheckFrame1: TPortCheckFrame
         Left = 0
         Top = 70
@@ -295,6 +301,11 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
           end
         end
+        inherited Panel1: TPanel
+          Width = 754
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitWidth = 754
+        end
         inherited IdTCPServer1: TIdTCPServer
           DefaultPort = 80
         end
@@ -318,7 +329,9 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage2'
+      OnEnterPage = JvWizardInteriorPage2EnterPage
       OnNextButtonClick = JvWizardInteriorPage2NextButtonClick
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       object Label1: TLabel
         Left = 168
         Top = 280
@@ -362,7 +375,7 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 469
+              Width = 479
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -370,11 +383,13 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -405,8 +420,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage3'
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
@@ -419,7 +433,6 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited RadioGroup1: TRadioGroup
           Width = 754
-          ExplicitTop = 0
           ExplicitWidth = 754
         end
         inherited GroupBox1: TGroupBox
@@ -444,7 +457,6 @@ object MainSetupForm: TMainSetupForm
         end
         inherited GroupBox4: TGroupBox
           Width = 754
-          ExplicitTop = 221
           ExplicitWidth = 754
           inherited Label1: TLabel
             StyleElements = [seFont, seClient, seBorder]
@@ -475,6 +487,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage4'
       OnNextButtonClick = JvWizardInteriorPage4NextButtonClick
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline ZertifikatFrame1: TZertifikatFrame
         Left = 0
         Top = 70
@@ -529,6 +542,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage5'
       OnNextButtonClick = JvWizardInteriorPage5NextButtonClick
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline MailFrame1: TMailFrame
         Left = 0
         Top = 70
@@ -593,6 +607,7 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage8'
       OnEnterPage = JvWizardInteriorPage8EnterPage
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       inline ServerFrame1: TServerFrame
         Left = 0
         Top = 70
@@ -605,28 +620,26 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited Splitter1: TSplitter
           Height = 367
+          ExplicitHeight = 367
         end
         inherited GroupBox1: TGroupBox
           Height = 367
-          ExplicitLeft = 0
-          ExplicitTop = 0
           ExplicitHeight = 367
           inherited LV: TListView
             Height = 348
-            ExplicitLeft = 2
-            ExplicitTop = 17
             ExplicitHeight = 348
           end
         end
         inherited GroupBox2: TGroupBox
           Width = 438
           Height = 367
-          ExplicitLeft = 316
           ExplicitWidth = 438
           ExplicitHeight = 367
           inherited Splitter2: TSplitter
             Top = 180
             Width = 434
+            ExplicitTop = 180
+            ExplicitWidth = 434
           end
           inherited GroupBox3: TGroupBox
             Top = 183
@@ -643,8 +656,6 @@ object MainSetupForm: TMainSetupForm
             Width = 434
             Height = 163
             StyleElements = [seFont, seClient, seBorder]
-            ExplicitLeft = 2
-            ExplicitTop = 17
             ExplicitWidth = 434
             ExplicitHeight = 163
           end

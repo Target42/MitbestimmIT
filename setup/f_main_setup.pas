@@ -56,6 +56,12 @@ type
       var Stop: Boolean);
     procedure JvWizardInteriorPage8EnterPage(Sender: TObject;
       const FromPage: TJvWizardCustomPage);
+    procedure JvWizard1FinishButtonClick(Sender: TObject);
+    procedure JvWizard1CancelButtonClick(Sender: TObject);
+    procedure JvWizardInteriorPage2EnterPage(Sender: TObject;
+      const FromPage: TJvWizardCustomPage);
+    procedure JvWizardWelcomePage1CancelButtonClick(Sender: TObject;
+      var Stop: Boolean);
   private
   public
     { Public-Deklarationen }
@@ -83,6 +89,8 @@ procedure TMainSetupForm.FormCreate(Sender: TObject);
 begin
   Glob.HomeDir := ExtractFilePath(ParamStr(0));
 
+  Glob.readData;
+
   FilesFrame1.prepare;
   DatabaseFrame1.prepare;
   ZertifikatFrame1.prepare;
@@ -95,10 +103,26 @@ begin
   JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
 end;
 
+procedure TMainSetupForm.JvWizard1CancelButtonClick(Sender: TObject);
+begin
+  Glob.writeData;
+end;
+
+procedure TMainSetupForm.JvWizard1FinishButtonClick(Sender: TObject);
+begin
+  Glob.writeData;
+end;
+
 procedure TMainSetupForm.JvWizardInteriorPage1NextButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
   stop := (FilesFrame1.doCopy = false );
+end;
+
+procedure TMainSetupForm.JvWizardInteriorPage2EnterPage(Sender: TObject;
+  const FromPage: TJvWizardCustomPage);
+begin
+  AdminFrame1.enter;
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage2NextButtonClick(Sender: TObject;
@@ -107,9 +131,6 @@ begin
   stop := not AdminFrame1.CheckPwd;
   if Stop then
     ShowMessage('Die Kennworte müssen übereinstimmen und drüfen nicht leer sein!');
-
-  Glob.AdminPwd := AdminFrame1.LabeledEdit1.Text;
-  Glob.Faktor2  := AdminFrame1.CheckBox1.Checked;
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage3NextButtonClick(Sender: TObject;
@@ -140,7 +161,12 @@ procedure TMainSetupForm.JvWizardInteriorPage7NextButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
   stop := not PortCheckFrame1.isOk;
+  if stop then
+  begin
+    PortCheckFrame1.BitBtn5.Click;
+  end;
 
+  stop := not PortCheckFrame1.isOk;
   if stop then
   begin
     ShowMessage('Bitte alle Ports testen und doppelt Belegung vermeiden!');
@@ -154,10 +180,18 @@ begin
   ServerFrame1.updateData;
 end;
 
+procedure TMainSetupForm.JvWizardWelcomePage1CancelButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  Glob.writeData;
+  Close;
+end;
+
 procedure TMainSetupForm.JvWizardWelcomePage1FinishButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
   Glob.writeData;
+  Close;
 end;
 
 end.

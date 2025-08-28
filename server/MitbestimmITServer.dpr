@@ -35,7 +35,8 @@ uses
   u_json in '..\lib\u_json.pas',
   m_db in 'm_db.pas' {DBMod: TDataModule},
   m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule},
-  u_helper in '..\lib\u_helper.pas';
+  u_helper in '..\lib\u_helper.pas',
+  m_admin in 'm_admin.pas' {AdminMod: TDSServerModule};
 
 {$R *.RES}
 

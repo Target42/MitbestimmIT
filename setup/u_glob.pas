@@ -2,10 +2,14 @@
 
 interface
 
+uses
+  System.Classes;
+
 type
   TGlob = class
 
   private
+    m_data : TMemoryStream;
     FHomeDir: string;
     FTempDir: string;
     FDBEmbedded: boolean;
@@ -30,8 +34,15 @@ type
     FPortHttp: integer;
     FPortHttps: integer;
     FPortClientHttp: integer;
+    FSMTPTest: string;
+    FSMTPOk: boolean;
+
+    procedure CompressStream;
+    procedure DecompressStream;
+
   public
     constructor create;
+    destructor Destroy; override;
 
     property FileName: string read FFileName write FFileName;
     property HomeDir: string read FHomeDir write FHomeDir;
@@ -57,6 +68,8 @@ type
     property SMTPPort: integer read FSMTPPort write FSMTPPort;
     property SMTPUser: string read FSMTPUser write FSMTPUser;
     property SMTPPasswort: string read FSMTPPasswort write FSMTPPasswort;
+    property SMTPTest: string read FSMTPTest write FSMTPTest;
+    property SMTPOk: boolean read FSMTPOk write FSMTPOk;
 
     property PortDS: integer read FPortDS write FPortDS;
     property PortHttp: integer read FPortHttp write FPortHttp;
@@ -75,34 +88,81 @@ var
 implementation
 
 uses
-  System.SysUtils, system.IniFiles;
+  System.SysUtils, system.IniFiles, system.ZLib;
 
 { TGlob }
 
+procedure TGlob.CompressStream;
+var
+  ZStream: TZCompressionStream;
+  OutStream : TStream;
+begin
+  m_data.Position := 0;
+  OutStream := TFileStream.Create(FFileName, fmCreate );
+
+  ZStream := TZCompressionStream.Create(clMax, OutStream);
+  try
+    ZStream.CopyFrom(m_data, m_data.Size);
+  finally
+    ZStream.Free;
+  end;
+  OutStream.free;
+end;
+
 constructor TGlob.create;
 begin
-  FFileName := ExtractFilePath(ParamStr(0)) + 'config.ini';
+  m_data    := TMemoryStream.Create;
+  FFileName := ExtractFilePath(ParamStr(0)) + 'config.dat';
   FPortDS   := 9000;
   FPortHttp := 9001;
   FPortHttps:= 9002;
+  FPortClientHttp := 8000;
+
+  FHomeDir  := ExtractFilePath(ParamStr(0));
+end;
+
+procedure TGlob.DecompressStream;
+var
+  ZStream: TZDecompressionStream;
+  InStream : TStream;
+begin
+  InStream := TFileStream.Create(FFileName, fmOpenRead + fmShareDenyNone);
+  m_data.Clear;
+
+  ZStream := TZDecompressionStream.Create(InStream);
+  try
+    m_data.CopyFrom(ZStream, 0);
+  finally
+    ZStream.Free;
+  end;
+  m_data.Position := 0;
+  InStream.Free;
+end;
+
+destructor TGlob.Destroy;
+begin
+  m_data.Free;
 end;
 
 function TGlob.readData: boolean;
 var
-  ini : TIniFile;
+  ini : TMemIniFile;
 begin
   Result := FileExists(FFileName);
   if not Result then
     exit;
 
-  ini := TIniFile.Create(FFileName);
+  DecompressStream;
+
+  ini := TMemIniFile.Create(m_data);
+
   FHomeDir      := ini.ReadString('app', 'homedir', '');
   FTempDir      := ini.ReadString('app', 'tempir', '');
 
   FDBEmbedded   := ini.ReadBool  ('db', 'embedded', false);
-  FDBHost       := ini.ReadString('db', 'host', '');
-  FDBName       := ini.ReadString('db', 'name', '');
-  FDBUser       := ini.ReadString('db', 'user', '');
+  FDBHost       := ini.ReadString('db', 'host', 'localhost');
+  FDBName       := ini.ReadString('db', 'name', 'D:\DelphiBin\MitbestimmIT\Setup\db\wahl2026.fdb');
+  FDBUser       := ini.ReadString('db', 'user', 'sysdba');
   FDBPasswort   := ini.ReadString('app', 'pwd', '');
 
   FAdminPwd     := ini.ReadString('admin', 'pwd', '');
@@ -115,32 +175,35 @@ begin
   FRootFile     := ini.ReadString('ssl', 'rootfile', '');
 
   FSMTPHost     := ini.ReadString('smtp', 'host', '');
-  FSMTPPort     :=ini.ReadInteger('smtp', 'port', 0);
+  FSMTPPort     := ini.ReadInteger('smtp', 'port', 465);
   FSMTPUser     := ini.ReadString('smtp', 'user', '');
   FSMTPPasswort := ini.ReadString('smtp', 'pwd', '');
-  FSMTPNotUsed  := ini.ReadBool  ('smtp', 'norused', true);
+  FSMTPNotUsed  := ini.ReadBool  ('smtp', 'notused', true);
+  FSMTPTest     := ini.ReadString('smtp', 'testuser', '' );
+  FSMTPOk       := ini.ReadBool('smt', 'ok', false);
 
   FPortDS       := ini.ReadInteger('ports', 'ds',   9000);
   FPortHttp     := ini.ReadInteger('ports', 'http', 9001);
   FPortHttps    := ini.ReadInteger('ports', 'https',9002);
 
   FPortClientHttp := ini.ReadInteger('ports', 'client',8080);
+
   ini.Free;
 
 end;
 
 function TGlob.writeData: boolean;
 var
-  ini : TIniFile;
+  ini : TMemIniFile;
 begin
   Result := false;
 
   if FFileName = '' then
     exit;
 
-  ini := TIniFile.Create(FFileName);
+  ini := TMemIniFile.Create(m_data);
   ini.WriteString('app', 'homedir', FHomeDir);
-  ini.WriteString('app', 'tempir', FTempDir);
+  ini.WriteString('app', 'tempir',  FTempDir);
 
   ini.WriteBool  ('db', 'embedded', FDBEmbedded);
   ini.WriteString('db', 'host',     FDBHost);
@@ -161,14 +224,19 @@ begin
   ini.WriteInteger('smtp', 'port',    FSMTPPort);
   ini.WriteString('smtp', 'user',     FSMTPUser);
   ini.WriteString('smtp', 'pwd',      FSMTPPasswort);
-  ini.WriteBool  ('smtp', 'norused',  FSMTPNotUsed);
+  ini.WriteBool  ('smtp', 'notused',  FSMTPNotUsed);
+  ini.WriteString('smtp', 'testuser', FSMTPTest );
+  ini.WriteBool('smtp', 'ok',         FSMTPOk);
 
   ini.WriteInteger('ports', 'ds',     FPortDS);
   ini.WriteInteger('ports', 'http',   FPortHttp);
   ini.WriteInteger('ports', 'https',  FPortHttps);
   ini.WriteInteger('ports', 'client', FPortClientHttp);
 
+  ini.UpdateFile;
   ini.Free;
+
+  CompressStream;
 end;
 
 initialization

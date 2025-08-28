@@ -15,14 +15,14 @@ object MailFrame: TMailFrame
     TabOrder = 0
     object LabeledEdit1: TLabeledEdit
       Left = 24
-      Top = 40
+      Top = 37
       Width = 217
       Height = 23
       EditLabel.Width = 25
       EditLabel.Height = 15
       EditLabel.Caption = 'Host'
       TabOrder = 0
-      Text = 'smtp.1und1.de'
+      Text = ''
     end
     object LabeledEdit2: TLabeledEdit
       Left = 272
@@ -45,7 +45,7 @@ object MailFrame: TMailFrame
       EditLabel.Height = 15
       EditLabel.Caption = 'Benutzer'
       TabOrder = 2
-      Text = 'archivar.server@stephanwinter.eu'
+      Text = ''
     end
     object LabeledEdit4: TLabeledEdit
       Left = 24
@@ -57,12 +57,12 @@ object MailFrame: TMailFrame
       EditLabel.Caption = 'Passwort'
       PasswordChar = '*'
       TabOrder = 3
-      Text = 'kH5l9wFiSnkvQnw6dWp5!'
+      Text = ''
     end
     object CheckBox1: TCheckBox
       Left = 392
       Top = 40
-      Width = 97
+      Width = 121
       Height = 17
       Caption = 'Nicht einrichten'
       TabOrder = 4
@@ -95,7 +95,7 @@ object MailFrame: TMailFrame
         EditLabel.Height = 15
         EditLabel.Caption = 'Mailempf'#228'nger'
         TabOrder = 0
-        Text = 'stephan.winter@online.de'
+        Text = ''
       end
       object BitBtn1: TBitBtn
         Left = 424
@@ -114,7 +114,9 @@ object MailFrame: TMailFrame
       Height = 93
       Align = alClient
       Lines.Strings = (
-        'Memo1')
+        'Herzlichen Gl'#252'ckwunch!'
+        ''
+        'Dies ist eine erfolgreiche Testmail vom MitbestimmIT.')
       ScrollBars = ssVertical
       TabOrder = 1
     end

@@ -15,7 +15,7 @@ object PortCheckFrame: TPortCheckFrame
     TabOrder = 0
     object Label1: TLabel
       Left = 240
-      Top = 29
+      Top = 33
       Width = 57
       Height = 15
       Caption = 'Ungetestet'
@@ -157,7 +157,7 @@ object PortCheckFrame: TPortCheckFrame
       Top = 32
       Width = 34
       Height = 15
-      Caption = 'Label6'
+      Caption = 'Label8'
     end
     object SpinEdit4: TSpinEdit
       Tag = 4
@@ -172,7 +172,7 @@ object PortCheckFrame: TPortCheckFrame
       OnChange = SpinEdit4Change
     end
     object BitBtn4: TBitBtn
-      Tag = 3
+      Tag = 4
       Left = 128
       Top = 31
       Width = 75
@@ -180,6 +180,26 @@ object PortCheckFrame: TPortCheckFrame
       Caption = 'Test'
       TabOrder = 1
       OnClick = BitBtn1Click
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 289
+    Width = 640
+    Height = 56
+    Align = alTop
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    ShowCaption = False
+    TabOrder = 4
+    object BitBtn5: TBitBtn
+      Left = 32
+      Top = 22
+      Width = 169
+      Height = 25
+      Caption = 'Alle Ports testen'
+      TabOrder = 0
+      OnClick = BitBtn5Click
     end
   end
   object IdTCPServer1: TIdTCPServer

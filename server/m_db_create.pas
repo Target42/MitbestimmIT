@@ -76,7 +76,10 @@ begin
   FDConnection1.DriverName := 'FB';
   FDConnection1.LoginPrompt:= false;
 
-  ForceDirectories(ExtractFilePath(FDBName));
+  if SameText('localhost', FHost) or sameText('127.0.0.1', FHost) or FEmbedded then
+  begin
+    ForceDirectories(ExtractFilePath(FDBName));
+  end;
 
 //  FDConnection1.Params.Values['Protocol']  := 'tpc/ip';
   FDConnection1.Params.Values['Server']    := FHost;
@@ -108,9 +111,9 @@ begin
   begin
     FDConnection1.Params.Values['OpenMode'] := '';
 
-    Params.Values['Database'] := FDBName;
-    Params.Values['User_Name'] := 'SYSDBA';
-    Params.Values['Password'] := FDBPasswort;
+    Params.Values['Database']  := FDBName;
+    Params.Values['User_Name'] := FDBUser;
+    Params.Values['Password']  := FDBPasswort;
 
     if FEmbedded then
     begin
@@ -127,11 +130,10 @@ begin
 
     try
       Connected := true;
-      Result := true;
+      Result := Connected;
     except
 
     end;
-
     FDConnection1.Close;
   end;
 
