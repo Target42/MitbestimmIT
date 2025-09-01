@@ -15,8 +15,6 @@ type
     FDBEmbedded: boolean;
     FDBHost: string;
     FDBName: string;
-    FDBUser: string;
-    FDBPasswort: string;
     FAdminPwd: string;
     FFaktor2: boolean;
     FZertifikatPWD: string;
@@ -36,6 +34,7 @@ type
     FPortClientHttp: integer;
     FSMTPTest: string;
     FSMTPOk: boolean;
+    FUserPWD: string;
 
     procedure CompressStream;
     procedure DecompressStream;
@@ -51,8 +50,7 @@ type
     property DBEmbedded: boolean read FDBEmbedded write FDBEmbedded;
     property DBHost: string read FDBHost write FDBHost;
     property DBName: string read FDBName write FDBName;
-    property DBUser: string read FDBUser write FDBUser;
-    property DBPasswort: string read FDBPasswort write FDBPasswort;
+    property UserPWD: string read FUserPWD write FUserPWD;
 
     property AdminPwd: string read FAdminPwd write FAdminPwd;
     property Faktor2: boolean read FFaktor2 write FFaktor2;
@@ -88,7 +86,7 @@ var
 implementation
 
 uses
-  System.SysUtils, system.IniFiles, system.ZLib;
+  System.SysUtils, system.IniFiles, system.ZLib, u_helper;
 
 { TGlob }
 
@@ -117,6 +115,7 @@ begin
   FPortHttp := 9001;
   FPortHttps:= 9002;
   FPortClientHttp := 8000;
+  FUserPWD := GenerateFirebirdPassword;
 
   FHomeDir  := ExtractFilePath(ParamStr(0));
 end;
@@ -162,8 +161,7 @@ begin
   FDBEmbedded   := ini.ReadBool  ('db', 'embedded', false);
   FDBHost       := ini.ReadString('db', 'host', 'localhost');
   FDBName       := ini.ReadString('db', 'name', 'D:\DelphiBin\MitbestimmIT\Setup\db\wahl2026.fdb');
-  FDBUser       := ini.ReadString('db', 'user', 'sysdba');
-  FDBPasswort   := ini.ReadString('app', 'pwd', '');
+  FUserPWD      := ini.ReadString('db', 'user', FUserPWD);
 
   FAdminPwd     := ini.ReadString('admin', 'pwd', '');
   FFaktor2      := ini.ReadBool  ('admin', 'factor2', false);
@@ -208,8 +206,7 @@ begin
   ini.WriteBool  ('db', 'embedded', FDBEmbedded);
   ini.WriteString('db', 'host',     FDBHost);
   ini.WriteString('db', 'name',     FDBName);
-  ini.WriteString('db', 'user',     FDBUser);
-  ini.WriteString('app', 'pwd',     FDBPasswort);
+  ini.WriteString('db', 'user',      FUserPWD);
 
   ini.WriteString('admin', 'pwd',     FAdminPwd);
   ini.WriteBool  ('admin', 'factor2', FFaktor2);

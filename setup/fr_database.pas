@@ -40,7 +40,6 @@ var
   db : TCreateDBMode;
   dbname : string;
 begin
-
   if trim(LabeledEdit2.Text) = '' then
   begin
     ShowMessage('Es muss ein Passwort vergeben werden !!');
@@ -62,18 +61,22 @@ begin
 
   LabeledEdit3.Text := dbname;
   Glob.DBEmbedded := RadioGroup1.ItemIndex = 0;
-  Glob.DBUser     := LabeledEdit1.Text;
-  Glob.DBPasswort := LabeledEdit2.Text;
   Glob.DBName     := LabeledEdit3.Text;
   Glob.DBHost     := LabeledEdit4.Text;
 
 
   db := TCreateDBMode.Create(nil);
   db.Embedded   := Glob.DBEmbedded;
-  db.DBUser     := glob.DBUser;
+  // sysdba zum anlegen
+  db.DBUser     := LabeledEdit1.Text;
+  db.DBPasswort := LabeledEdit2.Text;
+
   db.Host       := Glob.DBHost;
-  db.DBPasswort := glob.DBPasswort;
   DB.DBName     := Glob.DBName;
+
+  db.UserPwd    := Glob.UserPWD;
+  db.AdminPwd   := Glob.AdminPwd;
+  db.AdminSecret:= Glob.Secret;
 
   try
     db.createDB;
@@ -96,9 +99,11 @@ var
 begin
   db := TCreateDBMode.Create(nil);
   db.Embedded   := Glob.DBEmbedded;
-  db.DBUser     := glob.DBUser;
+  // admin user zum Test
+  db.DBUser     := 'admin';
+  db.AdminPwd   := glob.AdminPwd;
+
   db.Host       := Glob.DBHost;
-  db.DBPasswort := glob.DBPasswort;
   DB.DBName     := Glob.DBName;
 
   Result := db.testConnection;
@@ -133,16 +138,19 @@ end;
 procedure TDatabaseFrame.prepare;
 begin
   LabeledEdit3.Text := TPath.Combine(ExtractFilePath(paramstr(0)), 'db\Wahl2026.fdb');
+  LabeledEdit4.Text := 'localhost';
 
   if Glob.DBEmbedded then
     RadioGroup1.ItemIndex := 0
   else
     RadioGroup1.ItemIndex := 1;
 
-  LabeledEdit1.Text := Glob.DBUser;
-  LabeledEdit2.Text := Glob.DBPasswort;
-  LabeledEdit3.Text := Glob.DBName;
-  LabeledEdit4.Text := Glob.DBHost;
+  LabeledEdit1.Text := 'sysdba';
+  LabeledEdit2.Text := 'masterkey';
+  if Glob.DBName <> '' then
+    LabeledEdit3.Text := Glob.DBName;
+  if Glob.DBHost <> '' then
+    LabeledEdit4.Text := Glob.DBHost;
 end;
 
 end.

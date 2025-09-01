@@ -1,8 +1,27 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     05.08.2025  19:41                          */
+/*   Created on:     31.08.2025  14:58                          */
 /* ============================================================ */
+
+/*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
+set term /;
+create trigger ti_ad_admin for AD_ADMIN
+before insert as
+begin
+    new.ad_id = gen_id(gen_ad_id, 1);
+end;/
+set term ;/
+
+/*  Insert trigger "ti_al_admin_log" for table "AL_ADMIN_LOG"  */
+set term /;
+create trigger ti_al_admin_log for AL_ADMIN_LOG
+before insert as
+begin
+    new.al_id = gen_id(gen_a__id, 1);
+    new.al_timestamp = CURRENT_TIMESTAMP;
+end;/
+set term ;/
 
 /*  Insert trigger "ti_aw_auswertung" for table "AW_AUSWERTUNG"  */
 set term /;

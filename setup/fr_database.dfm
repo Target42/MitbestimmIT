@@ -33,9 +33,14 @@ object DatabaseFrame: TDatabaseFrame
       Top = 40
       Width = 121
       Height = 23
+      Hint = 
+        'Der Sysdba wird nicht f'#252'r den Betrieb de rDatenbank genutzt! Er ' +
+        'ist nur  zum Anlegen n'#246'tig.'
       EditLabel.Width = 32
       EditLabel.Height = 15
       EditLabel.Caption = 'Name'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       Text = 'sysdba'
     end
@@ -44,9 +49,12 @@ object DatabaseFrame: TDatabaseFrame
       Top = 40
       Width = 121
       Height = 23
+      Hint = 'Dieses Passwort wird nur zum Erzeugen der Datenbank benutzt !'
       EditLabel.Width = 47
       EditLabel.Height = 15
       EditLabel.Caption = 'Passwort'
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 1
       Text = 'masterkey'
     end

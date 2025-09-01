@@ -1,9 +1,11 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     11.08.2025  17:45                          */
+/*   Created on:     31.08.2025  15:51                          */
 /* ============================================================ */
 
+create generator gen_ad_id;
+create generator gen_al_id;
 create generator gen_ma_id;
 create generator gen_wl_id;
 create generator gen_wh_id;
@@ -34,6 +36,17 @@ create table WA_WAHL
     WA_SIMU                         CHAR(1)                        ,
     WA_ACTIVE                       CHAR(1)                        ,
     constraint PK_WA_WAHL primary key (WA_ID)
+);
+
+/* ============================================================ */
+/*   Table: AD_ADMIN                                            */
+/* ============================================================ */
+create table AD_ADMIN
+(
+    AD_ID                           INTEGER                not null,
+    AD_SECRET                       VARCHAR(32)                    ,
+    AD_PWD                          VARCHAR(40)                    ,
+    constraint PK_AD_ADMIN primary key (AD_ID)
 );
 
 /* ============================================================ */
@@ -137,10 +150,11 @@ create table WH_WAHL_HELFER
 create table WV_WAHL_VORSTAND
 (
     MA_ID                           INTEGER                not null,
-    WA_ID                           INTEGER                        ,
+    WA_ID                           INTEGER                not null,
     WV_ROLLE                        VARCHAR(100)                   ,
     WH_SECRET                       CHAR(32)                       ,
-    constraint PK_WV_WAHL_VORSTAND primary key (MA_ID)
+    WV_PWD                          VARCHAR(40)                    ,
+    constraint PK_WV_WAHL_VORSTAND primary key (MA_ID, WA_ID)
 );
 
 /* ============================================================ */
@@ -189,6 +203,18 @@ create table LG_LOG
     LG_DATA                         BLOB                           
 );
 
+/* ============================================================ */
+/*   Table: AL_ADMIN_LOG                                        */
+/* ============================================================ */
+create table AL_ADMIN_LOG
+(
+    AL_ID                           INTEGER                not null,
+    AD_ID                           INTEGER                        ,
+    AL_TIMESTAMP                    TIMESTAMP                      ,
+    AL_DATA                         blob sub_type text             ,
+    constraint PK_AL_ADMIN_LOG primary key (AL_ID)
+);
+
 alter table MA_MITARBEITER
     add constraint FK_REF_189 foreign key  (WA_ID)
        references WA_WAHL;
@@ -218,7 +244,7 @@ alter table WH_WAHL_HELFER
        references MA_MITARBEITER;
 
 alter table WV_WAHL_VORSTAND
-    add constraint FK_REF_30 foreign key  (MA_ID, WA_ID)
+    add constraint FK_REF_342 foreign key  (MA_ID, WA_ID)
        references MA_MITARBEITER;
 
 alter table WT_WA
@@ -245,6 +271,38 @@ alter table LG_LOG
     add constraint FK_REF_217 foreign key  (WA_ID)
        references WA_WAHL;
 
+alter table AL_ADMIN_LOG
+    add constraint FK_REF_353 foreign key  (AD_ID)
+       references AD_ADMIN;
+
 set generator gen_ma_id to 100;
+
+commit;
+
+
+CREATE ROLE appuser;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON AW_AUSWERTUNG TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;
+
+CREATE ROLE appadmin;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
+
 
 commit;

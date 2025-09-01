@@ -83,6 +83,7 @@ begin
   begin
     Glob.AdminPwd := LabeledEdit1.Text;
     Glob.Faktor2  := CheckBox1.Checked;
+    Glob.Secret   := m_secret;
     Glob.writeData;
   end;
 
@@ -93,6 +94,8 @@ begin
   LabeledEdit1.Text := Glob.AdminPwd;
   LabeledEdit2.Text := Glob.AdminPwd;
   CheckBox1.Checked := Glob.Faktor2;
+
+  m_secret := Glob.Secret;
 
   if CheckBox1.Checked then
   begin

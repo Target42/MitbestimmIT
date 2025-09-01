@@ -1,7 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
-  ActiveControl = CheckBox1
+  ActiveControl = ServerFrame1.LV
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -26,7 +26,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardWelcomePage1
+    ActivePage = JvWizardInteriorPage8
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -605,9 +605,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkFinish]
       Caption = 'JvWizardInteriorPage8'
       OnEnterPage = JvWizardInteriorPage8EnterPage
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnFinishButtonClick = JvWizardInteriorPage8FinishButtonClick
       inline ServerFrame1: TServerFrame
         Left = 0
         Top = 70

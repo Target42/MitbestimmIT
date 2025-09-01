@@ -62,6 +62,8 @@ type
       const FromPage: TJvWizardCustomPage);
     procedure JvWizardWelcomePage1CancelButtonClick(Sender: TObject;
       var Stop: Boolean);
+    procedure JvWizardInteriorPage8FinishButtonClick(Sender: TObject;
+      var Stop: Boolean);
   private
   public
     { Public-Deklarationen }
@@ -87,8 +89,9 @@ end;
 
 procedure TMainSetupForm.FormCreate(Sender: TObject);
 begin
-  Glob.HomeDir := ExtractFilePath(ParamStr(0));
+  JvWizard1.DoubleBuffered := true;
 
+  Glob.HomeDir := ExtractFilePath(ParamStr(0));
   Glob.readData;
 
   FilesFrame1.prepare;
@@ -180,9 +183,17 @@ begin
   ServerFrame1.updateData;
 end;
 
+procedure TMainSetupForm.JvWizardInteriorPage8FinishButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  Glob.writeData;
+  Close;
+end;
+
 procedure TMainSetupForm.JvWizardWelcomePage1CancelButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
+  stop := true;
   Glob.writeData;
   Close;
 end;
@@ -190,6 +201,7 @@ end;
 procedure TMainSetupForm.JvWizardWelcomePage1FinishButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
+  stop := true;
   Glob.writeData;
   Close;
 end;

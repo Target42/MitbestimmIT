@@ -17,6 +17,8 @@ type
     FDConnection1: TFDConnection;
     CreateDBQry: TFDQuery;
     FDTransaction1: TFDTransaction;
+    ExecQry: TFDQuery;
+    ExistsQry: TFDQuery;
   private
     FDBName: string;
     FDBUser :string;
@@ -24,13 +26,25 @@ type
     FUseScripts: boolean;
     FEmbedded: boolean;
     FHost: string;
+    FAdminPwd: string;
+    FAdminSecret: string;
+    FUserPwd: string;
+
+    function existsUser(name : string ) : Boolean;
   public
-    property DBName: string read FDBName write FDBName;
+    // sysdba
     property DBUser: string read FDBUser write FDBUser;
     property DBPasswort: string read FDBPasswort write FDBPasswort;
+
+    property DBName: string read FDBName write FDBName;
     property UseScripts: boolean read FUseScripts write FUseScripts;
     property Embedded: boolean read FEmbedded write FEmbedded;
     property Host: string read FHost write FHost;
+
+    // admin
+    property AdminPwd: string read FAdminPwd write FAdminPwd;
+    property AdminSecret: string read FAdminSecret write FAdminSecret;
+    property UserPwd: string read FUserPwd write FUserPwd;
 
     function createDB : boolean;
     function testConnection : Boolean;
@@ -96,11 +110,45 @@ begin
   try
     FDScript1.ValidateAll;
     FDScript1.ExecuteAll;
+
+    if existsUser('ADMIN_USER') then
+    begin
+      ExecQry.SQL.Text := 'drop user ADMIN_USER;';
+      ExecQry.ExecSQL;
+    end;
+
+    ExecQry.SQL.Text := format('create user ADMIN_USER password ''%s''; ', [FAdminPwd]);
+    ExecQry.ExecSQL;
+
+    ExecQry.SQL.Text := 'grant APPADMIN to ADMIN_USER;';
+    ExecQry.ExecSQL;
+
+    if existsUser('STEPHAN') then
+    begin
+      ExecQry.SQL.Text := 'drop user STEPHAN;';
+      ExecQry.ExecSQL;
+    end;
+
+    ExecQry.SQL.Text := format('create user STEPHAN password ''%s''; ', [FUserPwd]);
+    ExecQry.ExecSQL;
+
+    ExecQry.SQL.Text := 'grant APPUSER to STEPHAN;';
+    ExecQry.ExecSQL;
+
+
     Result := true;
   except
 
   end;
 
+end;
+
+function TCreateDBMode.existsUser(name: string): Boolean;
+begin
+  ExecQry.SQL.Text := format('SELECT COUNT(*) FROM SEC$USERS WHERE SEC$USER_NAME = ''%s''', [UpperCase(name)]);
+  ExecQry.Open;
+  Result := ( ExecQry.FieldByName('count').AsInteger > 0 );
+  ExecQry.Close;
 end;
 
 function TCreateDBMode.testConnection: Boolean;
@@ -112,8 +160,8 @@ begin
     FDConnection1.Params.Values['OpenMode'] := '';
 
     Params.Values['Database']  := FDBName;
-    Params.Values['User_Name'] := FDBUser;
-    Params.Values['Password']  := FDBPasswort;
+    Params.Values['User_Name'] := 'admin_user';
+    Params.Values['Password']  := FAdminPwd;
 
     if FEmbedded then
     begin

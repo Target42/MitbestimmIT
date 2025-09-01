@@ -16,12 +16,14 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.08.2025  19:37                          ' +
+            '/*   Created on:     31.08.2025  15:51                          ' +
             '*/'
           
             '/* ============================================================ ' +
             '*/'
           ''
+          'create generator gen_ad_id;'
+          'create generator gen_al_id;'
           'create generator gen_ma_id;'
           'create generator gen_wl_id;'
           'create generator gen_wh_id;'
@@ -78,6 +80,29 @@ object CreateDBMode: TCreateDBMode
             '    WA_ACTIVE                       CHAR(1)                     ' +
             '   ,'
           '    constraint PK_WA_WAHL primary key (WA_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: AD_ADMIN                                            ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table AD_ADMIN'
+          '('
+          
+            '    AD_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    AD_SECRET                       VARCHAR(32)                 ' +
+            '   ,'
+          
+            '    AD_PWD                          VARCHAR(40)                 ' +
+            '   ,'
+          '    constraint PK_AD_ADMIN primary key (AD_ID)'
           ');'
           ''
           
@@ -314,15 +339,18 @@ object CreateDBMode: TCreateDBMode
             '    MA_ID                           INTEGER                not n' +
             'ull,'
           
-            '    WA_ID                           INTEGER                     ' +
-            '   ,'
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
           
             '    WV_ROLLE                        VARCHAR(100)                ' +
             '   ,'
           
             '    WH_SECRET                       CHAR(32)                    ' +
             '   ,'
-          '    constraint PK_WV_WAHL_VORSTAND primary key (MA_ID)'
+          
+            '    WV_PWD                          VARCHAR(40)                 ' +
+            '   ,'
+          '    constraint PK_WV_WAHL_VORSTAND primary key (MA_ID, WA_ID)'
           ');'
           ''
           
@@ -425,6 +453,32 @@ object CreateDBMode: TCreateDBMode
             '   '
           ');'
           ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: AL_ADMIN_LOG                                        ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table AL_ADMIN_LOG'
+          '('
+          
+            '    AL_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    AD_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    AL_TIMESTAMP                    TIMESTAMP                   ' +
+            '   ,'
+          
+            '    AL_DATA                         blob sub_type text          ' +
+            '   ,'
+          '    constraint PK_AL_ADMIN_LOG primary key (AL_ID)'
+          ');'
+          ''
           'alter table MA_MITARBEITER'
           '    add constraint FK_REF_189 foreign key  (WA_ID)'
           '       references WA_WAHL;'
@@ -454,7 +508,7 @@ object CreateDBMode: TCreateDBMode
           '       references MA_MITARBEITER;'
           ''
           'alter table WV_WAHL_VORSTAND'
-          '    add constraint FK_REF_30 foreign key  (MA_ID, WA_ID)'
+          '    add constraint FK_REF_342 foreign key  (MA_ID, WA_ID)'
           '       references MA_MITARBEITER;'
           ''
           'alter table WT_WA'
@@ -480,6 +534,59 @@ object CreateDBMode: TCreateDBMode
           'alter table LG_LOG'
           '    add constraint FK_REF_217 foreign key  (WA_ID)'
           '       references WA_WAHL;'
+          ''
+          'alter table AL_ADMIN_LOG'
+          '    add constraint FK_REF_353 foreign key  (AD_ID)'
+          '       references AD_ADMIN;'
+          ''
+          'set generator gen_ma_id to 100;'
+          ''
+          ''
+          'CREATE ROLE APPUSER;'
+          ''
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_AUSWERTUNG TO APPUSER' +
+            ';'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO APPUSER;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO APPUSER' +
+            ';'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO APPUSER;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO APPUSE' +
+            'R;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO APPUSE' +
+            'R;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO APPUSER;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO APPUSER;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO APPUSE' +
+            'R;;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO APPUSER' +
+            ';'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO APPUSER;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO APPUSER' +
+            ';'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO APPU' +
+            'SER;'
+          ''
+          'CREATE ROLE APPADMIN;'
+          ''
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO APPADMIN;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO APPADMIN' +
+            ';'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO APPADMIN;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO APPADM' +
+            'IN;'
+          
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO APPA' +
+            'DMIN;'
           '')
       end
       item
@@ -495,11 +602,32 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.08.2025  19:41                          ' +
+            '/*   Created on:     31.08.2025  14:58                          ' +
             '*/'
           
             '/* ============================================================ ' +
             '*/'
+          ''
+          '/*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */'
+          'set term /;'
+          'create trigger ti_ad_admin for AD_ADMIN'
+          'before insert as'
+          'begin'
+          '    new.ad_id = gen_id(gen_ad_id, 1);'
+          'end;/'
+          'set term ;/'
+          ''
+          
+            '/*  Insert trigger "ti_al_admin_log" for table "AL_ADMIN_LOG"  *' +
+            '/'
+          'set term /;'
+          'create trigger ti_al_admin_log for AL_ADMIN_LOG'
+          'before insert as'
+          'begin'
+          '    new.al_id = gen_id(gen_a__id, 1);'
+          '    new.al_timestamp = CURRENT_TIMESTAMP;'
+          'end;/'
+          'set term ;/'
           ''
           
             '/*  Insert trigger "ti_aw_auswertung" for table "AW_AUSWERTUNG" ' +
@@ -607,5 +735,28 @@ object CreateDBMode: TCreateDBMode
     Connection = FDConnection1
     Left = 120
     Top = 128
+  end
+  object ExecQry: TFDQuery
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    Left = 408
+    Top = 104
+  end
+  object ExistsQry: TFDQuery
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      'SELECT COUNT(*) '
+      'FROM SEC$USERS '
+      'WHERE SEC$USER_NAME = :user;')
+    Left = 440
+    Top = 240
+    ParamData = <
+      item
+        Name = 'USER'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

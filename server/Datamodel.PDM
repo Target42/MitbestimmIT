@@ -57,6 +57,34 @@ create generator gen_aw_id;\
 create generator gen_wa_id;
 set generator gen_ma_id to 100;\
 \
+commit;\
+\
+\
+CREATE ROLE appuser;\
+\
+GRANT SELECT, INSERT, UPDATE, DELETE ON AW_AUSWERTUNG TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;\
+\
+CREATE ROLE appadmin;\
+\
+GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO appadmin;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO appadmin;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;\
+\
+\
 commit;
 0
 
@@ -64,7 +92,7 @@ commit;
 
 
 1753814221
-1755430057
+1756648289
 0
 0
 4
@@ -393,7 +421,7 @@ AD_ADMIN
 0
 0
 0
-
+AD_ADMIN
 
 
 
@@ -413,7 +441,7 @@ AL_ADMIN_LOG
 0
 0
 0
-
+AL_ADMIN_LOG
 
 
 
@@ -1034,7 +1062,7 @@ INTEGER
 1
 0
 0
-
+MA_ID
 
 1
 3
@@ -1068,7 +1096,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 2
 3
@@ -1170,7 +1198,7 @@ VARCHAR(40)
 1
 0
 0
-
+WV_PWD
 
 5
 3
@@ -2496,7 +2524,7 @@ INTEGER
 1
 0
 0
-
+AD_ID
 
 1
 3
@@ -2530,7 +2558,7 @@ VARCHAR(32)
 1
 0
 0
-
+AD_SECRET
 
 2
 3
@@ -2564,7 +2592,7 @@ VARCHAR(40)
 1
 0
 0
-
+AD_PWD
 
 3
 3
@@ -2598,7 +2626,7 @@ INTEGER
 1
 0
 0
-
+AL_ID
 
 1
 3
@@ -2632,7 +2660,7 @@ INTEGER
 1
 0
 0
-
+AD_ID
 
 2
 3
@@ -2666,7 +2694,7 @@ TIMESTAMP
 1
 0
 0
-
+AL_TIMESTAMP
 
 3
 3
@@ -2700,7 +2728,7 @@ blob sub_type text
 1
 0
 0
-
+AL_DATA
 
 4
 /END_TABLE AMCCOLN
@@ -2974,7 +3002,7 @@ REF_342
 1
 0
 0
-
+REF_342
 
 14
 3
@@ -2992,7 +3020,7 @@ REF_353
 1
 0
 0
-
+REF_353
 
 15
 /END_TABLE AMCREFR
@@ -3479,14 +3507,14 @@ set term ;/
 ti_ad_admin
 338
 1
-1
+3
 InsertTrigger
 /*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
 set term /;\
 create trigger %TRIGGER% for %TABLE%\
 before insert as\
 begin\
-    new.al_id = gen_id(gen_a__id, 1);\
+    new.al_id = gen_id(gen_al_id, 1);\
     new.al_timestamp = CURRENT_TIMESTAMP;\
 end;/\
 set term ;/

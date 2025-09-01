@@ -9,6 +9,8 @@ function SaveRCDataToFile( const ResName, filename: string ) : boolean;
 procedure LoadRCDataToStream(const ResName: string; Stream: TStream);
 function findInPath( PrgName : string ) : Boolean;
 
+function GenerateFirebirdPassword(size: Integer = 20): string;
+
 implementation
 
 uses
@@ -84,5 +86,26 @@ begin
   list.Free;
 end;
 
+function GenerateFirebirdPassword(size: Integer): string;
+const
+  CChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+            'abcdefghijklmnopqrstuvwxyz' +
+            '0123456789' +
+             '!@#$%^&*()-_=+[]{};:,.<>?';
+var
+  I: Integer;
+  len : integer;
+begin
+
+  len := Length(CChars);
+  Result := '';
+
+  for I := 1 to size do
+    Result := Result + CChars[Random(len) + 1];
+end;
+
+
+initialization
+  Randomize; // Zufall initialisieren
 end.
 
