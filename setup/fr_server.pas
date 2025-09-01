@@ -26,6 +26,8 @@ type
     BitBtn3: TBitBtn;
     BitBtn4: TBitBtn;
     BitBtn5: TBitBtn;
+    Panel2: TPanel;
+    BitBtn6: TBitBtn;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string;
       AOutputType: TOutputType);
     procedure DosCommand1Terminated(Sender: TObject);
@@ -37,6 +39,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
   private
     m_list : TStringList;
     m_name : string;
@@ -44,9 +47,10 @@ type
     procedure UpdateLV;
 
     procedure findService;
+    procedure updateData;
   public
     procedure prepare;
-    procedure updateData;
+
     procedure release;
   end;
 
@@ -85,6 +89,11 @@ begin
   DosCommand2.CommandLine := 'start MitbestimmITServer.exe';
   DosCommand2.Execute;
 
+end;
+
+procedure TServerFrame.BitBtn6Click(Sender: TObject);
+begin
+  updateData;
 end;
 
 procedure TServerFrame.DosCommand1NewLine(ASender: TObject;

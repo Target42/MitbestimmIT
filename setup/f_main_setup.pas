@@ -180,7 +180,6 @@ procedure TMainSetupForm.JvWizardInteriorPage8EnterPage(Sender: TObject;
   const FromPage: TJvWizardCustomPage);
 begin
   Glob.writeData;
-  ServerFrame1.updateData;
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage8FinishButtonClick(Sender: TObject;

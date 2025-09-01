@@ -24,7 +24,7 @@ object ServerFrame: TServerFrame
       Left = 2
       Top = 17
       Width = 309
-      Height = 461
+      Height = 420
       Align = alClient
       Columns = <
         item
@@ -42,6 +42,30 @@ object ServerFrame: TServerFrame
       StateImages = PngImageList1
       TabOrder = 0
       ViewStyle = vsReport
+      ExplicitLeft = 5
+      ExplicitHeight = 369
+    end
+    object Panel2: TPanel
+      Left = 2
+      Top = 437
+      Width = 309
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel2'
+      ShowCaption = False
+      TabOrder = 1
+      ExplicitLeft = 5
+      ExplicitTop = 443
+      object BitBtn6: TBitBtn
+        Left = 16
+        Top = 6
+        Width = 75
+        Height = 25
+        Caption = 'Update'
+        TabOrder = 0
+        OnClick = BitBtn6Click
+      end
     end
   end
   object GroupBox2: TGroupBox

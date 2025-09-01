@@ -628,8 +628,12 @@ object MainSetupForm: TMainSetupForm
           Height = 367
           ExplicitHeight = 367
           inherited LV: TListView
-            Height = 348
+            Height = 307
             ExplicitHeight = 348
+          end
+          inherited Panel2: TPanel
+            Top = 324
+            StyleElements = [seFont, seClient, seBorder]
           end
         end
         inherited GroupBox2: TGroupBox
