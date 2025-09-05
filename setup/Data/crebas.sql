@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     31.08.2025  15:51                          */
+/*   Created on:     05.09.2025  21:14                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -45,7 +45,7 @@ create table AD_ADMIN
 (
     AD_ID                           INTEGER                not null,
     AD_SECRET                       VARCHAR(32)                    ,
-    AD_PWD                          VARCHAR(40)                    ,
+    AD_PWD                          VARCHAR(64)                    ,
     constraint PK_AD_ADMIN primary key (AD_ID)
 );
 
@@ -152,7 +152,7 @@ create table WV_WAHL_VORSTAND
     MA_ID                           INTEGER                not null,
     WA_ID                           INTEGER                not null,
     WV_ROLLE                        VARCHAR(100)                   ,
-    WH_SECRET                       CHAR(32)                       ,
+    WV_SECRET                       VARCHAR(12)                    ,
     WV_PWD                          VARCHAR(40)                    ,
     constraint PK_WV_WAHL_VORSTAND primary key (MA_ID, WA_ID)
 );
@@ -197,10 +197,11 @@ create table WD_WAHLDATEN
 /* ============================================================ */
 create table LG_LOG
 (
-    WA_ID                           INTEGER                        ,
-    LG_ID                           INTEGER                        ,
+    WA_ID                           INTEGER                not null,
+    LG_ID                           INTEGER                not null,
     LG_STAMP                        TIMESTAMP                      ,
-    LG_DATA                         BLOB                           
+    LG_DATA                         BLOB                           ,
+    constraint PK_LG_LOG primary key (WA_ID, LG_ID)
 );
 
 /* ============================================================ */
@@ -296,6 +297,15 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;
 
+GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;
+
 CREATE ROLE appadmin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO appadmin;
@@ -304,5 +314,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
 
+GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;
+GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;
+GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;
+GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;
 
 commit;

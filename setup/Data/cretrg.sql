@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     31.08.2025  14:58                          */
+/*   Created on:     05.09.2025  21:14                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -18,7 +18,7 @@ set term /;
 create trigger ti_al_admin_log for AL_ADMIN_LOG
 before insert as
 begin
-    new.al_id = gen_id(gen_a__id, 1);
+    new.al_id = gen_id(gen_al_id, 1);
     new.al_timestamp = CURRENT_TIMESTAMP;
 end;/
 set term ;/
@@ -59,6 +59,16 @@ create trigger ti_sz_stimmzettel for SZ_STIMMZETTEL
 before insert as
 begin
     new.sz_id = gen_id(gen_sz_id, 1);
+
+end;/
+set term ;/
+
+/*  Insert trigger "ti_tab_184" for table "WA_WAHL"  */
+set term /;
+create trigger ti_tab_184 for WA_WAHL
+before insert as
+begin
+    new.wa_id = gen_id(gen_wa_id, 1);
 
 end;/
 set term ;/
