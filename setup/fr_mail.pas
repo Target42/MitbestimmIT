@@ -26,7 +26,10 @@ type
     IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL;
     IdMessage1: TIdMessage;
     CheckBox1: TCheckBox;
+    Label1: TLabel;
+    ComboBox1: TComboBox;
     procedure BitBtn1Click(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
   private
     m_ok : boolean;
   public
@@ -37,7 +40,7 @@ type
 implementation
 
 uses
-  IdEMailAddress, u_glob;
+  IdEMailAddress, u_glob, m_res;
 
 {$R *.dfm}
 
@@ -72,6 +75,16 @@ begin
 
   end;
   IdSMTP1.Disconnect;
+
+
+end;
+
+procedure TMailFrame.ComboBox1Change(Sender: TObject);
+begin
+  if ComboBox1.ItemIndex = 0 then
+    LabeledEdit2.Text := '25'
+  else if ComboBox1.ItemIndex = 1 then
+    ComboBox1.ItemIndex = 0
 
 
 end;

@@ -25,6 +25,7 @@ type
     procedure upzipFB;
     procedure unzipFBClient;
     procedure unzipBat;
+    procedure unzipClients;
   public
     function doCopy : boolean;
 
@@ -73,6 +74,9 @@ begin
       done := SaveRCDataToFile('SSL', TPath.Combine(Glob.TempDir, 'ssl.zip')) and done;
       log('OpenSSL');
       done := SaveRCDataToFile('openssl', TPath.Combine(Glob.TempDir, 'openssl.zip')) and done;
+      log('Clients');
+      done := SaveRCDataToFile('service', TPath.Combine(Glob.TempDir, 'service.zip')) and done;
+      done := SaveRCDataToFile('console', TPath.Combine(Glob.TempDir, 'console.zip')) and done;
 
       done := SaveRCDataToFile('bat', TPath.Combine(Glob.TempDir, 'bat.zip')) and done;
 
@@ -82,6 +86,7 @@ begin
 
     unzipSSL;
     unzipOpenSSL;
+    unzipClients;
     unzipFBClient;
     unzipBat;
 
@@ -148,6 +153,25 @@ begin
   zip.Close;
 end;
 
+procedure TFilesFrame.unzipClients;
+var
+  zip : TZipFile;
+begin
+  log('Server');
+  zip := TZipFile.Create;
+
+  zip.Open(TPath.Combine(Glob.TempDir, 'service.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
+  zip.Close;
+
+  zip.Open(TPath.Combine(Glob.TempDir, 'console.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
+  zip.Close;
+
+  zip.Free;
+end;
+
+
 procedure TFilesFrame.unzipFBClient;
 var
   zip : TZipFile;
@@ -157,6 +181,7 @@ begin
   zip.Open(TPath.Combine(Glob.TempDir, 'fb_client.zip'), zmRead);
   zip.ExtractAll(Glob.HomeDir);
   zip.Close;
+  zip.Free;
 end;
 
 procedure TFilesFrame.unzipOpenSSL;
@@ -168,7 +193,7 @@ begin
   zip.Open(TPath.Combine(Glob.TempDir, 'openssl.zip'), zmRead);
   zip.ExtractAll(TPath.Combine(Glob.HomeDir, 'Zertifikate\openssl'));
   zip.Close;
-
+  zip.Free;
 end;
 
 procedure TFilesFrame.unzipSSL;
@@ -189,6 +214,7 @@ begin
     zip.ExtractAll(Glob.HomeDir );
   end;
   zip.Close;
+  zip.Free;
 
 end;
 
@@ -202,7 +228,7 @@ begin
   zip.Open(TPath.Combine(Glob.TempDir, 'fb.zip'), zmRead);
   zip.ExtractAll(Glob.HomeDir);
   zip.Close;
-
+  zip.Free;
 end;
 
 end.

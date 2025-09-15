@@ -51,7 +51,7 @@ implementation
 
 {$R *.dfm}
 
-uses u_glob, System.Generics.Collections;
+uses u_glob, System.Generics.Collections, m_res;
 
 procedure TPortCheckFrame.BitBtn1Click(Sender: TObject);
 var

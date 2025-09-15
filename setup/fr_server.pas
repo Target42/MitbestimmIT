@@ -58,6 +58,8 @@ implementation
 
 {$R *.dfm}
 
+uses m_res;
+
 { TServerFrame }
 
 procedure TServerFrame.BitBtn1Click(Sender: TObject);

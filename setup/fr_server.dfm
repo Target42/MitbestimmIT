@@ -42,8 +42,6 @@ object ServerFrame: TServerFrame
       StateImages = PngImageList1
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 5
-      ExplicitHeight = 369
     end
     object Panel2: TPanel
       Left = 2
@@ -55,14 +53,14 @@ object ServerFrame: TServerFrame
       Caption = 'Panel2'
       ShowCaption = False
       TabOrder = 1
-      ExplicitLeft = 5
-      ExplicitTop = 443
       object BitBtn6: TBitBtn
         Left = 16
         Top = 6
         Width = 75
         Height = 25
         Caption = 'Update'
+        ImageIndex = 11
+        Images = Resmod.PngImageList1
         TabOrder = 0
         OnClick = BitBtn6Click
       end
@@ -124,46 +122,55 @@ object ServerFrame: TServerFrame
       TabOrder = 1
       object BitBtn1: TBitBtn
         Left = 32
-        Top = 40
+        Top = 16
         Width = 153
         Height = 25
         Caption = 'Dienst installieren'
+        ImageIndex = 10
+        Images = Resmod.PngImageList1
         TabOrder = 0
         OnClick = BitBtn1Click
       end
       object BitBtn2: TBitBtn
         Left = 216
-        Top = 40
+        Top = 16
         Width = 153
         Height = 25
         Caption = 'Dienst starten'
+        ImageIndex = 8
+        Images = Resmod.PngImageList1
         TabOrder = 1
         OnClick = BitBtn2Click
       end
       object BitBtn3: TBitBtn
         Left = 32
-        Top = 96
+        Top = 64
         Width = 153
         Height = 25
         Caption = 'Dienst deinstallieren'
+        ImageIndex = 9
+        Images = Resmod.PngImageList1
         TabOrder = 2
         OnClick = BitBtn3Click
       end
       object BitBtn4: TBitBtn
         Left = 216
-        Top = 96
+        Top = 64
         Width = 153
         Height = 25
         Caption = 'Dienst stoppen'
+        ImageIndex = 7
+        Images = Resmod.PngImageList1
         TabOrder = 3
         OnClick = BitBtn4Click
       end
       object BitBtn5: TBitBtn
-        Left = 128
-        Top = 152
+        Left = 120
+        Top = 104
         Width = 153
         Height = 25
         Caption = 'Start Console App'
+        Images = Resmod.PngImageList1
         TabOrder = 4
         OnClick = BitBtn5Click
       end

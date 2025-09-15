@@ -18,12 +18,14 @@ object FilesFrame: TFilesFrame
       849
       83)
     object SpeedButton1: TSpeedButton
-      Left = 814
-      Top = 36
+      Left = 807
+      Top = 35
       Width = 23
       Height = 22
       Action = BrowseForFolder1
       Anchors = [akTop, akRight]
+      ImageIndex = 4
+      Images = Resmod.PngImageList1
     end
     object Edit1: TEdit
       Left = 16

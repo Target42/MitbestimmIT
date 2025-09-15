@@ -45,6 +45,8 @@ object PortCheckFrame: TPortCheckFrame
       Width = 75
       Height = 25
       Caption = 'Test'
+      ImageIndex = 5
+      Images = Resmod.PngImageList1
       TabOrder = 1
       OnClick = BitBtn1Click
     end
@@ -78,6 +80,8 @@ object PortCheckFrame: TPortCheckFrame
       Width = 75
       Height = 25
       Caption = 'Test'
+      ImageIndex = 5
+      Images = Resmod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
@@ -122,6 +126,8 @@ object PortCheckFrame: TPortCheckFrame
       Width = 75
       Height = 25
       Caption = 'Test'
+      ImageIndex = 5
+      Images = Resmod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
@@ -178,6 +184,8 @@ object PortCheckFrame: TPortCheckFrame
       Width = 75
       Height = 25
       Caption = 'Test'
+      ImageIndex = 5
+      Images = Resmod.PngImageList1
       TabOrder = 1
       OnClick = BitBtn1Click
     end
@@ -192,12 +200,15 @@ object PortCheckFrame: TPortCheckFrame
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 4
+    ExplicitTop = 279
     object BitBtn5: TBitBtn
-      Left = 32
+      Left = 34
       Top = 22
       Width = 169
       Height = 25
       Caption = 'Alle Ports testen'
+      ImageIndex = 5
+      Images = Resmod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn5Click
     end

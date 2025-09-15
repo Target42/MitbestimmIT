@@ -33,7 +33,7 @@ implementation
 {$R *.dfm}
 
 uses
-  m_db_create, system.IOUtils, u_glob, system.Zip, ShellAPI;
+  m_db_create, system.IOUtils, u_glob, system.Zip, ShellAPI, m_res;
 
 procedure TDatabaseFrame.BitBtn1Click(Sender: TObject);
 var

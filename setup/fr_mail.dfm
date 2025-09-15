@@ -13,6 +13,13 @@ object MailFrame: TMailFrame
     Align = alTop
     Caption = 'SMTP-Server'
     TabOrder = 0
+    object Label1: TLabel
+      Left = 426
+      Top = 63
+      Width = 19
+      Height = 15
+      Caption = 'TLS'
+    end
     object LabeledEdit1: TLabeledEdit
       Left = 24
       Top = 37
@@ -26,7 +33,7 @@ object MailFrame: TMailFrame
     end
     object LabeledEdit2: TLabeledEdit
       Left = 272
-      Top = 40
+      Top = 37
       Width = 33
       Height = 23
       EditLabel.Width = 22
@@ -60,20 +67,34 @@ object MailFrame: TMailFrame
       Text = ''
     end
     object CheckBox1: TCheckBox
-      Left = 392
+      Left = 426
       Top = 40
-      Width = 121
+      Width = 161
       Height = 17
-      Caption = 'Nicht einrichten'
+      Caption = 'Nicht jetzt einrichten'
       TabOrder = 4
+    end
+    object ComboBox1: TComboBox
+      Left = 426
+      Top = 84
+      Width = 145
+      Height = 23
+      ItemIndex = 2
+      TabOrder = 5
+      Text = 'Implizit (Port 465)'
+      OnChange = ComboBox1Change
+      Items.Strings = (
+        'Keines (Port 25 )'
+        'Explizit (Port 587)'
+        'Implizit (Port 465)')
     end
   end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 185
     Width = 640
-    Height = 176
-    Align = alTop
+    Height = 295
+    Align = alClient
     Caption = 'Probemail'
     TabOrder = 1
     object Panel1: TPanel
@@ -103,6 +124,8 @@ object MailFrame: TMailFrame
         Width = 113
         Height = 25
         Caption = 'Testmail senden'
+        ImageIndex = 1
+        Images = Resmod.PngImageList1
         TabOrder = 1
         OnClick = BitBtn1Click
       end
@@ -111,7 +134,7 @@ object MailFrame: TMailFrame
       Left = 2
       Top = 81
       Width = 636
-      Height = 93
+      Height = 212
       Align = alClient
       Lines.Strings = (
         'Herzlichen Gl'#252'ckwunch!'
@@ -126,8 +149,8 @@ object MailFrame: TMailFrame
     Port = 465
     SASLMechanisms = <>
     UseTLS = utUseImplicitTLS
-    Left = 480
-    Top = 64
+    Left = 336
+    Top = 240
   end
   object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
     Destination = ':465'
@@ -139,8 +162,8 @@ object MailFrame: TMailFrame
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []
     SSLOptions.VerifyDepth = 0
-    Left = 480
-    Top = 136
+    Left = 416
+    Top = 352
   end
   object IdMessage1: TIdMessage
     AttachmentEncoding = 'UUE'
@@ -154,7 +177,7 @@ object MailFrame: TMailFrame
     ReplyTo = <>
     Subject = 'Testmail'
     ConvertPreamble = True
-    Left = 560
-    Top = 64
+    Left = 552
+    Top = 296
   end
 end

@@ -54,6 +54,7 @@ object DatabaseFrame: TDatabaseFrame
       EditLabel.Height = 15
       EditLabel.Caption = 'Passwort'
       ParentShowHint = False
+      PasswordChar = '*'
       ShowHint = True
       TabOrder = 1
       Text = 'masterkey'
@@ -119,6 +120,8 @@ object DatabaseFrame: TDatabaseFrame
       Width = 75
       Height = 25
       Caption = 'Erstellen'
+      ImageIndex = 3
+      Images = Resmod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
