@@ -1,0 +1,2 @@
+del "D:\git_d12\MitbestimmIT\setup\Data\MitbestimmITServer.service.zip"
+powershell Compress-Archive -Path "D:\DelphiBin\MitbestimmIT\Server\MitbestimmITServer.service.exe" -DestinationPath "D:\git_d12\MitbestimmIT\setup\Data\MitbestimmITServer.service.zip"
