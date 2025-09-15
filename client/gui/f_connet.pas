@@ -52,7 +52,6 @@ type
   TConnectForm = class(TForm)
     BaseFrame1: TBaseFrame;
     LabeledEdit1: TLabeledEdit;
-    CheckBox1: TCheckBox;
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
@@ -112,14 +111,10 @@ var
   obj     : TJSONObject;
 begin
   Result := false;
-{$IFDEF DEBUG}
-  GM.HostAddress := 'ds://localhost:211';
-  GM.HostAddress := 'Simulation';
-{$ENDIF}
 
   Application.CreateForm(TConnectForm, ConnectForm);
-  ConnectForm.Host := GM.HostAddress;
-  ConnectForm.User := GM.User;
+  ConnectForm.Host     := GM.HostAddress;
+  ConnectForm.User     := GM.User;
   ConnectForm.Passwort := GM.Passwort;
 
   counter := 3;
@@ -128,22 +123,20 @@ begin
 
     if ConnectForm.ShowModal = mrOk then
     begin
-      if not Assigned(GM.Storage) then
-      begin
-        GM.createStorage(ConnectForm.getStorageType);
-      end;
+      GM.HostAddress := ConnectForm.Host;
+      GM.User        := ConnectForm.User;
+      GM.Passwort    := ConnectForm.Passwort;
 
-      obj := ConnectForm.getUserData;
-      if GM.Storage.connect(obj) then
+      result := GM.connect;
+      if Result then
         break;
+
     end
     else
       break;
     dec( Counter );
   end;
 
-  if Assigned(GM.Storage) then
-    Result := GM.Storage.isConnected;
 
   ConnectForm.Free;
 end;
@@ -170,11 +163,7 @@ end;
 }
 function TConnectForm.GetHost: string;
 begin
-  if CheckBox1.Checked then
-    Result := 'simulation'
-  else
-    Result := trim( LabeledEdit1.Text);
-
+  Result := trim( LabeledEdit1.Text);
 end;
 
 /// <summary>
@@ -191,8 +180,6 @@ end;
 function TConnectForm.getStorageType: string;
 begin
   Result := 'datasnap';
-  if CheckBox1.Checked then
-    Result := 'simulation'
 end;
 
 {
@@ -229,11 +216,7 @@ end;
 //------------------------------------------------------------------------------
 procedure TConnectForm.SetHost(const Value: string);
 begin
-  LabeledEdit1.Text := '';
-  CheckBox1.Checked := SameText('simulation', value );
-
-  if not CheckBox1.Checked then
-    LabeledEdit1.Text := value;
+  LabeledEdit1.Text := value;
 end;
 
 procedure TConnectForm.SetPasswort(const Value: string);

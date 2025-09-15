@@ -90,6 +90,12 @@ object MainClientForm: TMainClientForm
     object Auszhlung1: TMenuItem
       Caption = 'Ausz'#228'hlung'
     end
+    object Admin1: TMenuItem
+      Caption = 'Admin'
+      object Wahlen1: TMenuItem
+        Action = ac_ad_wahl
+      end
+    end
     object Windows1: TMenuItem
       Caption = 'Windows'
       object Info1: TMenuItem
@@ -148,11 +154,17 @@ object MainClientForm: TMainClientForm
     object ac_disconnect: TAction
       Category = 'Datei'
       Caption = 'Trennen'
+      OnExecute = ac_disconnectExecute
     end
     object ac_wa_waehlerliste: TAction
       Category = 'Wahl'
       Caption = 'W'#228'hlerliste'
       OnExecute = ac_wa_waehlerlisteExecute
+    end
+    object ac_ad_wahl: TAction
+      Category = 'Admin'
+      Caption = 'Wahlen'
+      OnExecute = ac_ad_wahlExecute
     end
   end
   object Timer1: TTimer

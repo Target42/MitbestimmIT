@@ -65,6 +65,9 @@ type
     ac_wa_waehlerliste: TAction;
     Whlerliste1: TMenuItem;
     N4: TMenuItem;
+    Admin1: TMenuItem;
+    ac_ad_wahl: TAction;
+    Wahlen1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -75,9 +78,11 @@ type
     procedure ac_wa_vorstandExecute(Sender: TObject);
     procedure ac_connectExecute(Sender: TObject);
     procedure ac_wa_waehlerlisteExecute(Sender: TObject);
+    procedure ac_disconnectExecute(Sender: TObject);
+    procedure ac_ad_wahlExecute(Sender: TObject);
   private
     type
-      TMenuState = (msInit = 0, msLoaded);
+      TMenuState = (msInit = 0, msLoaded, msAdmin);
   private
     procedure setMenuState( state : TMenuState );
     procedure setPanelText( section : integer; text : string );
@@ -93,37 +98,38 @@ implementation
 uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlhelfer, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
-  f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste;
+  f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
+  f_admin;
 
 {$R *.dfm}
 
+procedure TMainClientForm.ac_ad_wahlExecute(Sender: TObject);
+begin
+  Application.CreateForm(TAdminForm, AdminForm);
+  AdminForm.ShowModal;
+  AdminForm.free;
+end;
+
 procedure TMainClientForm.ac_connectExecute(Sender: TObject);
-var
-  data : TJSONObject;
 begin
   if TConnectForm.Execute then
   begin
-    data := Gm.Storage.select;
-    if Assigned(data) then
+    if GM.IsAdmin then
     begin
-      if JBool( data, 'new') then
-      begin
-        if GM.Storage.new then
-        begin
-          ac_wa_plan.Execute;
-          setMenuState( msLoaded );
-        end;
-      end
-      else
-      begin
-        if GM.Storage.load(data) then
-        begin
-          setMenuState( msLoaded );
-        end;
-      end;
-      data.Free;
+      setMenuState(msAdmin);
+    end
+    else
+    begin
+      setMenuState(msLoaded);
     end;
+
   end;
+end;
+
+procedure TMainClientForm.ac_disconnectExecute(Sender: TObject);
+begin
+  GM.Disconnect;
+  setMenuState(msInit);
 end;
 
 procedure TMainClientForm.ac_helperExecute(Sender: TObject);
@@ -179,6 +185,12 @@ begin
         Auszhlung1.Enabled := false;
         ac_connect.Enabled := true;
         ac_disconnect.Enabled := false;
+
+        Admin1.Enabled     := false;
+        ac_ad_wahl.Enabled := false;
+
+        setPanelText(0, '  ');
+        setPanelText(1, 'Offline');
       end;
     msLoaded:
       begin
@@ -189,8 +201,28 @@ begin
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;
 
+        Admin1.Enabled     := false;
+        ac_ad_wahl.Enabled := false;
+
+
         setPanelText(0, GM.User);
         setPanelText(1, GM.HostAddress);
+      end;
+      msAdmin:
+      begin
+        Wahl1.Enabled      := false;
+        Wahlbuero1.Enabled := false;
+        Briefwahl1.Enabled := false;
+        Auszhlung1.Enabled := false;
+        ac_connect.Enabled := false;
+        ac_disconnect.Enabled := true;
+
+        Admin1.Enabled     := true;
+        ac_ad_wahl.Enabled := true;
+
+        setPanelText(0, GM.User);
+        setPanelText(1, GM.HostAddress);
+
       end;
   end;
 end;

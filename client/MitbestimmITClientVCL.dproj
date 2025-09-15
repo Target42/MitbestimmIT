@@ -198,23 +198,23 @@
         <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
         <DCCReference Include="..\WahlDefininition\u_WahlDef.pas"/>
         <DCCReference Include="..\Storage\i_Storage.pas"/>
-        <DCCReference Include="u_stub.pas"/>
         <DCCReference Include="Simulation\f_simulation_load.pas">
             <Form>SimulationLoadForm</Form>
         </DCCReference>
         <DCCReference Include="..\Storage\Simulation\u_StorageWahlDefinition.pas"/>
         <DCCReference Include="..\Storage\Simulation\u_StorageSimulation.pas">
-            <Form>$ENDIF</Form>
+            <Form>,
+  u_StorageWaehlerListe in &apos;..\Storage\Simulation\u_StorageWaehlerListe.pas&apos; {,
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; {$ENDIF</Form>
         </DCCReference>
         <DCCReference Include="..\Storage\Simulation\u_StorageWaehlerListe.pas">
-            <Form>$ENDIF</Form>
+            <Form>,
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; {$ENDIF</Form>
         </DCCReference>
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas">
             <Form>$ENDIF</Form>
         </DCCReference>
-        <DCCReference Include="..\Storage\Simulation\u_StorageWahlvorstand.pas">
-            <Form>$ENDIF</Form>
-        </DCCReference>
+        <DCCReference Include="..\Storage\Simulation\u_StorageWahlvorstand.pas"/>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
         </DCCReference>
@@ -227,6 +227,11 @@
         </DCCReference>
         <DCCReference Include="..\WählerListe\i_waehlerliste.pas">
             <Form>$R *.res</Form>
+        </DCCReference>
+        <DCCReference Include="u_stub.pas"/>
+        <DCCReference Include="Admin\f_admin.pas">
+            <Form>AdminForm</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
@@ -1409,7 +1414,7 @@
             </Platforms>
             <ModelSupport>False</ModelSupport>
             <DataSnapProxyLookup>
-                <u_stub>{AEFBC6FD-4AE3-4A88-BC72-BCE5BEFDB22C}</u_stub>
+                <u_stub>{EB9B5E39-4CF2-45D6-BE61-1B20D4640028}</u_stub>
             </DataSnapProxyLookup>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

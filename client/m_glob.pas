@@ -22,7 +22,8 @@ unit m_glob;
 interface
 
 uses
-  System.SysUtils, System.Classes, i_Storage, u_Waehlerliste, i_waehlerliste;
+  System.SysUtils, System.Classes, i_Storage, u_Waehlerliste, i_waehlerliste,
+  Data.DB, Data.SqlExpr, Data.DBXDataSnap, Data.DBXCommon, IPPeerClient;
 
 type
   {
@@ -44,6 +45,7 @@ type
       - isConnected: Überprüft, ob eine Verbindung zur Datenbank besteht. Gibt true zurück, wenn verbunden.
   }
   TGM = class(TDataModule)
+    SQLConnection1: TSQLConnection;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
   private
@@ -56,6 +58,7 @@ type
 
     m_storage : IStorage;
     m_waehlerliste : IWaehlerliste;
+    FIsAdmin: boolean;
 
 
     procedure setHostAddress( value : string);
@@ -65,17 +68,21 @@ type
     property Storage : IStorage read m_storage;
 
     property Protokoll: string read FProtokoll write FProtokoll;
-    property Host: string read FHost write FHost;
-    property Port: integer read FPort write FPort;
+    property Host     : string read FHost write FHost;
+    property Port     : integer read FPort write FPort;
 
-    property User: string read FUser write setUser;
-    property Passwort: string read FPasswort write FPasswort;
+    property User     : string read FUser write setUser;
+    property Passwort : string read FPasswort write FPasswort;
+    property IsAdmin: boolean read FIsAdmin write FIsAdmin;
 
     property HostAddress: string read FHostAddress write setHostAddress;
 
     property WaehlerListe : IWaehlerListe read m_waehlerliste;
 
     function createStorage( name : string ) : Boolean;
+
+    function connect: boolean;
+    procedure disconnect;
   end;
 
 var
@@ -122,7 +129,7 @@ uses
     - Die Funktion verwendet `SQLConnection1`, um die Verbindung zu konfigurieren und zu öffnen.
     - Die Protokoll- und Portkonfiguration erfolgt basierend auf dem Wert von `FProtokoll`.
 }
-{
+
 function TGM.connect: boolean;
 
   procedure setDSProtocol( protokol : string; defaultPort : integer );
@@ -136,31 +143,29 @@ function TGM.connect: boolean;
 
 begin
   Result := false;
-  if FIsSimulation then
-    Result := true
-  else
-  begin
 
-    SQLConnection1.Params.Values['HostName']  := FHost;
-    SQLConnection1.Params.Values['DSAuthenticationUser']      := FUser;
-    SQLConnection1.Params.Values['DSAuthenticationPassword']  := FPasswort;
+  FIsAdmin := SameText('admin_user', FUser);
 
-         if SameText('ds', FProtokoll) then      setDSProtocol('tcp/ip', 211)
-    else if SameText('http', FProtokoll) then    setDSProtocol('http', 8080)
-    else if SameText('https', FProtokoll) then   setDSProtocol('https', 8081);
+  SQLConnection1.Params.Values['HostName']                  := FHost;
+  SQLConnection1.Params.Values['DSAuthenticationUser']      := FUser;
+  SQLConnection1.Params.Values['DSAuthenticationPassword']  := FPasswort;
 
-    try
-      SQLConnection1.Open;
-      Result := SQLConnection1.Connected;
-    except
-      on e : exception do
-      begin
-        ShowMessage('Fehler beim Login.'+sLineBreak+e.ToString);
-      end;
+       if SameText('ds', FProtokoll) then      setDSProtocol('tcp/ip', 211)
+  else if SameText('http', FProtokoll) then    setDSProtocol('http', 8080)
+  else if SameText('https', FProtokoll) then   setDSProtocol('https', 8081);
+
+  try
+    SQLConnection1.Open;
+    Result := SQLConnection1.Connected;
+  except
+    on e : exception do
+    begin
+      ShowMessage('Fehler beim Login.'+sLineBreak+e.ToString);
     end;
   end;
+
 end;
-}
+
 function TGM.createStorage(name: string): Boolean;
 begin
   m_storage := i_Storage.getStorage( name );
@@ -172,6 +177,10 @@ procedure TGM.DataModuleCreate(Sender: TObject);
 begin
   m_storage := NIL;
   m_waehlerliste := TWaehlerliste.create;
+
+  setHostAddress('ds://localhost:211');
+  FUser        := 'ADMIN_USER';
+  FPasswort    := 'admin';
 end;
 
 procedure TGM.DataModuleDestroy(Sender: TObject);
@@ -179,6 +188,13 @@ begin
   if Assigned(m_storage) then
     m_storage.release;
   m_waehlerliste.release;
+end;
+
+procedure TGM.disconnect;
+begin
+  if SQLConnection1.Connected then
+    SQLConnection1.Close;
+
 end;
 
 {

@@ -4,7 +4,7 @@ object ConnectForm: TConnectForm
   ActiveControl = LabeledEdit1
   Caption = 'Serverwahl'
   ClientHeight = 259
-  ClientWidth = 326
+  ClientWidth = 294
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object ConnectForm: TConnectForm
   inline BaseFrame1: TBaseFrame
     Left = 0
     Top = 199
-    Width = 326
+    Width = 294
     Height = 60
     Align = alBottom
     AutoSize = True
@@ -25,15 +25,15 @@ object ConnectForm: TConnectForm
     ExplicitTop = 199
     ExplicitWidth = 326
     inherited StatusBar1: TStatusBar
-      Width = 326
-      ExplicitWidth = 326
+      Width = 294
+      ExplicitWidth = 297
     end
     inherited Panel1: TPanel
-      Width = 326
+      Width = 294
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 326
       inherited OKBtn: TBitBtn
-        Left = 222
+        Left = 190
         ExplicitLeft = 222
       end
     end
@@ -47,17 +47,7 @@ object ConnectForm: TConnectForm
     EditLabel.Height = 15
     EditLabel.Caption = 'Server'
     TabOrder = 1
-    Text = ''
-  end
-  object CheckBox1: TCheckBox
-    Left = 221
-    Top = 35
-    Width = 97
-    Height = 17
-    Caption = 'Simulation'
-    Checked = True
-    State = cbChecked
-    TabOrder = 2
+    Text = 'ds://localhost:211'
   end
   object LabeledEdit2: TLabeledEdit
     Left = 32
@@ -67,8 +57,8 @@ object ConnectForm: TConnectForm
     EditLabel.Width = 76
     EditLabel.Height = 15
     EditLabel.Caption = 'Benutzername'
-    TabOrder = 3
-    Text = ''
+    TabOrder = 2
+    Text = 'ADMIN_USER'
   end
   object LabeledEdit3: TLabeledEdit
     Left = 32
@@ -79,7 +69,7 @@ object ConnectForm: TConnectForm
     EditLabel.Height = 15
     EditLabel.Caption = 'Passwort'
     PasswordChar = '*'
-    TabOrder = 4
-    Text = ''
+    TabOrder = 3
+    Text = 'admin'
   end
 end

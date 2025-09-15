@@ -1,6 +1,6 @@
-﻿// 
+﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 13.05.2025 20:07:36
+// 02.09.2025 19:40:26
 // 
 
 unit u_stub;
@@ -10,61 +10,62 @@ interface
 uses System.JSON, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, Data.DBXJSONReflect;
 
 type
-  TServerMethods1Client = class(TDSAdminClient)
+  TAdminModClient = class(TDSAdminClient)
   private
-    FhasConfigCommand: TDBXCommand;
-    FsetInitialconfigCommand: TDBXCommand;
+    FNeueWahlCommand: TDBXCommand;
+    FResetPwdCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    function hasConfig: Boolean;
-    function setInitialconfig(data: TJSONObject): TJSONObject;
+    function NeueWahl(data: TJSONObject): TJSONObject;
+    function ResetPwd(data: TJSONObject): TJSONObject;
   end;
 
 implementation
 
-function TServerMethods1Client.hasConfig: Boolean;
+function TAdminModClient.NeueWahl(data: TJSONObject): TJSONObject;
 begin
-  if FhasConfigCommand = nil then
+  if FNeueWahlCommand = nil then
   begin
-    FhasConfigCommand := FDBXConnection.CreateCommand;
-    FhasConfigCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FhasConfigCommand.Text := 'TServerMethods1.hasConfig';
-    FhasConfigCommand.Prepare;
+    FNeueWahlCommand := FDBXConnection.CreateCommand;
+    FNeueWahlCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FNeueWahlCommand.Text := 'TAdminMod.NeueWahl';
+    FNeueWahlCommand.Prepare;
   end;
-  FhasConfigCommand.ExecuteUpdate;
-  Result := FhasConfigCommand.Parameters[0].Value.GetBoolean;
+  FNeueWahlCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FNeueWahlCommand.ExecuteUpdate;
+  Result := TJSONObject(FNeueWahlCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
-function TServerMethods1Client.setInitialconfig(data: TJSONObject): TJSONObject;
+function TAdminModClient.ResetPwd(data: TJSONObject): TJSONObject;
 begin
-  if FsetInitialconfigCommand = nil then
+  if FResetPwdCommand = nil then
   begin
-    FsetInitialconfigCommand := FDBXConnection.CreateCommand;
-    FsetInitialconfigCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FsetInitialconfigCommand.Text := 'TServerMethods1.setInitialconfig';
-    FsetInitialconfigCommand.Prepare;
+    FResetPwdCommand := FDBXConnection.CreateCommand;
+    FResetPwdCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FResetPwdCommand.Text := 'TAdminMod.ResetPwd';
+    FResetPwdCommand.Prepare;
   end;
-  FsetInitialconfigCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
-  FsetInitialconfigCommand.ExecuteUpdate;
-  Result := TJSONObject(FsetInitialconfigCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+  FResetPwdCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FResetPwdCommand.ExecuteUpdate;
+  Result := TJSONObject(FResetPwdCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
-constructor TServerMethods1Client.Create(ADBXConnection: TDBXConnection);
+constructor TAdminModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
 end;
 
-constructor TServerMethods1Client.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+constructor TAdminModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
 begin
   inherited Create(ADBXConnection, AInstanceOwner);
 end;
 
-destructor TServerMethods1Client.Destroy;
+destructor TAdminModClient.Destroy;
 begin
-  FhasConfigCommand.Free;
-  FsetInitialconfigCommand.Free;
+  FNeueWahlCommand.Free;
+  FResetPwdCommand.Free;
   inherited;
 end;
 
