@@ -1,4 +1,5 @@
 object MitbestimmITSrv: TMitbestimmITSrv
+  OnCreate = ServiceCreate
   DisplayName = 'MitbestimmIT Server'
   OnStart = ServiceStart
   OnStop = ServiceStop
@@ -87,9 +88,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 72
     Top = 240
   end
-  object DSServerClass1: TDSServerClass
-    OnGetClass = DSServerClass1GetClass
+  object DSAdmin: TDSServerClass
+    OnGetClass = DSAdminGetClass
     Server = DSServer1
+    LifeCycle = 'Invocation'
     Left = 340
     Top = 25
   end

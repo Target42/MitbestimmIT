@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     31.08.2025  15:51                          ' +
+            '/*   Created on:     05.09.2025  21:14                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -100,7 +100,7 @@ object CreateDBMode: TCreateDBMode
             '    AD_SECRET                       VARCHAR(32)                 ' +
             '   ,'
           
-            '    AD_PWD                          VARCHAR(40)                 ' +
+            '    AD_PWD                          VARCHAR(64)                 ' +
             '   ,'
           '    constraint PK_AD_ADMIN primary key (AD_ID)'
           ');'
@@ -345,7 +345,7 @@ object CreateDBMode: TCreateDBMode
             '    WV_ROLLE                        VARCHAR(100)                ' +
             '   ,'
           
-            '    WH_SECRET                       CHAR(32)                    ' +
+            '    WV_SECRET                       VARCHAR(12)                 ' +
             '   ,'
           
             '    WV_PWD                          VARCHAR(40)                 ' +
@@ -440,17 +440,18 @@ object CreateDBMode: TCreateDBMode
           'create table LG_LOG'
           '('
           
-            '    WA_ID                           INTEGER                     ' +
-            '   ,'
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
           
-            '    LG_ID                           INTEGER                     ' +
-            '   ,'
+            '    LG_ID                           INTEGER                not n' +
+            'ull,'
           
             '    LG_STAMP                        TIMESTAMP                   ' +
             '   ,'
           
             '    LG_DATA                         BLOB                        ' +
-            '   '
+            '   ,'
+          '    constraint PK_LG_LOG primary key (WA_ID, LG_ID)'
           ');'
           ''
           
@@ -541,57 +542,72 @@ object CreateDBMode: TCreateDBMode
           ''
           'set generator gen_ma_id to 100;'
           ''
+          'commit;'
           ''
-          'CREATE ROLE APPUSER;'
+          ''
+          'CREATE ROLE appuser;'
           ''
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_AUSWERTUNG TO APPUSER' +
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_AUSWERTUNG TO appuser' +
             ';'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO APPUSER;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO appuser;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO APPUSER' +
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO appuser' +
             ';'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO APPUSER;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO APPUSE' +
-            'R;'
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuse' +
+            'r;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO APPUSE' +
-            'R;'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO APPUSER;'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO APPUSER;'
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuse' +
+            'r;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO APPUSE' +
-            'R;;'
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuse' +
+            'r;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO APPUSER' +
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser' +
             ';'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO APPUSER;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO APPUSER' +
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO appuser' +
             ';'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO APPU' +
-            'SER;'
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appu' +
+            'ser;'
           ''
-          'CREATE ROLE APPADMIN;'
+          'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;'
           ''
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO APPADMIN;'
+          'CREATE ROLE appadmin;'
+          ''
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON AD_ADMIN TO appadmin;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO APPADMIN' +
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO appadmin' +
             ';'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO APPADMIN;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO APPADM' +
-            'IN;'
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadm' +
+            'in;'
           
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO APPA' +
-            'DMIN;'
-          '')
-      end
-      item
-        Name = 'Trigger'
-        SQL.Strings = (
+            'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appa' +
+            'dmin;'
+          ''
+          'GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;'
+          'GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;'
+          'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;'
+          'GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;'
+          ''
+          'commit;'
+          ''
+          ''
           
             '/* ============================================================ ' +
             '*/'
@@ -602,7 +618,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     31.08.2025  14:58                          ' +
+            '/*   Created on:     05.09.2025  21:14                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -624,7 +640,7 @@ object CreateDBMode: TCreateDBMode
           'create trigger ti_al_admin_log for AL_ADMIN_LOG'
           'before insert as'
           'begin'
-          '    new.al_id = gen_id(gen_a__id, 1);'
+          '    new.al_id = gen_id(gen_al_id, 1);'
           '    new.al_timestamp = CURRENT_TIMESTAMP;'
           'end;/'
           'set term ;/'
@@ -673,6 +689,16 @@ object CreateDBMode: TCreateDBMode
           'end;/'
           'set term ;/'
           ''
+          '/*  Insert trigger "ti_tab_184" for table "WA_WAHL"  */'
+          'set term /;'
+          'create trigger ti_tab_184 for WA_WAHL'
+          'before insert as'
+          'begin'
+          '    new.wa_id = gen_id(gen_wa_id, 1);'
+          ''
+          'end;/'
+          'set term ;/'
+          ''
           
             '/*  Insert trigger "ti_wd_wahldaten" for table "WD_WAHLDATEN"  *' +
             '/'
@@ -709,6 +735,7 @@ object CreateDBMode: TCreateDBMode
           '')
       end>
     Connection = FDConnection1
+    Transaction = FDTransaction1
     Params = <>
     Macros = <>
     Left = 216
@@ -725,13 +752,8 @@ object CreateDBMode: TCreateDBMode
     Left = 120
     Top = 64
   end
-  object CreateDBQry: TFDQuery
-    Connection = FDConnection1
-    Transaction = FDTransaction1
-    Left = 120
-    Top = 192
-  end
   object FDTransaction1: TFDTransaction
+    Options.AutoStop = False
     Connection = FDConnection1
     Left = 120
     Top = 128

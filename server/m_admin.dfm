@@ -1,4 +1,151 @@
 object AdminMod: TAdminMod
   Height = 480
   Width = 640
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
+      'User_Name=ADMIN_USER'
+      'Password=admin'
+      'RoleName=APPADMIN'
+      'DriverID=FB')
+    LoginPrompt = False
+    Transaction = FDTransaction1
+    Left = 88
+    Top = 48
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = FDConnection1
+    Left = 88
+    Top = 120
+  end
+  object TabWahl: TFDTable
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    TableName = 'WA_WAHL'
+    Left = 224
+    Top = 80
+  end
+  object WahlTab: TDataSetProvider
+    DataSet = TabWahl
+    Left = 224
+    Top = 160
+  end
+  object NewWahlTab: TFDTable
+    IndexFieldNames = 'WA_ID'
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoIncFields = 'WA_ID'
+    TableName = 'WA_WAHL'
+    Left = 360
+    Top = 80
+    object NewWahlTabWA_ID: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object NewWahlTabWA_TITLE: TStringField
+      FieldName = 'WA_TITLE'
+      Origin = 'WA_TITLE'
+      Size = 150
+    end
+    object NewWahlTabWA_SIMU: TStringField
+      FieldName = 'WA_SIMU'
+      Origin = 'WA_SIMU'
+      FixedChar = True
+      Size = 1
+    end
+    object NewWahlTabWA_ACTIVE: TStringField
+      FieldName = 'WA_ACTIVE'
+      Origin = 'WA_ACTIVE'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object MATab: TFDTable
+    IndexFieldNames = 'MA_ID;WA_ID'
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    UpdateOptions.AssignedValues = [uvCheckRequired]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoIncFields = 'MA_ID'
+    TableName = 'MA_MITARBEITER'
+    Left = 368
+    Top = 152
+    object MATabMA_ID: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'MA_ID'
+      Origin = 'MA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object MATabWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object MATabMA_PERSNR: TStringField
+      FieldName = 'MA_PERSNR'
+      Origin = 'MA_PERSNR'
+      Size = 10
+    end
+    object MATabMA_NAME: TStringField
+      FieldName = 'MA_NAME'
+      Origin = 'MA_NAME'
+      Size = 100
+    end
+    object MATabMA_VORNAME: TStringField
+      FieldName = 'MA_VORNAME'
+      Origin = 'MA_VORNAME'
+      Size = 100
+    end
+    object MATabMA_GENDER: TStringField
+      FieldName = 'MA_GENDER'
+      Origin = 'MA_GENDER'
+      FixedChar = True
+      Size = 1
+    end
+    object MATabMA_ABTEILUNG: TStringField
+      FieldName = 'MA_ABTEILUNG'
+      Origin = 'MA_ABTEILUNG'
+    end
+  end
+  object WVTab: TFDTable
+    IndexFieldNames = 'MA_ID;WA_ID'
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'WV_WAHL_VORSTAND'
+    Left = 368
+    Top = 216
+    object WVTabMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Origin = 'MA_ID'
+      Required = True
+    end
+    object WVTabWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      Required = True
+    end
+    object WVTabWV_ROLLE: TStringField
+      FieldName = 'WV_ROLLE'
+      Origin = 'WV_ROLLE'
+      Size = 100
+    end
+    object WVTabWV_PWD: TStringField
+      FieldName = 'WV_PWD'
+      Origin = 'WV_PWD'
+      Size = 40
+    end
+    object WVTabWV_SECRET: TStringField
+      FieldName = 'WV_SECRET'
+      Origin = 'WV_SECRET'
+      Size = 12
+    end
+  end
 end

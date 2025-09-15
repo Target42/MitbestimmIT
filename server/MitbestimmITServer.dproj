@@ -86,6 +86,8 @@
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Server\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <PostBuildEvent><![CDATA["D:\git_d12\MitbestimmIT\skipte\CopyDebugServer.bat"
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -98,6 +100,8 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Server\</DCC_ExeOutput>
+        <PostBuildEvent><![CDATA["D:\git_d12\MitbestimmIT\skipte\CopyReleaseServer.bat"
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -107,15 +111,10 @@
             <Form>MitbestimmITSrv</Form>
             <DesignClass>TService</DesignClass>
         </DCCReference>
-        <DCCReference Include="ServerMethodsUnit1.pas">
-            <Form>ServerMethods1</Form>
-            <DesignClass>TDSServerModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="..\berechnungen\u_BER_Berechnungen.pas"/>
         <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
         <DCCReference Include="..\berechnungen\u_WahlfristenICS.pas"/>
         <DCCReference Include="u_config.pas"/>
-        <DCCReference Include="..\lib\u_json.pas"/>
         <DCCReference Include="m_db.pas">
             <Form>DBMod</Form>
             <FormType>dfm</FormType>
@@ -132,6 +131,9 @@
             <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\lib\u_json.pas"/>
+        <DCCReference Include="..\setup\totp\u_totp.pas"/>
+        <DCCReference Include="..\setup\u_glob.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">
@@ -1038,4 +1040,20 @@
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>&quot;D:\git_d12\MitbestimmIT\skipte\CopyDebugServer.bat&quot;</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>&quot;D:\git_d12\MitbestimmIT\skipte\CopyReleaseServer.bat&quot;</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

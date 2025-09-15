@@ -15,7 +15,6 @@ type
   TCreateDBMode = class(TDataModule)
     FDScript1: TFDScript;
     FDConnection1: TFDConnection;
-    CreateDBQry: TFDQuery;
     FDTransaction1: TFDTransaction;
     ExecQry: TFDQuery;
     ExistsQry: TFDQuery;
@@ -56,7 +55,7 @@ var
 implementation
 
 uses
-  u_helper, vcl.Dialogs, system.IOUtils;
+  u_helper, vcl.Dialogs, system.IOUtils, system.Hash;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -111,6 +110,10 @@ begin
     FDScript1.ValidateAll;
     FDScript1.ExecuteAll;
 
+    if FDScript1.Transaction.Active then
+      FDScript1.Transaction.Commit;
+
+
     if existsUser('ADMIN_USER') then
     begin
       ExecQry.SQL.Text := 'drop user ADMIN_USER;';
@@ -135,7 +138,13 @@ begin
     ExecQry.SQL.Text := 'grant APPUSER to STEPHAN;';
     ExecQry.ExecSQL;
 
+    // add the admin
 
+    ExecQry.SQL.Text := format('insert into AD_ADMIN(AD_SECRET, AD_PWD) values(''%s'', ''%s'' );', [FAdminSecret, THashSHA2.GetHashString(FAdminPwd)]);
+    ExecQry.ExecSQL;
+
+    if FDTransaction1.Active then
+      FDTransaction1.Commit;
     Result := true;
   except
 

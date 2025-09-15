@@ -6,6 +6,7 @@ object DBMod: TDBMod
     Params.Strings = (
       'User_Name=sysdba'
       'Password=masterkey'
+      'RoleName=APPADMIN'
       'DriverID=FB')
     Left = 144
     Top = 112

@@ -26,17 +26,18 @@ program MitbestimmITServer;
 uses
   Vcl.SvcMgr,
   m_ServerMain in 'm_ServerMain.pas' {MitbestimmITSrv: TService},
-  ServerMethodsUnit1 in 'ServerMethodsUnit1.pas' {ServerMethods1: TDSServerModule},
   System.SysUtils {ServerMethods1: TDSServerModule},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
   u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas',
   u_config in 'u_config.pas',
-  u_json in '..\lib\u_json.pas',
   m_db in 'm_db.pas' {DBMod: TDataModule},
   m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule},
   u_helper in '..\lib\u_helper.pas',
-  m_admin in 'm_admin.pas' {AdminMod: TDSServerModule};
+  m_admin in 'm_admin.pas' {AdminMod: TDSServerModule},
+  u_json in '..\lib\u_json.pas',
+  u_totp in '..\setup\totp\u_totp.pas',
+  u_glob in '..\setup\u_glob.pas';
 
 {$R *.RES}
 

@@ -31,9 +31,7 @@ type
     DSHTTPService2: TDSHTTPService;
     DSCertFiles1: TDSCertFiles;
     DSAuthenticationManager1: TDSAuthenticationManager;
-    DSServerClass1: TDSServerClass;
-    procedure DSServerClass1GetClass(DSServerClass: TDSServerClass;
-      var PersistentClass: TPersistentClass);
+    DSAdmin: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -43,6 +41,9 @@ type
       UserRoles: TStrings);
     procedure ServiceStart(Sender: TService; var Started: Boolean);
     procedure ServiceStop(Sender: TService; var Stopped: Boolean);
+    procedure DSAdminGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
+    procedure ServiceCreate(Sender: TObject);
   private
     { Private-Deklarationen }
   protected
@@ -65,31 +66,20 @@ implementation
 uses
   Winapi.Windows,
   system.Hash,
-  ServerMethodsUnit1, u_config;
+  m_admin, u_config, u_glob;
 
 
-procedure TMitbestimmITSrv.DSServerClass1GetClass(
-  DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
 begin
-  PersistentClass := ServerMethodsUnit1.TServerMethods1;
+  PersistentClass :=  m_admin.TAdminMod;
 end;
 
 procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthenticate(
   Sender: TObject; const Protocol, Context, User, Password: string;
   var valid: Boolean; UserRoles: TStrings);
-var
-  hash : string;
 begin
-  valid := false;
-  if SameText(User, 'admin') then
-  begin
-    hash := THashSHA2.GetHashString(Password);
-    valid := SameText( hash, Config.AdminPwd);
-  end
-  else
-  begin
-
-  end;
+  valid := true;
 end;
 
 procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
@@ -140,6 +130,11 @@ function TMitbestimmITSrv.DoStop: Boolean;
 begin
   DSServer1.Stop;
   Result := true;
+end;
+
+procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
+begin
+  Glob.readData;
 end;
 
 procedure TMitbestimmITSrv.ServiceStart(Sender: TService; var Started: Boolean);
