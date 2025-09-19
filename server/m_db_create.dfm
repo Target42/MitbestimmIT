@@ -1,6 +1,6 @@
 object CreateDBMode: TCreateDBMode
   Height = 480
-  Width = 639
+  Width = 646
   object FDScript1: TFDScript
     SQLScripts = <
       item
@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.09.2025  21:14                          ' +
+            '/*   Created on:     19.09.2025  19:52                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -136,6 +136,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    MA_ABTEILUNG                    VARCHAR(20)                 ' +
+            '   ,'
+          
+            '    MA_MAIL                         VARCHAR(255)                ' +
             '   ,'
           '    constraint PK_MA_MITARBEITER primary key (MA_ID, WA_ID)'
           ');'
@@ -607,7 +610,6 @@ object CreateDBMode: TCreateDBMode
           ''
           'commit;'
           ''
-          ''
           
             '/* ============================================================ ' +
             '*/'
@@ -618,7 +620,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.09.2025  21:14                          ' +
+            '/*   Created on:     19.09.2025  19:52                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -732,6 +734,7 @@ object CreateDBMode: TCreateDBMode
           ''
           'end;/'
           'set term ;/'
+          ''
           '')
       end>
     Connection = FDConnection1
