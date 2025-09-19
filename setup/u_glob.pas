@@ -35,6 +35,7 @@ type
     FSMTPTest: string;
     FSMTPOk: boolean;
     FUserPWD: string;
+    FSMTPSSL: integer;
 
     procedure CompressStream;
     procedure DecompressStream;
@@ -68,6 +69,7 @@ type
     property SMTPPasswort: string read FSMTPPasswort write FSMTPPasswort;
     property SMTPTest: string read FSMTPTest write FSMTPTest;
     property SMTPOk: boolean read FSMTPOk write FSMTPOk;
+    property SMTPSSL: integer read FSMTPSSL write FSMTPSSL;
 
     property PortDS: integer read FPortDS write FPortDS;
     property PortHttp: integer read FPortHttp write FPortHttp;
@@ -179,6 +181,7 @@ begin
   FSMTPNotUsed  := ini.ReadBool  ('smtp', 'notused', true);
   FSMTPTest     := ini.ReadString('smtp', 'testuser', '' );
   FSMTPOk       := ini.ReadBool('smt', 'ok', false);
+  FSMTPSSL      := ini.ReadInteger('smt', 'ssl', 2);
 
   FPortDS       := ini.ReadInteger('ports', 'ds',   9000);
   FPortHttp     := ini.ReadInteger('ports', 'http', 9001);
@@ -217,13 +220,14 @@ begin
   ini.WriteString('ssl', 'certfile', FCertFile);
   ini.WriteString('ssl', 'rootfile', FRootFile);
 
-  ini.WriteString('smtp', 'host',     FSMTPHost);
-  ini.WriteInteger('smtp', 'port',    FSMTPPort);
-  ini.WriteString('smtp', 'user',     FSMTPUser);
-  ini.WriteString('smtp', 'pwd',      FSMTPPasswort);
-  ini.WriteBool  ('smtp', 'notused',  FSMTPNotUsed);
-  ini.WriteString('smtp', 'testuser', FSMTPTest );
-  ini.WriteBool('smtp', 'ok',         FSMTPOk);
+  ini.WriteString( 'smtp', 'host',     FSMTPHost);
+  ini.WriteInteger('smtp', 'port',     FSMTPPort);
+  ini.WriteString( 'smtp', 'user',     FSMTPUser);
+  ini.WriteString( 'smtp', 'pwd',      FSMTPPasswort);
+  ini.WriteBool  ( 'smtp', 'notused',  FSMTPNotUsed);
+  ini.WriteString( 'smtp', 'testuser', FSMTPTest );
+  ini.WriteBool(   'smtp', 'ok',       FSMTPOk);
+  ini.WriteInteger('smtp', 'ssl',      FSMTPSSL);
 
   ini.WriteInteger('ports', 'ds',     FPortDS);
   ini.WriteInteger('ports', 'http',   FPortHttp);

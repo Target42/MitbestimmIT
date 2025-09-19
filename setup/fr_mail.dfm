@@ -125,7 +125,7 @@ object MailFrame: TMailFrame
         Height = 25
         Caption = 'Testmail senden'
         ImageIndex = 1
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 1
         OnClick = BitBtn1Click
       end
@@ -146,16 +146,14 @@ object MailFrame: TMailFrame
   end
   object IdSMTP1: TIdSMTP
     IOHandler = IdSSLIOHandlerSocketOpenSSL1
-    Port = 465
     SASLMechanisms = <>
-    UseTLS = utUseImplicitTLS
     Left = 336
     Top = 240
   end
   object IdSSLIOHandlerSocketOpenSSL1: TIdSSLIOHandlerSocketOpenSSL
-    Destination = ':465'
+    Destination = ':25'
     MaxLineAction = maException
-    Port = 465
+    Port = 25
     DefaultPort = 0
     SSLOptions.Method = sslvSSLv23
     SSLOptions.SSLVersions = [sslvSSLv2, sslvSSLv3, sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2]

@@ -76,17 +76,43 @@ begin
   end;
   IdSMTP1.Disconnect;
 
-
 end;
 
 procedure TMailFrame.ComboBox1Change(Sender: TObject);
 begin
+{
+Keines (Port 25 )
+Explizit (Port 587)
+Implizit (Port 465)
+
+}
+
+  case ComboBox1.ItemIndex of
+    0 :
+    begin
+      LabeledEdit2.Text := '25';
+      IdSMTP1.UseTLS := utNoTLSSupport
+    end;
+    1 :
+    begin
+      LabeledEdit2.Text := '587';
+      IdSMTP1.UseTLS := utUseExplicitTLS;
+    end;
+
+    2 : begin
+      LabeledEdit2.Text := '465';
+      IdSMTP1.UseTLS := utUseImplicitTLS;
+    end
+    else
+    begin
+      IdSMTP1.UseTLS := utUseImplicitTLS;
+      LabeledEdit2.Text := '465';
+    end;
+  end;
   if ComboBox1.ItemIndex = 0 then
-    LabeledEdit2.Text := '25'
+
   else if ComboBox1.ItemIndex = 1 then
-    ComboBox1.ItemIndex = 0
-
-
+    ComboBox1.ItemIndex := 0
 end;
 
 function TMailFrame.isOK: boolean;
@@ -100,6 +126,7 @@ begin
     glob.SMTPUser    := LabeledEdit3.Text;
     glob.SMTPPasswort:= LabeledEdit4.Text;
     Glob.SMTPTest    := LabeledEdit5.Text;
+    Glob.SMTPSSL     := ComboBox1.ItemIndex;
   end;
 
   Glob.SMTPNotUsed := CheckBox1.Checked;
@@ -112,6 +139,7 @@ procedure TMailFrame.prepare;
 begin
   m_ok := Glob.SMTPOk;
 
+  ComboBox1.ItemIndex:= Glob.SMTPSSL;
   LabeledEdit2.Text := intToStr(IdSMTP1.Port);
   CheckBox1.Checked := Glob.SMTPNotUsed;
   LabeledEdit1.Text := glob.SMTPHost;
