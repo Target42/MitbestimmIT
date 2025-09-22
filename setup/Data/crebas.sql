@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     19.09.2025  19:52                          */
+/*   Created on:     21.09.2025  20:54                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -68,12 +68,12 @@ create table MA_MITARBEITER
 /* ============================================================ */
 /*   Index: MA_MITARBEITER_PERSNR                               */
 /* ============================================================ */
-create unique ASC index MA_MITARBEITER_PERSNR on MA_MITARBEITER (MA_PERSNR);
+create unique ASC index MA_MITARBEITER_PERSNR on MA_MITARBEITER (WA_ID, MA_PERSNR);
 
 /* ============================================================ */
 /*   Index: MA_MITARBEITER_NAME                                 */
 /* ============================================================ */
-create ASC index MA_MITARBEITER_NAME on MA_MITARBEITER (MA_NAME, MA_VORNAME, MA_ABTEILUNG);
+create ASC index MA_MITARBEITER_NAME on MA_MITARBEITER (WA_ID, MA_NAME, MA_VORNAME, MA_ABTEILUNG);
 
 /* ============================================================ */
 /*   Table: WT_WAHL_LISTE                                       */
@@ -153,8 +153,6 @@ create table WV_WAHL_VORSTAND
     MA_ID                           INTEGER                not null,
     WA_ID                           INTEGER                not null,
     WV_ROLLE                        VARCHAR(100)                   ,
-    WV_SECRET                       VARCHAR(12)                    ,
-    WV_PWD                          VARCHAR(40)                    ,
     constraint PK_WV_WAHL_VORSTAND primary key (MA_ID, WA_ID)
 );
 
@@ -217,6 +215,20 @@ create table AL_ADMIN_LOG
     constraint PK_AL_ADMIN_LOG primary key (AL_ID)
 );
 
+/* ============================================================ */
+/*   Table: MA_PWD                                              */
+/* ============================================================ */
+create table MA_PWD
+(
+    MA_ID                           INTEGER                not null,
+    WA_ID                           INTEGER                not null,
+    MW_PWD                          VARCHAR(64)                    ,
+    MW_ROLLE                        VARCHAR(100)                   ,
+    MW_SECRET                       VARCHAR(32)                    ,
+    MW_LOGIN                        VARCHAR(20)                    ,
+    constraint PK_MA_PWD primary key (MA_ID, WA_ID)
+);
+
 alter table MA_MITARBEITER
     add constraint FK_REF_189 foreign key  (WA_ID)
        references WA_WAHL;
@@ -277,6 +289,10 @@ alter table AL_ADMIN_LOG
     add constraint FK_REF_353 foreign key  (AD_ID)
        references AD_ADMIN;
 
+alter table MA_PWD
+    add constraint FK_REF_602 foreign key  (MA_ID, WA_ID)
+       references MA_MITARBEITER;
+
 set generator gen_ma_id to 100;
 
 commit;
@@ -314,10 +330,19 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON GRANT SELECT ON MA_PWD TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;
 
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;
+
+
+commit;
+
+create ROLE apppwd;
+
+GRANT SELECT ON MA_PWD TO apppwd;
 
 commit;

@@ -28,6 +28,7 @@ type
     FAdminPwd: string;
     FAdminSecret: string;
     FUserPwd: string;
+    FPwdCheck: string;
 
     function existsUser(name : string ) : Boolean;
   public
@@ -39,11 +40,14 @@ type
     property UseScripts: boolean read FUseScripts write FUseScripts;
     property Embedded: boolean read FEmbedded write FEmbedded;
     property Host: string read FHost write FHost;
+    property PwdCheck: string read FPwdCheck write FPwdCheck;
 
     // admin
     property AdminPwd: string read FAdminPwd write FAdminPwd;
     property AdminSecret: string read FAdminSecret write FAdminSecret;
     property UserPwd: string read FUserPwd write FUserPwd;
+
+    // chpwduser
 
     function createDB : boolean;
     function testConnection : Boolean;
@@ -138,8 +142,21 @@ begin
     ExecQry.SQL.Text := 'grant APPUSER to STEPHAN;';
     ExecQry.ExecSQL;
 
-    // add the admin
+    // pwdcheck
+    if existsUser('pwdcheck') then
+    begin
+      ExecQry.SQL.Text := 'drop user pwdcheck;';
+      ExecQry.ExecSQL;
+    end;
 
+    ExecQry.SQL.Text := format('create user pwdcheck password ''%s''; ', [FPwdCheck]);
+    ExecQry.ExecSQL;
+
+    ExecQry.SQL.Text := 'grant apppwd to pwdcheck;';
+    ExecQry.ExecSQL;
+
+
+    // add the admin
     ExecQry.SQL.Text := format('insert into AD_ADMIN(AD_SECRET, AD_PWD) values(''%s'', ''%s'' );', [FAdminSecret, THashSHA2.GetHashString(FAdminPwd)]);
     ExecQry.ExecSQL;
 
