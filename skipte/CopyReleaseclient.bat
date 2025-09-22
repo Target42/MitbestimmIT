@@ -1,0 +1,2 @@
+del "D:\git_d12\MitbestimmIT\setup\Data\client.zip"
+powershell Compress-Archive -Path "D:\git_d12\MitbestimmIT\client\Win32\Release\MitbestimmITClientVCL.exe" -DestinationPath "D:\git_d12\MitbestimmIT\setup\Data\client.zip"
