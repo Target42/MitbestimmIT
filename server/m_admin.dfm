@@ -1,12 +1,13 @@
 object AdminMod: TAdminMod
+  OnCreate = DSServerModuleCreate
   Height = 480
   Width = 640
   object FDConnection1: TFDConnection
     Params.Strings = (
       'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
-      'User_Name=ADMIN_USER'
-      'Password=admin'
-      'RoleName=APPADMIN'
+      'User_Name=admin_user'
+      'Password=snoopy'
+      'RoleName=appadmin'
       'DriverID=FB')
     LoginPrompt = False
     Transaction = FDTransaction1
@@ -76,11 +77,12 @@ object AdminMod: TAdminMod
     TableName = 'MA_MITARBEITER'
     Left = 368
     Top = 152
-    object MATabMA_ID: TIntegerField
-      AutoGenerateValue = arAutoInc
+    object MATabMA_ID: TFDAutoIncField
       FieldName = 'MA_ID'
       Origin = 'MA_ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ReadOnly = False
+      IdentityInsert = True
     end
     object MATabWA_ID: TIntegerField
       FieldName = 'WA_ID'
@@ -113,6 +115,11 @@ object AdminMod: TAdminMod
       FieldName = 'MA_ABTEILUNG'
       Origin = 'MA_ABTEILUNG'
     end
+    object MATabMA_MAIL: TStringField
+      FieldName = 'MA_MAIL'
+      Origin = 'MA_MAIL'
+      Size = 255
+    end
   end
   object WVTab: TFDTable
     IndexFieldNames = 'MA_ID;WA_ID'
@@ -125,11 +132,13 @@ object AdminMod: TAdminMod
     object WVTabMA_ID: TIntegerField
       FieldName = 'MA_ID'
       Origin = 'MA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object WVTabWA_ID: TIntegerField
       FieldName = 'WA_ID'
       Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object WVTabWV_ROLLE: TStringField
@@ -137,15 +146,45 @@ object AdminMod: TAdminMod
       Origin = 'WV_ROLLE'
       Size = 100
     end
-    object WVTabWV_PWD: TStringField
-      FieldName = 'WV_PWD'
-      Origin = 'WV_PWD'
-      Size = 40
+  end
+  object PwdTab: TFDTable
+    IndexFieldNames = 'MA_ID;WA_ID'
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'MA_PWD'
+    Left = 368
+    Top = 280
+    object PwdTabMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Origin = 'MA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
     end
-    object WVTabWV_SECRET: TStringField
-      FieldName = 'WV_SECRET'
-      Origin = 'WV_SECRET'
-      Size = 12
+    object PwdTabWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object PwdTabMW_PWD: TStringField
+      FieldName = 'MW_PWD'
+      Origin = 'MW_PWD'
+      Size = 64
+    end
+    object PwdTabMW_ROLLE: TStringField
+      FieldName = 'MW_ROLLE'
+      Origin = 'MW_ROLLE'
+      Size = 100
+    end
+    object PwdTabMW_SECRET: TStringField
+      FieldName = 'MW_SECRET'
+      Origin = 'MW_SECRET'
+      Size = 32
+    end
+    object PwdTabMW_LOGIN: TStringField
+      FieldName = 'MW_LOGIN'
+      Origin = 'MW_LOGIN'
     end
   end
 end

@@ -36,9 +36,13 @@ type
     FSMTPOk: boolean;
     FUserPWD: string;
     FSMTPSSL: integer;
+    FPlain: boolean;
+    FDBPwdCheck: string;
 
     procedure CompressStream;
     procedure DecompressStream;
+
+    procedure SavePlain;
 
   public
     constructor create;
@@ -52,6 +56,7 @@ type
     property DBHost: string read FDBHost write FDBHost;
     property DBName: string read FDBName write FDBName;
     property UserPWD: string read FUserPWD write FUserPWD;
+    property DBPwdCheck: String read FDBPwdCheck write FDBPwdCheck;
 
     property AdminPwd: string read FAdminPwd write FAdminPwd;
     property Faktor2: boolean read FFaktor2 write FFaktor2;
@@ -79,7 +84,7 @@ type
     function writeData : boolean;
     function readData : boolean;
 
-
+    property Plain: boolean read FPlain write FPlain;
   end;
 
 var
@@ -88,7 +93,7 @@ var
 implementation
 
 uses
-  System.SysUtils, system.IniFiles, system.ZLib, u_helper;
+  System.SysUtils, system.IniFiles, system.ZLib, u_helper, system.IOUtils;
 
 { TGlob }
 
@@ -117,9 +122,22 @@ begin
   FPortHttp := 9001;
   FPortHttps:= 9002;
   FPortClientHttp := 8000;
-  FUserPWD := GenerateFirebirdPassword;
+  FUserPWD    := GenerateFirebirdPassword;
+  FDBPwdCheck := GenerateFirebirdPassword;
 
   FHomeDir  := ExtractFilePath(ParamStr(0));
+
+  FPlain    := false;
+
+  if ParamCount >= 1 then
+  begin
+    for var i := 1 to ParamCount do
+      begin
+        if SameText(ParamStr(i), '/plain') then
+          FPlain := true;
+      end;
+  end;
+
 end;
 
 procedure TGlob.DecompressStream;
@@ -164,6 +182,7 @@ begin
   FDBHost       := ini.ReadString('db', 'host', 'localhost');
   FDBName       := ini.ReadString('db', 'name', 'D:\DelphiBin\MitbestimmIT\Setup\db\wahl2026.fdb');
   FUserPWD      := ini.ReadString('db', 'user', FUserPWD);
+  FDBPwdCheck   := ini.ReadString('db', 'pwdcheck', GenerateFirebirdPassword());
 
   FAdminPwd     := ini.ReadString('admin', 'pwd', '');
   FFaktor2      := ini.ReadBool  ('admin', 'factor2', false);
@@ -191,6 +210,25 @@ begin
 
   ini.Free;
 
+  if FPlain then
+    SavePlain;
+
+end;
+
+procedure TGlob.SavePlain;
+{$ifdef DEBUG}
+var
+  fname : string;
+  st    : TFileStream;
+{$endif}
+begin
+{$ifdef DEBUG}
+  fname := TPath.Combine(TPath.GetHomePath, 'plain.txt');
+  st := TFileStream.Create(fname, fmCreate + fmShareDenyNone);
+  m_data.Position := 0;
+  st.CopyFrom(m_data);
+  st.Free;
+{$endif}
 end;
 
 function TGlob.writeData: boolean;
@@ -209,7 +247,8 @@ begin
   ini.WriteBool  ('db', 'embedded', FDBEmbedded);
   ini.WriteString('db', 'host',     FDBHost);
   ini.WriteString('db', 'name',     FDBName);
-  ini.WriteString('db', 'user',      FUserPWD);
+  ini.WriteString('db', 'user',     FUserPWD);
+  ini.WriteString('db', 'pwdcheck', FDBPwdCheck);
 
   ini.WriteString('admin', 'pwd',     FAdminPwd);
   ini.WriteBool  ('admin', 'factor2', FFaktor2);
@@ -236,6 +275,12 @@ begin
 
   ini.UpdateFile;
   ini.Free;
+
+  if FPlain then
+  begin
+    SavePlain;
+  end;
+
 
   CompressStream;
 end;

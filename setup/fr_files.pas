@@ -74,7 +74,8 @@ begin
       done := SaveRCDataToFile('SSL', TPath.Combine(Glob.TempDir, 'ssl.zip')) and done;
       log('OpenSSL');
       done := SaveRCDataToFile('openssl', TPath.Combine(Glob.TempDir, 'openssl.zip')) and done;
-      log('Clients');
+
+      log('Server');
       done := SaveRCDataToFile('service', TPath.Combine(Glob.TempDir, 'service.zip')) and done;
       done := SaveRCDataToFile('console', TPath.Combine(Glob.TempDir, 'console.zip')) and done;
 
@@ -82,6 +83,10 @@ begin
 
       done := ForceDirectories( TPath.Combine(Glob.HomeDir, 'Zertifikate')) and done;
       done := SaveRCDataToFile('Zertifikate', TPath.Combine(Glob.HomeDir, 'Zertifikate\ZertifikateErzeugen.bat')) and done;
+
+      ForceDirectories(TPath.Combine(Glob.HomeDir, 'client'));
+      done := SaveRCDataToFile('client', TPath.Combine(Glob.HomeDir, 'client\client.zip')) and done;
+
     end;
 
     unzipSSL;

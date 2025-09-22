@@ -30,7 +30,7 @@ implementation
 {$R *.dfm}
 
 uses
-  system.IOUtils;
+  system.IOUtils, u_glob;
 
 function TDBMod.closeDB: boolean;
 begin
@@ -63,6 +63,15 @@ begin
   Result := false;
   try
     FDConnection1.Close;
+
+    with FDConnection1.Params as TFDPhysFBConnectionDefParams do
+    begin
+      Server   := Glob.DBHost;
+      Database := glob.DBName;
+      UserName := 'stephan';
+      RoleName := 'appuser';
+      Password := glob.UserPWD;
+    end;
     result := (FDConnection1.Connected = false );
   except
     on e : exception do

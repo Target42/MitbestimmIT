@@ -24,18 +24,25 @@ type
     NewWahlTabWA_TITLE: TStringField;
     NewWahlTabWA_SIMU: TStringField;
     NewWahlTabWA_ACTIVE: TStringField;
-    MATabMA_ID: TIntegerField;
+    MATabMA_ID: TFDAutoIncField;
     MATabWA_ID: TIntegerField;
     MATabMA_PERSNR: TStringField;
     MATabMA_NAME: TStringField;
     MATabMA_VORNAME: TStringField;
     MATabMA_GENDER: TStringField;
     MATabMA_ABTEILUNG: TStringField;
+    MATabMA_MAIL: TStringField;
     WVTabMA_ID: TIntegerField;
     WVTabWA_ID: TIntegerField;
     WVTabWV_ROLLE: TStringField;
-    WVTabWV_PWD: TStringField;
-    WVTabWV_SECRET: TStringField;
+    PwdTab: TFDTable;
+    PwdTabMA_ID: TIntegerField;
+    PwdTabWA_ID: TIntegerField;
+    PwdTabMW_PWD: TStringField;
+    PwdTabMW_ROLLE: TStringField;
+    PwdTabMW_SECRET: TStringField;
+    PwdTabMW_LOGIN: TStringField;
+    procedure DSServerModuleCreate(Sender: TObject);
   private
     function connectDB : boolean;
   public
@@ -46,7 +53,7 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -59,25 +66,6 @@ begin
 
   with FDConnection1 do
   begin
-
-    Params.Values['Database']  := Glob.DBName;
-    Params.Values['User_Name'] := 'admin_user';
-    Params.Values['Password']  := Glob.AdminPwd;
-    Params.Values['RoleName']  := 'appadmin';
-
-    if glob.DBEmbedded then
-    begin
-      Params.Values['Server'] := '';
-      Params.Values['Protocol']  := 'local';
-    end
-    else
-    begin
-      Params.Values['Server'] := glob.DBHost;
-    end;
-
-
-    LoginPrompt := false;
-
     try
       Connected := true;
       Result := Connected;
@@ -87,6 +75,28 @@ begin
   end;
 end;
 
+
+procedure TAdminMod.DSServerModuleCreate(Sender: TObject);
+begin
+  with FDConnection1.Params as TFDPhysFBConnectionDefParams do
+  begin
+    Database := glob.DBName;
+    UserName := 'admin_user';
+    RoleName := 'appadmin';
+    Password := glob.AdminPwd;
+    if Glob.DBEmbedded then
+    begin
+      Server := '';
+      Protocol := ipLocal;
+    end
+    else
+    begin
+      Server   := Glob.DBHost;
+      Protocol := ipTCPIP;
+    end;
+  end;
+  FDConnection1.LoginPrompt := false;
+end;
 
 function TAdminMod.NeueWahl(data: TJSONObject): TJSONObject;
 var
@@ -128,10 +138,18 @@ var
     WVTabMA_ID.AsInteger := maid;
     WVTabWA_ID.AsInteger := waid;
     WVTabWV_ROLLE.AsString := 'Vorstand';
-    WVTabWV_SECRET.AsString := secret;
-    WVTabWV_PWD.AsString := THashSHA2.GetHashString(JString(wv, 'pwd'));
-
     WVTab.Post;
+  end;
+
+  procedure addPwd( waid, maid : integer );
+  begin
+    PwdTab.Append;
+    PwdTabMA_ID.AsInteger   := maid;
+    PwdTabWA_ID.AsInteger   := waid;
+    PwdTabMW_ROLLE.AsString := 'Vorstand';
+    PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
+    PwdTabMW_LOGIN.AsString := JString( wv, 'login');
+    PwdTab.Post;
   end;
 
 
@@ -153,23 +171,36 @@ begin
   NewWahlTab.Open;
   MATab.Open;
   WVTab.Open;
+  PwdTab.Open;
 
 
-  waid := addWahl(False);
-  maid := addMA(waid);
-  addWV( waid, maid);
-
-  if simu then
-  begin
-    waid := addWahl(true);
+  try
+    waid := addWahl(False);
     maid := addMA(waid);
     addWV( waid, maid);
+    addPwd(waid, maid);
+
+    if simu then
+    begin
+      waid := addWahl(true);
+      maid := addMA(waid);
+      addWV( waid, maid);
+      addPwd(waid, maid);
+
+    end;
+    JResult( result, true, Format('Die Wahl "%s" wurde angelegt!', [JString(wahl, 'name')]));
+  except
+    on e: Exception do
+    begin
+      JResult( result, false, format('Fehler:%s%s', [sLineBreak, e.ToString]));
+    end;
 
   end;
 
   NewWahlTab.close;
   MATab.close;
   WVTab.close;
+  PwdTab.Close;
 
 end;
 

@@ -1,7 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
-  ActiveControl = ServerFrame1.LV
+  ActiveControl = CheckBox1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -26,7 +26,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardInteriorPage8
+    ActivePage = JvWizardWelcomePage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -375,7 +375,7 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 479
+              Width = 469
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -383,13 +383,11 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -421,6 +419,8 @@ object MainSetupForm: TMainSetupForm
       Caption = 'JvWizardInteriorPage3'
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
@@ -556,6 +556,9 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox1: TGroupBox
           Width = 754
           ExplicitWidth = 754
+          inherited Label1: TLabel
+            StyleElements = [seFont, seClient, seBorder]
+          end
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
           end
@@ -568,10 +571,15 @@ object MainSetupForm: TMainSetupForm
           inherited LabeledEdit4: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
           end
+          inherited ComboBox1: TComboBox
+            StyleElements = [seFont, seClient, seBorder]
+          end
         end
         inherited GroupBox2: TGroupBox
           Width = 754
+          Height = 182
           ExplicitWidth = 754
+          ExplicitHeight = 182
           inherited Panel1: TPanel
             Width = 750
             StyleElements = [seFont, seClient, seBorder]
@@ -582,8 +590,10 @@ object MainSetupForm: TMainSetupForm
           end
           inherited Memo1: TMemo
             Width = 750
+            Height = 99
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 750
+            ExplicitHeight = 99
           end
         end
       end
@@ -634,6 +644,7 @@ object MainSetupForm: TMainSetupForm
           inherited Panel2: TPanel
             Top = 324
             StyleElements = [seFont, seClient, seBorder]
+            ExplicitTop = 324
           end
         end
         inherited GroupBox2: TGroupBox

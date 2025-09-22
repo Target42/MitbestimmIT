@@ -400,6 +400,9 @@ begin
   if not Assigned(obj) then
     exit;
   val := obj.Values[ name ];
+  if not Assigned( val) then
+    exit;
+
   if  val is TJSONString then
   begin
     v := obj.Values[ name ] as TJSONString;

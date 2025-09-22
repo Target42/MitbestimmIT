@@ -33,14 +33,16 @@ type
     LabeledEdit4: TLabeledEdit;
     LabeledEdit5: TLabeledEdit;
     BitBtn1: TBitBtn;
+    LabeledEdit6: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure WahlTabWA_SIMU_LANGGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure WahlTabWA_ACTIVE_LANGGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure BitBtn1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
-    { Private-Deklarationen }
+
   public
     { Public-Deklarationen }
   end;
@@ -58,7 +60,6 @@ uses
 procedure TAdminForm.BitBtn1Click(Sender: TObject);
 var
   am : TAdminModClient;
-
   function buildJson : TJSONObject;
   var
     obj : TJSONObject;
@@ -71,10 +72,11 @@ var
     JReplace( Result, 'wahl', obj);
 
     obj := TJSONObject.Create;
-    JReplace( obj, 'persnr', LabeledEdit2.Text);
-    JReplace( obj, 'name', LabeledEdit3.Text);
-    JReplace( obj, 'vorname', LabeledEdit4.Text);
-    JReplace( obj, 'pwd', LabeledEdit5.Text);
+    JReplace( obj, 'login',   trim(LabeledEdit6.Text));
+    JReplace( obj, 'persnr',  trim(LabeledEdit2.Text));
+    JReplace( obj, 'name',    trim(LabeledEdit3.Text));
+    JReplace( obj, 'vorname', trim(LabeledEdit4.Text));
+    JReplace( obj, 'pwd',     LabeledEdit5.Text);
 
     JReplace( Result, 'vorstand', obj);
   end;
@@ -82,17 +84,13 @@ var
   res : TJSONObject;
 begin
   am := TAdminModClient.Create(GM.SQLConnection1.DBXConnection);
-
   res := am.NeueWahl(buildJson);
 
   if not JBool( res, 'result') then
     ShowMessage(JString(res, 'message'));
 
-  res.Free;
   am.Free;
-
   WahlTab.Refresh;
-
 end;
 
 procedure TAdminForm.FormCreate(Sender: TObject);
@@ -102,7 +100,14 @@ begin
   DecodeDate( Now(), y, m, d );
 
   LabeledEdit1.Text := 'Wahl ' + IntToStr( y + 1 );
+
   WahlTab.Open;
+end;
+
+procedure TAdminForm.FormDestroy(Sender: TObject);
+begin
+  WahlTab.Close;
+
 end;
 
 procedure TAdminForm.WahlTabWA_ACTIVE_LANGGetText(Sender: TField;

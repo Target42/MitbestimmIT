@@ -45,7 +45,9 @@ type
       var PersistentClass: TPersistentClass);
     procedure ServiceCreate(Sender: TObject);
   private
-    { Private-Deklarationen }
+    function startServer : boolean;
+    function stopServer : boolean;
+
   protected
     function DoStop: Boolean; override;
     function DoPause: Boolean; override;
@@ -112,7 +114,7 @@ end;
 function TMitbestimmITSrv.DoContinue: Boolean;
 begin
   Result := inherited;
-  DSServer1.Start;
+  Result := startServer and Result;
 end;
 
 procedure TMitbestimmITSrv.DoInterrogate;
@@ -122,14 +124,13 @@ end;
 
 function TMitbestimmITSrv.DoPause: Boolean;
 begin
-  DSServer1.Stop;
-  Result := inherited;
+  Result := stopServer;
+  Result := inherited and Result;
 end;
 
 function TMitbestimmITSrv.DoStop: Boolean;
 begin
-  DSServer1.Stop;
-  Result := true;
+  Result := stopServer;
 end;
 
 procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
@@ -139,12 +140,35 @@ end;
 
 procedure TMitbestimmITSrv.ServiceStart(Sender: TService; var Started: Boolean);
 begin
-  DSServer1.Start;
+  Started := startServer;
 end;
 
 procedure TMitbestimmITSrv.ServiceStop(Sender: TService; var Stopped: Boolean);
 begin
   Stopped := DoStop;
+end;
+
+function TMitbestimmITSrv.startServer: boolean;
+begin
+  DSHTTPService2.Server := NIL;
+  DSServer1.Start;
+  try
+    DSHTTPService2.Server := DSServer1;
+  except
+    on e : exception do
+    begin
+      Writeln('SSL-Error');
+      DSHTTPService2.Server := NIL;
+    end;
+  end;
+  result := DSServer1.Started;
+end;
+
+function TMitbestimmITSrv.stopServer: boolean;
+begin
+  DSServer1.Stop;
+  DSHTTPService2.Server := NIL;
+
 end;
 
 end.

@@ -77,6 +77,7 @@ begin
   db.UserPwd    := Glob.UserPWD;
   db.AdminPwd   := Glob.AdminPwd;
   db.AdminSecret:= Glob.Secret;
+  db.PwdCheck   := Glob.DBPwdCheck;
 
   try
     db.createDB;

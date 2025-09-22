@@ -70,7 +70,6 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSHTTPService2: TDSHTTPService
     HttpPort = 8081
     CertFiles = DSCertFiles1
-    Server = DSServer1
     Filters = <
       item
         FilterId = 'ZLibCompression'

@@ -8,7 +8,7 @@ uses
   IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase,
   IdMessageClient, IdSMTPBase, IdSMTP, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  Vcl.Mask, IdMessage;
+  Vcl.Mask, IdMessage, IdAntiFreezeBase, IdAntiFreeze;
 
 type
   TMailFrame = class(TFrame)
@@ -28,6 +28,7 @@ type
     CheckBox1: TCheckBox;
     Label1: TLabel;
     ComboBox1: TComboBox;
+    IdAntiFreeze1: TIdAntiFreeze;
     procedure BitBtn1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
   private
@@ -69,6 +70,7 @@ begin
 
   try
     IdSMTP1.Connect;
+    Application.ProcessMessages;
     IdSMTP1.Send(IdMessage1);
     m_ok := true;
   except

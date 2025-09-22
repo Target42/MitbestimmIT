@@ -37,14 +37,13 @@ uses
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
   u_WahlDef in '..\WahlDefininition\u_WahlDef.pas',
   i_Storage in '..\Storage\i_Storage.pas',
-  {$ifdef SIMU}
+
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_StorageWahlDefinition in '..\Storage\Simulation\u_StorageWahlDefinition.pas',
   u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas',
-  u_StorageWaehlerListe in '..\Storage\Simulation\u_StorageWaehlerListe.pas' ,
-  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas' ,
+  u_StorageWaehlerListe in '..\Storage\Simulation\u_StorageWaehlerListe.pas',
+  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
   u_StorageWahlvorstand in '..\Storage\Simulation\u_StorageWahlvorstand.pas',
-  {$ENDIF }
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
   fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},

@@ -121,7 +121,7 @@ object DatabaseFrame: TDatabaseFrame
       Height = 25
       Caption = 'Erstellen'
       ImageIndex = 3
-      Images = Resmod.PngImageList1
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end

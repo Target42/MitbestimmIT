@@ -25,7 +25,7 @@ object FilesFrame: TFilesFrame
       Action = BrowseForFolder1
       Anchors = [akTop, akRight]
       ImageIndex = 4
-      Images = Resmod.PngImageList1
+      Images = ResMod.PngImageList1
     end
     object Edit1: TEdit
       Left = 16

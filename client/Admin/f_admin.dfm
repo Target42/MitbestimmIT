@@ -2,7 +2,7 @@ object AdminForm: TAdminForm
   Left = 0
   Top = 0
   Caption = 'Administrator-Verwaltung'
-  ClientHeight = 459
+  ClientHeight = 482
   ClientWidth = 624
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,6 +12,7 @@ object AdminForm: TAdminForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object GroupBox1: TGroupBox
     Left = 0
@@ -60,17 +61,16 @@ object AdminForm: TAdminForm
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 440
+    Top = 463
     Width = 624
     Height = 19
     Panels = <>
-    ExplicitTop = 742
   end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 209
     Width = 624
-    Height = 224
+    Height = 280
     Align = alTop
     Caption = 'Neue Wahl anlegen'
     TabOrder = 2
@@ -110,75 +110,86 @@ object AdminForm: TAdminForm
       Left = 2
       Top = 89
       Width = 620
-      Height = 92
+      Height = 189
       Align = alClient
       Caption = 'Wahlvorstand'
       TabOrder = 1
       object LabeledEdit2: TLabeledEdit
-        Left = 16
+        Left = 111
         Top = 40
         Width = 89
         Height = 23
         EditLabel.Width = 43
         EditLabel.Height = 15
         EditLabel.Caption = 'Pers.-Nr'
-        TabOrder = 0
+        TabOrder = 1
         Text = '0815'
       end
       object LabeledEdit3: TLabeledEdit
-        Left = 111
+        Left = 215
         Top = 40
         Width = 154
         Height = 23
         EditLabel.Width = 32
         EditLabel.Height = 15
         EditLabel.Caption = 'Name'
-        TabOrder = 1
+        TabOrder = 2
         Text = 'Doe'
       end
       object LabeledEdit4: TLabeledEdit
-        Left = 271
+        Left = 383
         Top = 40
         Width = 121
         Height = 23
         EditLabel.Width = 47
         EditLabel.Height = 15
         EditLabel.Caption = 'Vorname'
-        TabOrder = 2
+        TabOrder = 3
         Text = 'John'
       end
       object LabeledEdit5: TLabeledEdit
-        Left = 398
-        Top = 40
+        Left = 16
+        Top = 88
         Width = 121
         Height = 23
         EditLabel.Width = 79
         EditLabel.Height = 15
         EditLabel.Caption = 'Initial Passwort'
         PasswordChar = '*'
-        TabOrder = 3
+        TabOrder = 4
         Text = '0815'
       end
-    end
-    object Panel2: TPanel
-      Left = 2
-      Top = 181
-      Width = 620
-      Height = 41
-      Align = alBottom
-      BevelOuter = bvNone
-      Caption = 'Panel2'
-      ShowCaption = False
-      TabOrder = 2
-      object BitBtn1: TBitBtn
+      object LabeledEdit6: TLabeledEdit
         Left = 16
-        Top = 6
-        Width = 75
-        Height = 25
-        Caption = 'Anlegen'
+        Top = 40
+        Width = 89
+        Height = 23
+        EditLabel.Width = 30
+        EditLabel.Height = 15
+        EditLabel.Caption = 'Login'
         TabOrder = 0
-        OnClick = BitBtn1Click
+        Text = 'jd0815'
       end
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 422
+    Width = 624
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
+    Caption = 'Panel2'
+    ShowCaption = False
+    TabOrder = 3
+    object BitBtn1: TBitBtn
+      Left = 18
+      Top = 10
+      Width = 75
+      Height = 25
+      Caption = 'Anlegen'
+      TabOrder = 0
+      OnClick = BitBtn1Click
     end
   end
   object DSProviderConnection1: TDSProviderConnection
