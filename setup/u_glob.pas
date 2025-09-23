@@ -38,6 +38,7 @@ type
     FSMTPSSL: integer;
     FPlain: boolean;
     FDBPwdCheck: string;
+    FEigenes: boolean;
 
     procedure CompressStream;
     procedure DecompressStream;
@@ -62,6 +63,7 @@ type
     property Faktor2: boolean read FFaktor2 write FFaktor2;
     property Secret: string read FSecret write FSecret;
 
+    property Eigenes: boolean read FEigenes write FEigenes;
     property ZertifikatPWD: string read FZertifikatPWD write FZertifikatPWD;
     property KeyFile: string read FKeyFile write FKeyFile;
     property RootFile: string read FRootFile write FRootFile;
@@ -188,6 +190,7 @@ begin
   FFaktor2      := ini.ReadBool  ('admin', 'factor2', false);
   FSecret       := ini.ReadString('admin', 'secret', '');
 
+  FEigenes      := ini.ReadBool(  'ssl', 'eigenes', false);
   FZertifikatPWD:= ini.ReadString('ssl', 'pwd', '');
   FKeyFile      := ini.ReadString('ssl', 'keyfile', '');
   FCertFile     := ini.ReadString('ssl', 'certfile', '');
@@ -254,6 +257,7 @@ begin
   ini.WriteBool  ('admin', 'factor2', FFaktor2);
   ini.WriteString('admin', 'secret',  FSecret);
 
+  ini.WriteBool(  'ssl', 'eigenes',  FEigenes);
   ini.WriteString('ssl', 'pwd',      FZertifikatPWD);
   ini.WriteString('ssl', 'keyfile',  FKeyFile);
   ini.WriteString('ssl', 'certfile', FCertFile);

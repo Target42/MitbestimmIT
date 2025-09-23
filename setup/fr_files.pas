@@ -20,12 +20,12 @@ type
     procedure FrameResize(Sender: TObject);
   private
     procedure log( text : string );
-    procedure unzipOpenSSL;
     procedure unzipSSL;
     procedure upzipFB;
     procedure unzipFBClient;
     procedure unzipBat;
     procedure unzipClients;
+    procedure unzipZertifikate;
   public
     function doCopy : boolean;
 
@@ -72,8 +72,6 @@ begin
 
       log('SSL-Bibliotheken');
       done := SaveRCDataToFile('SSL', TPath.Combine(Glob.TempDir, 'ssl.zip')) and done;
-      log('OpenSSL');
-      done := SaveRCDataToFile('openssl', TPath.Combine(Glob.TempDir, 'openssl.zip')) and done;
 
       log('Server');
       done := SaveRCDataToFile('service', TPath.Combine(Glob.TempDir, 'service.zip')) and done;
@@ -82,7 +80,7 @@ begin
       done := SaveRCDataToFile('bat', TPath.Combine(Glob.TempDir, 'bat.zip')) and done;
 
       done := ForceDirectories( TPath.Combine(Glob.HomeDir, 'Zertifikate')) and done;
-      done := SaveRCDataToFile('Zertifikate', TPath.Combine(Glob.HomeDir, 'Zertifikate\ZertifikateErzeugen.bat')) and done;
+      done := SaveRCDataToFile('zertifikate', TPath.Combine(Glob.TempDir, 'zertifikate.zip')) and done;
 
       ForceDirectories(TPath.Combine(Glob.HomeDir, 'client'));
       done := SaveRCDataToFile('client', TPath.Combine(Glob.HomeDir, 'client\client.zip')) and done;
@@ -90,10 +88,10 @@ begin
     end;
 
     unzipSSL;
-    unzipOpenSSL;
     unzipClients;
     unzipFBClient;
     unzipBat;
+    unzipZertifikate;
 
     log('Fertig');
   except
@@ -189,18 +187,6 @@ begin
   zip.Free;
 end;
 
-procedure TFilesFrame.unzipOpenSSL;
-var
-  zip : TZipFile;
-begin
-  log('Entpacken OpenSSL');
-  zip := TZipFile.Create;
-  zip.Open(TPath.Combine(Glob.TempDir, 'openssl.zip'), zmRead);
-  zip.ExtractAll(TPath.Combine(Glob.HomeDir, 'Zertifikate\openssl'));
-  zip.Close;
-  zip.Free;
-end;
-
 procedure TFilesFrame.unzipSSL;
 var
   zip : TZipFile;
@@ -223,6 +209,18 @@ begin
 
 end;
 
+
+procedure TFilesFrame.unzipZertifikate;
+var
+  zip : TZipFile;
+begin
+  log('Entpacken Zertifikate');
+  zip := TZipFile.Create;
+  zip.Open(TPath.Combine(Glob.TempDir, 'zertifikate.zip'), zmRead);
+  zip.ExtractAll(Glob.HomeDir);
+  zip.Close;
+  zip.Free;
+end;
 
 procedure TFilesFrame.upzipFB;
 var

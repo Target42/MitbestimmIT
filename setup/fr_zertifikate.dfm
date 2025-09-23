@@ -7,12 +7,32 @@ object ZertifikatFrame: TZertifikatFrame
   TabOrder = 0
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 0
+    Top = 65
     Width = 640
-    Height = 105
+    Height = 176
     Align = alTop
-    Caption = 'Passwort'
+    Caption = 'Eigenes Zertifikat'
     TabOrder = 0
+    ExplicitTop = 59
+    object SpeedButton1: TSpeedButton
+      Tag = 1
+      Left = 456
+      Top = 89
+      Width = 23
+      Height = 22
+      ImageIndex = 7
+      Images = ResMod.PngImageList1
+      OnClick = SpeedButton1Click
+    end
+    object SpeedButton2: TSpeedButton
+      Tag = 2
+      Left = 456
+      Top = 129
+      Width = 23
+      Height = 22
+      ImageIndex = 7
+      Images = ResMod.PngImageList1
+    end
     object LabeledEdit1: TLabeledEdit
       Left = 24
       Top = 40
@@ -37,55 +57,70 @@ object ZertifikatFrame: TZertifikatFrame
       TabOrder = 1
       Text = ''
     end
-    object BitBtn1: TBitBtn
-      Left = 328
-      Top = 39
-      Width = 75
-      Height = 25
-      Caption = 'Erstellen'
-      ImageIndex = 0
-      Images = PngImageList1
+    object LabeledEdit3: TLabeledEdit
+      Left = 24
+      Top = 88
+      Width = 417
+      Height = 23
+      EditLabel.Width = 78
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Zertifikatsdatei'
       TabOrder = 2
-      OnClick = BitBtn1Click
+      Text = ''
+    end
+    object LabeledEdit4: TLabeledEdit
+      Left = 24
+      Top = 134
+      Width = 417
+      Height = 23
+      EditLabel.Width = 74
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Schl'#252'sseldatei'
+      TabOrder = 3
+      Text = ''
+    end
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 0
+    Top = 0
+    Width = 640
+    Height = 65
+    Align = alTop
+    Caption = 'Zertifikat'
+    Columns = 2
+    Items.Strings = (
+      'Mitgeliefert'
+      'Eigenes')
+    TabOrder = 1
+    OnClick = RadioGroup1Click
+    ExplicitTop = -6
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 241
+    Width = 640
+    Height = 72
+    Align = alTop
+    Caption = 'Test'
+    TabOrder = 2
+    ExplicitTop = 247
+    object Label1: TLabel
+      Left = 136
+      Top = 32
+      Width = 57
+      Height = 15
+      Caption = 'Ungetestet'
     end
     object BitBtn2: TBitBtn
-      Left = 448
-      Top = 39
+      Left = 24
+      Top = 31
       Width = 75
       Height = 25
       Caption = 'Testen'
       ImageIndex = 1
       Images = PngImageList1
-      TabOrder = 3
-      OnClick = BitBtn2Click
-    end
-  end
-  object GroupBox2: TGroupBox
-    Left = 0
-    Top = 105
-    Width = 640
-    Height = 375
-    Align = alClient
-    Caption = 'Log'
-    TabOrder = 1
-    object Memo1: TRichEdit
-      Left = 2
-      Top = 17
-      Width = 636
-      Height = 356
-      Align = alClient
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      Lines.Strings = (
-        'Memo1')
-      ParentFont = False
-      ScrollBars = ssVertical
       TabOrder = 0
-      OnMouseWheelDown = Memo1MouseWheelDown
-      OnMouseWheelUp = Memo1MouseWheelUp
+      OnClick = BitBtn2Click
     end
   end
   object IdHTTP1: TIdHTTP
@@ -105,9 +140,6 @@ object ZertifikatFrame: TZertifikatFrame
     Top = 296
   end
   object IdServerIOHandlerSSLOpenSSL1: TIdServerIOHandlerSSLOpenSSL
-    SSLOptions.RootCertFile = 'D:\DelphiBin\MitbestimmIT\Server\Zertifikat\cert.pem'
-    SSLOptions.CertFile = 'D:\DelphiBin\MitbestimmIT\Server\Zertifikat\cert.pem'
-    SSLOptions.KeyFile = 'D:\DelphiBin\MitbestimmIT\Server\Zertifikat\key.pem'
     SSLOptions.Method = sslvSSLv23
     SSLOptions.SSLVersions = [sslvSSLv2, sslvSSLv3, sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2]
     SSLOptions.Mode = sslmUnassigned
@@ -123,17 +155,8 @@ object ZertifikatFrame: TZertifikatFrame
     IOHandler = IdServerIOHandlerSSLOpenSSL1
     OnQuerySSLPort = IdHTTPServer1QuerySSLPort
     OnCommandGet = IdHTTPServer1CommandGet
-    Left = 512
-    Top = 144
-  end
-  object DosCommand1: TDosCommand
-    InputToOutput = False
-    MaxTimeAfterBeginning = 0
-    MaxTimeAfterLastOutput = 0
-    OnNewLine = DosCommand1NewLine
-    OnTerminateProcess = DosCommand1TerminateProcess
-    Left = 152
-    Top = 120
+    Left = 552
+    Top = 272
   end
   object PngImageList1: TPngImageList
     PngImages = <
@@ -175,5 +198,25 @@ object ZertifikatFrame: TZertifikatFrame
       end>
     Left = 216
     Top = 225
+  end
+  object FileOpenDialog1: TFileOpenDialog
+    FavoriteLinks = <>
+    FileTypes = <
+      item
+        DisplayName = 'PEM-Datei (*.pem)'
+        FileMask = '*.pem'
+      end
+      item
+        DisplayName = 'CRT-Datei (*.crt)'
+        FileMask = '*.crt'
+      end
+      item
+        DisplayName = 'Alle Dateien (*.*)'
+        FileMask = '*.*'
+      end>
+    Options = []
+    Title = 'Zertifikat/Schl'#252'ssel laden'
+    Left = 536
+    Top = 121
   end
 end

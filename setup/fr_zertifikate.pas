@@ -15,29 +15,28 @@ type
     GroupBox1: TGroupBox;
     LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
-    BitBtn1: TBitBtn;
     IdHTTP1: TIdHTTP;
     IdServerIOHandlerSSLOpenSSL1: TIdServerIOHandlerSSLOpenSSL;
     IdHTTPServer1: TIdHTTPServer;
-    DosCommand1: TDosCommand;
-    GroupBox2: TGroupBox;
-    Memo1: TRichEdit;
-    BitBtn2: TBitBtn;
     PngImageList1: TPngImageList;
+    RadioGroup1: TRadioGroup;
+    LabeledEdit3: TLabeledEdit;
+    SpeedButton1: TSpeedButton;
+    LabeledEdit4: TLabeledEdit;
+    GroupBox2: TGroupBox;
+    BitBtn2: TBitBtn;
+    Label1: TLabel;
+    SpeedButton2: TSpeedButton;
+    FileOpenDialog1: TFileOpenDialog;
     procedure IdHTTPServer1QuerySSLPort(APort: TIdPort; var VUseSSL: Boolean);
-    procedure BitBtn1Click(Sender: TObject);
-    procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string;
-      AOutputType: TOutputType);
-    procedure Memo1MouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
-    procedure Memo1MouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
     procedure BitBtn2Click(Sender: TObject);
     procedure IdServerIOHandlerSSLOpenSSL1GetPassword(var Password: string);
     procedure IdHTTPServer1CommandGet(AContext: TIdContext;
       ARequestInfo: TIdHTTPRequestInfo; AResponseInfo: TIdHTTPResponseInfo);
     procedure DosCommand1TerminateProcess(ASender: TObject;
       var ACanTerminate: Boolean);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     m_ok : boolean;
   public
@@ -51,34 +50,15 @@ implementation
 {$R *.dfm}
 
 uses
-  system.IOUtils, u_glob;
+  system.IOUtils, u_glob, m_res;
 
-
-procedure TZertifikatFrame.BitBtn1Click(Sender: TObject);
-var
-  openssl : string;
-  bat     : string;
-begin
-  Memo1.Lines.Clear;
-  openssl := TPath.Combine(Glob.HomeDir, 'Zertifikate\openssl\bin\openssl.exe');
-
-  DosCommand1.CurrentDir := TPath.Combine(Glob.HomeDir, 'Zertifikate' );
-  bat := TPath.Combine(Glob.HomeDir, 'Zertifikate\ZertifikateErzeugen.bat' );
-  DosCommand1.CommandLine := Format('"%s" "%s" "%s"',
-  [
-    bat,
-    openssl,
-    LabeledEdit1.Text
-  ]);
-  DosCommand1.Execute;
-end;
 
 procedure TZertifikatFrame.BitBtn2Click(Sender: TObject);
 begin
   m_ok := false;
 
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile      := TPath.Combine(Glob.HomeDir, 'Zertifikate\key.pem');
-  IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
+//  IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile     := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
 
   try
@@ -86,7 +66,6 @@ begin
     IdHTTP1.Get(Format('https://localhost:%d/', [IdHTTPServer1.DefaultPort]));
     if IdHTTP1.ResponseCode = 200 then
     begin
-      Memo1.Lines.Add('Test ist erfolgreich!');
       m_ok := true;
     end;
 
@@ -97,15 +76,17 @@ begin
     end;
 
   end;
-  if IdHTTPServer1.Active then
-    IdHTTPServer1.Active := false;
-
-end;
-
-procedure TZertifikatFrame.DosCommand1NewLine(ASender: TObject;
-  const ANewLine: string; AOutputType: TOutputType);
-begin
-  Memo1.Lines.Add(ANewLine);
+  IdHTTPServer1.Active := false;
+  if m_ok then
+  begin
+    Label1.Font.Color := clGreen;
+    Label1.Caption := 'Test erfolgreich';
+  end
+  else
+  begin
+    Label1.Font.Color := clRed;
+    Label1.Caption := 'Test fehlgeschlagen';
+  end;
 end;
 
 procedure TZertifikatFrame.DosCommand1TerminateProcess(ASender: TObject;
@@ -133,18 +114,6 @@ begin
   Password := LabeledEdit1.Text;
 end;
 
-procedure TZertifikatFrame.Memo1MouseWheelDown(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
-begin
-  SendMessage(Memo1.Handle, EM_SCROLL, SB_LINEDOWN, 0);
-end;
-
-procedure TZertifikatFrame.Memo1MouseWheelUp(Sender: TObject;
-  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
-begin
-  SendMessage(Memo1.Handle, EM_SCROLL, SB_LINEUP, 0);
-end;
-
 function TZertifikatFrame.ok: boolean;
 begin
   result := m_ok;
@@ -162,16 +131,55 @@ procedure TZertifikatFrame.prepare;
 begin
   m_ok := false;
 
-  Memo1.Lines.Clear;
+  if not Glob.Eigenes then
+    RadioGroup1.ItemIndex := 0
+  else
+    RadioGroup1.ItemIndex := 1;
+
+  GroupBox1.Enabled := Glob.Eigenes;
+end;
+
+procedure TZertifikatFrame.RadioGroup1Click(Sender: TObject);
+begin
+  GroupBox1.Enabled := (RadioGroup1.ItemIndex = 1);
+  if RadioGroup1.ItemIndex = 0 then
+  begin
+    Glob.ZertifikatPWD := 'Wahl';
+    Glob.KeyFile  := TPath.Combine(Glob.HomeDir, 'Zertifikate\key.pem');
+    Glob.RootFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
+    glob.CertFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
+
+  end;
 
   LabeledEdit1.Text := Glob.ZertifikatPWD;
   LabeledEdit2.Text := Glob.ZertifikatPWD;
+
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile       := Glob.KeyFile;
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile  := Glob.RootFile;
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile      := glob.CertFile;
 
-  if LabeledEdit1.Text <> '' then
-    BitBtn2.Click;
+  LabeledEdit3.Text := glob.CertFile;
+  LabeledEdit4.Text := glob.KeyFile;
+
+end;
+
+procedure TZertifikatFrame.SpeedButton1Click(Sender: TObject);
+var
+  id : integer;
+begin
+  id := ( Sender as TSpeedButton).Tag;
+  if id = 1 then
+  begin
+    FileOpenDialog1.FileName := LabeledEdit3.Text;
+    if FileOpenDialog1.Execute then
+      LabeledEdit3.Text := FileOpenDialog1.FileName;
+  end
+  else
+  begin
+    FileOpenDialog1.FileName := LabeledEdit4.Text;
+    if FileOpenDialog1.Execute then
+      LabeledEdit4.Text := FileOpenDialog1.FileName;
+  end;
 end;
 
 end.
