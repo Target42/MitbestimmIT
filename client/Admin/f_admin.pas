@@ -107,7 +107,6 @@ end;
 procedure TAdminForm.FormDestroy(Sender: TObject);
 begin
   WahlTab.Close;
-
 end;
 
 procedure TAdminForm.WahlTabWA_ACTIVE_LANGGetText(Sender: TField;
