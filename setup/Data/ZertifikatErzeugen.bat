@@ -1,21 +1,16 @@
 @echo off
 setlocal
 
-if "%1"=="" (
-	echo Es wurd keine 
-    echo Beispiel: %~nx0 password
-    exit /b 1
-)
-
 REM === Konfigurierbare Werte ===
-set OPENSSL_BIN=%1
+set OPENSSL_BIN="C:\Program Files (x86)\OpenSSL-Win32\bin\openssl.exe"
 set KEY_FILE=key.pem
 set CERT_FILE=cert.pem
 set CSR_FILE=csr.pem
 set DAYS_VALID=365
 set SUBJECT=/C=DE/ST=Niedersachsen/L=Hemmingen/O=MitbestimmIT/OU=IT/CN=example.com
-set PASSWORD=%2
+set PASSWORD=Wahl
 
+cd .\Zertifikate
 
 echo Generiere privaten Schluessel (mit Passwortschutz) und selbstsigniertes Zertifikat...
 %OPENSSL_BIN% genpkey -algorithm RSA -out %KEY_FILE% -aes256 -pkeyopt rsa_keygen_bits:2048 -pass pass:%PASSWORD% 2> NUL
@@ -34,6 +29,19 @@ echo Fertig! Dateien wurden erstellt:
 echo   - %KEY_FILE% (mit Passwortschutz)
 echo   - %CERT_FILE%
 echo   - %CSR_FILE%
+
+cd ..
+
+IF EXIST "Zertifikate.zip" (
+    del "Zertifikate.zip"
+)
+
+tar -a -c -f Zertifikate.zip Zertifikate
+
+git add Zertifikate.zip
+git commit -m "Neues Zertifikate aktualisiert"
+git push origin main
+
 GOTO end
 
 :error
