@@ -122,38 +122,29 @@ begin
   end;
 end;
 
-
 procedure TServerFrame.BitBtn1Click(Sender: TObject);
 begin
-  DosCommand2.CommandLine := 'Service_Install.bat';
-  DosCommand2.Execute;
+  Execute(TPath.Combine(DosCommand2.CurrentDir, 'Service_Install.bat'));
 end;
 
 procedure TServerFrame.BitBtn2Click(Sender: TObject);
 begin
-  DosCommand2.CommandLine := 'Service_Start.bat';
-  DosCommand2.Execute;
+  Execute(TPath.Combine(DosCommand2.CurrentDir, 'Service_Start.bat'));
 end;
 
 procedure TServerFrame.BitBtn3Click(Sender: TObject);
 begin
-  DosCommand2.CommandLine := 'Service_Uninstall.bat';
-  DosCommand2.Execute;
+  Execute(TPath.Combine(DosCommand2.CurrentDir, 'Service_Uninstall.bat'));
 end;
 
 procedure TServerFrame.BitBtn4Click(Sender: TObject);
 begin
-  DosCommand2.CommandLine := 'Service_Stop.Bat';
-  DosCommand2.Execute;
+  Execute(TPath.Combine(DosCommand2.CurrentDir, 'Service_Stop.Bat'));
 end;
 
 procedure TServerFrame.BitBtn5Click(Sender: TObject);
 begin
-
   Execute(TPath.Combine(DosCommand2.CurrentDir, 'MitbestimmITServer.exe'));
-{  DosCommand2.CommandLine := 'cmd.exe /cstart"' + TPath.Combine(DosCommand2.CurrentDir, 'MitbestimmITServer.exe')+'"';
-  DosCommand2.Execute;}
-
 end;
 
 procedure TServerFrame.BitBtn6Click(Sender: TObject);
