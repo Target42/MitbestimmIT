@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -70,6 +70,12 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>ServerSetup</SanitizedProjectName>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_Release>1</VerInfo_Release>
+        <VerInfo_Locale>1031</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.1.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>FireDACIBDriver;JvNet;vclwinx;DataSnapServer;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;dbxcds;vcledge;IcsCommonD12Run;FmxTeeUI;EasyListviewD;DBXFirebirdDriver;JvAppFrm;FireDACSqliteDriver;DbxClientDriver;JclVcl;soapmidas;Mitov_FMX_BasicLab;TeeUI;OpenWireEditorBasicPkg;Jcl;dbexpress;Python;IcsVclD12Run;JvManagedThreads;PowerPDFDR;SignalLabScopePkg;inet;OnnxRTWrapper;PythonVcl;vcltouch;JvDB;FireDACDBXDriver;fmxdae;OpenWireBindingFmxPkg;JvCustom;SignalLabGenericBasicPkg;CustomIPTransport;FireDACMSSQLDriver;LockBox3DR;JvSystem;JvControls;Excel4DelphiLib;RDOpenAI;OmniThreadLibraryRuntime;JvCrypt;JvJans;JvMM;IndySystem;JvGlobus;ibxbindings;OpenWireBindingDatabasePkg;OpenAIPackage;JclContainers;JvPageComps;vclFireDAC;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;Mitov_VCL_BasicLab;DelphiAIDeveloper;DOSCommandDR;FMX_SignalLabScopePkg;bindcompdbx;rtl;FireDACMySQLDriver;Mitov_BasicLab;DBXSqliteDriver;VirtualTreesDR;DBXSybaseASEDriver;VirtualShellToolsD;JvRuntimeDesign;PlotLabPkg;JvXPCtrls;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;JvDocking;JvDlgs;xmlrtl;P4DEnvironment;ibxpress;dsnap;JvCmp;FireDACDb2Driver;DBXOracleDriver;DBXInformixDriver;vclib;fmxobj;bindcompvclsmp;DataSnapNativeClient;DatasnapConnectorsFreePascal;emshosting;FireDACCommonDriver;MPCommonLibD;IndyIPClient;Mitov_Runtime;bindcompvclwinx;emsedge;bindcompfmx;JvBands;inetdb;ibmonitor;OpenWireStudioHostPkg;FireDACASADriver;Tee;OrpheusDBDR;TimingLabBasicPkg;vclactnband;fmxFireDAC;FireDACInfxDriver;DBXMySQLDriver;VclSmp;DataSnapCommon;JvPascalInterpreter;fmxase;JvPluginSystem;DBXOdbcDriver;JvTimeFramework;dbrtl;FireDACOracleDriver;Skia.Package.FMX;CodeSiteExpressPkg;TeeDB;FireDACMSAccDriver;IcsFmxD12Run;DataSnapIndy10ServerTransport;JclDeveloperTools;DataSnapConnectors;vcldsnap;DBXInterBaseDriver;FireDACMongoDBDriver;JvWizards;PngComponentsD;OpenWireEditorPkg;OrpheusDR;FireDACTDataDriver;FMX_PlotLabPkg;Skia.Package.VCL;vcldb;SynEditDR;JvCore;bindcomp;IndyCore;RESTBackendComponents;FireDACADSDriver;RaizeComponentsVclDb;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;JvDotNetCtrls;JvHMI;TaurusTLS_RT;DBXDb2Driver;OpenWireBindingPkg;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;ChatGptWizard;Mitov_VCL_Runtime;OpenWirePkg;tethering;JvStdCtrls;JvPrintPreview;bindcompvcl;CloudService;DBXSybaseASADriver;OpenWireBindingVclPkg;FMXTee;PythonFmx;soaprtl;SignalLabBasicPkg;RaizeComponentsVcl;soapserver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -106,6 +112,8 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_RunParams>/Plain</Debugger_RunParams>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=0.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -118,10 +126,13 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Setup</DCC_ExeOutput>
         <Debugger_RunParams>/plain</Debugger_RunParams>
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <VerInfo_MinorVer>0</VerInfo_MinorVer>
+        <VerInfo_Release>0</VerInfo_Release>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>

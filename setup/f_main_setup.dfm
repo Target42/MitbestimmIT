@@ -53,6 +53,8 @@ object MainSetupForm: TMainSetupForm
     ShowRouteMap = False
     OnFinishButtonClick = JvWizard1FinishButtonClick
     OnCancelButtonClick = JvWizard1CancelButtonClick
+    OnHelpButtonClick = JvWizard1HelpButtonClick
+    ExplicitTop = -6
     DesignSize = (
       754
       479)
@@ -73,9 +75,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardWelcomePage1'
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnFinishButtonClick = JvWizardWelcomePage1FinishButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       object Panel1: TPanel
         Left = 164
         Top = 396
@@ -123,46 +127,6 @@ object MainSetupForm: TMainSetupForm
         TabOrder = 1
       end
     end
-    object JvWizardInteriorPage6: TJvWizardInteriorPage
-      Header.Title.Color = clNone
-      Header.Title.Text = 'Vorraussetzungen'
-      Header.Title.Anchors = [akLeft, akTop, akRight]
-      Header.Title.Font.Charset = DEFAULT_CHARSET
-      Header.Title.Font.Color = clWindowText
-      Header.Title.Font.Height = -16
-      Header.Title.Font.Name = 'Segoe UI'
-      Header.Title.Font.Style = [fsBold]
-      Header.Subtitle.Color = clNone
-      Header.Subtitle.Text = 'Dinge, die f'#252'r die Installation ben'#246'tigt werden'
-      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
-      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
-      Header.Subtitle.Font.Color = clWindowText
-      Header.Subtitle.Font.Height = -12
-      Header.Subtitle.Font.Name = 'Segoe UI'
-      Header.Subtitle.Font.Style = []
-      Caption = 'JvWizardInteriorPage6'
-      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
-      ExplicitWidth = 624
-      ExplicitHeight = 380
-      inline PreFrame1: TPreFrame
-        Left = 0
-        Top = 70
-        Width = 754
-        Height = 367
-        Align = alClient
-        TabOrder = 0
-        ExplicitTop = 70
-        ExplicitWidth = 624
-        ExplicitHeight = 310
-        inherited RichEdit1: TRichEdit
-          Width = 754
-          Height = 367
-          StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 754
-          ExplicitHeight = 367
-        end
-      end
-    end
     object JvWizardInteriorPage1: TJvWizardInteriorPage
       Header.Title.Color = clNone
       Header.Title.Text = 'Grundlagen'
@@ -180,9 +144,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardInteriorPage1'
       OnNextButtonClick = JvWizardInteriorPage1NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline FilesFrame1: TFilesFrame
         Left = 0
         Top = 70
@@ -209,8 +175,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 284
-          ExplicitWidth = 624
-          ExplicitHeight = 227
+          ExplicitWidth = 754
+          ExplicitHeight = 284
           inherited Memo1: TMemo
             Width = 750
             Height = 265
@@ -238,9 +204,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardInteriorPage7'
       OnNextButtonClick = JvWizardInteriorPage7NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline PortCheckFrame1: TPortCheckFrame
         Left = 0
         Top = 70
@@ -306,6 +274,7 @@ object MainSetupForm: TMainSetupForm
         inherited Panel1: TPanel
           Width = 754
           StyleElements = [seFont, seClient, seBorder]
+          ExplicitTop = 289
           ExplicitWidth = 754
         end
         inherited IdTCPServer1: TIdTCPServer
@@ -330,10 +299,12 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardInteriorPage2'
       OnEnterPage = JvWizardInteriorPage2EnterPage
       OnNextButtonClick = JvWizardInteriorPage2NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       object Label1: TLabel
         Left = 168
         Top = 280
@@ -377,7 +348,7 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 469
+              Width = 479
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -385,11 +356,13 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -418,11 +391,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardInteriorPage3'
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
@@ -490,6 +463,7 @@ object MainSetupForm: TMainSetupForm
       Caption = 'JvWizardInteriorPage4'
       OnNextButtonClick = JvWizardInteriorPage4NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline ZertifikatFrame1: TZertifikatFrame
         Left = 0
         Top = 70
@@ -502,6 +476,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
           Width = 754
+          ExplicitTop = 65
           ExplicitWidth = 754
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -510,24 +485,21 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
           end
           inherited LabeledEdit3: TLabeledEdit
-            EditLabel.ExplicitLeft = 0
-            EditLabel.ExplicitTop = -18
-            EditLabel.ExplicitWidth = 67
             StyleElements = [seFont, seClient, seBorder]
           end
           inherited LabeledEdit4: TLabeledEdit
-            EditLabel.ExplicitLeft = 0
-            EditLabel.ExplicitTop = -18
-            EditLabel.ExplicitWidth = 67
             StyleElements = [seFont, seClient, seBorder]
           end
         end
         inherited RadioGroup1: TRadioGroup
           Width = 754
+          ExplicitTop = 0
+          ExplicitWidth = 754
         end
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 262
+          ExplicitTop = 241
           ExplicitWidth = 754
           ExplicitHeight = 262
           inherited Label1: TLabel
@@ -553,9 +525,11 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
       Caption = 'JvWizardInteriorPage5'
       OnNextButtonClick = JvWizardInteriorPage5NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline MailFrame1: TMailFrame
         Left = 0
         Top = 70
@@ -568,7 +542,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
           Width = 754
-          ExplicitWidth = 624
+          ExplicitWidth = 754
           inherited Label1: TLabel
             StyleElements = [seFont, seClient, seBorder]
           end
@@ -591,8 +565,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 182
-          ExplicitWidth = 624
-          ExplicitHeight = 125
+          ExplicitWidth = 754
+          ExplicitHeight = 182
           inherited Panel1: TPanel
             Width = 750
             StyleElements = [seFont, seClient, seBorder]
@@ -608,6 +582,46 @@ object MainSetupForm: TMainSetupForm
             ExplicitWidth = 750
             ExplicitHeight = 99
           end
+        end
+      end
+    end
+    object JvWizardInteriorPage6: TJvWizardInteriorPage
+      Header.Title.Color = clNone
+      Header.Title.Text = 'Vorraussetzungen'
+      Header.Title.Anchors = [akLeft, akTop, akRight]
+      Header.Title.Font.Charset = DEFAULT_CHARSET
+      Header.Title.Font.Color = clWindowText
+      Header.Title.Font.Height = -16
+      Header.Title.Font.Name = 'Segoe UI'
+      Header.Title.Font.Style = [fsBold]
+      Header.Subtitle.Color = clNone
+      Header.Subtitle.Text = 'Dinge, die f'#252'r die Installation ben'#246'tigt werden'
+      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
+      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
+      Header.Subtitle.Font.Color = clWindowText
+      Header.Subtitle.Font.Height = -12
+      Header.Subtitle.Font.Name = 'Segoe UI'
+      Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
+      Caption = 'JvWizardInteriorPage6'
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      inline PreFrame1: TPreFrame
+        Left = 0
+        Top = 70
+        Width = 754
+        Height = 367
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 70
+        ExplicitWidth = 754
+        ExplicitHeight = 367
+        inherited RichEdit1: TRichEdit
+          Width = 754
+          Height = 367
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitWidth = 754
+          ExplicitHeight = 367
         end
       end
     end
@@ -628,11 +642,12 @@ object MainSetupForm: TMainSetupForm
       Header.Subtitle.Font.Height = -12
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
-      VisibleButtons = [bkFinish]
+      VisibleButtons = [bkFinish, bkHelp]
       Caption = 'JvWizardInteriorPage8'
       OnEnterPage = JvWizardInteriorPage8EnterPage
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnFinishButtonClick = JvWizardInteriorPage8FinishButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
       inline ServerFrame1: TServerFrame
         Left = 0
         Top = 70
@@ -652,7 +667,7 @@ object MainSetupForm: TMainSetupForm
           ExplicitHeight = 367
           inherited LV: TListView
             Height = 307
-            ExplicitHeight = 348
+            ExplicitHeight = 307
           end
           inherited Panel2: TPanel
             Top = 324
@@ -663,8 +678,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 438
           Height = 367
-          ExplicitWidth = 308
-          ExplicitHeight = 310
+          ExplicitWidth = 438
+          ExplicitHeight = 367
           inherited Splitter2: TSplitter
             Top = 180
             Width = 434
@@ -674,8 +689,8 @@ object MainSetupForm: TMainSetupForm
           inherited GroupBox3: TGroupBox
             Top = 183
             Width = 434
-            ExplicitTop = 126
-            ExplicitWidth = 304
+            ExplicitTop = 183
+            ExplicitWidth = 434
             inherited Memo1: TMemo
               Width = 430
               StyleElements = [seFont, seClient, seBorder]

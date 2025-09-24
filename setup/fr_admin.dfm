@@ -75,6 +75,7 @@ object AdminFrame: TAdminFrame
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 0
+      ExplicitLeft = 3
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -90,16 +91,17 @@ object AdminFrame: TAdminFrame
       object Label2: TLabel
         Left = 0
         Top = 74
-        Width = 28
+        Width = 227
         Height = 15
         Align = alTop
         Alignment = taCenter
         Caption = 'Code'
+        ExplicitWidth = 28
       end
       object CodeLab: TLabel
         Left = 0
         Top = 89
-        Width = 66
+        Width = 227
         Height = 30
         Align = alTop
         Alignment = taCenter
@@ -110,6 +112,7 @@ object AdminFrame: TAdminFrame
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitWidth = 66
       end
       object CheckBox1: TCheckBox
         AlignWithMargins = True

@@ -60,7 +60,7 @@ object ServerFrame: TServerFrame
         Height = 25
         Caption = 'Update'
         ImageIndex = 11
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 0
         OnClick = BitBtn6Click
       end
@@ -127,7 +127,7 @@ object ServerFrame: TServerFrame
         Height = 25
         Caption = 'Dienst installieren'
         ImageIndex = 10
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 0
         OnClick = BitBtn1Click
       end
@@ -138,7 +138,7 @@ object ServerFrame: TServerFrame
         Height = 25
         Caption = 'Dienst starten'
         ImageIndex = 8
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 1
         OnClick = BitBtn2Click
       end
@@ -149,7 +149,7 @@ object ServerFrame: TServerFrame
         Height = 25
         Caption = 'Dienst deinstallieren'
         ImageIndex = 9
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = BitBtn3Click
       end
@@ -160,7 +160,7 @@ object ServerFrame: TServerFrame
         Height = 25
         Caption = 'Dienst stoppen'
         ImageIndex = 7
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 3
         OnClick = BitBtn4Click
       end
@@ -170,7 +170,7 @@ object ServerFrame: TServerFrame
         Width = 153
         Height = 25
         Caption = 'Start Console App'
-        Images = Resmod.PngImageList1
+        Images = ResMod.PngImageList1
         TabOrder = 4
         OnClick = BitBtn5Click
       end
@@ -252,9 +252,10 @@ object ServerFrame: TServerFrame
     InputToOutput = False
     MaxTimeAfterBeginning = 0
     MaxTimeAfterLastOutput = 0
+    OnExecuteError = DosCommand2ExecuteError
     OnNewLine = DosCommand2NewLine
     OnTerminated = DosCommand2Terminated
-    Left = 796
+    Left = 812
     Top = 72
   end
 end

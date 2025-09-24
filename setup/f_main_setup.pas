@@ -64,6 +64,9 @@ type
       var Stop: Boolean);
     procedure JvWizardInteriorPage8FinishButtonClick(Sender: TObject;
       var Stop: Boolean);
+    procedure JvWizard1HelpButtonClick(Sender: TObject);
+    procedure JvWizardWelcomePage1HelpButtonClick(Sender: TObject;
+      var Stop: Boolean);
   private
   public
     { Public-Deklarationen }
@@ -75,16 +78,16 @@ var
 implementation
 
 uses
-  system.IOUtils, u_helper, u_glob, System.Zip;
+  system.IOUtils, u_helper, u_glob, System.Zip, ShellApi;
 
 {$R *.dfm}
 
 procedure TMainSetupForm.CheckBox1Click(Sender: TObject);
 begin
   if ((Sender as TCheckBox).Checked = true )then
-    JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkNext, TJvWizardButtonKind.bkFinish]
+    JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkNext, TJvWizardButtonKind.bkFinish, TJvWizardButtonKind.bkHelp]
   else
-    JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
+    JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish, TJvWizardButtonKind.bkHelp];
 end;
 
 procedure TMainSetupForm.FormCreate(Sender: TObject);
@@ -103,7 +106,7 @@ begin
   AdminFrame1.prepare;
   ServerFrame1.prepare;
 
-  JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish];
+  JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish, TJvWizardButtonKind.bkHelp];
 end;
 
 procedure TMainSetupForm.JvWizard1CancelButtonClick(Sender: TObject);
@@ -114,6 +117,11 @@ end;
 procedure TMainSetupForm.JvWizard1FinishButtonClick(Sender: TObject);
 begin
   Glob.writeData;
+end;
+
+procedure TMainSetupForm.JvWizard1HelpButtonClick(Sender: TObject);
+begin
+//
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage1NextButtonClick(Sender: TObject;
@@ -147,6 +155,7 @@ end;
 procedure TMainSetupForm.JvWizardInteriorPage4NextButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
+  ZertifikatFrame1.BitBtn2.Click;
   stop := not ZertifikatFrame1.ok;
   if stop then
     ShowMessage('Es wurde noch kein Zertifikat erfolgreich erstellt!');
@@ -203,6 +212,19 @@ begin
   stop := true;
   Glob.writeData;
   Close;
+end;
+
+procedure TMainSetupForm.JvWizardWelcomePage1HelpButtonClick(Sender: TObject;
+  var Stop: Boolean);
+begin
+  ShellExecute(
+    Application.Handle,
+    'open',
+    'https://github.com/Target42/MitbestimmIT/wiki',
+    nil,
+    nil,
+    SW_SHOWNORMAL
+  );
 end;
 
 end.

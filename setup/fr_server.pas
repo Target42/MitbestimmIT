@@ -40,6 +40,8 @@ type
     procedure BitBtn4Click(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure BitBtn6Click(Sender: TObject);
+    procedure DosCommand2ExecuteError(ASender: TObject; AE: Exception;
+      var AHandled: Boolean);
   private
     m_list : TStringList;
     m_name : string;
@@ -58,9 +60,68 @@ implementation
 
 {$R *.dfm}
 
-uses m_res;
+uses m_res, system.IOUtils;
 
 { TServerFrame }
+
+procedure Execute( const aCommando : string );
+var
+  tmpStartupInfo: TStartupInfo;
+  tmpProcessInformation: TProcessInformation;
+  tmpProgram: String;
+begin
+  tmpProgram := trim(aCommando);
+  FillChar(tmpStartupInfo, SizeOf(tmpStartupInfo), 0);
+  with tmpStartupInfo do
+  begin
+    cb := SizeOf(TStartupInfo);
+    wShowWindow := SW_HIDE;
+  end;
+
+  if CreateProcess(nil, pchar(tmpProgram), nil, nil, true, CREATE_NEW_CONSOLE,
+    nil, nil, tmpStartupInfo, tmpProcessInformation) then
+  begin
+    // Handle für den Prozess und den Thread schließen, da wir nicht darauf warten.
+    CloseHandle(tmpProcessInformation.hProcess);
+    CloseHandle(tmpProcessInformation.hThread);
+  end
+  else
+  begin
+    RaiseLastOSError;
+  end;
+end;
+
+procedure ExecuteAndWait(const aCommando: string);
+var
+  tmpStartupInfo: TStartupInfo;
+  tmpProcessInformation: TProcessInformation;
+  tmpProgram: String;
+begin
+  tmpProgram := trim(aCommando);
+  FillChar(tmpStartupInfo, SizeOf(tmpStartupInfo), 0);
+  with tmpStartupInfo do
+  begin
+    cb := SizeOf(TStartupInfo);
+    wShowWindow := SW_HIDE;
+  end;
+
+  if CreateProcess(nil, pchar(tmpProgram), nil, nil, true, CREATE_NO_WINDOW,
+    nil, nil, tmpStartupInfo, tmpProcessInformation) then
+  begin
+    // loop every 10 ms
+    while WaitForSingleObject(tmpProcessInformation.hProcess, 10) > 0 do
+    begin
+      Application.ProcessMessages;
+    end;
+    CloseHandle(tmpProcessInformation.hProcess);
+    CloseHandle(tmpProcessInformation.hThread);
+  end
+  else
+  begin
+    RaiseLastOSError;
+  end;
+end;
+
 
 procedure TServerFrame.BitBtn1Click(Sender: TObject);
 begin
@@ -88,8 +149,10 @@ end;
 
 procedure TServerFrame.BitBtn5Click(Sender: TObject);
 begin
-  DosCommand2.CommandLine := 'start MitbestimmITServer.exe';
-  DosCommand2.Execute;
+
+  Execute(TPath.Combine(DosCommand2.CurrentDir, 'MitbestimmITServer.exe'));
+{  DosCommand2.CommandLine := 'cmd.exe /cstart"' + TPath.Combine(DosCommand2.CurrentDir, 'MitbestimmITServer.exe')+'"';
+  DosCommand2.Execute;}
 
 end;
 
@@ -109,6 +172,13 @@ procedure TServerFrame.DosCommand1Terminated(Sender: TObject);
 begin
   UpdateLV;
   Screen.Cursor := crDefault;
+end;
+
+procedure TServerFrame.DosCommand2ExecuteError(ASender: TObject; AE: Exception;
+  var AHandled: Boolean);
+begin
+  Memo1.Lines.Add('Fehler');
+  Memo1.Lines.Add(AE.ToString);
 end;
 
 procedure TServerFrame.DosCommand2NewLine(ASender: TObject;
@@ -145,6 +215,7 @@ begin
   Memo1.Lines.Clear;
   m_list := TStringList.Create;
   m_name := 'MitbestimmIT Server';
+  DosCommand2.CurrentDir := ExtractFilePath(ParamStr(0));
 end;
 
 procedure TServerFrame.release;
