@@ -54,7 +54,6 @@ object MainSetupForm: TMainSetupForm
     OnFinishButtonClick = JvWizard1FinishButtonClick
     OnCancelButtonClick = JvWizard1CancelButtonClick
     OnHelpButtonClick = JvWizard1HelpButtonClick
-    ExplicitTop = -6
     DesignSize = (
       754
       479)
@@ -80,6 +79,8 @@ object MainSetupForm: TMainSetupForm
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnFinishButtonClick = JvWizardWelcomePage1FinishButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Panel1: TPanel
         Left = 164
         Top = 396
@@ -175,8 +176,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 284
-          ExplicitWidth = 754
-          ExplicitHeight = 284
+          ExplicitWidth = 624
+          ExplicitHeight = 227
           inherited Memo1: TMemo
             Width = 750
             Height = 265
@@ -348,7 +349,7 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 479
+              Width = 469
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -356,13 +357,11 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -396,6 +395,8 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
@@ -542,7 +543,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
           Width = 754
-          ExplicitWidth = 754
+          ExplicitWidth = 624
           inherited Label1: TLabel
             StyleElements = [seFont, seClient, seBorder]
           end
@@ -565,8 +566,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 182
-          ExplicitWidth = 754
-          ExplicitHeight = 182
+          ExplicitWidth = 624
+          ExplicitHeight = 125
           inherited Panel1: TPanel
             Width = 750
             StyleElements = [seFont, seClient, seBorder]
@@ -606,6 +607,8 @@ object MainSetupForm: TMainSetupForm
       Caption = 'JvWizardInteriorPage6'
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 624
+      ExplicitHeight = 380
       inline PreFrame1: TPreFrame
         Left = 0
         Top = 70
@@ -614,8 +617,8 @@ object MainSetupForm: TMainSetupForm
         Align = alClient
         TabOrder = 0
         ExplicitTop = 70
-        ExplicitWidth = 754
-        ExplicitHeight = 367
+        ExplicitWidth = 624
+        ExplicitHeight = 310
         inherited RichEdit1: TRichEdit
           Width = 754
           Height = 367
