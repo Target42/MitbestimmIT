@@ -21,7 +21,10 @@ uses System.SysUtils, System.Classes,
   Datasnap.DSHTTPCommon, Datasnap.DSHTTP,
   Datasnap.DSServer, Datasnap.DSCommonServer,
   IPPeerServer, IPPeerAPI, Datasnap.DSAuth, DbxSocketChannelNative,
-  DbxCompressionFilter;
+  DbxCompressionFilter, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client;
 
 type
   TMitbestimmITSrv = class(TService)
@@ -32,6 +35,7 @@ type
     DSCertFiles1: TDSCertFiles;
     DSAuthenticationManager1: TDSAuthenticationManager;
     DSAdmin: TDSServerClass;
+    FDConnection1: TFDConnection;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -98,7 +102,7 @@ end;
 procedure TMitbestimmITSrv.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APasskey: TStringBuilder);
 begin
   if APasskey <> nil then
-    APasskey.Append('Wahl2026');
+    APasskey.Append('Wahl');
 end;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
@@ -136,6 +140,23 @@ end;
 procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
 begin
   Glob.readData;
+  with FDConnection1 do
+  begin
+    Params.Values['Database']  := Glob.DBName;
+    Params.Values['User_Name'] := 'pwdcheck';
+    Params.Values['Password']  := Glob.DBPwdCheck;
+
+    if glob.DBEmbedded then
+    begin
+      Params.Values['Server'] := '';
+      Params.Values['Protocol']  := 'local';
+    end
+    else
+    begin
+      Params.Values['Server'] := Glob.DBHost;
+    end;
+  end;
+
 end;
 
 procedure TMitbestimmITSrv.ServiceStart(Sender: TService; var Started: Boolean);
@@ -161,14 +182,17 @@ begin
       DSHTTPService2.Server := NIL;
     end;
   end;
-  result := DSServer1.Started;
+  FDConnection1.Open;
+  result := DSServer1.Started and FDConnection1.Connected;
 end;
 
 function TMitbestimmITSrv.stopServer: boolean;
 begin
   DSServer1.Stop;
   DSHTTPService2.Server := NIL;
+  FDConnection1.Close;
 
+  result := (FDConnection1.Connected = false );
 end;
 
 end.

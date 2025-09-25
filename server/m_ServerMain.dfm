@@ -64,7 +64,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
     CertFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\cert.pem'
     KeyFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\key.pem'
     OnGetPEMFileSBPasskey = DSCertFiles1GetPEMFileSBPasskey
-    Left = 188
+    Left = 236
     Top = 240
   end
   object DSHTTPService2: TDSHTTPService
@@ -77,15 +77,15 @@ object MitbestimmITSrv: TMitbestimmITSrv
           'CompressMoreThan=1024')
       end>
     AuthenticationManager = DSAuthenticationManager1
-    Left = 204
+    Left = 228
     Top = 171
   end
   object DSAuthenticationManager1: TDSAuthenticationManager
     OnUserAuthenticate = DSAuthenticationManager1UserAuthenticate
     OnUserAuthorize = DSAuthenticationManager1UserAuthorize
     Roles = <>
-    Left = 72
-    Top = 240
+    Left = 64
+    Top = 296
   end
   object DSAdmin: TDSServerClass
     OnGetClass = DSAdminGetClass
@@ -93,5 +93,14 @@ object MitbestimmITSrv: TMitbestimmITSrv
     LifeCycle = 'Invocation'
     Left = 340
     Top = 25
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'RoleName=PWDCHECK'
+      'User_Name=pwdcheck'
+      'Password=masterkey'
+      'DriverID=FB')
+    Left = 200
+    Top = 344
   end
 end

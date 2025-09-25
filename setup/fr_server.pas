@@ -236,7 +236,6 @@ begin
   if m_list.Count >= 4 then
   begin
 
-
     while pos('--', trim(m_list[0])) = 0 do
     begin
       m_list.Delete(0)

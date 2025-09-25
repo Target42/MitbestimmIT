@@ -72,10 +72,10 @@ object AdminFrame: TAdminFrame
       Height = 221
       Align = alClient
       BevelOuter = bvNone
-      Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 0
       ExplicitLeft = 3
+      ExplicitTop = 16
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
