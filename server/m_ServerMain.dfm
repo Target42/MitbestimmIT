@@ -60,9 +60,6 @@ object MitbestimmITSrv: TMitbestimmITSrv
   end
   object DSCertFiles1: TDSCertFiles
     SSLVersion = sslvSSLv23
-    RootCertFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\cert.pem'
-    CertFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\cert.pem'
-    KeyFile = 'D:\git_d12\MitbestimmIT\server\Zertifikat\key.pem'
     OnGetPEMFileSBPasskey = DSCertFiles1GetPEMFileSBPasskey
     Left = 236
     Top = 240
@@ -94,13 +91,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 340
     Top = 25
   end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'RoleName=PWDCHECK'
-      'User_Name=pwdcheck'
-      'Password=masterkey'
-      'DriverID=FB')
-    Left = 200
-    Top = 344
+  object DSLogin: TDSServerClass
+    OnGetClass = DSLoginGetClass
+    Server = DSServer1
+    Left = 336
+    Top = 96
   end
 end

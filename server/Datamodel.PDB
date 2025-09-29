@@ -92,7 +92,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON AL_ADMIN_LOG TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;\
-GRANT SELECT, INSERT, UPDATE, DELETE ON GRANT SELECT ON MA_PWD TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;\
 \
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;\
@@ -106,6 +105,22 @@ commit;\
 create ROLE apppwd;\
 \
 GRANT SELECT ON MA_PWD TO apppwd;\
+GRANT SELECT ON WA_WAHL TO apppwd;\
+\
+commit;\
+\
+SET TERM ^ ;\
+\
+CREATE TRIGGER BIU_MA_PWD\
+FOR MA_PWD\
+ACTIVE BEFORE INSERT OR UPDATE\
+AS\
+BEGIN\
+  IF (NEW.MW_LOGIN IS NOT NULL) THEN\
+    NEW.MW_LOGIN = LOWER(NEW.MW_LOGIN);\
+END^\
+\
+SET TERM ; ^\
 \
 commit;
 0
@@ -114,7 +129,7 @@ commit;
 
 
 1753814221
-1758480805
+1759062564
 0
 0
 4
@@ -5438,9 +5453,9 @@ OID     N8
 0
 0
 -56859
--10320
+-10245
 -44710
--4846
+-4771
 2
 1
 0
@@ -5526,7 +5541,7 @@ OID     N8
 3
 1832
 289
-2
+0
 16
 0
 0
@@ -5804,7 +5819,7 @@ OID     N8
 0
 0
 4
-bb42ffff5cdbffffbb42ffffd02a0000e632ffffd02a0000e632ffff636c0000
+bb42ffffa7dbffffbb42ffffd02a0000e632ffffd02a0000e632ffff636c0000
 2
 
 
@@ -5836,7 +5851,7 @@ bb42ffff5cdbffffbb42ffffd02a0000e632ffffd02a0000e632ffff636c0000
 0
 0
 3
-3b2effff89deffff08f8feff89deffff08f8feff03cfffff
+3b2effffd4deffff08f8feffd4deffff08f8feff03cfffff
 2
 
 
@@ -5868,7 +5883,7 @@ bb42ffff5cdbffffbb42ffffd02a0000e632ffffd02a0000e632ffff636c0000
 0
 0
 2
-9f3effff4fd9ffff9f3effff2497ffff
+9f3effff9ad9ffff9f3effff2497ffff
 2
 
 
@@ -5932,7 +5947,7 @@ bb42ffff5cdbffffbb42ffffd02a0000e632ffffd02a0000e632ffff636c0000
 0
 0
 3
-f128fffff7e2fffff128ffff0e1100007e05ffff0e110000
+f128ffff42e3fffff128ffff0e1100007e05ffff0e110000
 2
 
 
@@ -5964,7 +5979,7 @@ f128fffff7e2fffff128ffff0e1100007e05ffff0e110000
 0
 0
 3
-c149ffffa7e7ffffc572ffffa7e7ffffc572ffff2d0d0000
+c149fffff2e7ffffc572fffff2e7ffffc572ffff2d0d0000
 2
 
 

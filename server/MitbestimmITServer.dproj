@@ -134,6 +134,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\u_json.pas"/>
         <DCCReference Include="..\setup\totp\u_totp.pas"/>
         <DCCReference Include="..\setup\u_glob.pas"/>
+        <DCCReference Include="m_login.pas">
+            <Form>LoginMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\lib\u_json_db.pas"/>
+        <DCCReference Include="..\lib\u_pwd.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

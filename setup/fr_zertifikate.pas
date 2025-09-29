@@ -58,7 +58,7 @@ begin
   m_ok := false;
 
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.KeyFile      := TPath.Combine(Glob.HomeDir, 'Zertifikate\key.pem');
-//  IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
+  IdServerIOHandlerSSLOpenSSL1.SSLOptions.RootCertFile := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
   IdServerIOHandlerSSLOpenSSL1.SSLOptions.CertFile     := TPath.Combine(Glob.HomeDir, 'Zertifikate\cert.pem');
 
   try
@@ -72,6 +72,7 @@ begin
   except
     on e :exception do
     begin
+      IdHTTPServer1.Active := false;
       ShowMessage(e.ToString);
     end;
 

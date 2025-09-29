@@ -1,7 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
-  ActiveControl = AdminFrame1.LabeledEdit1
+  ActiveControl = CheckBox1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -26,7 +26,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardInteriorPage2
+    ActivePage = JvWizardWelcomePage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -386,6 +386,7 @@ object MainSetupForm: TMainSetupForm
             Width = 485
             StyleElements = [seFont, seClient, seBorder]
             ExplicitLeft = 2
+            ExplicitTop = 17
             ExplicitWidth = 485
             inherited Label1: TLabel
               Width = 479

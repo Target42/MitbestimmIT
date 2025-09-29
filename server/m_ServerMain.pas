@@ -35,7 +35,7 @@ type
     DSCertFiles1: TDSCertFiles;
     DSAuthenticationManager1: TDSAuthenticationManager;
     DSAdmin: TDSServerClass;
-    FDConnection1: TFDConnection;
+    DSLogin: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -48,6 +48,8 @@ type
     procedure DSAdminGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure ServiceCreate(Sender: TObject);
+    procedure DSLoginGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -72,7 +74,7 @@ implementation
 uses
   Winapi.Windows,
   system.Hash,
-  m_admin, u_config, u_glob;
+  m_admin, u_config, u_glob, m_db, m_login;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -103,6 +105,12 @@ procedure TMitbestimmITSrv.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APa
 begin
   if APasskey <> nil then
     APasskey.Append('Wahl');
+end;
+
+procedure TMitbestimmITSrv.DSLoginGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_login.TLoginMod;
 end;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
@@ -140,22 +148,10 @@ end;
 procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
 begin
   Glob.readData;
-  with FDConnection1 do
-  begin
-    Params.Values['Database']  := Glob.DBName;
-    Params.Values['User_Name'] := 'pwdcheck';
-    Params.Values['Password']  := Glob.DBPwdCheck;
 
-    if glob.DBEmbedded then
-    begin
-      Params.Values['Server'] := '';
-      Params.Values['Protocol']  := 'local';
-    end
-    else
-    begin
-      Params.Values['Server'] := Glob.DBHost;
-    end;
-  end;
+  DSHTTPService2.CertFiles.KeyFile      := glob.KeyFile;
+  DSHTTPService2.CertFiles.CertFile     := glob.CertFile;
+  DSHTTPService2.CertFiles.RootCertFile := glob.CertFile;
 
 end;
 
@@ -182,17 +178,18 @@ begin
       DSHTTPService2.Server := NIL;
     end;
   end;
-  FDConnection1.Open;
-  result := DSServer1.Started and FDConnection1.Connected;
+
+  DBMod.openDB;
+  result := DSServer1.Started and DBMod.FDConnection1.Connected;
 end;
 
 function TMitbestimmITSrv.stopServer: boolean;
 begin
   DSServer1.Stop;
   DSHTTPService2.Server := NIL;
-  FDConnection1.Close;
+  DBMod.closeDB;
 
-  result := (FDConnection1.Connected = false );
+  result := (DBMod.FDConnection1.Connected = false );
 end;
 
 end.

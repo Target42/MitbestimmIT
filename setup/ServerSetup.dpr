@@ -17,7 +17,8 @@ uses
   fr_mail in 'fr_mail.pas' {MailFrame: TFrame},
   fr_pre in 'fr_pre.pas' {PreFrame: TFrame},
   u_helper in '..\lib\u_helper.pas',
-  fr_portcheck in 'fr_portcheck.pas' {PortCheckFrame: TFrame};
+  fr_portcheck in 'fr_portcheck.pas' {PortCheckFrame: TFrame},
+  u_pwd in '..\lib\u_pwd.pas';
 
 {$R *.res}
 

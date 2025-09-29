@@ -209,15 +209,21 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\Storage\Simulation\u_StorageSimulation.pas">
             <Form>,
   u_StorageWaehlerListe in &apos;..\Storage\Simulation\u_StorageWaehlerListe.pas&apos; {,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; {$ENDIF</Form>
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
+  u_StorageWaehlerListe in &apos;..\Storage\Simulation\u_StorageWaehlerListe.pas&apos; {,
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
+  u_StorageWahlvorstand in &apos;..\Storage\Simulation\u_StorageWahlvorstand.pas&apos;,
+  f_WahlvorStand in &apos;Planung\f_WahlvorStand.pas&apos; {WahlVorstandForm</Form>
         </DCCReference>
         <DCCReference Include="..\Storage\Simulation\u_StorageWaehlerListe.pas">
             <Form>,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; {$ENDIF</Form>
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
+  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
+  u_StorageWahlvorstand in &apos;..\Storage\Simulation\u_StorageWahlvorstand.pas&apos;,
+  f_WahlvorStand in &apos;Planung\f_WahlvorStand.pas&apos; {WahlVorstandForm</Form>
         </DCCReference>
-        <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas">
-            <Form>$ENDIF</Form>
-        </DCCReference>
+        <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
         <DCCReference Include="..\Storage\Simulation\u_StorageWahlvorstand.pas"/>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
@@ -236,6 +242,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Admin\f_admin.pas">
             <Form>AdminForm</Form>
         </DCCReference>
+        <DCCReference Include="..\lib\u_json_db.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

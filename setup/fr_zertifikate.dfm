@@ -13,7 +13,6 @@ object ZertifikatFrame: TZertifikatFrame
     Align = alTop
     Caption = 'Eigenes Zertifikat'
     TabOrder = 0
-    ExplicitTop = 59
     object SpeedButton1: TSpeedButton
       Tag = 1
       Left = 456
@@ -93,7 +92,6 @@ object ZertifikatFrame: TZertifikatFrame
       'Eigenes')
     TabOrder = 1
     OnClick = RadioGroup1Click
-    ExplicitTop = -6
   end
   object GroupBox2: TGroupBox
     Left = 0
@@ -103,7 +101,6 @@ object ZertifikatFrame: TZertifikatFrame
     Align = alTop
     Caption = 'Test'
     TabOrder = 2
-    ExplicitTop = 247
     object Label1: TLabel
       Left = 136
       Top = 32

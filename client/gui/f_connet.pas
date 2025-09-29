@@ -24,7 +24,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
-  fr_base, m_glob, System.JSON;
+  fr_base, m_glob, System.JSON, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  u_stub;
 
 type
   {
@@ -54,8 +57,15 @@ type
     LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
+    Label1: TLabel;
+    CheckBox1: TCheckBox;
+    FDMemTable1: TFDMemTable;
+    ComboBox1: TComboBox;
     procedure FormCreate(Sender: TObject);
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    m_login : TLoginModClient;
     function GetHost: string;
     procedure SetHost(const Value: string);
     function GetUser: string;
@@ -70,7 +80,7 @@ type
     property User: string read GetUser write SetUser;
     property Passwort: string read GetPasswort write SetPasswort;
 
-    function getStorageType : string;
+
     function getUserData : TJSONObject;
 
   end;
@@ -82,7 +92,7 @@ implementation
 
 {$R *.dfm}
 
-uses u_json;
+uses u_json, u_json_db;
 
 { TConnectForm }
 
@@ -105,6 +115,17 @@ uses u_json;
   // Hinweis:
   // - Das Formular wird nach der Ausführung freigegeben, um Speicherlecks zu vermeiden.
 }
+procedure TConnectForm.BaseFrame1OKBtnClick(Sender: TObject);
+var
+  user :string;
+begin
+  if CheckBox1.Checked then
+    user := 'ADMIN_USER'
+  else
+    user := LabeledEdit2.Text;
+
+end;
+
 class function TConnectForm.Execute: Boolean;
 var
   counter : integer;
@@ -148,8 +169,20 @@ end;
 // Parameter:
 //   Sender: Das Objekt, das das Ereignis ausgelöst hat.
 procedure TConnectForm.FormCreate(Sender: TObject);
+var
+  data : TJSONObject;
 begin
+  m_login := TLoginModClient.Create(GM.SQLConnection1.DBXConnection);
   LabeledEdit2.Text := GetEnvironmentVariable('USERNAME');
+
+  data := m_login.getWahlListe;
+
+  JsonToDataSet( data, FDMemTable1);
+end;
+
+procedure TConnectForm.FormDestroy(Sender: TObject);
+begin
+  m_login.Free;
 end;
 
 {
@@ -177,16 +210,12 @@ begin
   Result := LabeledEdit3.Text;
 end;
 
-function TConnectForm.getStorageType: string;
-begin
-  Result := 'datasnap';
-end;
 
 {
   // Gibt den Benutzernamen zurück, der im LabeledEdit2-Feld eingegeben wurde.
   //
   // Rückgabewert:
-  //   Ein String, der den eingegebenen Benutzernamen enthält.
+  //   Ein String, der den eingegebenen Benutzernamen enth^ält.
 }
 function TConnectForm.GetUser: string;
 begin

@@ -1,7 +1,7 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 02.09.2025 19:40:26
-// 
+// 28.09.2025 21:03:40
+//
 
 unit u_stub;
 
@@ -12,17 +12,64 @@ uses System.JSON, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON
 type
   TAdminModClient = class(TDSAdminClient)
   private
+    FDSServerModuleCreateCommand: TDBXCommand;
     FNeueWahlCommand: TDBXCommand;
     FResetPwdCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    procedure DSServerModuleCreate(Sender: TObject);
     function NeueWahl(data: TJSONObject): TJSONObject;
     function ResetPwd(data: TJSONObject): TJSONObject;
   end;
 
+  TLoginModClient = class(TDSAdminClient)
+  private
+    FDSServerModuleCreateCommand: TDBXCommand;
+    FWATabWA_SIMUGetTextCommand: TDBXCommand;
+    FWATabWA_SIMUSetTextCommand: TDBXCommand;
+    FgetWahlListeCommand: TDBXCommand;
+    FcheckLoginCommand: TDBXCommand;
+    FcheckTOTPCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure DSServerModuleCreate(Sender: TObject);
+    procedure WATabWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure WATabWA_SIMUSetText(Sender: TField; Text: string);
+    function getWahlListe: TJSONObject;
+    function checkLogin(data: TJSONObject): TJSONObject;
+    function checkTOTP(code: string; utctime: TDateTime): TJSONObject;
+  end;
+
 implementation
+
+procedure TAdminModClient.DSServerModuleCreate(Sender: TObject);
+begin
+  if FDSServerModuleCreateCommand = nil then
+  begin
+    FDSServerModuleCreateCommand := FDBXConnection.CreateCommand;
+    FDSServerModuleCreateCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDSServerModuleCreateCommand.Text := 'TAdminMod.DSServerModuleCreate';
+    FDSServerModuleCreateCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FDSServerModuleCreateCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FDSServerModuleCreateCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDSServerModuleCreateCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FDSServerModuleCreateCommand.ExecuteUpdate;
+end;
 
 function TAdminModClient.NeueWahl(data: TJSONObject): TJSONObject;
 begin
@@ -64,9 +111,153 @@ end;
 
 destructor TAdminModClient.Destroy;
 begin
+  FDSServerModuleCreateCommand.Free;
   FNeueWahlCommand.Free;
   FResetPwdCommand.Free;
   inherited;
 end;
 
+procedure TLoginModClient.DSServerModuleCreate(Sender: TObject);
+begin
+  if FDSServerModuleCreateCommand = nil then
+  begin
+    FDSServerModuleCreateCommand := FDBXConnection.CreateCommand;
+    FDSServerModuleCreateCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDSServerModuleCreateCommand.Text := 'TLoginMod.DSServerModuleCreate';
+    FDSServerModuleCreateCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FDSServerModuleCreateCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FDSServerModuleCreateCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDSServerModuleCreateCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FDSServerModuleCreateCommand.ExecuteUpdate;
+end;
+
+procedure TLoginModClient.WATabWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  if FWATabWA_SIMUGetTextCommand = nil then
+  begin
+    FWATabWA_SIMUGetTextCommand := FDBXConnection.CreateCommand;
+    FWATabWA_SIMUGetTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWATabWA_SIMUGetTextCommand.Text := 'TLoginMod.WATabWA_SIMUGetText';
+    FWATabWA_SIMUGetTextCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FWATabWA_SIMUGetTextCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FWATabWA_SIMUGetTextCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FWATabWA_SIMUGetTextCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FWATabWA_SIMUGetTextCommand.Parameters[1].Value.SetWideString(Text);
+  FWATabWA_SIMUGetTextCommand.Parameters[2].Value.SetBoolean(DisplayText);
+  FWATabWA_SIMUGetTextCommand.ExecuteUpdate;
+  Text := FWATabWA_SIMUGetTextCommand.Parameters[1].Value.GetWideString;
+end;
+
+procedure TLoginModClient.WATabWA_SIMUSetText(Sender: TField; Text: string);
+begin
+  if FWATabWA_SIMUSetTextCommand = nil then
+  begin
+    FWATabWA_SIMUSetTextCommand := FDBXConnection.CreateCommand;
+    FWATabWA_SIMUSetTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWATabWA_SIMUSetTextCommand.Text := 'TLoginMod.WATabWA_SIMUSetText';
+    FWATabWA_SIMUSetTextCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FWATabWA_SIMUSetTextCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FWATabWA_SIMUSetTextCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FWATabWA_SIMUSetTextCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FWATabWA_SIMUSetTextCommand.Parameters[1].Value.SetWideString(Text);
+  FWATabWA_SIMUSetTextCommand.ExecuteUpdate;
+end;
+
+function TLoginModClient.getWahlListe: TJSONObject;
+begin
+  if FgetWahlListeCommand = nil then
+  begin
+    FgetWahlListeCommand := FDBXConnection.CreateCommand;
+    FgetWahlListeCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetWahlListeCommand.Text := 'TLoginMod.getWahlListe';
+    FgetWahlListeCommand.Prepare;
+  end;
+  FgetWahlListeCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetWahlListeCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLoginModClient.checkLogin(data: TJSONObject): TJSONObject;
+begin
+  if FcheckLoginCommand = nil then
+  begin
+    FcheckLoginCommand := FDBXConnection.CreateCommand;
+    FcheckLoginCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FcheckLoginCommand.Text := 'TLoginMod.checkLogin';
+    FcheckLoginCommand.Prepare;
+  end;
+  FcheckLoginCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FcheckLoginCommand.ExecuteUpdate;
+  Result := TJSONObject(FcheckLoginCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLoginModClient.checkTOTP(code: string; utctime: TDateTime): TJSONObject;
+begin
+  if FcheckTOTPCommand = nil then
+  begin
+    FcheckTOTPCommand := FDBXConnection.CreateCommand;
+    FcheckTOTPCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FcheckTOTPCommand.Text := 'TLoginMod.checkTOTP';
+    FcheckTOTPCommand.Prepare;
+  end;
+  FcheckTOTPCommand.Parameters[0].Value.SetWideString(code);
+  FcheckTOTPCommand.Parameters[1].Value.AsDateTime := utctime;
+  FcheckTOTPCommand.ExecuteUpdate;
+  Result := TJSONObject(FcheckTOTPCommand.Parameters[2].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TLoginModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TLoginModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TLoginModClient.Destroy;
+begin
+  FDSServerModuleCreateCommand.Free;
+  FWATabWA_SIMUGetTextCommand.Free;
+  FWATabWA_SIMUSetTextCommand.Free;
+  FgetWahlListeCommand.Free;
+  FcheckLoginCommand.Free;
+  FcheckTOTPCommand.Free;
+  inherited;
+end;
+
 end.
+

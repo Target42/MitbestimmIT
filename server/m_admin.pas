@@ -53,7 +53,7 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -149,6 +149,7 @@ var
     PwdTabMW_ROLLE.AsString := 'Vorstand';
     PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
     PwdTabMW_LOGIN.AsString := JString( wv, 'login');
+    PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));
     PwdTab.Post;
   end;
 

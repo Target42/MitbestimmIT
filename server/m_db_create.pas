@@ -59,7 +59,7 @@ var
 implementation
 
 uses
-  u_helper, vcl.Dialogs, system.IOUtils, system.Hash;
+  u_helper, vcl.Dialogs, system.IOUtils, system.Hash, u_pwd;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -157,7 +157,7 @@ begin
 
 
     // add the admin
-    ExecQry.SQL.Text := format('insert into AD_ADMIN(AD_SECRET, AD_PWD) values(''%s'', ''%s'' );', [FAdminSecret, THashSHA2.GetHashString(FAdminPwd)]);
+    ExecQry.SQL.Text := format('insert into AD_ADMIN(AD_SECRET, AD_PWD) values(''%s'', ''%s'' );', [FAdminSecret, CalcPwdHash(FAdminPwd)]);
     ExecQry.ExecSQL;
 
     if FDTransaction1.Active then

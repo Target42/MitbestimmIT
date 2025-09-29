@@ -37,7 +37,10 @@ uses
   m_admin in 'm_admin.pas' {AdminMod: TDSServerModule},
   u_json in '..\lib\u_json.pas',
   u_totp in '..\setup\totp\u_totp.pas',
-  u_glob in '..\setup\u_glob.pas';
+  u_glob in '..\setup\u_glob.pas',
+  m_login in 'm_login.pas' {LoginMod: TDSServerModule},
+  u_json_db in '..\lib\u_json_db.pas',
+  u_pwd in '..\lib\u_pwd.pas';
 
 {$R *.RES}
 

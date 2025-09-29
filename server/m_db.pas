@@ -12,7 +12,6 @@ uses
 type
   TDBMod = class(TDataModule)
     FDConnection1: TFDConnection;
-    procedure DataModuleCreate(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -32,10 +31,19 @@ implementation
 uses
   system.IOUtils, u_glob;
 
-function TDBMod.closeDB: boolean;
+function TDBMod.openDB: boolean;
 begin
   Result := false;
   try
+    with FDConnection1.Params as TFDPhysFBConnectionDefParams do
+    begin
+      Server   := Glob.DBHost;
+      Database := glob.DBName;
+      UserName := 'stephan';
+      RoleName := 'appuser';
+      Password := glob.UserPWD;
+    end;
+
     FDConnection1.Open;
     result := FDConnection1.Connected;
   except
@@ -47,31 +55,11 @@ begin
   end;
 end;
 
-
-procedure TDBMod.DataModuleCreate(Sender: TObject);
-var
-  fname : string;
-begin
-
-  fname := TPath.Combine(ExtractFilePath(ParamStr(0)), 'db\test.fdb');
-  FDConnection1.Params.Values['Database'] := fname;
-  FDConnection1.Params.Values['Server'] := '';
-end;
-
-function TDBMod.openDB: boolean;
+function TDBMod.closeDB: boolean;
 begin
   Result := false;
   try
     FDConnection1.Close;
-
-    with FDConnection1.Params as TFDPhysFBConnectionDefParams do
-    begin
-      Server   := Glob.DBHost;
-      Database := glob.DBName;
-      UserName := 'stephan';
-      RoleName := 'appuser';
-      Password := glob.UserPWD;
-    end;
     result := (FDConnection1.Connected = false );
   except
     on e : exception do
