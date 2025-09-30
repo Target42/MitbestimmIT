@@ -57,15 +57,11 @@ type
     LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
-    Label1: TLabel;
     CheckBox1: TCheckBox;
-    FDMemTable1: TFDMemTable;
-    ComboBox1: TComboBox;
     procedure FormCreate(Sender: TObject);
-    procedure BaseFrame1OKBtnClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
   private
-    m_login : TLoginModClient;
     function GetHost: string;
     procedure SetHost(const Value: string);
     function GetUser: string;
@@ -115,14 +111,17 @@ uses u_json, u_json_db;
   // Hinweis:
   // - Das Formular wird nach der Ausführung freigegeben, um Speicherlecks zu vermeiden.
 }
-procedure TConnectForm.BaseFrame1OKBtnClick(Sender: TObject);
-var
-  user :string;
+procedure TConnectForm.CheckBox1Click(Sender: TObject);
 begin
+  LabeledEdit2.Enabled := not CheckBox1.Checked;
   if CheckBox1.Checked then
-    user := 'ADMIN_USER'
+  begin
+    LabeledEdit2.Text := 'admin_user';
+  end
   else
-    user := LabeledEdit2.Text;
+  begin
+    LabeledEdit2.Text := GetEnvironmentVariable('USERNAME');
+  end;
 
 end;
 
@@ -172,17 +171,11 @@ procedure TConnectForm.FormCreate(Sender: TObject);
 var
   data : TJSONObject;
 begin
-  m_login := TLoginModClient.Create(GM.SQLConnection1.DBXConnection);
   LabeledEdit2.Text := GetEnvironmentVariable('USERNAME');
-
-  data := m_login.getWahlListe;
-
-  JsonToDataSet( data, FDMemTable1);
 end;
 
 procedure TConnectForm.FormDestroy(Sender: TObject);
 begin
-  m_login.Free;
 end;
 
 {

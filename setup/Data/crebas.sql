@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     29.09.2025  21:05                          */
+/*   Created on:     30.09.2025  21:17                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -338,6 +338,9 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WAHL_LISTE TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;
+GRANT SELECT ON AD_ADMIN TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;
 
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;
@@ -359,6 +362,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;
 
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;

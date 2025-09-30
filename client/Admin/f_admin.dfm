@@ -149,7 +149,7 @@ object AdminForm: TAdminForm
       end
       object LabeledEdit5: TLabeledEdit
         Left = 16
-        Top = 88
+        Top = 95
         Width = 121
         Height = 23
         EditLabel.Width = 79

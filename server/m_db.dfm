@@ -5,8 +5,10 @@ object DBMod: TDBMod
     Params.Strings = (
       'User_Name=sysdba'
       'Password=masterkey'
-      'RoleName=APPADMIN'
+      'RoleName=APPUSER'
+      'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
       'DriverID=FB')
+    LoginPrompt = False
     Left = 144
     Top = 112
   end

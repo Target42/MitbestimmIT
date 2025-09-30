@@ -18,30 +18,31 @@ type
     TabWahl: TFDTable;
     WahlTab: TDataSetProvider;
     NewWahlTab: TFDTable;
-    MATab: TFDTable;
-    WVTab: TFDTable;
     NewWahlTabWA_ID: TIntegerField;
     NewWahlTabWA_TITLE: TStringField;
     NewWahlTabWA_SIMU: TStringField;
     NewWahlTabWA_ACTIVE: TStringField;
-    MATabMA_ID: TFDAutoIncField;
-    MATabWA_ID: TIntegerField;
+    MAQry: TFDQuery;
+    MATab: TFDTable;
+    MATabMA_ID: TIntegerField;
     MATabMA_PERSNR: TStringField;
     MATabMA_NAME: TStringField;
     MATabMA_VORNAME: TStringField;
     MATabMA_GENDER: TStringField;
     MATabMA_ABTEILUNG: TStringField;
     MATabMA_MAIL: TStringField;
-    WVTabMA_ID: TIntegerField;
+    WVTab: TFDTable;
     WVTabWA_ID: TIntegerField;
+    WVTabMA_ID: TIntegerField;
     WVTabWV_ROLLE: TStringField;
+    WVTabWV_CHEF: TStringField;
     PwdTab: TFDTable;
     PwdTabMA_ID: TIntegerField;
-    PwdTabWA_ID: TIntegerField;
     PwdTabMW_PWD: TStringField;
     PwdTabMW_ROLLE: TStringField;
     PwdTabMW_SECRET: TStringField;
     PwdTabMW_LOGIN: TStringField;
+    AddWAQry: TFDQuery;
     procedure DSServerModuleCreate(Sender: TObject);
   private
     function connectDB : boolean;
@@ -53,7 +54,7 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -120,37 +121,56 @@ var
     result := NewWahlTabWA_ID.AsInteger;
   end;
 
-  function addMA(waid : integer) : integer;
+  function addMA : integer;
   begin
-    MATab.Append;
-    MATabWA_ID.AsInteger      := waid;
-    MATabMA_PERSNR.AsString   := JString( wv, 'persnr');
-    MATabMA_NAME.AsString     := JString( wv, 'name');
-    MATabMA_VORNAME.AsString  := JString( wv, 'vorname');
-    MATab.Post;
+    MAQry.ParamByName('persnr').AsString := JString( wv, 'persnr');
+    MAQry.Open;
 
-    Result := MATabMA_ID.AsInteger;
+    if MAQry.IsEmpty then
+    begin
+      MATab.Open;
+      MATab.Append;
+      MATabMA_PERSNR.AsString   := JString( wv, 'persnr');
+      MATabMA_NAME.AsString     := JString( wv, 'name');
+      MATabMA_VORNAME.AsString  := JString( wv, 'vorname');
+      MATab.Post;
+
+      Result := MATabMA_ID.AsInteger;
+      MATab.Close;
+    end
+    else
+    begin
+      Result := MAQry.FieldByName('MA_ID').AsInteger;
+    end;
+    MAQry.Close;
   end;
 
   procedure addWV( waid, maid : integer );
   begin
+    AddWAQry.ParamByName('WA_ID').AsInteger := waid;
+    AddWAQry.ParamByName('MA_ID').AsInteger := maid;
+    AddWAQry.ExecSQL;
+
     WVTab.Append;
-    WVTabMA_ID.AsInteger := maid;
-    WVTabWA_ID.AsInteger := waid;
+    WVTabMA_ID.AsInteger   := maid;
+    WVTabWA_ID.AsInteger   := waid;
     WVTabWV_ROLLE.AsString := 'Vorstand';
+    WVTabWV_CHEF.AsString  := 'T';
     WVTab.Post;
   end;
 
-  procedure addPwd( waid, maid : integer );
+  procedure addPwd( maid : integer );
   begin
-    PwdTab.Append;
-    PwdTabMA_ID.AsInteger   := maid;
-    PwdTabWA_ID.AsInteger   := waid;
-    PwdTabMW_ROLLE.AsString := 'Vorstand';
-    PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
-    PwdTabMW_LOGIN.AsString := JString( wv, 'login');
-    PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));
-    PwdTab.Post;
+    if not PwdTab.Locate('MA_ID', VarArrayOf([maid]), []) then
+    begin
+      PwdTab.Append;
+      PwdTabMA_ID.AsInteger   := maid;
+      PwdTabMW_ROLLE.AsString := 'Vorstand';
+      PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
+      PwdTabMW_LOGIN.AsString := JString( wv, 'login');
+      PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));
+      PwdTab.Post;
+    end;
   end;
 
 
@@ -170,24 +190,20 @@ begin
   secret := GenerateBase32Secret;
 
   NewWahlTab.Open;
-  MATab.Open;
   WVTab.Open;
   PwdTab.Open;
 
 
   try
     waid := addWahl(False);
-    maid := addMA(waid);
+    maid := addMA;
+    addPwd(maid);
     addWV( waid, maid);
-    addPwd(waid, maid);
 
     if simu then
     begin
       waid := addWahl(true);
-      maid := addMA(waid);
       addWV( waid, maid);
-      addPwd(waid, maid);
-
     end;
     JResult( result, true, Format('Die Wahl "%s" wurde angelegt!', [JString(wahl, 'name')]));
   except
@@ -197,9 +213,7 @@ begin
     end;
 
   end;
-
   NewWahlTab.close;
-  MATab.close;
   WVTab.close;
   PwdTab.Close;
 

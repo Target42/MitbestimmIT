@@ -7,7 +7,7 @@ function CalcPwdHash( pwd : string ) : string;
 implementation
 
 uses
-  System.Hash;
+  System.Hash, System.SysUtils;
 
 function CalcPwdHash( pwd : string ) : string;
 begin

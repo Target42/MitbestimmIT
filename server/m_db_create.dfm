@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     29.09.2025  21:05                          ' +
+            '/*   Created on:     30.09.2025  21:17                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -658,6 +658,9 @@ object CreateDBMode: TCreateDBMode
           
             'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appu' +
             'ser;'
+          'GRANT SELECT ON AD_ADMIN TO appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'
@@ -691,6 +694,7 @@ object CreateDBMode: TCreateDBMode
             'GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appa' +
             'dmin;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;'
           'GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;'
@@ -737,7 +741,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     29.09.2025  21:05                          ' +
+            '/*   Created on:     30.09.2025  21:18                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -851,6 +855,7 @@ object CreateDBMode: TCreateDBMode
           ''
           'end;/'
           'set term ;/'
+          ''
           '')
       end>
     Connection = FDConnection1

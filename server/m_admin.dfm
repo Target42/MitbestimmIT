@@ -9,6 +9,7 @@ object AdminMod: TAdminMod
       'Password=snoopy'
       'RoleName=appadmin'
       'DriverID=FB')
+    Connected = True
     LoginPrompt = False
     Transaction = FDTransaction1
     Left = 88
@@ -66,8 +67,27 @@ object AdminMod: TAdminMod
       Size = 1
     end
   end
+  object MAQry: TFDQuery
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      'SELECT *    '
+      'FROM MA_MITARBEITER '
+      'WHERE'
+      '    MA_PERSNR = :persnr'
+      '')
+    Left = 496
+    Top = 264
+    ParamData = <
+      item
+        Name = 'PERSNR'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
   object MATab: TFDTable
-    IndexFieldNames = 'MA_ID;WA_ID'
+    IndexFieldNames = 'MA_ID'
     Connection = FDConnection1
     Transaction = FDTransaction1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
@@ -75,18 +95,11 @@ object AdminMod: TAdminMod
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoIncFields = 'MA_ID'
     TableName = 'MA_MITARBEITER'
-    Left = 368
+    Left = 352
     Top = 152
-    object MATabMA_ID: TFDAutoIncField
+    object MATabMA_ID: TIntegerField
       FieldName = 'MA_ID'
       Origin = 'MA_ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      ReadOnly = False
-      IdentityInsert = True
-    end
-    object MATabWA_ID: TIntegerField
-      FieldName = 'WA_ID'
-      Origin = 'WA_ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
@@ -122,22 +135,22 @@ object AdminMod: TAdminMod
     end
   end
   object WVTab: TFDTable
-    IndexFieldNames = 'MA_ID;WA_ID'
+    IndexFieldNames = 'WA_ID;MA_ID'
     Connection = FDConnection1
     Transaction = FDTransaction1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'WV_WAHL_VORSTAND'
-    Left = 368
+    Left = 352
     Top = 216
-    object WVTabMA_ID: TIntegerField
-      FieldName = 'MA_ID'
-      Origin = 'MA_ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
     object WVTabWA_ID: TIntegerField
       FieldName = 'WA_ID'
       Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object WVTabMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Origin = 'MA_ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
@@ -146,24 +159,24 @@ object AdminMod: TAdminMod
       Origin = 'WV_ROLLE'
       Size = 100
     end
+    object WVTabWV_CHEF: TStringField
+      FieldName = 'WV_CHEF'
+      Origin = 'WV_CHEF'
+      FixedChar = True
+      Size = 1
+    end
   end
   object PwdTab: TFDTable
-    IndexFieldNames = 'MA_ID;WA_ID'
+    IndexFieldNames = 'MA_ID'
     Connection = FDConnection1
     Transaction = FDTransaction1
     ResourceOptions.AssignedValues = [rvEscapeExpand]
     TableName = 'MA_PWD'
-    Left = 368
-    Top = 280
+    Left = 352
+    Top = 288
     object PwdTabMA_ID: TIntegerField
       FieldName = 'MA_ID'
       Origin = 'MA_ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object PwdTabWA_ID: TIntegerField
-      FieldName = 'WA_ID'
-      Origin = 'WA_ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
@@ -186,5 +199,30 @@ object AdminMod: TAdminMod
       FieldName = 'MW_LOGIN'
       Origin = 'MW_LOGIN'
     end
+  end
+  object AddWAQry: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'INSERT INTO MA_WA (WA_ID, MA_ID)'
+      'VALUES ('
+      '    :WA_ID,'
+      '    :MA_ID'
+      ');'
+      '')
+    Left = 448
+    Top = 160
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

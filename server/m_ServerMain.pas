@@ -24,7 +24,9 @@ uses System.SysUtils, System.Classes,
   DbxCompressionFilter, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
-  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client;
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet;
 
 type
   TMitbestimmITSrv = class(TService)
@@ -36,6 +38,8 @@ type
     DSAuthenticationManager1: TDSAuthenticationManager;
     DSAdmin: TDSServerClass;
     DSLogin: TDSServerClass;
+    UserPWDQry: TFDQuery;
+    AdminTab: TFDTable;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -53,6 +57,9 @@ type
   private
     function startServer : boolean;
     function stopServer : boolean;
+
+    function validateAdmin( pwd : string ) : boolean;
+    function validateUser( user, pwd : string ) : Boolean;
 
   protected
     function DoStop: Boolean; override;
@@ -74,7 +81,7 @@ implementation
 uses
   Winapi.Windows,
   system.Hash,
-  m_admin, u_config, u_glob, m_db, m_login;
+  m_admin, u_config, u_glob, m_db, m_login, u_pwd;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -87,7 +94,19 @@ procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthenticate(
   Sender: TObject; const Protocol, Context, User, Password: string;
   var valid: Boolean; UserRoles: TStrings);
 begin
-  valid := true;
+  valid := false;
+  if SameText('admin_user', user ) then
+  begin
+    valid := validateAdmin(Password);
+    if valid then
+      UserRoles.Add('admim');
+  end
+  else
+  begin
+    valid := validateUser(User, Password);
+    if valid then
+      UserRoles.Add('user');
+  end;
 end;
 
 procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
@@ -190,6 +209,37 @@ begin
   DBMod.closeDB;
 
   result := (DBMod.FDConnection1.Connected = false );
+end;
+
+function TMitbestimmITSrv.validateAdmin(pwd: string): boolean;
+var
+  pwdHash : string;
+begin
+  pwdHash := CalcPwdHash(pwd);
+  result  := false;
+  AdminTab.Open;
+  if not AdminTab.IsEmpty then
+  begin
+    result := SameText(AdminTab.FieldByName('AD_PWD').AsString , pwdHash);
+  end;
+  AdminTab.Close;
+
+end;
+
+function TMitbestimmITSrv.validateUser(user, pwd: string): Boolean;
+var
+  pwdHash : string;
+begin
+  Result := false;
+  pwdHash := CalcPwdHash(pwd);
+  UserPWDQry.ParamByName('login').AsString := user;
+  UserPWDQry.Open;
+  if not UserPWDQry.IsEmpty then
+  begin
+    result := SameText(UserPWDQry.FieldByName('mw_pwd').AsString, pwdHash);
+  end;
+  UserPWDQry.Close;
+
 end;
 
 end.

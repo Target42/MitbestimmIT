@@ -61,8 +61,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSCertFiles1: TDSCertFiles
     SSLVersion = sslvSSLv23
     OnGetPEMFileSBPasskey = DSCertFiles1GetPEMFileSBPasskey
-    Left = 236
-    Top = 240
+    Left = 220
+    Top = 208
   end
   object DSHTTPService2: TDSHTTPService
     HttpPort = 8081
@@ -74,8 +74,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
           'CompressMoreThan=1024')
       end>
     AuthenticationManager = DSAuthenticationManager1
-    Left = 228
-    Top = 171
+    Left = 220
+    Top = 139
   end
   object DSAuthenticationManager1: TDSAuthenticationManager
     OnUserAuthenticate = DSAuthenticationManager1UserAuthenticate
@@ -96,5 +96,27 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Server = DSServer1
     Left = 336
     Top = 96
+  end
+  object UserPWDQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT *'
+      'FROM MA_PWD '
+      'where MW_LOGIN = :login')
+    Left = 224
+    Top = 304
+    ParamData = <
+      item
+        Name = 'LOGIN'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object AdminTab: TFDTable
+    Connection = DBMod.FDConnection1
+    TableName = 'AD_ADMIN'
+    Left = 352
+    Top = 304
   end
 end

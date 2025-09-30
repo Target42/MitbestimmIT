@@ -3,8 +3,8 @@ object ConnectForm: TConnectForm
   Top = 0
   ActiveControl = LabeledEdit1
   Caption = 'Serverwahl'
-  ClientHeight = 325
-  ClientWidth = 294
+  ClientHeight = 251
+  ClientWidth = 255
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,35 +15,27 @@ object ConnectForm: TConnectForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   TextHeight = 15
-  object Label1: TLabel
-    Left = 32
-    Top = 84
-    Width = 27
-    Height = 15
-    Caption = 'Wahl'
-  end
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 265
-    Width = 294
+    Top = 191
+    Width = 255
     Height = 60
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitTop = 265
-    ExplicitWidth = 294
+    ExplicitTop = 191
+    ExplicitWidth = 255
     inherited StatusBar1: TStatusBar
-      Width = 294
-      ExplicitWidth = 294
+      Width = 255
+      ExplicitWidth = 255
     end
     inherited Panel1: TPanel
-      Width = 294
+      Width = 255
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 294
+      ExplicitWidth = 255
       inherited OKBtn: TBitBtn
-        Left = 190
-        OnClick = BaseFrame1OKBtnClick
-        ExplicitLeft = 190
+        Left = 151
+        ExplicitLeft = 151
       end
     end
   end
@@ -60,7 +52,7 @@ object ConnectForm: TConnectForm
   end
   object LabeledEdit2: TLabeledEdit
     Left = 32
-    Top = 165
+    Top = 101
     Width = 183
     Height = 23
     EditLabel.Width = 76
@@ -71,7 +63,7 @@ object ConnectForm: TConnectForm
   end
   object LabeledEdit3: TLabeledEdit
     Left = 32
-    Top = 205
+    Top = 141
     Width = 183
     Height = 23
     EditLabel.Width = 47
@@ -79,7 +71,7 @@ object ConnectForm: TConnectForm
     EditLabel.Caption = 'Passwort'
     PasswordChar = '*'
     TabOrder = 3
-    Text = 'admin'
+    Text = 'snoopy'
   end
   object CheckBox1: TCheckBox
     Left = 32
@@ -88,24 +80,6 @@ object ConnectForm: TConnectForm
     Height = 17
     Caption = 'Admin'
     TabOrder = 4
-  end
-  object ComboBox1: TComboBox
-    Left = 32
-    Top = 105
-    Width = 225
-    Height = 23
-    TabOrder = 5
-    Text = 'ComboBox1'
-  end
-  object FDMemTable1: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 240
-    Top = 32
+    OnClick = CheckBox1Click
   end
 end

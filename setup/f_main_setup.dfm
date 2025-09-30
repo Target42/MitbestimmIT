@@ -517,7 +517,6 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
           Width = 754
-          ExplicitTop = 65
           ExplicitWidth = 754
           inherited LabeledEdit1: TLabeledEdit
             StyleElements = [seFont, seClient, seBorder]
@@ -534,13 +533,11 @@ object MainSetupForm: TMainSetupForm
         end
         inherited RadioGroup1: TRadioGroup
           Width = 754
-          ExplicitTop = 0
           ExplicitWidth = 754
         end
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 262
-          ExplicitTop = 241
           ExplicitWidth = 754
           ExplicitHeight = 262
           inherited Label1: TLabel
