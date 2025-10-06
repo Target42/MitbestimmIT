@@ -99,7 +99,7 @@ uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlhelfer, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
-  f_admin;
+  f_admin, f_wahl_select;
 
 {$R *.dfm}
 
@@ -120,9 +120,11 @@ begin
     end
     else
     begin
-      setMenuState(msLoaded);
+      if TWahlSelectForm.execute then
+        setMenuState(msLoaded)
+      else
+        ac_disconnect.Execute;
     end;
-
   end;
 end;
 

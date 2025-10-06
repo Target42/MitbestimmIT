@@ -3,7 +3,7 @@
 interface
 
 uses
-  System.SysUtils, System.Classes, Datasnap.DSServer, 
+  System.SysUtils, System.Classes, Datasnap.DSServer,
   Datasnap.DSAuth, Datasnap.DSProviderDataModuleAdapter, FireDAC.Stan.Intf,
   FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
@@ -28,7 +28,6 @@ type
   private
     { Private-Deklarationen }
   public
-    function getWahlListe : TJSONObject;
     function checkLogin( data : TJSONObject ) : TJSONObject;
     function checkTOTP( code : string; utctime : TDateTime ) : TJSONObject;
   end;
@@ -78,13 +77,6 @@ begin
     RoleName := 'apppwd;';
     Password := glob.DBPwdCheck
   end;
-end;
-
-function TLoginMod.getWahlListe: TJSONObject;
-begin
-  WATab.Open();
-  Result := DataSourceToJson( WATab, false );
-  WATab.Close;
 end;
 
 procedure TLoginMod.WATabWA_SIMUGetText(Sender: TField; var Text: string;

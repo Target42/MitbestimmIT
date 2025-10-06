@@ -143,7 +143,7 @@ commit;
 
 
 1753814221
-1759516023
+1759772852
 0
 0
 4
@@ -3131,8 +3131,8 @@ WF_ENDE
 3
 1026
 1026
-WF_DELTA
-WF_DELTA
+WF_TYP
+WF_TYP
 
 
 
@@ -3162,40 +3162,6 @@ INTEGER
 WF_DELTA
 
 6
-3
-1027
-1027
-WF_MAX_DELTA
-WF_MAX_DELTA
-
-
-
-1017
-0
-INTEGER
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-0
-0
-1
-0
-0
-WF_MAX_DELTA
-
-7
 /END_TABLE AMCCOLN
 
 /BEGIN_TABLE AMCREFR
@@ -5830,10 +5796,10 @@ OID     N8
 0
 0
 0
--96835
--11933
--82736
--3534
+-95676
+-11448
+-83902
+-4024
 2
 1
 0
@@ -6389,7 +6355,7 @@ d746ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 2
-8233ffff01e1ffff95a7feff01e1ffff
+8233ffff0ae1ffff88a6feff0ae1ffff
 2
 
 

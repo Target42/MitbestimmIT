@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 28.09.2025 21:03:40
+// 06.10.2025 21:15:18
 //
 
 unit u_stub;
@@ -29,7 +29,6 @@ type
     FDSServerModuleCreateCommand: TDBXCommand;
     FWATabWA_SIMUGetTextCommand: TDBXCommand;
     FWATabWA_SIMUSetTextCommand: TDBXCommand;
-    FgetWahlListeCommand: TDBXCommand;
     FcheckLoginCommand: TDBXCommand;
     FcheckTOTPCommand: TDBXCommand;
   public
@@ -39,9 +38,26 @@ type
     procedure DSServerModuleCreate(Sender: TObject);
     procedure WATabWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure WATabWA_SIMUSetText(Sender: TField; Text: string);
-    function getWahlListe: TJSONObject;
     function checkLogin(data: TJSONObject): TJSONObject;
     function checkTOTP(code: string; utctime: TDateTime): TJSONObject;
+  end;
+
+  TWahlModClient = class(TDSAdminClient)
+  private
+    FWahlListBeforeOpenCommand: TDBXCommand;
+    FWahlListWA_SIMUGetTextCommand: TDBXCommand;
+    FWahlListWA_ACTIVEGetTextCommand: TDBXCommand;
+    FgetWahlDataCommand: TDBXCommand;
+    FsaveWahlDataCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure WahlListBeforeOpen(DataSet: TDataSet);
+    procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    function getWahlData(waid: Integer): TJSONObject;
+    function saveWahlData(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -196,19 +212,6 @@ begin
   FWATabWA_SIMUSetTextCommand.ExecuteUpdate;
 end;
 
-function TLoginModClient.getWahlListe: TJSONObject;
-begin
-  if FgetWahlListeCommand = nil then
-  begin
-    FgetWahlListeCommand := FDBXConnection.CreateCommand;
-    FgetWahlListeCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FgetWahlListeCommand.Text := 'TLoginMod.getWahlListe';
-    FgetWahlListeCommand.Prepare;
-  end;
-  FgetWahlListeCommand.ExecuteUpdate;
-  Result := TJSONObject(FgetWahlListeCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
-end;
-
 function TLoginModClient.checkLogin(data: TJSONObject): TJSONObject;
 begin
   if FcheckLoginCommand = nil then
@@ -253,9 +256,125 @@ begin
   FDSServerModuleCreateCommand.Free;
   FWATabWA_SIMUGetTextCommand.Free;
   FWATabWA_SIMUSetTextCommand.Free;
-  FgetWahlListeCommand.Free;
   FcheckLoginCommand.Free;
   FcheckTOTPCommand.Free;
+  inherited;
+end;
+
+procedure TWahlModClient.WahlListBeforeOpen(DataSet: TDataSet);
+begin
+  if FWahlListBeforeOpenCommand = nil then
+  begin
+    FWahlListBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FWahlListBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahlListBeforeOpenCommand.Text := 'TWahlMod.WahlListBeforeOpen';
+    FWahlListBeforeOpenCommand.Prepare;
+  end;
+  FWahlListBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FWahlListBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TWahlModClient.WahlListWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  if FWahlListWA_SIMUGetTextCommand = nil then
+  begin
+    FWahlListWA_SIMUGetTextCommand := FDBXConnection.CreateCommand;
+    FWahlListWA_SIMUGetTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahlListWA_SIMUGetTextCommand.Text := 'TWahlMod.WahlListWA_SIMUGetText';
+    FWahlListWA_SIMUGetTextCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FWahlListWA_SIMUGetTextCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FWahlListWA_SIMUGetTextCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FWahlListWA_SIMUGetTextCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FWahlListWA_SIMUGetTextCommand.Parameters[1].Value.SetWideString(Text);
+  FWahlListWA_SIMUGetTextCommand.Parameters[2].Value.SetBoolean(DisplayText);
+  FWahlListWA_SIMUGetTextCommand.ExecuteUpdate;
+  Text := FWahlListWA_SIMUGetTextCommand.Parameters[1].Value.GetWideString;
+end;
+
+procedure TWahlModClient.WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  if FWahlListWA_ACTIVEGetTextCommand = nil then
+  begin
+    FWahlListWA_ACTIVEGetTextCommand := FDBXConnection.CreateCommand;
+    FWahlListWA_ACTIVEGetTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahlListWA_ACTIVEGetTextCommand.Text := 'TWahlMod.WahlListWA_ACTIVEGetText';
+    FWahlListWA_ACTIVEGetTextCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FWahlListWA_ACTIVEGetTextCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FWahlListWA_ACTIVEGetTextCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FWahlListWA_ACTIVEGetTextCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FWahlListWA_ACTIVEGetTextCommand.Parameters[1].Value.SetWideString(Text);
+  FWahlListWA_ACTIVEGetTextCommand.Parameters[2].Value.SetBoolean(DisplayText);
+  FWahlListWA_ACTIVEGetTextCommand.ExecuteUpdate;
+  Text := FWahlListWA_ACTIVEGetTextCommand.Parameters[1].Value.GetWideString;
+end;
+
+function TWahlModClient.getWahlData(waid: Integer): TJSONObject;
+begin
+  if FgetWahlDataCommand = nil then
+  begin
+    FgetWahlDataCommand := FDBXConnection.CreateCommand;
+    FgetWahlDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetWahlDataCommand.Text := 'TWahlMod.getWahlData';
+    FgetWahlDataCommand.Prepare;
+  end;
+  FgetWahlDataCommand.Parameters[0].Value.SetInt32(waid);
+  FgetWahlDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlModClient.saveWahlData(data: TJSONObject): TJSONObject;
+begin
+  if FsaveWahlDataCommand = nil then
+  begin
+    FsaveWahlDataCommand := FDBXConnection.CreateCommand;
+    FsaveWahlDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveWahlDataCommand.Text := 'TWahlMod.saveWahlData';
+    FsaveWahlDataCommand.Prepare;
+  end;
+  FsaveWahlDataCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveWahlDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TWahlModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TWahlModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TWahlModClient.Destroy;
+begin
+  FWahlListBeforeOpenCommand.Free;
+  FWahlListWA_SIMUGetTextCommand.Free;
+  FWahlListWA_ACTIVEGetTextCommand.Free;
+  FgetWahlDataCommand.Free;
+  FsaveWahlDataCommand.Free;
   inherited;
 end;
 

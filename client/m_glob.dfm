@@ -16,7 +16,9 @@ object GM: TGM
         'DriverAssemblyLoader=Borland.Data.TDBXClientDriverLoader,Borland' +
         '.Data.DbxClientDriver,Version=24.0.0.0,Culture=neutral,PublicKey' +
         'Token=91d62ebb5b0d1b1b'
-      'Filters={}')
+      'Filters={}'
+      'DSAuthenticationPassword=251169'
+      'DSAuthenticationUser=stephan')
     Left = 128
     Top = 40
     UniqueId = '{EB9B5E39-4CF2-45D6-BE61-1B20D4640028}'

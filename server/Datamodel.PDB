@@ -92,7 +92,6 @@ GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;\
-GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;\
@@ -144,7 +143,7 @@ commit;
 
 
 1753814221
-1759515779
+1759516023
 0
 0
 4
@@ -533,7 +532,7 @@ WF_FRISTEN
 0
 0
 0
-
+WF_FRISTEN
 
 
 
@@ -2990,7 +2989,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 1
 3
@@ -3024,7 +3023,7 @@ INTEGER
 1
 0
 0
-
+WF_ID
 
 2
 3
@@ -3058,7 +3057,7 @@ VARCHAR(100)
 1
 0
 0
-
+WF_TITEL
 
 3
 3
@@ -3092,7 +3091,7 @@ TIMESTAMP
 1
 0
 0
-
+WF_START
 
 4
 3
@@ -3126,7 +3125,7 @@ TIMESTAMP
 1
 0
 0
-
+WF_ENDE
 
 5
 3
@@ -3160,7 +3159,7 @@ INTEGER
 1
 0
 0
-
+WF_DELTA
 
 6
 3
@@ -3194,7 +3193,7 @@ INTEGER
 1
 0
 0
-
+WF_MAX_DELTA
 
 7
 /END_TABLE AMCCOLN
@@ -3522,7 +3521,7 @@ REF_1018
 1
 0
 0
-
+REF_1018
 
 17
 /END_TABLE AMCREFR

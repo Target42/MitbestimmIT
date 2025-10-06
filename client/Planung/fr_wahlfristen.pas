@@ -104,7 +104,6 @@ end;
 procedure TWahlfristenFrame.CreateGanttChart;
 var
   GanttSeries: TGanttSeries;
-  iGanttIndex: Integer;
   i : integer;
   inx : integer;
   ptr : PTWahlPhase;

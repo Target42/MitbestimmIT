@@ -34,7 +34,7 @@ uses
   i_Storage in '..\Storage\i_Storage.pas',
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_StorageWahlDefinition in '..\Storage\Simulation\u_StorageWahlDefinition.pas',
-  u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas' ,
+  u_StorageSimulation in '..\Storage\Simulation\u_StorageSimulation.pas',
   u_StorageWaehlerListe in '..\Storage\Simulation\u_StorageWaehlerListe.pas' ,
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas' ,
   u_StorageWahlvorstand in '..\Storage\Simulation\u_StorageWahlvorstand.pas',
@@ -43,14 +43,14 @@ uses
   u_stub in 'u_stub.pas',
   f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_json_db in '..\lib\u_json_db.pas',
-  f_wahl_seelect in 'Wahl\f_wahl_seelect.pas' {SelectWahlform},
   fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
   u_helper in '..\lib\u_helper.pas',
   fr_wahlverfahren in 'Planung\fr_wahlverfahren.pas' {WahlverfahrenFrame: TFrame},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
   fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
   f_wahl_phase in 'Planung\f_wahl_phase.pas' {WahlPhaseForm},
-  f_wahldate in 'Planung\f_wahldate.pas' {WahlDateform};
+  f_wahldate in 'Planung\f_wahldate.pas' {WahlDateform},
+  f_wahl_select in 'gui\f_wahl_select.pas' {WahlSelectForm};
 
 {$R *.res}
 

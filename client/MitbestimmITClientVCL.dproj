@@ -226,10 +226,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>AdminForm</Form>
         </DCCReference>
         <DCCReference Include="..\lib\u_json_db.pas"/>
-        <DCCReference Include="Wahl\f_wahl_seelect.pas">
-            <Form>SelectWahlform</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="..\lib\fr_base.pas">
             <Form>BaseFrame</Form>
             <FormType>dfm</FormType>
@@ -256,6 +252,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="Planung\f_wahldate.pas">
             <Form>WahlDateform</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="gui\f_wahl_select.pas">
+            <Form>WahlSelectForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>

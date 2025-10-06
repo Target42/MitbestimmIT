@@ -34,6 +34,9 @@ type
     start     : TDateTime;
     ende      : TDateTime;
     typ       : TDatumTyp;
+
+    function toJson : TJSONObject;
+    procedure fromJson( data : TJSONObject );
   end;
 
   TWahlPhasenListe = TList<PTWahlPhase>;
@@ -56,12 +59,66 @@ procedure releaseWahlPhasen( list : TWahlPhasenListe );
 procedure AutoFillNormal( da : TDate; var list : TWahlPhasenListe );
 procedure AutoFillEinfach( da : TDate; var list : TWahlPhasenListe );
 
+function WahlphasenToJson( var list : TWahlPhasenListe ) : TJSONObject;
+procedure JsonToWahlPhase( var list : TWahlPhasenListe; data: TJSONObject );
 
 implementation
 
 
 uses
   u_json;
+
+function TWahlPhase.toJson : TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  JReplace(result, 'nr', nr);
+  JReplace(result, 'titel',titel);
+  JReplaceDouble(result, 'start',start);
+  JReplaceDouble(result, 'ende',ende);
+  JReplace( result, 'typ', integer(typ));
+
+end;
+procedure TWahlPhase.fromJson( data : TJSONObject );
+begin
+  nr := JInt( data, 'nr');
+  titel := JString( data, 'titel');
+  start := JDouble(data, 'start');
+  ende  := JDouble( data, 'ende');
+  typ   := TDatumTyp(JInt( data, 'typ'));
+end;
+
+function WahlphasenToJson( var list : TWahlPhasenListe ) : TJSONObject;
+var
+  i : integer;
+  arr : TJSONArray;
+begin
+  Result := TJSONObject.Create;
+  arr := TJSONArray.Create;
+  for i := 0 to pred(list.Count) do
+  begin
+    arr.Add(list[i]^.toJson);
+  end;
+  JReplace( result, 'phasen', arr);
+end;
+
+procedure JsonToWahlPhase( var list : TWahlPhasenListe; data: TJSONObject );
+var
+  arr : TJSONArray;
+  row : TJSONObject;
+  i   : integer;
+  ptr : PTWahlPhase;
+begin
+  releaseWahlPhasen(list);
+
+  arr := JArray( data, 'phasen');
+  for i := 0 to pred(arr.Count) do
+  begin
+    row := getRow(arr, i);
+    new(ptr);
+    list.Add(ptr);
+    ptr^.fromJson(row);
+  end;
+end;
 
 procedure AutoFillEinfach( da : TDate; var list : TWahlPhasenListe );
 begin
@@ -142,7 +199,8 @@ begin
   Result^.nr        := nr;
   Result^.titel     := title;
   Result^.typ       := typ;
-
+  Result^.start     := 0.0;
+  Result^.ende      := 0.0;
 end;
 
 function createNornmal : TWahlPhasenListe;

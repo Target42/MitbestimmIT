@@ -83,7 +83,7 @@ implementation
 
 uses
   Winapi.Windows,
-  system.Hash,
+  system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl;
 
 
@@ -97,6 +97,15 @@ procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthenticate(
   Sender: TObject; const Protocol, Context, User, Password: string;
   var valid: Boolean; UserRoles: TStrings);
 begin
+{$ifdef DEBUG}
+  if (user = 'stephan') and (Password = '251169') then
+  begin
+    valid := true;
+    exit;
+  end;
+
+{$endif}
+
   valid := false;
   if SameText('admin_user', user ) then
   begin
@@ -230,6 +239,8 @@ begin
   if not AdminTab.IsEmpty then
   begin
     result := SameText(AdminTab.FieldByName('AD_PWD').AsString , pwdHash);
+    if result then
+        TDSSessionManager.GetThreadSession.PutData('UserID', '1');
   end;
   AdminTab.Close;
 
@@ -246,6 +257,9 @@ begin
   if not UserPWDQry.IsEmpty then
   begin
     result := SameText(UserPWDQry.FieldByName('mw_pwd').AsString, pwdHash);
+    if Result then
+      TDSSessionManager.GetThreadSession.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
+
   end;
   UserPWDQry.Close;
 

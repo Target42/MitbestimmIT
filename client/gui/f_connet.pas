@@ -128,7 +128,6 @@ end;
 class function TConnectForm.Execute: Boolean;
 var
   counter : integer;
-  obj     : TJSONObject;
 begin
   Result := false;
 
@@ -168,8 +167,6 @@ end;
 // Parameter:
 //   Sender: Das Objekt, das das Ereignis ausgelöst hat.
 procedure TConnectForm.FormCreate(Sender: TObject);
-var
-  data : TJSONObject;
 begin
   LabeledEdit2.Text := GetEnvironmentVariable('USERNAME');
 end;
