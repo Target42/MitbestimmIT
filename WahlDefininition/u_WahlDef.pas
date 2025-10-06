@@ -39,7 +39,7 @@ type
       FWahlName: string;
       FAdminPasswort: string;
     public
-      WahlFristen : TWahlFristen;
+
 
       constructor create;
       Destructor Destroy; override;
@@ -79,7 +79,6 @@ begin
   FWahlName     := JString( data, wdWahlLang);
   FAdminPasswort:= JString( data, wdAdminPassword);
 
-  WahlFristen.fromJSON(JObject( data, wdTermine));
 end;
 
 function TWahlDef.toJSON: TJSONObject;
@@ -90,7 +89,7 @@ begin
   JReplace( Result, wdWahlLang,       FWahlName);
   JReplace( Result, wdAdminPassword,  FAdminPasswort);
 
-  JReplace( Result, wdTermine, WahlFristen.toJSON);
+
 end;
 
 end.

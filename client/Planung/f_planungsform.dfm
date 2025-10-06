@@ -1,7 +1,7 @@
 object Planungsform: TPlanungsform
   Left = 0
   Top = 0
-  ActiveControl = WahlPlanungStartFrame1.LabeledEdit3
+  ActiveControl = WahlfristenFrame1.Chart1
   Caption = 'Planungsform'
   ClientHeight = 573
   ClientWidth = 756
@@ -27,7 +27,7 @@ object Planungsform: TPlanungsform
     Top = 0
     Width = 756
     Height = 554
-    ActivePage = JvWizardWelcomePage1
+    ActivePage = JvWizardInteriorPage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -52,8 +52,6 @@ object Planungsform: TPlanungsform
     ButtonHelp.NumGlyphs = 1
     ButtonHelp.Width = 75
     ShowRouteMap = False
-    OnFinishButtonClick = JvWizard1FinishButtonClick
-    OnCancelButtonClick = JvWizard1CancelButtonClick
     DesignSize = (
       756
       554)
@@ -76,45 +74,27 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardWelcomePage1'
-      OnNextButtonClick = JvWizardWelcomePage1NextButtonClick
-      inline WahlPlanungStartFrame1: TWahlPlanungStartFrame
-        AlignWithMargins = True
-        Left = 167
-        Top = 73
-        Width = 586
-        Height = 436
+      inline WahlverfahrenFrame1: TWahlverfahrenFrame
+        Left = 164
+        Top = 70
+        Width = 592
+        Height = 442
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 167
-        ExplicitTop = 73
-        ExplicitWidth = 586
-        ExplicitHeight = 436
-        inherited Image1: TImage
-          Width = 586
-          Height = 275
-          ExplicitWidth = 586
-          ExplicitHeight = 267
+        ExplicitLeft = 164
+        ExplicitTop = 70
+        ExplicitWidth = 592
+        ExplicitHeight = 442
+        inherited RadioGroup1: TRadioGroup
+          Width = 592
+          ExplicitWidth = 592
         end
-        inherited Panel1: TPanel
-          Width = 586
+        inherited RichEdit1: TRichEdit
+          Width = 592
+          Height = 385
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 586
-          inherited LabeledEdit3: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit4: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited GroupBox2: TGroupBox
-          Width = 586
-          ExplicitWidth = 586
-          inherited LabeledEdit1: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited LabeledEdit2: TLabeledEdit
-            StyleElements = [seFont, seClient, seBorder]
-          end
+          ExplicitWidth = 592
+          ExplicitHeight = 385
         end
       end
     end
@@ -137,50 +117,39 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage1'
-      inline WahlverfahrenFrame1: TWahlverfahrenFrame
-        AlignWithMargins = True
-        Left = 3
-        Top = 73
-        Width = 750
-        Height = 436
+      OnEnterPage = JvWizardInteriorPage1EnterPage
+      inline WahlfristenFrame1: TWahlfristenFrame
+        Left = 0
+        Top = 70
+        Width = 756
+        Height = 442
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = 73
-        ExplicitWidth = 750
-        ExplicitHeight = 436
-        inherited RadioButton1: TRadioButton
-          Width = 744
-          ExplicitWidth = 744
+        ExplicitTop = 70
+        ExplicitWidth = 756
+        ExplicitHeight = 442
+        inherited Splitter1: TSplitter
+          Width = 756
+          ExplicitWidth = 756
         end
-        inherited RadioButton2: TRadioButton
-          Width = 744
-          ExplicitWidth = 744
+        inherited Chart1: TChart
+          Width = 756
+          Height = 182
+          ExplicitWidth = 756
+          ExplicitHeight = 182
         end
-        inherited RichEdit1: TRichEdit
-          Width = 744
-          Lines.Strings = (
-            ''
-            'Ein vereinfachtes Verfahren ist m'#246'glich, wenn:'
-            '    '#8226' es zwischen 5 und 100 Mitarbeiter sind.'
-            '    '#8226' Es zwischen 101 und 200 Mitarbeiter sind und sich der '
-            'Wahlausschuss '
-            'und '
-            'der Arbeitgeber auf dieses Verfahren geeinigt haben.'
-            ''
-            'Das Verfahren ist schneller und unkomplizierter:'
-            '    '#8226' K'#252'rzere Fristen'
-            '    '#8226' Nur ein Wahlgang'
-            '    '#8226' Direktwahl der Kandidaten ohne Listenwahl')
-          StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 744
-        end
-        inherited RichEdit2: TRichEdit
-          Width = 744
-          Height = 43
-          StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 744
-          ExplicitHeight = 43
+        inherited GroupBox1: TGroupBox
+          Width = 756
+          ExplicitWidth = 756
+          inherited LV: TListView
+            Width = 752
+            ExplicitWidth = 752
+          end
+          inherited Panel1: TPanel
+            Width = 752
+            StyleElements = [seFont, seClient, seBorder]
+            ExplicitWidth = 752
+          end
         end
       end
     end
@@ -203,80 +172,6 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Style = []
       Caption = 'JvWizardInteriorPage2'
       OnEnterPage = JvWizardInteriorPage2EnterPage
-      OnFinishButtonClick = JvWizardInteriorPage2FinishButtonClick
-      inline WahlfristenFrame1: TWahlfristenFrame
-        AlignWithMargins = True
-        Left = 3
-        Top = 73
-        Width = 750
-        Height = 436
-        Align = alClient
-        TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = 73
-        ExplicitWidth = 750
-        ExplicitHeight = 436
-        inherited Panel1: TPanel
-          Width = 750
-          StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 750
-          inherited Label1: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label2: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label3: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label4: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label5: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label6: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label7: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label8: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label9: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label10: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label11: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label12: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label13: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label14: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label15: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-          inherited Label16: TLabel
-            StyleElements = [seFont, seClient, seBorder]
-          end
-        end
-        inherited Chart1: TChart
-          Width = 750
-          Height = 184
-          DepthTopAxis.LabelsFormat.Font.DefaultFont = True
-          ExplicitWidth = 750
-          ExplicitHeight = 184
-        end
-      end
     end
   end
 end

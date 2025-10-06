@@ -189,7 +189,6 @@ begin
 
     liste.add(waehler);
   end;
-  GM.Storage.WaehlerListe.upload(liste.toSimpleJSON);
 
   liste.release;
   Screen.Cursor := crDefault;

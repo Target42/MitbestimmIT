@@ -23,59 +23,95 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  JvExStdCtrls, JvHtControls, Vcl.ComCtrls, u_BRWahlFristen;
+  JvExStdCtrls, JvHtControls, Vcl.ComCtrls, u_BRWahlFristen, Vcl.ExtCtrls,
+  System.Generics.Collections;
 
 type
   TWahlverfahrenFrame = class(TFrame)
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
+    RadioGroup1: TRadioGroup;
     RichEdit1: TRichEdit;
-    RichEdit2: TRichEdit;
-    procedure RadioButton1Click(Sender: TObject);
-    procedure RadioButton2Click(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
+    procedure RichEdit1MouseWheel(Sender: TObject; Shift: TShiftState;
+      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
   private
-    m_fristen  : PTWahlFristen;
+    m_list : PTWahlPhasenListe;
+    m_normal : TStream;
+    m_einfach : TStream;
   public
-    procedure init( ptr : PTWahlFristen);
+    procedure init(list : PTWahlPhasenListe);
     procedure release;
-
-    procedure save;
   end;
 
 implementation
 
 {$R *.dfm}
 
+uses u_helper;
+
 { TWahlverfahrenFrame }
 
-procedure TWahlverfahrenFrame.init(ptr: PTWahlFristen);
+procedure TWahlverfahrenFrame.init(list : PTWahlPhasenListe);
 begin
-  m_fristen := ptr;
-  RadioButton1.Checked := m_fristen^.Verfahren = wvVereinfacht;
-  RadioButton2.Checked := m_fristen^.Verfahren = wvAllgemein;
+  m_normal  := TMemoryStream.Create;
+  m_einfach := TMemoryStream.Create;
+  m_list    := list;
+
+  LoadRCDataToStream('BER1', m_normal);
+  LoadRCDataToStream('BER2', m_einfach);
+  RadioGroup1.ItemIndex := 0;
 end;
 
-procedure TWahlverfahrenFrame.RadioButton1Click(Sender: TObject);
+procedure TWahlverfahrenFrame.RadioGroup1Click(Sender: TObject);
 begin
-  m_fristen^.Verfahren := wvVereinfacht;
-end;
+  if RadioGroup1.ItemIndex = 0 then
+  begin
+    m_normal.Position := 0;
+    RichEdit1.Lines.LoadFromStream(m_normal);
+    releaseWahlPhasen(m_list^);
+    m_list^ := getWahlPhasen( wvAllgemein );
+  end
+  else
+  begin
+    m_einfach.Position := 0;
+    RichEdit1.Lines.LoadFromStream(m_einfach);
+    releaseWahlPhasen(m_list^);
+    m_list^ := getWahlPhasen( wvVereinfacht );
+  end;
 
-procedure TWahlverfahrenFrame.RadioButton2Click(Sender: TObject);
-begin
-  m_fristen^.Verfahren := wvAllgemein;
 end;
 
 procedure TWahlverfahrenFrame.release;
 begin
-
+  m_einfach.Free;
+  m_normal.Free;
 end;
 
-procedure TWahlverfahrenFrame.save;
+procedure TWahlverfahrenFrame.RichEdit1MouseWheel(Sender: TObject;
+  Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint;
+  var Handled: Boolean);
+const
+  // Windows-Konstanten für das vertikale Scrollen
+  SB_LINEUP   = 0; // Scrolle eine Zeile nach oben
+  SB_LINEDOWN = 1; // Scrolle eine Zeile nach unten
+  WM_VSCROLL  = $0115; // Message für vertikales Scrollen
+var
+  ScrollMessage: Integer;
 begin
-  if RadioButton1.Checked then
-    m_fristen^.Verfahren := wvVereinfacht
+  // Zuerst setzen wir Handled auf True, damit der Parent nicht scrollt.
+  Handled := True;
+
+  // Bestimmen der Scroll-Richtung basierend auf WheelDelta
+  if WheelDelta > 0 then // Mausrad nach oben
+    ScrollMessage := SB_LINEUP
+  else if WheelDelta < 0 then // Mausrad nach unten
+    ScrollMessage := SB_LINEDOWN
   else
-    m_fristen^.Verfahren := wvAllgemein;
+    Exit; // Kein Scrollen nötig
+
+  // Die Scroll-Message an das RichEdit senden
+  // Perform sendet die Message direkt an die Fensterprozedur des Steuerelements.
+  TRichEdit(Sender).Perform(WM_VSCROLL, ScrollMessage, 0);
+
 end;
 
 end.

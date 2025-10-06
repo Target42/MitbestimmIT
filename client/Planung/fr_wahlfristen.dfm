@@ -5,242 +5,30 @@ object WahlfristenFrame: TWahlfristenFrame
   Height = 599
   Align = alClient
   TabOrder = 0
-  object Panel1: TPanel
+  object Splitter1: TSplitter
     Left = 0
-    Top = 0
+    Top = 257
     Width = 979
-    Height = 252
+    Height = 3
+    Cursor = crVSplit
     Align = alTop
-    ShowCaption = False
-    TabOrder = 0
-    object Label1: TLabel
-      Left = 88
-      Top = 8
-      Width = 71
-      Height = 15
-      Caption = 'Start Wahltag'
-    end
-    object Label2: TLabel
-      Left = 32
-      Top = 66
-      Width = 127
-      Height = 15
-      Caption = 'Wahlvorstand bestimmt'
-    end
-    object Label3: TLabel
-      Left = 63
-      Top = 95
-      Width = 96
-      Height = 15
-      Caption = 'Wahlausschreiben'
-    end
-    object Label4: TLabel
-      Left = 41
-      Top = 124
-      Width = 118
-      Height = 15
-      Caption = 'Ende Vorschlagsfristen'
-    end
-    object Label5: TLabel
-      Left = 31
-      Top = 153
-      Width = 129
-      Height = 15
-      Caption = 'Bekanntgabe Vorschl'#228'ge'
-    end
-    object Label6: TLabel
-      Left = 40
-      Top = 182
-      Width = 114
-      Height = 15
-      Caption = 'Bekanntgabe Ergebns'
-    end
-    object Label7: TLabel
-      Left = 42
-      Top = 211
-      Width = 117
-      Height = 15
-      Caption = 'Ende Anfechtungsfrist'
-    end
-    object Label8: TLabel
-      Left = 357
-      Top = 8
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label9: TLabel
-      Left = 357
-      Top = 66
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label10: TLabel
-      Left = 357
-      Top = 95
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label11: TLabel
-      Left = 357
-      Top = 124
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label12: TLabel
-      Left = 357
-      Top = 153
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label13: TLabel
-      Left = 357
-      Top = 182
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label14: TLabel
-      Left = 357
-      Top = 211
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label15: TLabel
-      Left = 357
-      Top = 37
-      Width = 18
-      Height = 15
-      Caption = 'Mo'
-    end
-    object Label16: TLabel
-      Left = 77
-      Top = 37
-      Width = 82
-      Height = 15
-      Caption = 'Letzter Wahltag'
-    end
-    object DateTimePicker1: TDateTimePicker
-      Tag = 1
-      Left = 165
-      Top = 8
-      Width = 186
-      Height = 23
-      Date = 46143.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 0
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker2: TDateTimePicker
-      Tag = 2
-      Left = 165
-      Top = 66
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 1
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker3: TDateTimePicker
-      Tag = 3
-      Left = 165
-      Top = 95
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 2
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker4: TDateTimePicker
-      Tag = 4
-      Left = 165
-      Top = 124
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 3
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker5: TDateTimePicker
-      Tag = 5
-      Left = 165
-      Top = 153
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 4
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker6: TDateTimePicker
-      Left = 165
-      Top = 182
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 6
-      OnChange = DateTimePicker1Change
-    end
-    object DateTimePicker7: TDateTimePicker
-      Tag = 7
-      Left = 165
-      Top = 211
-      Width = 186
-      Height = 23
-      Date = 45774.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 5
-      OnChange = DateTimePicker1Change
-    end
-    object Button1: TButton
-      Left = 416
-      Top = 16
-      Width = 75
-      Height = 25
-      Caption = 'Berechnen'
-      TabOrder = 7
-      OnClick = Button1Click
-    end
-    object BitBtn1: TBitBtn
-      Left = 416
-      Top = 62
-      Width = 75
-      Height = 25
-      Caption = 'Pr'#252'fen'
-      TabOrder = 8
-      OnClick = BitBtn1Click
-    end
-    object DateTimePicker8: TDateTimePicker
-      Tag = 8
-      Left = 165
-      Top = 37
-      Width = 186
-      Height = 23
-      Date = 46143.000000000000000000
-      Time = 0.643076203705277300
-      TabOrder = 9
-      OnChange = DateTimePicker1Change
-    end
+    ExplicitTop = 273
+    ExplicitWidth = 31
   end
   object Chart1: TChart
     Left = 0
-    Top = 252
+    Top = 260
     Width = 979
-    Height = 347
+    Height = 339
+    Legend.LegendStyle = lsValues
+    Legend.TextStyle = ltsPlain
+    Legend.Visible = False
     Title.Text.Strings = (
       'Wahlablauf')
+    BottomAxis.Title.Angle = 45
     View3D = False
     Align = alClient
-    TabOrder = 1
+    TabOrder = 0
     DefaultCanvas = 'TGDIPlusCanvas'
     ColorPaletteIndex = 13
     object Series1: TGanttSeries
@@ -273,6 +61,84 @@ object WahlfristenFrame: TWahlfristenFrame
         40000000000000F0BF00000000005DE640FF09000000446562756767696E6700
         000000405EE640000000000000F0BF}
       Detail = {0000000000}
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 979
+    Height = 257
+    Align = alTop
+    Caption = 'Wahlphasen'
+    TabOrder = 1
+    object LV: TListView
+      Left = 2
+      Top = 17
+      Width = 975
+      Height = 197
+      Align = alClient
+      Columns = <
+        item
+          Caption = 'Nr'
+          Width = 75
+        end
+        item
+          Caption = 'Titel'
+          Width = 350
+        end
+        item
+          Caption = 'Start'
+          Width = 150
+        end
+        item
+          Caption = 'Ende'
+          Width = 150
+        end>
+      ReadOnly = True
+      RowSelect = True
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnDblClick = LVDblClick
+    end
+    object Panel1: TPanel
+      Left = 2
+      Top = 214
+      Width = 975
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel1'
+      ShowCaption = False
+      TabOrder = 1
+      object BitBtn1: TBitBtn
+        Left = 24
+        Top = 8
+        Width = 75
+        Height = 25
+        Action = ac_berechnen
+        Caption = 'Berechnen'
+        TabOrder = 0
+      end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 328
+    Top = 80
+    object Bearbeiten1: TMenuItem
+      Action = ac_edit
+    end
+  end
+  object ActionList1: TActionList
+    Left = 544
+    Top = 96
+    object ac_edit: TAction
+      Caption = 'Bearbeiten'
+      OnExecute = ac_editExecute
+    end
+    object ac_berechnen: TAction
+      Caption = 'Berechnen'
+      OnExecute = ac_berechnenExecute
     end
   end
 end

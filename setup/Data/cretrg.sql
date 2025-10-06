@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     30.09.2025  21:18                          */
+/*   Created on:     03.10.2025  20:27                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -69,16 +69,6 @@ create trigger ti_tab_184 for WA_WAHL
 before insert as
 begin
     new.wa_id = gen_id(gen_wa_id, 1);
-
-end;/
-set term ;/
-
-/*  Insert trigger "ti_wd_wahldaten" for table "WD_WAHLDATEN"  */
-set term /;
-create trigger ti_wd_wahldaten for WD_WAHLDATEN
-before insert as
-begin
-    new.wd_id = gen_id(gen_wd_id, 1);
 
 end;/
 set term ;/

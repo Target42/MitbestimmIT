@@ -56,17 +56,14 @@ type
     FUser: string;
     FPasswort: string;
 
-    m_storage : IStorage;
     m_waehlerliste : IWaehlerliste;
     FIsAdmin: boolean;
+    FWahlID: integer;
 
 
     procedure setHostAddress( value : string);
     procedure setUser( value : string);
   public
-
-    property Storage : IStorage read m_storage;
-
     property Protokoll: string read FProtokoll write FProtokoll;
     property Host     : string read FHost write FHost;
     property Port     : integer read FPort write FPort;
@@ -77,9 +74,9 @@ type
 
     property HostAddress: string read FHostAddress write setHostAddress;
 
-    property WaehlerListe : IWaehlerListe read m_waehlerliste;
+    property WahlID: integer read FWahlID write FWahlID;
 
-    function createStorage( name : string ) : Boolean;
+    property WaehlerListe : IWaehlerListe read m_waehlerliste;
 
     function connect: boolean;
     procedure disconnect;
@@ -166,27 +163,18 @@ begin
 
 end;
 
-function TGM.createStorage(name: string): Boolean;
-begin
-  m_storage := i_Storage.getStorage( name );
-
-  Result := Assigned(m_storage);
-end;
-
 procedure TGM.DataModuleCreate(Sender: TObject);
 begin
-  m_storage := NIL;
   m_waehlerliste := TWaehlerliste.create;
 
   setHostAddress('ds://localhost:211');
   FUser        := 'ADMIN_USER';
   FPasswort    := 'admin';
+  FWahlID      := -1;
 end;
 
 procedure TGM.DataModuleDestroy(Sender: TObject);
 begin
-  if Assigned(m_storage) then
-    m_storage.release;
   m_waehlerliste.release;
 end;
 

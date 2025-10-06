@@ -21,75 +21,25 @@ unit u_BRWahlFristen;
 interface
 
 uses
-  SysUtils, DateUtils, System.JSON;
+  SysUtils, DateUtils, System.JSON, System.Generics.Collections;
 
 type
-  {
-    TWahlVerfahren:
-    Enumeration, die den Typ des Wahlverfahrens darstellt.
+  TWahlVerfahren = (wvAllgemein = 0, wvVereinfacht = 1);
+  TDatumTyp      = (dtKeines = 0, dtTag = 1, dtZeitraum = 2, dtZeitpunkte = 3);
 
-    Werte:
-      - wvAllgemein: Stellt das allgemeine Wahlverfahren dar.
-      - wvVereinfacht: Stellt das vereinfachte Wahlverfahren dar.
-  }
-  TWahlVerfahren = (wvAllgemein, wvVereinfacht);
-
-  PTWahlFristen = ^TWahlFristen;
-  {
-    TWahlFristen ist ein Record, der verschiedene Termine und Fristen im Zusammenhang mit einem Wahlprozess darstellt.
-
-    Felder:
-      - Wahltag: TDate
-          Das Datum der Wahl.
-
-      - Verfahren: TWahlVerfahren
-          Der Typ oder das Verfahren der Wahl.
-
-      - SpaetesterWahlvorstand: TDate
-          Das späteste Datum, bis zu dem der Wahlvorstand gebildet sein muss.
-
-      - WahlausschreibenDatum: TDate
-          Das Datum, an dem die Wahlausschreibung erfolgt.
-
-      - VorschlagsfristEnde: TDate
-          Die Frist für die Einreichung von Vorschlägen oder Nominierungen.
-
-      - BekanntgabeVorschlaege: TDate
-          Das Datum, an dem die Vorschläge oder Nominierungen bekannt gegeben werden.
-
-      - BekanntgabeErgebnis: TDate
-          Das Datum, an dem die Wahlergebnisse bekannt gegeben werden.
-
-      - AnfechtungsfristEnde: TDate
-          Die Frist für die Anfechtung der Wahlergebnisse.
-  }
-  TWahlFristen = record
-    WahltagStart : TDate;
-    WahltagEnde  : TDate;
-
-    Verfahren    : TWahlVerfahren;
-
-    SpaetesterWahlvorstand  : TDate;
-    WahlausschreibenDatum   : TDate;
-    VorschlagsfristEnde     : TDate;
-    BekanntgabeVorschlaege  : TDate;
-    BekanntgabeErgebnis     : TDate;
-    AnfechtungsfristEnde    : TDate;
-
-    procedure fromJSON( data : TJSONObject );
-    function toJSON : TJSONObject;
+  PTWahlPhase   = ^TWahlPhase;
+  TWahlPhase    = record
+    nr        : integer;
+    titel     : string;
+    start     : TDateTime;
+    ende      : TDateTime;
+    typ       : TDatumTyp;
   end;
 
+  TWahlPhasenListe = TList<PTWahlPhase>;
+  PTWahlPhasenListe = ^TWahlPhasenListe;
 
-  {
-    TRegelwahlStatus:
-    Dieser Record repräsentiert den Status einer regulären Wahlperiode. Er enthält die folgenden Felder:
 
-    - InWahlperiode (Boolean): Gibt an, ob das aktuelle Datum innerhalb der Wahlperiode liegt.
-    - Jahr (Word): Das Jahr, das mit der Wahlperiode verbunden ist.
-    - Start (TDate): Das Startdatum der Wahlperiode.
-    - Ende (TDate): Das Enddatum der Wahlperiode.
-  }
   TRegelwahlStatus = record
     InWahlperiode: Boolean;
     Jahr: Word;
@@ -98,8 +48,13 @@ type
   end;
 
 function PruefeRegulaereWahlperiode(Heute: TDate): TRegelwahlStatus;
-function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
-function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
+
+
+function getWahlPhasen( verfahren : TWahlVerfahren ): TWahlPhasenListe;
+procedure releaseWahlPhasen( list : TWahlPhasenListe );
+
+procedure AutoFillNormal( da : TDate; var list : TWahlPhasenListe );
+procedure AutoFillEinfach( da : TDate; var list : TWahlPhasenListe );
 
 
 implementation
@@ -108,82 +63,135 @@ implementation
 uses
   u_json;
 
+procedure AutoFillEinfach( da : TDate; var list : TWahlPhasenListe );
+begin
+  // Ende der Anfechtungsfrist'                    , dtZeitraum
+  list[7]^.ende  := IncWeek( da, 2);
+  list[7]^.start := da;
+  // Bekanntgabe des Wahlergebnisses'              , dtTag
+  list[6]^.start  := da;
+  // Stimmauszählung'                              , dtTag
+  list[5]^.start  := da;
+  // Wahlversammlung (eigentliche Wahl)'           , dtZeitpunkte
+  list[4]^.start := da + EncodeTime(8, 0, 0, 0);
+  list[4]^.ende  := da + EncodeTime(12, 0, 0, 0);
+  // Einreichungsfrist für Wahlvorschläge'         , dtZeitraum
+  list[3]^.ende  := IncWeek( da, -1);
+  list[3]^.start := IncWeek( da, -2 );
+  // Wahlversammlung'                              , dtZeitpunkte
+  list[2]^.start  := incDay(list[3]^.start,   -1) + EncodeTime(8, 0, 0, 0);;
+  list[2]^.ende   := incDay(list[3]^.start,   -1) + EncodeTime(12, 0, 0, 0);;
+  // Einladung zur 1. Wahlversammlung'             , dtTag
+  list[1]^.start := IncWeek( list[2]^.start, -1 );
+  // Bestellung oder Wahl des Wahlvorstands'       , dtTag
+  list[0]^.start := IncWeek( list[1]^.start, -1 );
 
-procedure TWahlFristen.fromJSON( data : TJSONObject );
+
+end;
+procedure AutoFillNormal( da : TDate; var list : TWahlPhasenListe );
+begin
+  // Bestellung/Wahl des Wahlvorstands             , dtTag
+  list[0]^.start := IncWeek(da, -10);
+  // Erstellung der Wählerliste'                   , dtTag));
+  list[1]^.start := IncWeek(list[0]^.start);
+  // Erlass und Aushang des Wahlausschreibens'     , dtTag));
+  list[2]^.start := IncWeek(da, -6);
+  // Einspruchsfrist gegen Wählerliste'            , dtZeitraum));
+  list[3]^.start := list[1]^.start;
+  list[3]^.ende  := IncWeek(list[2]^.start, 2);
+  // Einreichung der Wahlvorschläge'               , dtZeitraum));
+  list[4]^.start := list[2]^.start;
+  list[4]^.ende  := IncWeek(list[2]^.start, 2);
+  // Prüfung und Zulassung der Wahlvorschläge'     , dtTag));
+  list[5]^.start := incDay(list[4]^.ende);
+
+  // Vorbereitung der Wahl'                        , dtZeitraum));
+  list[6]^.start := IncDay(List[5]^.start, 1);
+  list[6]^.Ende  := IncDay(da, -7);
+
+  // Stimmabgabe (Wahltag/e)'                      , dtZeitpunkte));
+  list[7]^.start := da  + EncodeTime( 8, 0, 0, 0);
+  list[7]^.Ende:= da  + EncodeTime( 16, 0, 0, 0);
+  // Stimmauszählung'                              , dtTag));
+  list[8]^.start := da;
+  // Bekanntgabe des Wahlergebnisses'              , dtTag));
+  list[9]^.start := da;
+
+  // Ende der Anfechtungsfrist'                    , dtZeitraum));
+  list[10]^.start := da;
+  list[10]^.ende  := IncDay(da, 14);
+end;
+
+procedure releaseWahlPhasen( list : TWahlPhasenListe );
+var
+  i : integer;
+begin
+  if not Assigned(list) then
+    exit;
+  for i := 0 to pred(list.Count) do
+  begin
+    Dispose(list[i]);
+  end;
+  list.Clear;
+  list.Free;
+end;
+
+function FillPhase( nr : integer; title : string; typ : TDatumTyp) :  PTWahlPhase;
+begin
+  new(result);
+  Result^.nr        := nr;
+  Result^.titel     := title;
+  Result^.typ       := typ;
+
+end;
+
+function createNornmal : TWahlPhasenListe;
 var
   fmt : TFormatSettings;
 begin
   fmt := TFormatSettings.Create('de-DE');
 
-  self.WahltagStart           := StrToDateTimeDef(JString(data, 'wahltagstart'), Now, fmt);
-  self.WahltagEnde            := StrToDateTimeDef(JString(data, 'wahltagende'), Now, fmt);
-  self.SpaetesterWahlvorstand := StrToDateTimeDef(JString(data, 'wahlvorstand'), Now, fmt);
-  self.WahlausschreibenDatum  := StrToDateTimeDef(JString(data, 'wahlausschreiben'), Now, fmt);
-  self.BekanntgabeVorschlaege := StrToDateTimeDef(JString(data, 'vorschlaege'), Now, fmt);
-  self.BekanntgabeErgebnis    := StrToDateTimeDef(JString(data, 'wahlergebnis'), Now, fmt);
-  self.AnfechtungsfristEnde   := StrToDateTimeDef(JString(data, 'anfechtungsende'), Now, fmt);
+  Result := TList<PTWahlPhase>.create();
+  Result.add(FillPhase( 1, 'Bestellung/Wahl des Wahlvorstands'            , dtTag));
+  Result.add(FillPhase( 2, 'Erstellung der Wählerliste'                   , dtTag));
+  Result.add(FillPhase( 3, 'Erlass und Aushang des Wahlausschreibens'     , dtTag));
+  Result.add(FillPhase( 4, 'Einspruchsfrist gegen Wählerliste'            , dtZeitraum));
+  Result.add(FillPhase( 5, 'Einreichung der Wahlvorschläge'               , dtZeitraum));
+  Result.add(FillPhase( 6, 'Prüfung und Zulassung der Wahlvorschläge'     , dtTag));
+  Result.add(FillPhase( 7, 'Vorbereitung der Wahl'                        , dtZeitraum));
+  Result.add(FillPhase( 8, 'Stimmabgabe (Wahltag/e)'                      , dtZeitpunkte));
+  Result.add(FillPhase( 9, 'Stimmauszählung'                              , dtTag));
+  Result.add(FillPhase(10, 'Bekanntgabe des Wahlergebnisses'              , dtTag));
+  Result.add(FillPhase(11, 'Ende der Anfechtungsfrist'                    , dtZeitraum));
 
-  if SameText('allgemein', JString(data, 'verfahren', 'allgemein')) then
-    self.Verfahren := wvAllgemein
-  else
-    self.Verfahren := wvVereinfacht;
+  AutoFillNormal( EncodeDate(2026, 5, 15), Result );
 end;
 
-function TWahlFristen.toJSON : TJSONObject;
-var
-  fmt : TFormatSettings;
+function createEinfach : TWahlPhasenListe;
 begin
-  Result := TJSONObject.Create;
-  fmt := TFormatSettings.Create('de-DE');
+  Result := TList<PTWahlPhase>.create();
+  Result.add(FillPhase( 1, 'Bestellung oder Wahl des Wahlvorstands'       , dtTag));
+  Result.add(FillPhase( 2, 'Einladung zur 1. Wahlversammlung'             , dtTag));
+  Result.add(FillPhase( 3, 'Wahlversammlung'                              , dtZeitpunkte));
+  Result.add(FillPhase( 4, 'Einreichungsfrist für Wahlvorschläge'         , dtZeitraum));
+  Result.add(FillPhase( 5, 'Wahlversammlung (eigentliche Wahl)'           , dtZeitpunkte));
+  Result.add(FillPhase( 6, 'Stimmauszählung'                              , dtTag));
+  Result.add(FillPhase( 7, 'Bekanntgabe des Wahlergebnisses'              , dtTag));
+  Result.add(FillPhase( 8, 'Ende der Anfechtungsfrist'                    , dtZeitraum));
 
-  JReplace( Result, 'wahltagstart',     FormatDateTime('dd.MM.yyyy hh:mm', Self.WahltagStart, fmt));
-  JReplace( Result, 'wahltagende',      FormatDateTime('dd.MM.yyyy hh:mm', Self.WahltagEnde, fmt));
-  JReplace( Result, 'wahlvorstand',     FormatDateTime('dd.MM.yyyy', Self.SpaetesterWahlvorstand, fmt));
-  JReplace( Result, 'wahlausschreiben', FormatDateTime('dd.MM.yyyy', Self.WahlausschreibenDatum, fmt));
-  JReplace( Result, 'vorschlaege',      FormatDateTime('dd.MM.yyyy', Self.VorschlagsfristEnde, fmt));
-  JReplace( Result, 'wahlergebnis',     FormatDateTime('dd.MM.yyyy', Self.BekanntgabeErgebnis, fmt));
-  JReplace( Result, 'anfechtungsende',  FormatDateTime('dd.MM.yyyy', Self.AnfechtungsfristEnde, fmt));
-
-  case self.Verfahren of
-    wvAllgemein:    JReplace( Result, 'verfahren', 'allgemein');
-    wvVereinfacht:  JReplace( Result, 'verfahren', 'vereinfacht');
-  end;
-
+  AutoFillEinfach(EncodeDate(2026, 5, 15), Result );
 end;
 
-{
-  /**
-   * Berechnet die Fristen für eine Wahl basierend auf dem Wahltag und dem Wahlverfahren.
-   *
-   * @param WahltagStart Das Datum des Beginns der Wahl (TDate).
-   * @param WahltagEnde Das Datum des Endes der Wahl (TDate).
-   * @param Verfahren Das Wahlverfahren, das angewendet wird (TWahlVerfahren).
-   * @return Ein TWahlFristen-Objekt, das die berechneten Fristen enthält.
-   */
-}
-function BerechneWahlFristen(WahltagStart, WahlTagEnde: TDate; Verfahren: TWahlVerfahren): TWahlFristen;
+function getWahlPhasen( verfahren : TWahlVerfahren ): TWahlPhasenListe;
 begin
-  Result.WahltagStart         := WahltagStart;
-  Result.WahltagEnde          := WahlTagEnde;
-  Result.Verfahren            := Verfahren;
-  Result.BekanntgabeErgebnis  := WahltagEnde;
-  Result.AnfechtungsfristEnde := IncDay(WahltagEnde, 14);
-
-  if Verfahren = wvAllgemein then
-  begin
-    Result.WahlausschreibenDatum  := IncDay(WahltagStart, -42); // 6 Wochen vor Wahl
-    Result.VorschlagsfristEnde    := IncDay(Result.WahlausschreibenDatum, 14); // 2 Wochen danach
-    Result.BekanntgabeVorschlaege := IncDay(Result.VorschlagsfristEnde, 1);
-    Result.SpaetesterWahlvorstand := IncDay(WahltagStart, -70); // 10 Wochen vor Wahl
-  end
-  else // Vereinfachtes Verfahren
-  begin
-    Result.SpaetesterWahlvorstand := IncDay(WahltagStart, -14); // mindestens 14 Tage vorher
-    Result.WahlausschreibenDatum  := IncDay(WahltagStart, -7);   // spätestens 7 Tage vor Wahl
-    Result.VorschlagsfristEnde    := IncDay(WahltagStart, -6);     // spätestens 6 Tage vor Wahl
-    Result.BekanntgabeVorschlaege := IncDay(Result.VorschlagsfristEnde, 1); // optional
+  Result := nil;
+  case verfahren of
+    wvAllgemein:   Result := createNornmal;
+    wvVereinfacht: Result := createEinfach;
   end;
 end;
+
+
 
 {
   /**
@@ -211,97 +219,7 @@ begin
   Result.InWahlperiode := (Heute >= Result.Start) and (Heute <= Result.Ende);
 end;
 
-function PruefeWahlFristen( fristen : TWahlFristen; var msg : string ) : Boolean;
-var
-  days : Integer;
-begin
-  Result := true;
-
-  if fristen.Verfahren = wvVereinfacht then
-  begin
-    days := DaysBetween(fristen.WahltagStart, fristen.SpaetesterWahlvorstand);
-    if days < 14 then
-    begin
-      Result := false;
-      msg := msg + Format('Der Wahlvorstand muss mindestens 14 Tage vor der Wahl bestellt werden, es sind aber nur %d%s', [days, #13]);
-    end;
-
-    days := DaysBetween(fristen.WahlausschreibenDatum, fristen.SpaetesterWahlvorstand);
-    if days < 7  then
-    begin
-      Result := false;
-      msg := msg + Format('Das Wahlsausschreiben muss 7 nach der Bestllung des  Wahlvorstandesausgehängt werden werden, es sind aber nur %d%s', [days, #13]);
-    end;
-
-    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.WahltagStart);
-    if days < 6 then
-    begin
-      Result := false;
-      msg := msg + Format('Die Einreichungsfrist der Wahlvorschläge endet 6 Tage  vor der Wal, hier sind es sind aber %d%s', [days, #13]);
-    end;
-
-  end
-  else
-  begin
-    days := DaysBetween(fristen.WahltagStart, fristen.SpaetesterWahlvorstand);
-    if days < 10 * 7 then
-    begin
-      Result := false;
-      msg := msg + Format('Der Wahlvorstand muss 70 Tage vor der Wahl bestellt werden, es sind aber nur %d%s', [days, #13]);
-    end;
-    days := DaysBetween(fristen.WahltagStart, fristen.WahlausschreibenDatum);
-    if days < 6 * 7 then
-    begin
-      Result := false;
-      msg := msg + Format('Das Wahlsausschreiben muss 60 Tage vor der Wahl ausgehängt werden werden, es sind aber nur %d%s', [days, #13]);
-    end;
-    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.WahlausschreibenDatum);
-    if days < 14 then
-    begin
-      Result := false;
-      msg := msg + Format('Die Einreichungsfrist der Wahlvorschläge endet 14 Tage nach dem Aushang des Wahlausschreibens. hier sind es sind aber %d%s', [days, #13]);
-    end;
-
-    days := DaysBetween(fristen.VorschlagsfristEnde, fristen.BekanntgabeVorschlaege);
-    if (days <> 1) then
-    begin
-      Result := false;
-      msg := msg + Format('Die Bekanntgabe der gültigen Wahlvorschläge hat am Tag nach dem Ende der Einreichungsfrist zu erfolgen%s', [#13]);
-    end;
-    if fristen.VorschlagsfristEnde > fristen.BekanntgabeVorschlaege then
-    begin
-      Result := false;
-      msg := msg + Format('Die Bekanntgabe der Vorschkläge kann nicht vor dem Vorschlagsendeerfolgen.%s', [#13]);
-    end;
-
-    days := DaysBetween(fristen.BekanntgabeVorschlaege, fristen.WahltagStart);
-    if days < 7  then
-    begin
-      Result := false;
-      msg := msg + Format('Der Wahltag darf frühstens 1 Woche nach bekanntgabe der gültigen Wahlvorschläge sein %s', [#13]);
-    end;
-  end;
-
-  if fristen.WahltagEnde < fristen.WahltagStart then
-  begin
-    Result := false;
-    msg := msg + Format('Das Ende der Wahl kann nicht vor dem Start liegen!', [#13]);
-  end;
-
-  if DaysBetween(fristen.WahltagEnde, fristen.BekanntgabeErgebnis) > 0 then
-  begin
-    Result := false;
-    msg := msg + Format('Die Wahlergebnisse müssen am Wahltag bekanntgegeben werden', [#13]);
-  end;
-  days := DaysBetween(fristen.WahltagEnde, fristen.AnfechtungsfristEnde);
-  if days <> 14  then
-  begin
-    Result := false;
-    msg := msg + Format('die Frist für due Anfechtung der Wahlergebnisse liegt bei genau 14 Tagen! %s', [#13]);
-  end;
-
-
-end;
 
 end.
+
 

@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     30.09.2025  21:17                          ' +
+            '/*   Created on:     03.10.2025  20:27                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -28,7 +28,6 @@ object CreateDBMode: TCreateDBMode
           'create generator gen_wl_id;'
           'create generator gen_wh_id;'
           'create generator gen_wt_id;'
-          'create generator gen_wd_id;'
           'create generator gen_sz_id;'
           'create generator gen_lg_id;'
           'create generator gen_aw_id;'
@@ -139,6 +138,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WA_ACTIVE                       CHAR(1)                     ' +
+            '   ,'
+          
+            '    WA_DATA                         BLOB                        ' +
             '   ,'
           '    constraint PK_WA_WAHL primary key (WA_ID)'
           ');'
@@ -428,32 +430,6 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: WD_WAHLDATEN                                        ' +
-            '*/'
-          
-            '/* ============================================================ ' +
-            '*/'
-          'create table WD_WAHLDATEN'
-          '('
-          
-            '    WD_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    WA_ID                           INTEGER                     ' +
-            '   ,'
-          
-            '    WD_KEY                          VARCHAR(100)                ' +
-            '   ,'
-          
-            '    WD_DATA                         BLOB                        ' +
-            '   ,'
-          '    constraint PK_WD_WAHLDATEN primary key (WD_ID)'
-          ');'
-          ''
-          
-            '/* ============================================================ ' +
-            '*/'
-          
             '/*   Table: LG_LOG                                              ' +
             '*/'
           
@@ -531,6 +507,41 @@ object CreateDBMode: TCreateDBMode
           '    constraint PK_MA_PWD primary key (MA_ID)'
           ');'
           ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: WF_FRISTEN                                          ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table WF_FRISTEN'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WF_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WF_TITEL                        VARCHAR(100)                ' +
+            '   ,'
+          
+            '    WF_START                        TIMESTAMP                   ' +
+            '   ,'
+          
+            '    WF_ENDE                         TIMESTAMP                   ' +
+            '   ,'
+          
+            '    WF_DELTA                        INTEGER                     ' +
+            '   ,'
+          
+            '    WF_MAX_DELTA                    INTEGER                     ' +
+            '   ,'
+          '    constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)'
+          ');'
+          ''
           'alter table WT_WAHL_LISTE'
           '    add constraint FK_REF_225 foreign key  (WA_ID)'
           '       references WA_WAHL;'
@@ -583,10 +594,6 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_100 foreign key  (SZ_ID)'
           '       references SZ_STIMMZETTEL;'
           ''
-          'alter table WD_WAHLDATEN'
-          '    add constraint FK_REF_213 foreign key  (WA_ID)'
-          '       references WA_WAHL;'
-          ''
           'alter table LG_LOG'
           '    add constraint FK_REF_217 foreign key  (WA_ID)'
           '       references WA_WAHL;'
@@ -598,6 +605,10 @@ object CreateDBMode: TCreateDBMode
           'alter table MA_PWD'
           '    add constraint FK_REF_755 foreign key  (MA_ID)'
           '       references MA_MITARBEITER;'
+          ''
+          'alter table WF_FRISTEN'
+          '    add constraint FK_REF_1018 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
           ''
           'set generator gen_ma_id to 100;'
           ''
@@ -644,7 +655,6 @@ object CreateDBMode: TCreateDBMode
             'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuse' +
             'r;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;'
-          'GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;'
           
             'GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuse' +
             'r;'
@@ -666,7 +676,6 @@ object CreateDBMode: TCreateDBMode
           'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;'
-          'GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;'
@@ -741,7 +750,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     30.09.2025  21:18                          ' +
+            '/*   Created on:     03.10.2025  20:27                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -822,18 +831,6 @@ object CreateDBMode: TCreateDBMode
           'end;/'
           'set term ;/'
           ''
-          
-            '/*  Insert trigger "ti_wd_wahldaten" for table "WD_WAHLDATEN"  *' +
-            '/'
-          'set term /;'
-          'create trigger ti_wd_wahldaten for WD_WAHLDATEN'
-          'before insert as'
-          'begin'
-          '    new.wd_id = gen_id(gen_wd_id, 1);'
-          ''
-          'end;/'
-          'set term ;/'
-          ''
           '/*  Insert trigger "ti_tab_2" for table "WL_WAHL_LOKAL"  */'
           'set term /;'
           'create trigger ti_tab_2 for WL_WAHL_LOKAL'
@@ -855,7 +852,6 @@ object CreateDBMode: TCreateDBMode
           ''
           'end;/'
           'set term ;/'
-          ''
           '')
       end>
     Connection = FDConnection1

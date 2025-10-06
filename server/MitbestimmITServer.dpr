@@ -29,7 +29,6 @@ uses
   System.SysUtils {ServerMethods1: TDSServerModule},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
-  u_WahlfristenICS in '..\berechnungen\u_WahlfristenICS.pas',
   u_config in 'u_config.pas',
   m_db in 'm_db.pas' {DBMod: TDataModule},
   m_db_create in 'm_db_create.pas' {CreateDBMode: TDataModule},
@@ -40,7 +39,8 @@ uses
   u_glob in '..\setup\u_glob.pas',
   m_login in 'm_login.pas' {LoginMod: TDSServerModule},
   u_json_db in '..\lib\u_json_db.pas',
-  u_pwd in '..\lib\u_pwd.pas';
+  u_pwd in '..\lib\u_pwd.pas',
+  m_wahl in 'm_wahl.pas' {WahlMod: TDSServerModule};
 
 {$R *.RES}
 

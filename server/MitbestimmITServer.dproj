@@ -113,7 +113,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="..\berechnungen\u_BER_Berechnungen.pas"/>
         <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
-        <DCCReference Include="..\berechnungen\u_WahlfristenICS.pas"/>
         <DCCReference Include="u_config.pas"/>
         <DCCReference Include="m_db.pas">
             <Form>DBMod</Form>
@@ -141,6 +140,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="..\lib\u_json_db.pas"/>
         <DCCReference Include="..\lib\u_pwd.pas"/>
+        <DCCReference Include="m_wahl.pas">
+            <Form>WahlMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

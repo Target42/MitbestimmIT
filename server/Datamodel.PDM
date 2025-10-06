@@ -50,7 +50,6 @@ create generator gen_ma_id;\
 create generator gen_wl_id;\
 create generator gen_wh_id;\
 create generator gen_wt_id;\
-create generator gen_wd_id;\
 create generator gen_sz_id;\
 create generator gen_lg_id;\
 create generator gen_aw_id;\
@@ -80,7 +79,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;\
-GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;\
@@ -94,7 +92,6 @@ GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;\
-GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;\
@@ -146,7 +143,7 @@ commit;
 
 
 1753814221
-1759259754
+1759516023
 0
 0
 4
@@ -404,18 +401,18 @@ AW_SZ
 
 10
 3
-106
-106
+107
+107
 4
-WD_WAHLDATEN
-WD_WAHLDATEN
+LG_LOG
+LG_LOG
 
 
 
 0
 0
 0
-WD_WAHLDATEN
+LG_LOG
 
 
 
@@ -424,18 +421,18 @@ WD_WAHLDATEN
 
 11
 3
-107
-107
+184
+184
 4
-LG_LOG
-LG_LOG
+WA_WAHL
+WA_WAHL
 
 
 
 0
 0
 0
-LG_LOG
+WA_WAHL
 
 
 
@@ -444,18 +441,18 @@ LG_LOG
 
 12
 3
-184
-184
+338
+338
 4
-WA_WAHL
-WA_WAHL
+AD_ADMIN
+AD_ADMIN
 
 
 
 0
 0
 0
-WA_WAHL
+AD_ADMIN
 
 
 
@@ -464,18 +461,18 @@ WA_WAHL
 
 13
 3
-338
-338
+349
+349
 4
-AD_ADMIN
-AD_ADMIN
+AL_ADMIN_LOG
+AL_ADMIN_LOG
 
 
 
 0
 0
 0
-AD_ADMIN
+AL_ADMIN_LOG
 
 
 
@@ -484,18 +481,18 @@ AD_ADMIN
 
 14
 3
-349
-349
+601
+601
 4
-AL_ADMIN_LOG
-AL_ADMIN_LOG
+MA_PWD
+MA_PWD
 
 
 
 0
 0
 0
-AL_ADMIN_LOG
+MA_PWD
 
 
 
@@ -504,18 +501,18 @@ AL_ADMIN_LOG
 
 15
 3
-601
-601
+742
+742
 4
-MA_PWD
-MA_PWD
+MA_WA
+MA_WA
 
 
 
 0
 0
 0
-MA_PWD
+MA_WA
 
 
 
@@ -524,18 +521,18 @@ MA_PWD
 
 16
 3
-742
-742
+1017
+1017
 4
-MA_WA
-MA_WA
+WF_FRISTEN
+WF_FRISTEN
 
 
 
 0
 0
 0
-MA_WA
+WF_FRISTEN
 
 
 
@@ -2180,142 +2177,6 @@ AW_SZ_DATA
 
 5
 3
-111
-111
-WD_ID
-WD_ID
-
-
-
-106
-0
-INTEGER
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-1
-0
-1
-1
-0
-0
-WD_ID
-
-1
-3
-214
-214
-WA_ID
-WA_ID
-
-
-
-106
-0
-INTEGER
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-1
-0
-1
-0
-0
-WA_ID
-
-2
-3
-112
-112
-WD_KEY
-WD_KEY
-
-
-
-106
-0
-VARCHAR(100)
-100
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-0
-0
-1
-0
-0
-WD_KEY
-
-3
-3
-113
-113
-WD_DATA
-WD_DATA
-
-
-
-106
-0
-BLOB
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-0
-0
-1
-0
-0
-WD_DATA
-
-4
-3
 218
 218
 WA_ID
@@ -2587,6 +2448,40 @@ CHAR(1)
 WA_ACTIVE
 
 4
+3
+934
+934
+WA_DATA
+WA_DATA
+
+
+
+184
+0
+BLOB
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WA_DATA
+
+5
 3
 339
 339
@@ -3063,6 +2958,244 @@ INTEGER
 MA_ID
 
 2
+3
+1019
+1019
+WA_ID
+WA_ID
+
+
+
+1017
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+1
+1
+1
+0
+0
+WA_ID
+
+1
+3
+1022
+1022
+WF_ID
+WF_ID
+
+
+
+1017
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+0
+1
+1
+0
+0
+WF_ID
+
+2
+3
+1023
+1023
+WF_TITEL
+WF_TITEL
+
+
+
+1017
+0
+VARCHAR(100)
+100
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_TITEL
+
+3
+3
+1024
+1024
+WF_START
+WF_START
+
+
+
+1017
+0
+TIMESTAMP
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_START
+
+4
+3
+1025
+1025
+WF_ENDE
+WF_ENDE
+
+
+
+1017
+0
+TIMESTAMP
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_ENDE
+
+5
+3
+1026
+1026
+WF_DELTA
+WF_DELTA
+
+
+
+1017
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_DELTA
+
+6
+3
+1027
+1027
+WF_MAX_DELTA
+WF_MAX_DELTA
+
+
+
+1017
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_MAX_DELTA
+
+7
 /END_TABLE AMCCOLN
 
 /BEGIN_TABLE AMCREFR
@@ -3158,24 +3291,6 @@ REF_100
 
 4
 3
-213
-213
-Ref_213
-REF_213
-
-
-184
-106
-1
-1
-0
-1
-0
-0
-REF_213
-
-5
-3
 217
 217
 Ref_217
@@ -3192,7 +3307,7 @@ REF_217
 0
 REF_217
 
-6
+5
 3
 225
 225
@@ -3210,7 +3325,7 @@ REF_225
 0
 REF_225
 
-7
+6
 3
 353
 353
@@ -3228,7 +3343,7 @@ REF_353
 0
 REF_353
 
-8
+7
 3
 743
 743
@@ -3246,7 +3361,7 @@ REF_743
 0
 REF_743
 
-9
+8
 3
 747
 747
@@ -3264,7 +3379,7 @@ REF_747
 0
 REF_747
 
-10
+9
 3
 755
 755
@@ -3282,7 +3397,7 @@ REF_755
 0
 REF_755
 
-11
+10
 3
 759
 759
@@ -3300,7 +3415,7 @@ REF_759
 0
 REF_759
 
-12
+11
 3
 766
 766
@@ -3318,7 +3433,7 @@ REF_766
 0
 REF_766
 
-13
+12
 3
 773
 773
@@ -3336,7 +3451,7 @@ REF_773
 0
 REF_773
 
-14
+13
 3
 779
 779
@@ -3354,7 +3469,7 @@ REF_779
 0
 REF_779
 
-15
+14
 3
 786
 786
@@ -3372,7 +3487,7 @@ REF_786
 0
 REF_786
 
-16
+15
 3
 796
 796
@@ -3389,6 +3504,24 @@ REF_796
 0
 0
 REF_796
+
+16
+3
+1018
+1018
+Ref_1018
+REF_1018
+
+
+184
+1017
+1
+1
+1
+1
+0
+0
+REF_1018
 
 17
 /END_TABLE AMCREFR
@@ -3410,11 +3543,6 @@ COLN2   N8
 102
 86
 101
-1
-215
-215
-185
-214
 1
 219
 219
@@ -3515,6 +3643,11 @@ COLN2   N8
 802
 8
 21
+1
+1020
+1020
+185
+1019
 /END_TABLE AMCCCOL
 
 /BEGIN_TABLE AMCCREF
@@ -3560,12 +3693,6 @@ NUMR    N8
 103
 100
 102
-1
-3
-216
-216
-213
-215
 1
 3
 220
@@ -3662,6 +3789,12 @@ NUMR    N8
 799
 796
 798
+1
+3
+1021
+1021
+1018
+1020
 1
 /END_TABLE AMCCREF
 
@@ -3877,20 +4010,6 @@ end;/\
 set term ;/
 ti_tab_107
 107
-1
-1
-InsertTrigger
-/*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
-set term /;\
-create trigger %TRIGGER% for %TABLE%\
-before insert as\
-begin\
-    new.wd_id = gen_id(gen_wd_id, 1);\
-\
-end;/\
-set term ;/
-ti_wd_wahldaten
-106
 1
 3
 InsertTrigger
@@ -5231,10 +5350,10 @@ OID     N8
 0
 0
 0
--23223
--615
--8899
-5835
+-23224
+-617
+-8900
+5833
 2
 1
 0
@@ -5327,10 +5446,10 @@ OID     N8
 0
 0
 0
--73394
-1081
--61920
-6555
+-73395
+1080
+-61921
+6554
 2
 1
 0
@@ -5455,10 +5574,10 @@ OID     N8
 0
 0
 0
--6387
--16252
-6962
--8828
+-6388
+-16253
+6961
+-8829
 2
 1
 0
@@ -5510,7 +5629,7 @@ OID     N8
 2
 95
 3
-1567
+1568
 289
 0
 11
@@ -5519,42 +5638,10 @@ OID     N8
 0
 0
 0
--73542
--17293
--62218
--11819
-2
-1
-0
-0
-0
-0
-0
-0
-0
-0
-0
-
-0
-
-
-
-2
-106
-3
-1568
-289
-0
-12
-0
-0
-0
-0
-0
--54945
--30797
--43921
--25323
+-54946
+-30798
+-43922
+-25324
 2
 1
 0
@@ -5577,16 +5664,16 @@ OID     N8
 1629
 289
 0
-13
+12
 0
 0
 0
 0
 0
--56859
--10245
--44710
--4771
+-56786
+-10662
+-44637
+-4213
 2
 1
 0
@@ -5609,7 +5696,7 @@ OID     N8
 1720
 289
 0
-14
+13
 0
 0
 0
@@ -5641,7 +5728,7 @@ OID     N8
 1726
 289
 0
-15
+14
 0
 0
 0
@@ -5673,7 +5760,7 @@ OID     N8
 1832
 289
 0
-16
+15
 0
 0
 0
@@ -5705,15 +5792,15 @@ OID     N8
 1934
 289
 0
-17
+16
 0
 0
 0
 0
 0
--52919
+-52920
 23287
--45345
+-45346
 26811
 2
 1
@@ -5733,6 +5820,38 @@ OID     N8
 
 2
 742
+3
+2035
+289
+0
+17
+0
+0
+0
+0
+0
+-96835
+-11933
+-82736
+-3534
+2
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+0
+
+
+
+2
+1017
 3
 1490
 290
@@ -5758,7 +5877,7 @@ OID     N8
 0
 0
 4
-50c6ffff4f09000050c6ffff9c280000d2bdffff9c280000d2bdffff3e420000
+4fc6ffff4d0900004fc6ffff9c280000d2bdffff9c280000d2bdffff3e420000
 2
 
 
@@ -5790,7 +5909,7 @@ OID     N8
 0
 0
 2
-61f9feffa80a000061f9feffbe3c0000
+60f9feffa70a000060f9feffbe3c0000
 2
 
 
@@ -5822,7 +5941,7 @@ OID     N8
 0
 0
 4
-def7ffffabccffffdef7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
+ddf7ffffaaccffffddf7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 2
 
 
@@ -5862,42 +5981,10 @@ def7ffffabccffffdef7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 2
 100
 3
-1643
-290
-0
-22
-0
-1629
-1567
-0
-0
-0
-0
-0
-0
-2
-2
-0
-0
-0
-0
-0
-1
-0
-0
-3
-3b2effffd4deffff08f8feffd4deffff08f8feff03cfffff
-2
-
-
-
-2
-213
-3
 1646
 290
 0
-23
+22
 0
 1629
 1568
@@ -5918,7 +6005,7 @@ def7ffffabccffffdef7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 0
 0
 2
-543effff9ad9ffff543effff3388ffff
+763effff43d8ffff763effff3288ffff
 2
 
 
@@ -5929,7 +6016,7 @@ def7ffffabccffffdef7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 1652
 290
 0
-24
+23
 0
 1629
 1536
@@ -5950,7 +6037,7 @@ def7ffffabccffffdef7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 0
 0
 3
-f128ffff42e3fffff128ffff0e1100007e05ffff0e110000
+3a29ffffa4e3ffff3a29ffff0d1100007d05ffff0d110000
 2
 
 
@@ -5961,7 +6048,7 @@ f128ffff42e3fffff128ffff0e1100007e05ffff0e110000
 1727
 290
 0
-25
+24
 0
 1720
 1726
@@ -5993,7 +6080,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 1935
 290
 0
-26
+25
 0
 1629
 1934
@@ -6014,7 +6101,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 2
-2243ffff25e9ffff2243ffff17600000
+4443ffff93eaffff4443ffff17600000
 2
 
 
@@ -6025,7 +6112,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 1938
 290
 0
-27
+26
 0
 1487
 1934
@@ -6046,7 +6133,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 4
-b3b6feffce770000ed00ffffce770000ed00ffffab600000a934ffffab600000
+b3b6feffce770000ed00ffffce770000ed00ffffab600000a834ffffab600000
 2
 
 
@@ -6057,7 +6144,7 @@ b3b6feffce770000ed00ffffce770000ed00ffffab600000a934ffffab600000
 1950
 290
 0
-28
+27
 0
 1487
 1832
@@ -6089,7 +6176,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 1957
 290
 0
-29
+28
 0
 1934
 1537
@@ -6110,7 +6197,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-8f35fffffd5b00008f35ffffcc3d000042f6feffcc3d0000
+8e35fffffd5b00008e35ffffcc3d000042f6feffcc3d0000
 2
 
 
@@ -6121,7 +6208,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 1965
 290
 0
-30
+29
 0
 1934
 1500
@@ -6142,7 +6229,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-114affffe1600000114affff7e820000bda5ffff7e820000
+104affffe1600000104affff7e820000bda5ffff7e820000
 1
 
 
@@ -6153,7 +6240,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 1972
 290
 0
-31
+30
 0
 1934
 1489
@@ -6174,7 +6261,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-d846ffff555e00000ebeffff555e00000ebeffff6a450000
+d746ffff555e00000ebeffff555e00000ebeffff6a450000
 2
 
 
@@ -6185,7 +6272,7 @@ d846ffff555e00000ebeffff555e00000ebeffff6a450000
 1975
 290
 0
-32
+31
 0
 1934
 1544
@@ -6206,7 +6293,7 @@ d846ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-2f3bffff4b6800002617ffff4b6800002617ffff07a10000
+2e3bffff4b6800002617ffff4b6800002617ffff07a10000
 2
 
 
@@ -6217,7 +6304,7 @@ d846ffff555e00000ebeffff555e00000ebeffff6a450000
 1982
 290
 0
-33
+32
 0
 1629
 1553
@@ -6238,7 +6325,7 @@ d846ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-b947ffff03deffffb947ffff01ceffffc5ebffff01ceffff
+0248ffff76ddffff0248ffff00ceffffc4ebffff00ceffff
 2
 
 
@@ -6249,7 +6336,7 @@ b947ffff03deffffb947ffff01ceffffc5ebffff01ceffff
 2000
 290
 0
-34
+33
 0
 1629
 1488
@@ -6270,13 +6357,45 @@ b947ffff03deffffb947ffff01ceffffc5ebffff01ceffff
 0
 0
 3
-b947ffff2ae4ffffa7beffff2ae4ffffa7befffffa020000
+0248ffffb5e4ffffa6beffffb5e4ffffa6befffff8020000
 2
 
 
 
 2
 796
+3
+2036
+290
+0
+34
+0
+1629
+2035
+0
+0
+0
+0
+0
+0
+2
+2
+0
+0
+0
+0
+0
+1
+0
+0
+2
+8233ffff01e1ffff95a7feff01e1ffff
+2
+
+
+
+2
+1018
 /END_TABLE AMCSYMB
 
 

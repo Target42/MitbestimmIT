@@ -162,6 +162,8 @@ begin
 
     if FDTransaction1.Active then
       FDTransaction1.Commit;
+
+    FDConnection1.Close;
     Result := true;
   except
 

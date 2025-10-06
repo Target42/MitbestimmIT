@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     30.09.2025  21:17                          */
+/*   Created on:     03.10.2025  20:27                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -10,7 +10,6 @@ create generator gen_ma_id;
 create generator gen_wl_id;
 create generator gen_wh_id;
 create generator gen_wt_id;
-create generator gen_wd_id;
 create generator gen_sz_id;
 create generator gen_lg_id;
 create generator gen_aw_id;
@@ -60,6 +59,7 @@ create table WA_WAHL
     WA_TITLE                        VARCHAR(150)                   ,
     WA_SIMU                         CHAR(1)                        ,
     WA_ACTIVE                       CHAR(1)                        ,
+    WA_DATA                         BLOB                           ,
     constraint PK_WA_WAHL primary key (WA_ID)
 );
 
@@ -191,18 +191,6 @@ create table AW_SZ
 );
 
 /* ============================================================ */
-/*   Table: WD_WAHLDATEN                                        */
-/* ============================================================ */
-create table WD_WAHLDATEN
-(
-    WD_ID                           INTEGER                not null,
-    WA_ID                           INTEGER                        ,
-    WD_KEY                          VARCHAR(100)                   ,
-    WD_DATA                         BLOB                           ,
-    constraint PK_WD_WAHLDATEN primary key (WD_ID)
-);
-
-/* ============================================================ */
 /*   Table: LG_LOG                                              */
 /* ============================================================ */
 create table LG_LOG
@@ -237,6 +225,21 @@ create table MA_PWD
     MW_SECRET                       VARCHAR(32)                    ,
     MW_LOGIN                        VARCHAR(20)                    ,
     constraint PK_MA_PWD primary key (MA_ID)
+);
+
+/* ============================================================ */
+/*   Table: WF_FRISTEN                                          */
+/* ============================================================ */
+create table WF_FRISTEN
+(
+    WA_ID                           INTEGER                not null,
+    WF_ID                           INTEGER                not null,
+    WF_TITEL                        VARCHAR(100)                   ,
+    WF_START                        TIMESTAMP                      ,
+    WF_ENDE                         TIMESTAMP                      ,
+    WF_DELTA                        INTEGER                        ,
+    WF_MAX_DELTA                    INTEGER                        ,
+    constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)
 );
 
 alter table WT_WAHL_LISTE
@@ -291,10 +294,6 @@ alter table AW_SZ
     add constraint FK_REF_100 foreign key  (SZ_ID)
        references SZ_STIMMZETTEL;
 
-alter table WD_WAHLDATEN
-    add constraint FK_REF_213 foreign key  (WA_ID)
-       references WA_WAHL;
-
 alter table LG_LOG
     add constraint FK_REF_217 foreign key  (WA_ID)
        references WA_WAHL;
@@ -306,6 +305,10 @@ alter table AL_ADMIN_LOG
 alter table MA_PWD
     add constraint FK_REF_755 foreign key  (MA_ID)
        references MA_MITARBEITER;
+
+alter table WF_FRISTEN
+    add constraint FK_REF_1018 foreign key  (WA_ID)
+       references WA_WAHL;
 
 set generator gen_ma_id to 100;
 
@@ -332,7 +335,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;
-GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WT_WA TO appuser;
@@ -346,7 +348,6 @@ GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wh_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;
-GRANT USAGE ON GENERATOR  gen_wd_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;

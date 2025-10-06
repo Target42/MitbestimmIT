@@ -94,8 +94,8 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSLogin: TDSServerClass
     OnGetClass = DSLoginGetClass
     Server = DSServer1
-    Left = 336
-    Top = 96
+    Left = 344
+    Top = 88
   end
   object UserPWDQry: TFDQuery
     Connection = DBMod.FDConnection1
@@ -118,5 +118,11 @@ object MitbestimmITSrv: TMitbestimmITSrv
     TableName = 'AD_ADMIN'
     Left = 352
     Top = 304
+  end
+  object DSWahl: TDSServerClass
+    OnGetClass = DSWahlGetClass
+    Server = DSServer1
+    Left = 344
+    Top = 152
   end
 end

@@ -48,7 +48,6 @@ var
 begin
   if GM.WaehlerListe.Items.Count = 0 then
   begin
-    data := GM.Storage.WaehlerListe.getWaehlerList;
     GM.WaehlerListe.fromJSON(data);
     if Assigned(data) then
       data.Free;

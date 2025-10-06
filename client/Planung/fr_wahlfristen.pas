@@ -24,110 +24,121 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls,
-  VclTee.TeeGDIPlus, JvExControls, JvCalendar, VCLTee.TeEngine, VCLTee.Series,
-  VCLTee.GanttCh, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart,
-  u_BRWahlFristen, Vcl.StdCtrls, Vcl.Buttons;
+  VclTee.TeeGDIPlus, JvExControls, JvCalendar, VCLTee.TeEngine, VCLTee.Series, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart,
+  u_BRWahlFristen, Vcl.StdCtrls, Vcl.Buttons, System.Generics.Collections,
+  System.Actions, Vcl.ActnList, Vcl.Menus, VCLTee.GanttCh;
 
 type
   TWahlfristenFrame = class(TFrame)
-    Panel1: TPanel;
-    Label1: TLabel;
-    DateTimePicker1: TDateTimePicker;
-    DateTimePicker2: TDateTimePicker;
-    DateTimePicker3: TDateTimePicker;
-    DateTimePicker4: TDateTimePicker;
-    DateTimePicker5: TDateTimePicker;
-    DateTimePicker6: TDateTimePicker;
-    DateTimePicker7: TDateTimePicker;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Button1: TButton;
-    BitBtn1: TBitBtn;
     Chart1: TChart;
     Series1: TGanttSeries;
-    DateTimePicker8: TDateTimePicker;
-    Label15: TLabel;
-    Label16: TLabel;
-    procedure Button1Click(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
-    procedure DateTimePicker1Change(Sender: TObject);
+    GroupBox1: TGroupBox;
+    LV: TListView;
+    Splitter1: TSplitter;
+    PopupMenu1: TPopupMenu;
+    ActionList1: TActionList;
+    ac_edit: TAction;
+    Bearbeiten1: TMenuItem;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    ac_berechnen: TAction;
+    procedure LVDblClick(Sender: TObject);
+    procedure ac_editExecute(Sender: TObject);
+    procedure ac_berechnenExecute(Sender: TObject);
   private
-    m_fristen  : PTWahlFristen;
-    m_inUpdate : boolean;
-    procedure UpdateEdits;
+    m_type : TWahlVerfahren;
+    m_list : PTWahlPhasenListe;
+
+    m_fmt  : TFormatSettings;
+    procedure updateItem( item : TListItem; phase : PTWahlPhase );
+    procedure CreateGanttChart;
   public
-    procedure init( ptr : PTWahlFristen);
+    procedure init(list : PTWahlPhasenListe);
     procedure setDefaultDate( date : TDateTime );
     procedure release;
-    procedure save;
+    procedure updateView;
   end;
 
 implementation
 
 uses
-  System.DateUtils;
+  System.DateUtils, f_wahl_phase, f_wahldate;
 
 {$R *.dfm}
 
-procedure TWahlfristenFrame.BitBtn1Click(Sender: TObject);
-var
-  s : string;
+procedure TWahlfristenFrame.ac_berechnenExecute(Sender: TObject);
 begin
-  if not PruefeWahlFristen(m_fristen^, s) then
-    ShowMessage(s);
+  Application.CreateForm(TWahlDateform, WahlDateform);
+  if ( WahlDateform.ShowModal = mrOk) then
+  begin
+    if m_type = wvAllgemein then
+      AutoFillNormal(WahlDateform.Date, m_list^)
+    else
+      AutoFillEinfach(WahlDateform.Date, m_list^);
+    updateView;
+  end;
+  WahlDateform.free;
+
 end;
 
-procedure TWahlfristenFrame.Button1Click(Sender: TObject);
-begin
-  m_fristen^ := BerechneWahlFristen( DateTimePicker1.Date, DateTimePicker8.Date, m_fristen^.Verfahren);
-
-  UpdateEdits;
-end;
-
-procedure TWahlfristenFrame.DateTimePicker1Change(Sender: TObject);
+procedure TWahlfristenFrame.ac_editExecute(Sender: TObject);
 var
-  dtp : TDateTimePicker;
+  ptr : PTWahlPhase;
 begin
-  if m_inUpdate then
+  if not Assigned(Lv.Selected) then
     exit;
 
-  dtp := sender as TDateTimePicker;
-  case dtp.tag of
-    1 : m_fristen^.WahltagStart            := dtp.Date;
-    2 : m_fristen^.SpaetesterWahlvorstand  := dtp.Date;
-    3 : m_fristen^.WahlausschreibenDatum   := dtp.Date;
-    4 : m_fristen^.VorschlagsfristEnde     := dtp.Date;
-    5 : m_fristen^.BekanntgabeVorschlaege  := dtp.Date;
-    6 : m_fristen^.BekanntgabeErgebnis     := dtp.Date;
-    7 : m_fristen^.AnfechtungsfristEnde    := dtp.Date;
-    8 : m_fristen^.Wahltagende             := dtp.Date;
+  ptr := Lv.Selected.Data;
+  if ptr^.typ <> dtKeines then
+  begin
+    Application.CreateForm(TWahlPhaseForm, WahlPhaseForm);
+    WahlPhaseForm.WahlPhase := ptr;
+    if WahlPhaseForm.ShowModal = mrOk then
+    begin
+      updateItem(LV.Selected, ptr);
+    end;
+    WahlPhaseForm.Free;
   end;
-
-  UpdateEdits;
 end;
 
-procedure TWahlfristenFrame.init(ptr: PTWahlFristen);
+procedure TWahlfristenFrame.CreateGanttChart;
+var
+  GanttSeries: TGanttSeries;
+  iGanttIndex: Integer;
+  i : integer;
+  inx : integer;
+  ptr : PTWahlPhase;
 begin
-  m_fristen := ptr;
-  DateTimePicker1.DateTime := m_fristen^.WahltagStart;
-  DateTimePicker2.DateTime := m_fristen^.SpaetesterWahlvorstand;
-  DateTimePicker3.DateTime := m_fristen^.WahlausschreibenDatum;
-  DateTimePicker4.DateTime := m_fristen^.VorschlagsfristEnde;
-  DateTimePicker5.DateTime := m_fristen^.BekanntgabeVorschlaege;
-  DateTimePicker6.DateTime := m_fristen^.BekanntgabeErgebnis;
-  DateTimePicker7.DateTime := m_fristen^.AnfechtungsfristEnde;
-  DateTimePicker8.DateTime := m_fristen^.Wahltagende;
+  Chart1.RemoveAllSeries;
+  GanttSeries := TGanttSeries.Create(Self);
+  Chart1.AddSeries(GanttSeries);
+  GanttSeries.Title := 'Wahl';
+  Chart1.BottomAxis.DateTimeFormat := 'dd.mm.yy'; // Datumsformat für die X-Achse
+  inx := -1;
+  for i := pred(m_list.Count) downto 0 do
+  begin
+    ptr := m_list^[i];
+    if (ptr^.typ <> dtKeines) then
+    begin
+      if ( ptr^.typ = dtTag) then
+        ptr^.ende := ptr^.start;
+
+      inx := GanttSeries.AddGantt(ptr^.start,  ptr^.ende, inx, ptr^.titel);
+    end;
+  end;
+
+end;
+
+procedure TWahlfristenFrame.init(list : PTWahlPhasenListe);
+begin
+  m_list := list;
+  m_fmt  := TFormatSettings.Create('de-DE');
+  m_type := wvAllgemein;
+end;
+
+procedure TWahlfristenFrame.LVDblClick(Sender: TObject);
+begin
+  ac_edit.Execute;
 end;
 
 procedure TWahlfristenFrame.release;
@@ -135,75 +146,49 @@ begin
 
 end;
 
-procedure TWahlfristenFrame.save;
-begin
-  m_fristen^.WahltagStart            := DateTimePicker1.DateTime;
-  m_fristen^.SpaetesterWahlvorstand  := DateTimePicker2.DateTime;
-  m_fristen^.WahlausschreibenDatum   := DateTimePicker3.DateTime;
-  m_fristen^.VorschlagsfristEnde     := DateTimePicker4.DateTime;
-  m_fristen^.BekanntgabeVorschlaege  := DateTimePicker5.DateTime;
-  m_fristen^.BekanntgabeErgebnis     := DateTimePicker6.DateTime;
-  m_fristen^.AnfechtungsfristEnde    := DateTimePicker7.DateTime;
-  m_fristen^.Wahltagende             := DateTimePicker8.DateTime;
-
-end;
 
 procedure TWahlfristenFrame.setDefaultDate(date: TDateTime);
 begin
-  while( DayOftheWeek( date ) > 5 ) do
-  begin
-    date := IncDay(date, -1)
-  end;
-  DateTimePicker1.Date := date;
-  DateTimePicker8.Date := date;
-  Button1.Click;
 end;
 
-procedure TWahlfristenFrame.UpdateEdits;
-  procedure setDate( da : TDateTime;  dtp : TDateTimePicker; lab : TLabel );
-  begin
-    dtp.Date := da;
-    if DayOftheWeek( da ) > 5  then
-    begin
-      lab.Font.Color := clRed;
-    end
-    else
-    begin
-      lab.Font.Color := clBlack;
-      dtp.Color := clBlack;
-    end;
-    lab.Caption := FormatDateTime('ddd', dtp.DateTime);
-  end;
-var
-  gn : TGanttSeries;
+procedure TWahlfristenFrame.updateItem(item: TListItem; phase: PTWahlPhase);
 begin
-  m_inUpdate := true;
+  item.Data       := phase;
+  item.Caption    := intToStr(phase^.nr);
+  item.SubItems.Add(phase^.titel);
+  if (phase^.typ = dtTag) then
+  begin
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.start, m_fmt));
+  end
+  else
+  if (phase^.typ = dtZeitraum) then
+  begin
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.start,m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.ende, m_fmt));
+  end
+  else
+  if (phase^.typ = dtZeitpunkte) then
+  begin
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy hh:mm', phase^.start,m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy hh:mm', phase^.ende, m_fmt));
+  end;
 
-  setDate(m_fristen^.WahltagStart,           DateTimePicker1, Label8);
-  setDate(m_fristen^.WahltagEnde ,           DateTimePicker8, Label15);
-  setDate(m_fristen^.SpaetesterWahlvorstand, DateTimePicker2, Label9 );
-  setDate(m_fristen^.WahlausschreibenDatum,  DateTimePicker3, Label10 );
-  setDate(m_fristen^.VorschlagsfristEnde,    DateTimePicker4, Label11 );
-  setDate(m_fristen^.BekanntgabeVorschlaege, DateTimePicker5, Label12 );
-  setDate(m_fristen^.BekanntgabeErgebnis,    DateTimePicker6, Label13 );
-  setDate(m_fristen^.AnfechtungsfristEnde,   DateTimePicker7, Label14 );
+end;
 
-  gn := Chart1.SeriesList.Items[0] as TGanttSeries;
-  gn.Clear;
-  gn.AddGanttColor(m_fristen^.SpaetesterWahlvorstand,  m_fristen^.WahlausschreibenDatum,   0, 'Wahlausschreiben', clYellow);
-  gn.AddGanttColor(m_fristen^.WahlausschreibenDatum,   m_fristen^.VorschlagsfristEnde,     1, 'Vorschlagsfrist',  clGreen);
-  gn.AddGanttColor(m_fristen^.BekanntgabeVorschlaege,  m_fristen^.BekanntgabeVorschlaege,  2, 'Bekanntgabe',      clMoneyGreen);
-  gn.AddGanttColor(m_fristen^.WahltagStart,            m_fristen^.WahltagEnde,             3, 'Wahltag/Ergbnis',  clRed);
-  gn.AddGanttColor(m_fristen^.WahltagEnde,             m_fristen^.AnfechtungsfristEnde,    4, 'Anfechtungsfrist', clNavy);
-
-  gn.NextTask[0] := 1;
-  gn.NextTask[1] := 2;
-  gn.NextTask[2] := 3;
-  gn.NextTask[3] := 4;
-  gn.Marks.Item[0].Visible := true;
-
-  m_inUpdate := false;
-
+procedure TWahlfristenFrame.updateView;
+var
+  i : integer;
+  item : TListItem;
+  phase : PTWahlPhase;
+begin
+  Lv.Items.Clear;
+  for i := 0 to pred(m_list^.Count) do
+  begin
+    phase           := m_list^.Items[i];
+    item            := LV.Items.Add;
+    updateItem(item, phase);
+  end;
+  CreateGanttChart;
 end;
 
 end.

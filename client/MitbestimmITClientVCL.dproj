@@ -142,14 +142,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Planung\f_planungsform.pas">
             <Form>Planungsform</Form>
         </DCCReference>
-        <DCCReference Include="Planung\fr_wahlverfahren.pas">
-            <Form>WahlverfahrenFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
-        <DCCReference Include="Planung\fr_wahlfristen.pas">
-            <Form>WahlfristenFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
         <DCCReference Include="Planung\fr_wahlvorstand.pas">
             <Form>WahlVorstandFrame</Form>
@@ -165,10 +157,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\Wahlvorstand\u_Wahlvorstand.pas"/>
         <DCCReference Include="..\lib\u_json.pas"/>
         <DCCReference Include="..\lib\u_utils.pas"/>
-        <DCCReference Include="Planung\fr_PlanStart.pas">
-            <Form>WahlPlanungStartFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="gui\f_PassWord.pas">
             <Form>PasswordDlg</Form>
         </DCCReference>
@@ -228,21 +216,48 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
         </DCCReference>
-        <DCCReference Include="wähler\f_waehlerliste.pas">
-            <Form>WaehlerListeForm</Form>
-        </DCCReference>
-        <DCCReference Include="..\lib\fr_base.pas">
-            <Form>BaseFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="..\WählerListe\i_waehlerliste.pas">
-            <Form>$R *.res</Form>
+            <Form>,
+  u_stub in &apos;u_stub.pas&apos;,
+  f_admin in &apos;Admin\f_admin.pas&apos; {AdminForm</Form>
         </DCCReference>
         <DCCReference Include="u_stub.pas"/>
         <DCCReference Include="Admin\f_admin.pas">
             <Form>AdminForm</Form>
         </DCCReference>
         <DCCReference Include="..\lib\u_json_db.pas"/>
+        <DCCReference Include="Wahl\f_wahl_seelect.pas">
+            <Form>SelectWahlform</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\fr_base.pas">
+            <Form>BaseFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\lib\u_helper.pas"/>
+        <DCCReference Include="Planung\fr_wahlverfahren.pas">
+            <Form>WahlverfahrenFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="wähler\f_waehlerliste.pas">
+            <Form>WaehlerListeForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Planung\fr_wahlfristen.pas">
+            <Form>WahlfristenFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Planung\f_wahl_phase.pas">
+            <Form>WahlPhaseForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Planung\f_wahldate.pas">
+            <Form>WahlDateform</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
@@ -321,6 +336,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>testdaten</ResourceId>
+        </RcItem>
+        <RcItem Include="doc\Betriebsratswahl_1.rtf">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>BER1</ResourceId>
+        </RcItem>
+        <RcItem Include="doc\Betriebsratswahl_2.rtf">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>BER2</ResourceId>
         </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -479,6 +504,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <DeployFile LocalName="D:\DelphiBin\MitbestimmIT\Client\MitbestimmITClientVCL.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>MitbestimmITClientVCL.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="doc\Betriebsratswahl_1.rtf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="doc\Betriebsratswahl_2.rtf" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

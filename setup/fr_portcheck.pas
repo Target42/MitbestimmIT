@@ -91,6 +91,7 @@ begin
       col := clRed;
     end;
   end;
+  srv.Active := false;
   srv.Free;
 
   case id of
