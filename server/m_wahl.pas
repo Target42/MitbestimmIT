@@ -18,7 +18,6 @@ type
     WAtabWA_SIMU: TStringField;
     WAtabWA_ACTIVE: TStringField;
     WAtabWA_DATA: TBlobField;
-    FDQuery1: TFDQuery;
     WahlList: TFDQuery;
     WahlListQry: TDataSetProvider;
     WahlListWA_ID: TIntegerField;
@@ -26,6 +25,8 @@ type
     WahlListWA_SIMU: TStringField;
     WahlListWA_ACTIVE: TStringField;
     WahlListMA_ID: TIntegerField;
+    CheckMAIDQry: TFDQuery;
+    WahlDataQry: TFDQuery;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -34,7 +35,7 @@ type
   private
     { Private-Deklarationen }
   public
-    function getWahlData( waid : integer) : TJSONObject;
+    function getWahlData : TJSONObject;
     function saveWahlData( data : TJSONObject ) : TJSONObject;
     function setWahl( id : integer ) : Boolean;
   end;
@@ -44,16 +45,31 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, DSSession;
+  m_db, DSSession, u_json;
 
 {$R *.dfm}
 
 { TWahlMod }
 
-function TWahlMod.getWahlData(waid : integer): TJSONObject;
+function TWahlMod.getWahlData: TJSONObject;
+var
+  session : TDSSession;
+  wa_id : integer;
 begin
-  Result := TJSONObject.Create;
+  wa_id := 0;
+  session := TDSSessionManager.GetThreadSession;
+  if session.HasData('WA_ID') then
+    wa_id := StrToIntDef(Session.GetData('WA_ID'), 0);
 
+  Result := TJSONObject.Create;
+  WahlDataQry.ParamByName('WA_ID').AsInteger := WA_ID;
+  WahlDataQry.Open;
+  if not WahlDataQry.IsEmpty  then
+  begin
+    JReplace(result, 'titel', WahlDataQry.FieldByName('WA_TITLE').AsString);
+    JReplace(result, 'simulation', WahlDataQry.FieldByName('WA_SIMU').AsBoolean);
+  end;
+  WahlDataQry.Close;
 end;
 
 function TWahlMod.saveWahlData(data: TJSONObject): TJSONObject;
@@ -62,22 +78,26 @@ begin
 end;
 
 function TWahlMod.setWahl(id: integer): Boolean;
+var
+  session : TDSSession;
 begin
+  result := false;
+  session := TDSSessionManager.GetThreadSession;
 
+  CheckMAIDQry.ParamByName('MA_ID').AsInteger := DBMod.UserID;;
+  CheckMAIDQry.ParamByName('WA_ID').AsInteger := id;
+  CheckMAIDQry.Open;
+  if not CheckMAIDQry.IsEmpty then
+  begin
+    session.PutData('WA_ID', CheckMAIDQry.FieldByName('WA_ID').AsString);
+    result := true;
+  end;
+  CheckMAIDQry.Close;
 end;
 
 procedure TWahlMod.WahlListBeforeOpen(DataSet: TDataSet);
-var
-  session : TDSSession;
-  ma_id : integeR;
 begin
-  ma_id := 0;
-
-  session := TDSSessionManager.GetThreadSession;
-  if session.HasData('UserID') then
-    ma_id := StrToIntDef(Session.GetData('UserID'), 0);
-
-  WahlList.ParamByName('MA_ID').AsInteger := ma_id;
+  WahlList.ParamByName('MA_ID').AsInteger := DBMod.UserID;
 end;
 
 procedure TWahlMod.WahlListWA_ACTIVEGetText(Sender: TField; var Text: string;

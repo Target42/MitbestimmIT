@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 06.10.2025 21:15:18
+// 07.10.2025 19:57:47
 //
 
 unit u_stub;
@@ -49,6 +49,7 @@ type
     FWahlListWA_ACTIVEGetTextCommand: TDBXCommand;
     FgetWahlDataCommand: TDBXCommand;
     FsaveWahlDataCommand: TDBXCommand;
+    FsetWahlCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
@@ -56,8 +57,9 @@ type
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
-    function getWahlData(waid: Integer): TJSONObject;
+    function getWahlData: TJSONObject;
     function saveWahlData(data: TJSONObject): TJSONObject;
+    function setWahl(id: Integer): Boolean;
   end;
 
 implementation
@@ -330,7 +332,7 @@ begin
   Text := FWahlListWA_ACTIVEGetTextCommand.Parameters[1].Value.GetWideString;
 end;
 
-function TWahlModClient.getWahlData(waid: Integer): TJSONObject;
+function TWahlModClient.getWahlData: TJSONObject;
 begin
   if FgetWahlDataCommand = nil then
   begin
@@ -339,9 +341,8 @@ begin
     FgetWahlDataCommand.Text := 'TWahlMod.getWahlData';
     FgetWahlDataCommand.Prepare;
   end;
-  FgetWahlDataCommand.Parameters[0].Value.SetInt32(waid);
   FgetWahlDataCommand.ExecuteUpdate;
-  Result := TJSONObject(FgetWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+  Result := TJSONObject(FgetWahlDataCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
 end;
 
 function TWahlModClient.saveWahlData(data: TJSONObject): TJSONObject;
@@ -356,6 +357,20 @@ begin
   FsaveWahlDataCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
   FsaveWahlDataCommand.ExecuteUpdate;
   Result := TJSONObject(FsaveWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlModClient.setWahl(id: Integer): Boolean;
+begin
+  if FsetWahlCommand = nil then
+  begin
+    FsetWahlCommand := FDBXConnection.CreateCommand;
+    FsetWahlCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetWahlCommand.Text := 'TWahlMod.setWahl';
+    FsetWahlCommand.Prepare;
+  end;
+  FsetWahlCommand.Parameters[0].Value.SetInt32(id);
+  FsetWahlCommand.ExecuteUpdate;
+  Result := FsetWahlCommand.Parameters[1].Value.GetBoolean;
 end;
 
 constructor TWahlModClient.Create(ADBXConnection: TDBXConnection);
@@ -375,6 +390,7 @@ begin
   FWahlListWA_ACTIVEGetTextCommand.Free;
   FgetWahlDataCommand.Free;
   FsaveWahlDataCommand.Free;
+  FsetWahlCommand.Free;
   inherited;
 end;
 

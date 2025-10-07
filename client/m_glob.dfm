@@ -19,6 +19,7 @@ object GM: TGM
       'Filters={}'
       'DSAuthenticationPassword=251169'
       'DSAuthenticationUser=stephan')
+    AfterDisconnect = SQLConnection1AfterDisconnect
     Left = 128
     Top = 40
     UniqueId = '{EB9B5E39-4CF2-45D6-BE61-1B20D4640028}'

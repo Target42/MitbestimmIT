@@ -17,6 +17,8 @@ type
   public
     function openDB : boolean;
     function closeDB : boolean;
+
+    function UserID : integer;
   end;
 
 var
@@ -29,7 +31,7 @@ implementation
 {$R *.dfm}
 
 uses
-  system.IOUtils, u_glob;
+  system.IOUtils, u_glob, DSSession;
 
 function TDBMod.openDB: boolean;
 begin
@@ -53,6 +55,18 @@ begin
     end;
 
   end;
+end;
+
+function TDBMod.UserID: integer;
+var
+  session : TDSSession;
+begin
+  result := 0;
+
+  session := TDSSessionManager.GetThreadSession;
+  if session.HasData('UserID') then
+    result := StrToIntDef(Session.GetData('UserID'), 0);
+
 end;
 
 function TDBMod.closeDB: boolean;

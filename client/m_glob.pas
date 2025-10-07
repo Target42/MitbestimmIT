@@ -48,6 +48,7 @@ type
     SQLConnection1: TSQLConnection;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
+    procedure SQLConnection1AfterDisconnect(Sender: TObject);
   private
     FHost: string;
     FProtokoll: string;
@@ -59,6 +60,8 @@ type
     m_waehlerliste : IWaehlerliste;
     FIsAdmin: boolean;
     FWahlID: integer;
+    FWahlName: string;
+    FSimulation: boolean;
 
 
     procedure setHostAddress( value : string);
@@ -77,6 +80,9 @@ type
     property WahlID: integer read FWahlID write FWahlID;
 
     property WaehlerListe : IWaehlerListe read m_waehlerliste;
+
+    property WahlName: string read FWahlName write FWahlName;
+    property Simulation: boolean read FSimulation write FSimulation;
 
     function connect: boolean;
     procedure disconnect;
@@ -168,9 +174,9 @@ begin
   m_waehlerliste := TWaehlerliste.create;
 
   setHostAddress('ds://localhost:211');
-  FUser        := 'ADMIN_USER';
-  FPasswort    := 'admin';
   FWahlID      := -1;
+  FUser        := 'jd0815';
+  FPasswort    := '0815';
 end;
 
 procedure TGM.DataModuleDestroy(Sender: TObject);
@@ -240,6 +246,12 @@ begin
   if FUser = '' then
     FUser := GetEnvironmentVariable('USERNAME');
 
+end;
+
+procedure TGM.SQLConnection1AfterDisconnect(Sender: TObject);
+begin
+  FWahlName  := '';
+  FSimulation:= false;
 end;
 
 end.

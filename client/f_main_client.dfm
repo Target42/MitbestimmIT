@@ -14,6 +14,22 @@ object MainClientForm: TMainClientForm
   Position = poScreenCenter
   OnCreate = FormCreate
   TextHeight = 15
+  object Label1: TLabel
+    Left = 0
+    Top = 0
+    Width = 980
+    Height = 32
+    Align = alTop
+    Alignment = taCenter
+    Caption = 'Label1'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -24
+    Font.Name = 'Segoe UI Semibold'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ExplicitWidth = 68
+  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 604

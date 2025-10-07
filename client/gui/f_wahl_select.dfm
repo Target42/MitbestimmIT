@@ -2,8 +2,8 @@ object WahlSelectForm: TWahlSelectForm
   Left = 0
   Top = 0
   Caption = 'Wahl ausw'#228'hlen'
-  ClientHeight = 305
-  ClientWidth = 648
+  ClientHeight = 161
+  ClientWidth = 451
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,33 +16,34 @@ object WahlSelectForm: TWahlSelectForm
   TextHeight = 15
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 245
-    Width = 648
+    Top = 101
+    Width = 451
     Height = 60
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitTop = 381
-    ExplicitWidth = 624
+    ExplicitTop = 101
+    ExplicitWidth = 451
     inherited StatusBar1: TStatusBar
-      Width = 648
-      ExplicitWidth = 647
+      Width = 451
+      ExplicitWidth = 451
     end
     inherited Panel1: TPanel
-      Width = 648
+      Width = 451
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 624
+      ExplicitWidth = 451
       inherited OKBtn: TBitBtn
-        Left = 544
-        ExplicitLeft = 520
+        Left = 347
+        OnClick = BaseFrame1OKBtnClick
+        ExplicitLeft = 347
       end
     end
   end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 648
-    Height = 245
+    Width = 451
+    Height = 101
     Align = alClient
     DataSource = DataSource1
     TabOrder = 1
@@ -69,7 +70,6 @@ object WahlSelectForm: TWahlSelectForm
         Expanded = False
         FieldName = 'WA_ACTIVE'
         Title.Caption = 'Aktiv'
-        Width = 64
         Visible = True
       end>
   end
@@ -78,8 +78,8 @@ object WahlSelectForm: TWahlSelectForm
     Params = <>
     ProviderName = 'WahlListQry'
     RemoteServer = DSProviderConnection1
-    Left = 168
-    Top = 96
+    Left = 176
+    Top = 8
     object ClientDataSet1WA_ID: TIntegerField
       FieldName = 'WA_ID'
       Required = True
@@ -103,14 +103,13 @@ object WahlSelectForm: TWahlSelectForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 64
     Top = 24
   end
   object DataSource1: TDataSource
     DataSet = ClientDataSet1
-    Left = 264
-    Top = 112
+    Left = 256
+    Top = 16
   end
 end

@@ -25,7 +25,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnList, System.Actions,
   Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
-  m_glob;
+  m_glob, Vcl.StdCtrls;
 
 type
   TMainClientForm = class(TForm)
@@ -68,6 +68,7 @@ type
     Admin1: TMenuItem;
     ac_ad_wahl: TAction;
     Wahlen1: TMenuItem;
+    Label1: TLabel;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -181,7 +182,8 @@ begin
   case state of
     msInit :
       begin
-        Wahl1.Enabled := false;
+        Label1.Visible     := false;
+        Wahl1.Enabled      := false;
         Wahlbuero1.Enabled := false;
         Briefwahl1.Enabled := false;
         Auszhlung1.Enabled := false;
@@ -196,6 +198,12 @@ begin
       end;
     msLoaded:
       begin
+        if GM.Simulation then
+          Label1.Caption := format('%s(Simulation)', [GM.WahlName])
+        else
+          Label1.Caption := GM.WahlName;
+
+        Label1.Visible     := true;
         Wahl1.Enabled      := true;
         Wahlbuero1.Enabled := true;
         Briefwahl1.Enabled := true;
@@ -212,6 +220,8 @@ begin
       end;
       msAdmin:
       begin
+        Label1.Caption     := 'Administratormode';
+        Label1.Visible     := true;
         Wahl1.Enabled      := false;
         Wahlbuero1.Enabled := false;
         Briefwahl1.Enabled := false;

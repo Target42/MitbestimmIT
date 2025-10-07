@@ -36,24 +36,6 @@ object WahlMod: TWahlMod
       Origin = 'WA_DATA'
     end
   end
-  object FDQuery1: TFDQuery
-    Connection = DBMod.FDConnection1
-    SQL.Strings = (
-      'SELECT *'
-      'FROM WA_WAHL a'
-      'WHERE'
-      '    a.WA_ID = :waid'
-      '')
-    Left = 168
-    Top = 40
-    ParamData = <
-      item
-        Name = 'WAID'
-        DataType = ftInteger
-        ParamType = ptInput
-        Value = Null
-      end>
-  end
   object WahlList: TFDQuery
     BeforeOpen = WahlListBeforeOpen
     Connection = DBMod.FDConnection1
@@ -67,7 +49,8 @@ object WahlMod: TWahlMod
         ' WA_WAHL a, MA_WA b'
       'where'
       '  a.WA_ID = b.WA_ID'
-      'and  b.MA_ID = :ma_id'
+      'and  '
+      '  b.MA_ID = :ma_id'
       '')
     Left = 328
     Top = 48
@@ -115,5 +98,49 @@ object WahlMod: TWahlMod
     DataSet = WahlList
     Left = 328
     Top = 112
+  end
+  object CheckMAIDQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT WA_ID, MA_ID'
+      'FROM MA_WA '
+      'where '
+      '    ma_id = :ma_id'
+      'and'
+      '    WA_ID = :wa_id;')
+    Left = 464
+    Top = 88
+    ParamData = <
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object WahlDataQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT *'
+      'FROM WA_WAHL a'
+      'WHERE'
+      '    WA_ID = :wa_id'
+      'and'
+      '  WA_ACTIVE = '#39'T'#39)
+    Left = 184
+    Top = 88
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

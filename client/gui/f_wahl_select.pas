@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, fr_base, Data.DBXDataSnap,
   Data.DBXCommon, IPPeerClient, Data.DB, Data.SqlExpr, Datasnap.DBClient, m_glob,
-  Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids;
+  Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids, u_stub;
 
 type
   TWahlSelectForm = class(TForm)
@@ -23,10 +23,12 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure ClientDataSet1WA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
-    { Private-Deklarationen }
+    FWAID: integer;
   public
     class function execute : boolean;
+    property WAID: integer read FWAID write FWAID;
   end;
 
 var
@@ -34,8 +36,32 @@ var
 
 implementation
 
+uses
+  System.JSON, u_json;
+
 {$R *.dfm}
 
+
+
+procedure TWahlSelectForm.BaseFrame1OKBtnClick(Sender: TObject);
+var
+  client : TWahlModClient;
+  data   : TJSONObject;
+begin
+  client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+  if client.setWahl(ClientDataSet1WA_ID.AsInteger) then
+  begin
+    FWAID := ClientDataSet1WA_ID.AsInteger;
+    data := client.getWahlData;
+    if  Assigned(data) then
+    begin
+      GM.WahlName   := JString( data, 'titel');
+      GM.Simulation := JBool( data, 'simulation');
+    end;
+
+  end;
+  client.Free;
+end;
 
 procedure TWahlSelectForm.ClientDataSet1WA_SIMUGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
@@ -51,13 +77,18 @@ class function TWahlSelectForm.execute: boolean;
 begin
   Result := false;
   Application.CreateForm(TWahlSelectForm, WahlSelectForm);
-  WahlSelectForm.ShowModal;
+  if WahlSelectForm.ShowModal = mrOk then
+  begin
+    result := WahlSelectForm.WAID <> 0;
+  end;
   WahlSelectForm.Free;
 end;
 
 procedure TWahlSelectForm.FormCreate(Sender: TObject);
 begin
+  FWAID := 0;
   ClientDataSet1.Open;
+  BaseFrame1.OKBtn.Enabled := not ClientDataSet1.IsEmpty;
 end;
 
 procedure TWahlSelectForm.FormDestroy(Sender: TObject);
