@@ -38,6 +38,7 @@ type
     m_normal : TStream;
     m_einfach : TStream;
   public
+    procedure setVerfahren( value :TWahlVerfahren );
     procedure init(list : PTWahlPhasenListe);
     procedure release;
   end;
@@ -58,6 +59,7 @@ begin
 
   LoadRCDataToStream('BER1', m_normal);
   LoadRCDataToStream('BER2', m_einfach);
+
   RadioGroup1.ItemIndex := 0;
 end;
 
@@ -112,6 +114,14 @@ begin
   // Perform sendet die Message direkt an die Fensterprozedur des Steuerelements.
   TRichEdit(Sender).Perform(WM_VSCROLL, ScrollMessage, 0);
 
+end;
+
+procedure TWahlverfahrenFrame.setVerfahren(value: TWahlVerfahren);
+begin
+  if value = wvAllgemein then
+    RadioGroup1.ItemIndex := 0
+  else
+    RadioGroup1.ItemIndex := 1;
 end;
 
 end.

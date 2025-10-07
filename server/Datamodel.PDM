@@ -87,6 +87,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;\
 GRANT SELECT ON AD_ADMIN TO appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;\
 \
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;\
@@ -143,7 +144,7 @@ commit;
 
 
 1753814221
-1759772852
+1759864987
 0
 0
 4
@@ -2482,6 +2483,40 @@ BLOB
 WA_DATA
 
 5
+3
+1165
+1165
+WA_TYP
+WA_TYP
+
+
+
+184
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WA_TYP
+
+6
 3
 339
 339
@@ -5316,10 +5351,10 @@ OID     N8
 0
 0
 0
--23224
--617
--8900
-5833
+-23225
+-619
+-8901
+5831
 2
 1
 0
@@ -5412,10 +5447,10 @@ OID     N8
 0
 0
 0
--73395
-1080
--61921
-6554
+-73396
+1079
+-61922
+6553
 2
 1
 0
@@ -5540,10 +5575,10 @@ OID     N8
 0
 0
 0
--6388
--16253
-6961
--8829
+-6389
+-16254
+6960
+-8830
 2
 1
 0
@@ -5604,10 +5639,10 @@ OID     N8
 0
 0
 0
--54946
--30798
--43922
--25324
+-54947
+-30799
+-43923
+-25325
 2
 1
 0
@@ -5636,10 +5671,10 @@ OID     N8
 0
 0
 0
--56786
--10662
--44637
--4213
+-56788
+-11150
+-44639
+-3726
 2
 1
 0
@@ -5764,9 +5799,9 @@ OID     N8
 0
 0
 0
--52920
+-52921
 23287
--45346
+-45347
 26811
 2
 1
@@ -5796,10 +5831,10 @@ OID     N8
 0
 0
 0
--95676
--11448
--83902
--4024
+-95677
+-11449
+-83903
+-4025
 2
 1
 0
@@ -5843,7 +5878,7 @@ OID     N8
 0
 0
 4
-4fc6ffff4d0900004fc6ffff9c280000d2bdffff9c280000d2bdffff3e420000
+4ec6ffff4b0900004ec6ffff9c280000d2bdffff9c280000d2bdffff3e420000
 2
 
 
@@ -5875,7 +5910,7 @@ OID     N8
 0
 0
 2
-60f9feffa70a000060f9feffbe3c0000
+5ff9feffa60a00005ff9feffbe3c0000
 2
 
 
@@ -5907,7 +5942,7 @@ OID     N8
 0
 0
 4
-ddf7ffffaaccffffddf7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
+dcf7ffffa9ccffffdcf7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 2
 
 
@@ -5971,7 +6006,7 @@ ddf7ffffaaccffffddf7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 0
 0
 2
-763effff43d8ffff763effff3288ffff
+733effffa6d6ffff733effff3188ffff
 2
 
 
@@ -6003,7 +6038,7 @@ ddf7ffffaaccffffddf7ffffacf1ffffcf060000acf1ffffcf0600007a1a0000
 0
 0
 3
-3a29ffffa4e3ffff3a29ffff0d1100007d05ffff0d110000
+3829ffffbfe3ffff3829ffff0c1100007c05ffff0c110000
 2
 
 
@@ -6067,7 +6102,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 2
-4443ffff93eaffff4443ffff17600000
+4143ffffbaebffff4143ffff17600000
 2
 
 
@@ -6099,7 +6134,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 4
-b3b6feffce770000ed00ffffce770000ed00ffffab600000a834ffffab600000
+b3b6feffce770000ed00ffffce770000ed00ffffab600000a734ffffab600000
 2
 
 
@@ -6163,7 +6198,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-8e35fffffd5b00008e35ffffcc3d000042f6feffcc3d0000
+8d35fffffd5b00008d35ffffcc3d000042f6feffcc3d0000
 2
 
 
@@ -6195,7 +6230,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-104affffe1600000104affff7e820000bda5ffff7e820000
+0f4affffe16000000f4affff7e820000bda5ffff7e820000
 1
 
 
@@ -6227,7 +6262,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-d746ffff555e00000ebeffff555e00000ebeffff6a450000
+d646ffff555e00000ebeffff555e00000ebeffff6a450000
 2
 
 
@@ -6259,7 +6294,7 @@ d746ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-2e3bffff4b6800002617ffff4b6800002617ffff07a10000
+2d3bffff4b6800002617ffff4b6800002617ffff07a10000
 2
 
 
@@ -6291,7 +6326,7 @@ d746ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-0248ffff76ddffff0248ffff00ceffffc4ebffff00ceffff
+0048ffffa2dcffff0048ffffffcdffffc3ebffffffcdffff
 2
 
 
@@ -6323,7 +6358,7 @@ d746ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-0248ffffb5e4ffffa6beffffb5e4ffffa6befffff8020000
+0048fffff9e4ffffa5befffff9e4ffffa5befffff6020000
 2
 
 
@@ -6355,7 +6390,7 @@ d746ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 2
-8233ffff0ae1ffff88a6feff0ae1ffff
+8033ffffe4e0ffff87a6feffe4e0ffff
 2
 
 

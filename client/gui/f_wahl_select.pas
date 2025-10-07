@@ -19,11 +19,14 @@ type
     ClientDataSet1WA_TITLE: TStringField;
     ClientDataSet1WA_SIMU: TStringField;
     ClientDataSet1WA_ACTIVE: TStringField;
+    ClientDataSet1WA_TYP: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ClientDataSet1WA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure BaseFrame1OKBtnClick(Sender: TObject);
+    procedure ClientDataSet1WA_TYPGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
   private
     FWAID: integer;
   public
@@ -71,6 +74,15 @@ begin
   else
     Text := 'Nein';
 
+end;
+
+procedure TWahlSelectForm.ClientDataSet1WA_TYPGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  case sender.AsInteger of
+    0 : Text := 'Normal';
+    1 : Text := 'Vereinfacht';
+  end;
 end;
 
 class function TWahlSelectForm.execute: boolean;

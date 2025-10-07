@@ -3,7 +3,7 @@ object WahlSelectForm: TWahlSelectForm
   Top = 0
   Caption = 'Wahl ausw'#228'hlen'
   ClientHeight = 161
-  ClientWidth = 451
+  ClientWidth = 598
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object WahlSelectForm: TWahlSelectForm
   inline BaseFrame1: TBaseFrame
     Left = 0
     Top = 101
-    Width = 451
+    Width = 598
     Height = 60
     Align = alBottom
     AutoSize = True
@@ -25,15 +25,15 @@ object WahlSelectForm: TWahlSelectForm
     ExplicitTop = 101
     ExplicitWidth = 451
     inherited StatusBar1: TStatusBar
-      Width = 451
-      ExplicitWidth = 451
+      Width = 598
+      ExplicitWidth = 596
     end
     inherited Panel1: TPanel
-      Width = 451
+      Width = 598
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 451
       inherited OKBtn: TBitBtn
-        Left = 347
+        Left = 494
         OnClick = BaseFrame1OKBtnClick
         ExplicitLeft = 347
       end
@@ -42,10 +42,12 @@ object WahlSelectForm: TWahlSelectForm
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 451
+    Width = 598
     Height = 101
     Align = alClient
     DataSource = DataSource1
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -70,6 +72,12 @@ object WahlSelectForm: TWahlSelectForm
         Expanded = False
         FieldName = 'WA_ACTIVE'
         Title.Caption = 'Aktiv'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'WA_TYP'
+        Width = 100
         Visible = True
       end>
   end
@@ -99,6 +107,10 @@ object WahlSelectForm: TWahlSelectForm
       OnGetText = ClientDataSet1WA_SIMUGetText
       FixedChar = True
       Size = 1
+    end
+    object ClientDataSet1WA_TYP: TIntegerField
+      FieldName = 'WA_TYP'
+      OnGetText = ClientDataSet1WA_TYPGetText
     end
   end
   object DSProviderConnection1: TDSProviderConnection

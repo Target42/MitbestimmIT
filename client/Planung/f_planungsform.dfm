@@ -73,6 +73,7 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Height = -18
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      EnabledButtons = [bkNext, bkCancel]
       Caption = 'JvWizardWelcomePage1'
       inline WahlverfahrenFrame1: TWahlverfahrenFrame
         Left = 164
@@ -116,8 +117,10 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Height = -18
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
+      EnabledButtons = [bkBack, bkFinish, bkCancel]
       Caption = 'JvWizardInteriorPage1'
       OnEnterPage = JvWizardInteriorPage1EnterPage
+      OnFinishButtonClick = JvWizardInteriorPage1FinishButtonClick
       inline WahlfristenFrame1: TWahlfristenFrame
         Left = 0
         Top = 70
@@ -152,26 +155,6 @@ object Planungsform: TPlanungsform
           end
         end
       end
-    end
-    object JvWizardInteriorPage2: TJvWizardInteriorPage
-      Header.Title.Color = clNone
-      Header.Title.Text = 'Planung einer Betriebsratswahl'
-      Header.Title.Anchors = [akLeft, akTop, akRight]
-      Header.Title.Font.Charset = DEFAULT_CHARSET
-      Header.Title.Font.Color = clWindowText
-      Header.Title.Font.Height = -16
-      Header.Title.Font.Name = 'Segoe UI'
-      Header.Title.Font.Style = [fsBold]
-      Header.Subtitle.Color = clNone
-      Header.Subtitle.Text = 'Zeitplanung (BetrVG 16, WO-BetrVG '#167#167'3-41'
-      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
-      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
-      Header.Subtitle.Font.Color = clWindowText
-      Header.Subtitle.Font.Height = -12
-      Header.Subtitle.Font.Name = 'Segoe UI'
-      Header.Subtitle.Font.Style = []
-      Caption = 'JvWizardInteriorPage2'
-      OnEnterPage = JvWizardInteriorPage2EnterPage
     end
   end
 end

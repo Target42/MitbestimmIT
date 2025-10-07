@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     06.10.2025  19:47                          */
+/*   Created on:     07.10.2025  21:23                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -60,6 +60,7 @@ create table WA_WAHL
     WA_SIMU                         CHAR(1)                        ,
     WA_ACTIVE                       CHAR(1)                        ,
     WA_DATA                         BLOB                           ,
+    WA_TYP                          INTEGER                        ,
     constraint PK_WA_WAHL primary key (WA_ID)
 );
 
@@ -342,6 +343,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appuser;
 GRANT SELECT ON AD_ADMIN TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;
 
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;

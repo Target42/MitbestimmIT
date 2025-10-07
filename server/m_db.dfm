@@ -8,6 +8,7 @@ object DBMod: TDBMod
       'RoleName=APPUSER'
       'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
       'DriverID=FB')
+    Connected = True
     LoginPrompt = False
     Left = 144
     Top = 112

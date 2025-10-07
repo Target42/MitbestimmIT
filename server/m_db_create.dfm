@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     06.10.2025  19:47                          ' +
+            '/*   Created on:     07.10.2025  21:23                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -141,6 +141,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WA_DATA                         BLOB                        ' +
+            '   ,'
+          
+            '    WA_TYP                          INTEGER                     ' +
             '   ,'
           '    constraint PK_WA_WAHL primary key (WA_ID)'
           ');'
@@ -668,6 +671,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT ON AD_ADMIN TO appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'

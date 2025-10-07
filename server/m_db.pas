@@ -19,6 +19,7 @@ type
     function closeDB : boolean;
 
     function UserID : integer;
+    function WahlID : integer;
   end;
 
 var
@@ -66,6 +67,18 @@ begin
   session := TDSSessionManager.GetThreadSession;
   if session.HasData('UserID') then
     result := StrToIntDef(Session.GetData('UserID'), 0);
+
+end;
+
+function TDBMod.WahlID: integer;
+var
+  session : TDSSession;
+begin
+  result := 0;
+
+  session := TDSSessionManager.GetThreadSession;
+  if session.HasData('WahlID') then
+    result := StrToIntDef(Session.GetData('WahlID'), 0);
 
 end;
 

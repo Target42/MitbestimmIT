@@ -24,7 +24,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, JvWizard, JvExControls,
   fr_wahlverfahren, fr_wahlfristen, u_BRWahlFristen, fr_wahlvorstand,
-  System.Generics.Collections;
+  System.Generics.Collections, u_stub, u_json;
 
 type
   TPlanungsform = class(TForm)
@@ -32,17 +32,19 @@ type
     JvWizard1: TJvWizard;
     JvWizardWelcomePage1: TJvWizardWelcomePage;
     JvWizardInteriorPage1: TJvWizardInteriorPage;
-    JvWizardInteriorPage2: TJvWizardInteriorPage;
     WahlverfahrenFrame1: TWahlverfahrenFrame;
     WahlfristenFrame1: TWahlfristenFrame;
     procedure FormDestroy(Sender: TObject);
-    procedure JvWizardInteriorPage2EnterPage(Sender: TObject;
-      const FromPage: TJvWizardCustomPage);
     procedure FormCreate(Sender: TObject);
     procedure JvWizardInteriorPage1EnterPage(Sender: TObject;
       const FromPage: TJvWizardCustomPage);
+    procedure JvWizardInteriorPage1FinishButtonClick(Sender: TObject;
+      var Stop: Boolean);
   private
-    m_list : TWahlPhasenListe;
+    m_client : TWahlModClient;
+    m_list   : TWahlPhasenListe;
+    procedure loadData;
+    procedure saveData;
   public
     class procedure Execute;
   end;
@@ -54,7 +56,7 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob;
+uses m_glob, System.JSON;
 
 { TPlanungsform }
 
@@ -68,7 +70,9 @@ end;
 procedure TPlanungsform.FormCreate(Sender: TObject);
 begin
   m_list := getWahlPhasen(wvAllgemein);
+  m_client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
   WahlverfahrenFrame1.init(@m_list);
+  loadData;
   WahlfristenFrame1.init(@m_list)
 end;
 
@@ -78,19 +82,41 @@ begin
 
   if Assigned(m_list) then
     releaseWahlPhasen(m_list);
+  m_client.free;
 end;
 
 procedure TPlanungsform.JvWizardInteriorPage1EnterPage(Sender: TObject;
   const FromPage: TJvWizardCustomPage);
 begin
   WahlfristenFrame1.updateView;
+  JvWizardInteriorPage1.VisibleButtons := [bkBack, bkFinish];
 end;
 
-procedure TPlanungsform.JvWizardInteriorPage2EnterPage(Sender: TObject;
-  const FromPage: TJvWizardCustomPage);
+procedure TPlanungsform.JvWizardInteriorPage1FinishButtonClick(Sender: TObject;
+  var Stop: Boolean);
 begin
-    JvWizardInteriorPage2.VisibleButtons := [TJvWizardButtonKind.bkBack, TJvWizardButtonKind.bkCancel, TJvWizardButtonKind.bkFinish];
+  saveData;
+  Close;
 end;
 
+procedure TPlanungsform.loadData;
+var
+  data : TJSONObject;
+begin
+  data := m_client.getWahlData;
+
+  WahlverfahrenFrame1.setVerfahren(TWahlVerfahren(JInt(data, 'verfahren')));
+  JsonToWahlPhase( m_list, data );
+end;
+
+
+procedure TPlanungsform.saveData;
+var
+  data : TJSONObject;
+begin
+  data := WahlphasenToJson(m_list);
+  JReplace( data, 'verfahren', WahlverfahrenFrame1.RadioGroup1.ItemIndex);
+  m_client.saveWahlData(data);
+end;
 
 end.

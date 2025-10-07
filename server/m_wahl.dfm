@@ -35,6 +35,10 @@ object WahlMod: TWahlMod
       FieldName = 'WA_DATA'
       Origin = 'WA_DATA'
     end
+    object WAtabWA_TYP: TIntegerField
+      FieldName = 'WA_TYP'
+      Origin = 'WA_TYP'
+    end
   end
   object WahlList: TFDQuery
     BeforeOpen = WahlListBeforeOpen
@@ -45,8 +49,8 @@ object WahlMod: TWahlMod
     UpdateOptions.EnableUpdate = False
     SQL.Strings = (
       
-        'select a.wa_id, a.WA_TITLE, a.WA_SIMU, a.WA_ACTIVE, b.MA_ID from' +
-        ' WA_WAHL a, MA_WA b'
+        'select a.wa_id, a.WA_TITLE, a.WA_SIMU, a.WA_ACTIVE, a.WA_TYP, b.' +
+        'MA_ID from WA_WAHL a, MA_WA b'
       'where'
       '  a.WA_ID = b.WA_ID'
       'and  '
@@ -92,6 +96,10 @@ object WahlMod: TWahlMod
       Origin = 'MA_ID'
       ProviderFlags = []
       ReadOnly = True
+    end
+    object WahlListWA_TYP: TIntegerField
+      FieldName = 'WA_TYP'
+      Origin = 'WA_TYP'
     end
   end
   object WahlListQry: TDataSetProvider
@@ -142,5 +150,93 @@ object WahlMod: TWahlMod
         ParamType = ptInput
         Value = Null
       end>
+  end
+  object UpdateTypeQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      'UPDATE WA_WAHL a'
+      'SET '
+      '    a.WA_TYP = :WA_TYP'
+      'WHERE'
+      '    a.WA_ID = :wa_id;'
+      '')
+    Left = 152
+    Top = 240
+    ParamData = <
+      item
+        Name = 'WA_TYP'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object DeletePhasenQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      'DELETE FROM WF_FRISTEN a '
+      'WHERE'
+      '    a.WA_ID = :wa_id'
+      '')
+    Left = 144
+    Top = 304
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object FDTransaction1: TFDTransaction
+    Options.AutoStart = False
+    Connection = DBMod.FDConnection1
+    Left = 264
+    Top = 280
+  end
+  object WFTab: TFDTable
+    IndexFieldNames = 'WA_ID;WF_ID'
+    Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    TableName = 'WF_FRISTEN'
+    Left = 136
+    Top = 368
+    object WFTabWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object WFTabWF_ID: TIntegerField
+      FieldName = 'WF_ID'
+      Origin = 'WF_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object WFTabWF_TITEL: TStringField
+      FieldName = 'WF_TITEL'
+      Origin = 'WF_TITEL'
+      Size = 100
+    end
+    object WFTabWF_START: TSQLTimeStampField
+      FieldName = 'WF_START'
+      Origin = 'WF_START'
+    end
+    object WFTabWF_ENDE: TSQLTimeStampField
+      FieldName = 'WF_ENDE'
+      Origin = 'WF_ENDE'
+    end
+    object WFTabWF_TYP: TIntegerField
+      FieldName = 'WF_TYP'
+      Origin = 'WF_TYP'
+    end
   end
 end

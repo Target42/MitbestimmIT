@@ -108,9 +108,15 @@ var
   i   : integer;
   ptr : PTWahlPhase;
 begin
-  releaseWahlPhasen(list);
-
   arr := JArray( data, 'phasen');
+  if not Assigned(arr) then
+    exit;
+
+
+  if arr.Count > 0 then
+    releaseWahlPhasen(list);
+
+
   for i := 0 to pred(arr.Count) do
   begin
     row := getRow(arr, i);

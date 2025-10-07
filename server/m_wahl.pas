@@ -27,6 +27,18 @@ type
     WahlListMA_ID: TIntegerField;
     CheckMAIDQry: TFDQuery;
     WahlDataQry: TFDQuery;
+    WAtabWA_TYP: TIntegerField;
+    WahlListWA_TYP: TIntegerField;
+    UpdateTypeQry: TFDQuery;
+    DeletePhasenQry: TFDQuery;
+    FDTransaction1: TFDTransaction;
+    WFTab: TFDTable;
+    WFTabWA_ID: TIntegerField;
+    WFTabWF_ID: TIntegerField;
+    WFTabWF_TITEL: TStringField;
+    WFTabWF_START: TSQLTimeStampField;
+    WFTabWF_ENDE: TSQLTimeStampField;
+    WFTabWF_TYP: TIntegerField;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -52,17 +64,9 @@ uses
 { TWahlMod }
 
 function TWahlMod.getWahlData: TJSONObject;
-var
-  session : TDSSession;
-  wa_id : integer;
 begin
-  wa_id := 0;
-  session := TDSSessionManager.GetThreadSession;
-  if session.HasData('WA_ID') then
-    wa_id := StrToIntDef(Session.GetData('WA_ID'), 0);
-
   Result := TJSONObject.Create;
-  WahlDataQry.ParamByName('WA_ID').AsInteger := WA_ID;
+  WahlDataQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   WahlDataQry.Open;
   if not WahlDataQry.IsEmpty  then
   begin
@@ -73,8 +77,43 @@ begin
 end;
 
 function TWahlMod.saveWahlData(data: TJSONObject): TJSONObject;
+var
+  arr : TJSONArray;
+  i   : integer;
+  row : TJSONObject;
+  wa_id : integer;
 begin
   Result := TJSONObject.Create;
+  wa_id  := DBMod.WahlID;
+  FDTransaction1.StartTransaction;
+
+  UpdateTypeQry.ParamByName('WA_ID').AsInteger := wa_id;
+  UpdateTypeQry.ParamByName('WA_TYP').AsInteger:= JInt( data, 'verfahren');
+  UpdateTypeQry.ExecSQL;
+
+  arr := JArray( data, 'phasen');
+  if arr.Count > 0 then
+  begin
+    DeletePhasenQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+    DeletePhasenQry.ExecSQL;
+    WFTab.Open;
+    for i := 0 to pred(arr.Count) do
+    begin
+      row := getRow(arr, i);
+      WFTab.Append;
+      WFTabWA_ID.AsInteger     := wa_id;
+      WFTabWF_ID.AsInteger     := i+1;
+      WFTabWF_TITEL.AsString   := JString( row, 'title');
+      WFTabWF_START.AsDateTime := JDouble( row, 'start');
+      WFTabWF_ENDE.AsDateTime  := JDouble( row, 'ende');
+      WFTabWF_TYP.AsInteger    := JInt( row, 'typ');
+      WFTab.Post;
+    end;
+  end;
+  if FDTransaction1.Active then
+    FDTransaction1.Commit;
+  WFTab.Close;
+
 end;
 
 function TWahlMod.setWahl(id: integer): Boolean;
@@ -89,7 +128,7 @@ begin
   CheckMAIDQry.Open;
   if not CheckMAIDQry.IsEmpty then
   begin
-    session.PutData('WA_ID', CheckMAIDQry.FieldByName('WA_ID').AsString);
+    session.PutData('WahlID', CheckMAIDQry.FieldByName('WA_ID').AsString);
     result := true;
   end;
   CheckMAIDQry.Close;
