@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 07.10.2025 19:57:47
+// 08.10.2025 20:21:42
 //
 
 unit u_stub;
@@ -49,6 +49,7 @@ type
     FWahlListWA_ACTIVEGetTextCommand: TDBXCommand;
     FgetWahlDataCommand: TDBXCommand;
     FsaveWahlDataCommand: TDBXCommand;
+    FloadWahlDataCommand: TDBXCommand;
     FsetWahlCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
@@ -59,6 +60,7 @@ type
     procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     function getWahlData: TJSONObject;
     function saveWahlData(data: TJSONObject): TJSONObject;
+    function loadWahlData: TJSONObject;
     function setWahl(id: Integer): Boolean;
   end;
 
@@ -359,6 +361,19 @@ begin
   Result := TJSONObject(FsaveWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TWahlModClient.loadWahlData: TJSONObject;
+begin
+  if FloadWahlDataCommand = nil then
+  begin
+    FloadWahlDataCommand := FDBXConnection.CreateCommand;
+    FloadWahlDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FloadWahlDataCommand.Text := 'TWahlMod.loadWahlData';
+    FloadWahlDataCommand.Prepare;
+  end;
+  FloadWahlDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FloadWahlDataCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
 function TWahlModClient.setWahl(id: Integer): Boolean;
 begin
   if FsetWahlCommand = nil then
@@ -390,6 +405,7 @@ begin
   FWahlListWA_ACTIVEGetTextCommand.Free;
   FgetWahlDataCommand.Free;
   FsaveWahlDataCommand.Free;
+  FloadWahlDataCommand.Free;
   FsetWahlCommand.Free;
   inherited;
 end;

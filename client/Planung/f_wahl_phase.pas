@@ -15,6 +15,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     DateTimePicker2: TDateTimePicker;
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
     FWahlPhase: PTWahlPhase;
     procedure setWahlPhase( value : PTWahlPhase );
@@ -30,6 +31,12 @@ implementation
 {$R *.dfm}
 
 { TWahlPhaseForm }
+
+procedure TWahlPhaseForm.BaseFrame1OKBtnClick(Sender: TObject);
+begin
+  FWahlPhase.start := DateTimePicker1.DateTime;
+  FWahlPhase.ende  := DateTimePicker2.DateTime;
+end;
 
 procedure TWahlPhaseForm.setWahlPhase(value: PTWahlPhase);
 begin

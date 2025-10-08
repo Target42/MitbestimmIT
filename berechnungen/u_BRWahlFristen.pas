@@ -112,17 +112,15 @@ begin
   if not Assigned(arr) then
     exit;
 
-
   if arr.Count > 0 then
     releaseWahlPhasen(list);
-
 
   for i := 0 to pred(arr.Count) do
   begin
     row := getRow(arr, i);
     new(ptr);
     list.Add(ptr);
-    ptr^.fromJson(row);
+    ptr.fromJson(row);
   end;
 end;
 
@@ -148,9 +146,8 @@ begin
   list[1]^.start := IncWeek( list[2]^.start, -1 );
   // Bestellung oder Wahl des Wahlvorstands'       , dtTag
   list[0]^.start := IncWeek( list[1]^.start, -1 );
-
-
 end;
+
 procedure AutoFillNormal( da : TDate; var list : TWahlPhasenListe );
 begin
   // Bestellung/Wahl des Wahlvorstands             , dtTag
@@ -196,7 +193,6 @@ begin
     Dispose(list[i]);
   end;
   list.Clear;
-  list.Free;
 end;
 
 function FillPhase( nr : integer; title : string; typ : TDatumTyp) :  PTWahlPhase;

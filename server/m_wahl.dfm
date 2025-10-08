@@ -239,4 +239,21 @@ object WahlMod: TWahlMod
       Origin = 'WF_TYP'
     end
   end
+  object PhasenQrx: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT *'
+      'FROM WF_FRISTEN '
+      'where '
+      '  WA_ID = :wa_id')
+    Left = 296
+    Top = 224
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end

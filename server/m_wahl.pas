@@ -39,6 +39,7 @@ type
     WFTabWF_START: TSQLTimeStampField;
     WFTabWF_ENDE: TSQLTimeStampField;
     WFTabWF_TYP: TIntegerField;
+    PhasenQrx: TFDQuery;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -49,6 +50,7 @@ type
   public
     function getWahlData : TJSONObject;
     function saveWahlData( data : TJSONObject ) : TJSONObject;
+    function loadWahlData : TJSONObject;
     function setWahl( id : integer ) : Boolean;
   end;
 
@@ -68,10 +70,48 @@ begin
   Result := TJSONObject.Create;
   WahlDataQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   WahlDataQry.Open;
+
   if not WahlDataQry.IsEmpty  then
   begin
     JReplace(result, 'titel', WahlDataQry.FieldByName('WA_TITLE').AsString);
     JReplace(result, 'simulation', WahlDataQry.FieldByName('WA_SIMU').AsBoolean);
+  end;
+  WahlDataQry.Close;
+end;
+
+function TWahlMod.loadWahlData: TJSONObject;
+var
+  arr : TJSONArray;
+  row : TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  WahlDataQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  WahlDataQry.Open;
+
+  if not WahlDataQry.IsEmpty  then
+  begin
+
+    JReplace(result, 'titel', WahlDataQry.FieldByName('WA_TITLE').AsString);
+    JReplace(result, 'simulation', WahlDataQry.FieldByName('WA_SIMU').AsBoolean);
+    JReplace(result, 'typ', WahlDataQry.FieldByName('WA_TYP').AsInteger );
+
+    arr := TJSONArray.Create;
+
+    PhasenQrx.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+    PhasenQrx.Open;
+    while not PhasenQrx.Eof do
+    begin
+      row := TJSONObject.Create;
+      JReplace( row, 'nr',    PhasenQrx.FieldByName('WF_ID').AsInteger -1);
+      JReplace( row, 'titel', PhasenQrx.FieldByName('WF_TITEL').AsString );
+      JReplaceDouble( row, 'start', PhasenQrx.FieldByName('WF_START').AsDateTime);
+      JReplaceDouble( row, 'ende', PhasenQrx.FieldByName('WF_ENDE').AsDateTime);
+      JReplace( row, 'typ', PhasenQrx.FieldByName('WF_TYP').AsInteger);
+      arr.Add(row);
+      PhasenQrx.Next;
+    end;
+    PhasenQrx.Close;
+    JReplace(result, 'phasen', arr);
   end;
   WahlDataQry.Close;
 end;
@@ -103,7 +143,7 @@ begin
       WFTab.Append;
       WFTabWA_ID.AsInteger     := wa_id;
       WFTabWF_ID.AsInteger     := i+1;
-      WFTabWF_TITEL.AsString   := JString( row, 'title');
+      WFTabWF_TITEL.AsString   := JString( row, 'titel');
       WFTabWF_START.AsDateTime := JDouble( row, 'start');
       WFTabWF_ENDE.AsDateTime  := JDouble( row, 'ende');
       WFTabWF_TYP.AsInteger    := JInt( row, 'typ');

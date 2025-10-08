@@ -154,6 +154,8 @@ procedure TWahlfristenFrame.updateItem(item: TListItem; phase: PTWahlPhase);
 begin
   item.Data       := phase;
   item.Caption    := intToStr(phase^.nr);
+
+  item.SubItems.Clear;
   item.SubItems.Add(phase^.titel);
   if (phase^.typ = dtTag) then
   begin

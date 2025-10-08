@@ -70,6 +70,7 @@ end;
 procedure TPlanungsform.FormCreate(Sender: TObject);
 begin
   m_list := getWahlPhasen(wvAllgemein);
+
   m_client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
   WahlverfahrenFrame1.init(@m_list);
   loadData;
@@ -83,6 +84,7 @@ begin
   if Assigned(m_list) then
     releaseWahlPhasen(m_list);
   m_client.free;
+  m_list.Free;
 end;
 
 procedure TPlanungsform.JvWizardInteriorPage1EnterPage(Sender: TObject;
@@ -102,10 +104,12 @@ end;
 procedure TPlanungsform.loadData;
 var
   data : TJSONObject;
+  wv : TWahlVerfahren;
 begin
-  data := m_client.getWahlData;
+  data := m_client.loadWahlData;
 
-  WahlverfahrenFrame1.setVerfahren(TWahlVerfahren(JInt(data, 'verfahren')));
+  wv := TWahlVerfahren(JInt(data, 'verfahren'));
+  WahlverfahrenFrame1.setVerfahren(wv);
   JsonToWahlPhase( m_list, data );
 end;
 

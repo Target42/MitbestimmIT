@@ -65,6 +65,9 @@ end;
 
 procedure TWahlverfahrenFrame.RadioGroup1Click(Sender: TObject);
 begin
+  releaseWahlPhasen(m_list^);
+  m_list^.Destroy;
+
   if RadioGroup1.ItemIndex = 0 then
   begin
     m_normal.Position := 0;

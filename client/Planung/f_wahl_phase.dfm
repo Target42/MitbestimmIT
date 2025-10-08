@@ -41,17 +41,20 @@ object WahlPhaseForm: TWahlPhaseForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitLeft = -16
-    ExplicitTop = 296
+    ExplicitTop = 160
+    ExplicitWidth = 572
     inherited StatusBar1: TStatusBar
       Width = 572
-      ExplicitWidth = 573
+      ExplicitWidth = 572
     end
     inherited Panel1: TPanel
       Width = 572
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 572
       inherited OKBtn: TBitBtn
         Left = 468
+        OnClick = BaseFrame1OKBtnClick
+        ExplicitLeft = 468
       end
     end
   end
