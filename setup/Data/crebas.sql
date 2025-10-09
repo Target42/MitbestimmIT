@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     07.10.2025  21:23                          */
+/*   Created on:     09.10.2025  21:06                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -14,6 +14,7 @@ create generator gen_sz_id;
 create generator gen_lg_id;
 create generator gen_aw_id;
 create generator gen_wa_id;
+create generator gen_mc_id;
 /* ============================================================ */
 /*   Table: MA_MITARBEITER                                      */
 /* ============================================================ */
@@ -242,6 +243,21 @@ create table WF_FRISTEN
     constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)
 );
 
+/* ============================================================ */
+/*   Table: MC_MA_CHANGE                                        */
+/* ============================================================ */
+create table MC_MA_CHANGE
+(
+    WA_ID                           INTEGER                not null,
+    MC_ID                           INTEGER                not null,
+    MC_STAMP                        TIMESTAMP                      ,
+    MC_ADD                          INTEGER                        ,
+    MC_CHG                          INTEGER                        ,
+    MC_DEL                          INTEGER                        ,
+    MC_DATA                         BLOB                           ,
+    constraint PK_MC_MA_CHANGE primary key (WA_ID, MC_ID)
+);
+
 alter table WT_WAHL_LISTE
     add constraint FK_REF_225 foreign key  (WA_ID)
        references WA_WAHL;
@@ -310,6 +326,10 @@ alter table WF_FRISTEN
     add constraint FK_REF_1018 foreign key  (WA_ID)
        references WA_WAHL;
 
+alter table MC_MA_CHANGE
+    add constraint FK_REF_1258 foreign key  (WA_ID)
+       references WA_WAHL;
+
 set generator gen_ma_id to 100;
 
 commit;
@@ -344,6 +364,7 @@ GRANT SELECT ON AD_ADMIN TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;
 
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;
@@ -352,6 +373,7 @@ GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;
 
 commit;
 

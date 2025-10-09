@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     06.10.2025  19:48                          */
+/*   Created on:     09.10.2025  21:06                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -49,6 +49,16 @@ create trigger ti_tab_1 for MA_MITARBEITER
 before insert as
 begin
     new.ma_id = gen_id(gen_ma_id, 1);
+
+end;/
+set term ;/
+
+/*  Insert trigger "ti_mc_ma_change" for table "MC_MA_CHANGE"  */
+set term /;
+create trigger ti_mc_ma_change for MC_MA_CHANGE
+before insert as
+begin
+    new.mc_id = gen_id(gen_mc_id, 1);
 
 end;/
 set term ;/

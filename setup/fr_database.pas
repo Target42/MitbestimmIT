@@ -84,6 +84,7 @@ begin
   except
     on e : exception do
     begin
+      Screen.Cursor := crDefault;
       ShowMessage(e.ToString);
     end;
 
