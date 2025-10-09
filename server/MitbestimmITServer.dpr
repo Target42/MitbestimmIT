@@ -40,7 +40,8 @@ uses
   m_login in 'm_login.pas' {LoginMod: TDSServerModule},
   u_json_db in '..\lib\u_json_db.pas',
   u_pwd in '..\lib\u_pwd.pas',
-  m_wahl in 'm_wahl.pas' {WahlMod: TDSServerModule};
+  m_wahl in 'm_wahl.pas' {WahlMod: TDSServerModule},
+  m_waehler in 'm_waehler.pas' {WaehlerMod: TDSServerModule};
 
 {$R *.RES}
 

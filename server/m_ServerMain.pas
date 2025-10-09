@@ -41,6 +41,7 @@ type
     UserPWDQry: TFDQuery;
     AdminTab: TFDTable;
     DSWahl: TDSServerClass;
+    DSWaehler: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -56,6 +57,8 @@ type
     procedure DSLoginGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure DSWahlGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
+    procedure DSWaehlerGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
@@ -84,7 +87,7 @@ implementation
 uses
   Winapi.Windows,
   system.Hash, DSSession,
-  m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl;
+  m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -142,6 +145,12 @@ procedure TMitbestimmITSrv.DSLoginGetClass(DSServerClass: TDSServerClass;
   var PersistentClass: TPersistentClass);
 begin
   PersistentClass := m_login.TLoginMod;
+end;
+
+procedure TMitbestimmITSrv.DSWaehlerGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_waehler.TWaehlerMod;
 end;
 
 procedure TMitbestimmITSrv.DSWahlGetClass(DSServerClass: TDSServerClass;

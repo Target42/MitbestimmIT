@@ -33,6 +33,7 @@ type
         WVorname= 'vorname';
         WAnrede = 'anrede';
         Wabteilung = 'abteilung';
+        WGebDat = 'gebdat';
 
     private
       FPersNr: String;
@@ -40,6 +41,7 @@ type
       FVorname: string;
       FAnrede: string;
       FAbteilung: string;
+      FGebDatum : string;
 
       function getPersNr : string;
       procedure setPersNr( value : string );
@@ -51,6 +53,8 @@ type
       procedure setAnrede( value : string );
       function getAbteilung : string;
       procedure setAbteilung( value : string );
+      function getGebDatum : string;
+      procedure setGebDatum( value : string );
 
     public
       constructor create;
@@ -168,12 +172,14 @@ var
 begin
   if not Assigned(arr) then
     exit;
+
   anz := arr.Count;
   if anz >= 1 then FPersNr     := arr.Items[0].Value;
   if anz >= 2 then FName       := arr.Items[1].Value;
   if anz >= 3 then FVorname    := arr.Items[2].Value;
   if anz >= 4 then FAnrede     := arr.Items[3].Value;
   if anz >= 5 then FAbteilung  := arr.Items[4].Value;
+  if anz >= 5 then FGebDatum   := arr.Items[5].Value;
 end;
 
 
@@ -185,6 +191,11 @@ end;
 function TWaehler.getAnrede: string;
 begin
   Result := FAnrede;
+end;
+
+function TWaehler.getGebDatum: string;
+begin
+  Result := FGebDatum;
 end;
 
 function TWaehler.getName: string;
@@ -217,6 +228,11 @@ begin
   FAnrede := value;;
 end;
 
+procedure TWaehler.setGebDatum(value: string);
+begin
+  FGebDatum := value;
+end;
+
 procedure TWaehler.setName(value: string);
 begin
   FName  := value;
@@ -240,6 +256,7 @@ begin
   FVorname:= JString( data, WVorname);
   FAnrede := JString( data, WAnrede);
   FAbteilung:= JString( data, Wabteilung);
+  FGebDatum := JString( data, WGebDat );
 end;
 
 
@@ -252,6 +269,7 @@ begin
   JReplace( Result, WVorname, FVorname);
   JReplace( Result, WAnrede,  FAnrede);
   JReplace( Result, Wabteilung, FAbteilung);
+  JReplace( Result, WGebDat, FGebDatum );
 end;
 
 function TWaehler.toSimpleJSON: TJSONArray;
@@ -262,6 +280,7 @@ begin
   Result.Add(FVorname);
   Result.Add(FAnrede);
   Result.Add(FAbteilung);
+  Result.Add(FGebDatum);
 end;
 
 { TWaehlerListe }
@@ -435,6 +454,7 @@ begin
   Result := saveJSON(data, fname);
   data.Free;
 end;
+
 function CompareWaehler(const A, B: IWaehler): Integer;
 var
   Cmp: Integer;
@@ -501,6 +521,7 @@ function TWaehlerListe.toSimpleJSON: TJSONObject;
     Result.Add(TWaehler.WVorname);
     Result.Add(TWaehler.WAnrede);
     Result.Add(TWaehler.Wabteilung);
+    Result.Add(TWaehler.WGebDat);
   end;
 var
   rows : TJSONArray;

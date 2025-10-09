@@ -23,19 +23,19 @@ object WahlSelectForm: TWahlSelectForm
     AutoSize = True
     TabOrder = 0
     ExplicitTop = 101
-    ExplicitWidth = 451
+    ExplicitWidth = 598
     inherited StatusBar1: TStatusBar
       Width = 598
-      ExplicitWidth = 596
+      ExplicitWidth = 598
     end
     inherited Panel1: TPanel
       Width = 598
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 451
+      ExplicitWidth = 598
       inherited OKBtn: TBitBtn
         Left = 494
         OnClick = BaseFrame1OKBtnClick
-        ExplicitLeft = 347
+        ExplicitLeft = 494
       end
     end
   end
@@ -77,6 +77,7 @@ object WahlSelectForm: TWahlSelectForm
       item
         Expanded = False
         FieldName = 'WA_TYP'
+        Title.Caption = 'Verfahren'
         Width = 100
         Visible = True
       end>

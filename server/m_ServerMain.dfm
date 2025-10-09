@@ -4,7 +4,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
   OnStart = ServiceStart
   OnStop = ServiceStop
   Height = 470
-  Width = 479
+  Width = 1026
   object DSServer1: TDSServer
     Left = 72
     Top = 25
@@ -88,14 +88,14 @@ object MitbestimmITSrv: TMitbestimmITSrv
     OnGetClass = DSAdminGetClass
     Server = DSServer1
     LifeCycle = 'Invocation'
-    Left = 340
-    Top = 25
+    Left = 460
+    Top = 17
   end
   object DSLogin: TDSServerClass
     OnGetClass = DSLoginGetClass
     Server = DSServer1
-    Left = 344
-    Top = 88
+    Left = 384
+    Top = 16
   end
   object UserPWDQry: TFDQuery
     Connection = DBMod.FDConnection1
@@ -122,7 +122,15 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSWahl: TDSServerClass
     OnGetClass = DSWahlGetClass
     Server = DSServer1
-    Left = 344
-    Top = 152
+    LifeCycle = 'Invocation'
+    Left = 552
+    Top = 24
+  end
+  object DSWaehler: TDSServerClass
+    OnGetClass = DSWaehlerGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 640
+    Top = 32
   end
 end

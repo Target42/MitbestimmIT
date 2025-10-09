@@ -66,6 +66,7 @@ type
     procedure btnScanClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
+
     m_workBook: TZWorkBook;
     m_sheet   : TZSheet;
     procedure Fillcombos;
@@ -81,7 +82,7 @@ implementation
 {$R *.dfm}
 
 uses
-  m_res, System.JSON, u_json, u_Waehlerliste, m_glob, i_waehlerliste;
+  m_res, System.JSON, u_json, u_Waehlerliste, m_glob, i_waehlerliste, u_stub;
 
 { TWaehlerlisteForm }
 
