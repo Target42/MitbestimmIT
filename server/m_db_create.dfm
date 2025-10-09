@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     07.10.2025  21:23                          ' +
+            '/*   Created on:     09.10.2025  21:06                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -32,6 +32,7 @@ object CreateDBMode: TCreateDBMode
           'create generator gen_lg_id;'
           'create generator gen_aw_id;'
           'create generator gen_wa_id;'
+          'create generator gen_mc_id;'
           
             '/* ============================================================ ' +
             '*/'
@@ -542,6 +543,41 @@ object CreateDBMode: TCreateDBMode
           '    constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)'
           ');'
           ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: MC_MA_CHANGE                                        ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table MC_MA_CHANGE'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    MC_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    MC_STAMP                        TIMESTAMP                   ' +
+            '   ,'
+          
+            '    MC_ADD                          INTEGER                     ' +
+            '   ,'
+          
+            '    MC_CHG                          INTEGER                     ' +
+            '   ,'
+          
+            '    MC_DEL                          INTEGER                     ' +
+            '   ,'
+          
+            '    MC_DATA                         BLOB                        ' +
+            '   ,'
+          '    constraint PK_MC_MA_CHANGE primary key (WA_ID, MC_ID)'
+          ');'
+          ''
           'alter table WT_WAHL_LISTE'
           '    add constraint FK_REF_225 foreign key  (WA_ID)'
           '       references WA_WAHL;'
@@ -610,6 +646,10 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_1018 foreign key  (WA_ID)'
           '       references WA_WAHL;'
           ''
+          'alter table MC_MA_CHANGE'
+          '    add constraint FK_REF_1258 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
           'set generator gen_ma_id to 100;'
           ''
           'commit;'
@@ -672,6 +712,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'
@@ -680,6 +721,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;'
           ''
           'commit;'
           ''
@@ -751,7 +793,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     06.10.2025  19:48                          ' +
+            '/*   Created on:     09.10.2025  21:06                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -806,6 +848,18 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           '    new.ma_id = gen_id(gen_ma_id, 1);'
+          ''
+          'end;/'
+          'set term ;/'
+          ''
+          
+            '/*  Insert trigger "ti_mc_ma_change" for table "MC_MA_CHANGE"  *' +
+            '/'
+          'set term /;'
+          'create trigger ti_mc_ma_change for MC_MA_CHANGE'
+          'before insert as'
+          'begin'
+          '    new.mc_id = gen_id(gen_mc_id, 1);'
           ''
           'end;/'
           'set term ;/'
