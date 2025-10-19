@@ -98,7 +98,7 @@ GRANT USAGE ON GENERATOR  gen_wt_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;\
-GRANT USAGE ON GENERATOR  create generator gen_mc_id appuser;\
+GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;\
 \
 commit;\
 \
@@ -147,7 +147,7 @@ commit;
 
 
 1753814221
-1760036590
+1760036785
 0
 0
 4

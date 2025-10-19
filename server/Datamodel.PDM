@@ -147,7 +147,7 @@ commit;
 
 
 1753814221
-1760036785
+1760802435
 0
 0
 4
@@ -840,6 +840,40 @@ VARCHAR(255)
 MA_MAIL
 
 8
+3
+1416
+1416
+MA_GEB
+MA_GEB
+
+
+
+1
+0
+DATE
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+9
 3
 797
 797
@@ -5623,10 +5657,10 @@ OID     N8
 0
 0
 0
--92603
-27134
--78729
-35533
+-92605
+26646
+-78731
+36020
 2
 1
 0
@@ -6071,10 +6105,10 @@ OID     N8
 0
 0
 0
--114188
-29510
--101589
-35959
+-114189
+29509
+-101590
+35958
 2
 1
 0
@@ -6103,9 +6137,9 @@ OID     N8
 0
 0
 0
--52921
+-52922
 23287
--45347
+-45348
 26811
 2
 1
@@ -6160,7 +6194,7 @@ OID     N8
 3
 2141
 289
-0
+2
 18
 0
 0
@@ -6438,7 +6472,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 2
-4143ffffbaebffff4143ffff17600000
+4043ffffbaebffff4043ffff17600000
 2
 
 
@@ -6470,7 +6504,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 4
-b3b6feffce770000ed00ffffce770000ed00ffffab600000a734ffffab600000
+b1b6feff80770000ed00ffff80770000ed00ffffab600000a634ffffab600000
 2
 
 
@@ -6502,7 +6536,7 @@ b3b6feffce770000ed00ffffce770000ed00ffffab600000a734ffffab600000
 0
 0
 2
-c8aefeff2d7d0000765cfeff2d7d0000
+c6aefeff547d0000755cfeff547d0000
 2
 
 
@@ -6534,7 +6568,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-8d35fffffd5b00008d35ffffcc3d000042f6feffcc3d0000
+8c35fffffd5b00008c35ffffcc3d000042f6feffcc3d0000
 2
 
 
@@ -6566,7 +6600,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-0f4affffe16000000f4affff7e820000bda5ffff7e820000
+0e4affffe16000000e4affff7e820000bda5ffff7e820000
 1
 
 
@@ -6598,7 +6632,7 @@ c8aefeff2d7d0000765cfeff2d7d0000
 0
 0
 3
-d646ffff555e00000ebeffff555e00000ebeffff6a450000
+d546ffff555e00000ebeffff555e00000ebeffff6a450000
 2
 
 
@@ -6630,7 +6664,7 @@ d646ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-2d3bffff4b6800002617ffff4b6800002617ffff07a10000
+2c3bffff4b6800002617ffff4b6800002617ffff07a10000
 2
 
 

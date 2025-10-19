@@ -42,6 +42,7 @@ type
       FAnrede: string;
       FAbteilung: string;
       FGebDatum : string;
+      FID : integer;
 
       function getPersNr : string;
       procedure setPersNr( value : string );
@@ -55,6 +56,8 @@ type
       procedure setAbteilung( value : string );
       function getGebDatum : string;
       procedure setGebDatum( value : string );
+      function getID : integer;
+      procedure setID( value : integer );
 
     public
       constructor create;
@@ -136,13 +139,15 @@ end;
 
 function TWaehler.clone: IWaehler;
 begin
-  Result := TWaehler.create;
+  Result          := TWaehler.create;
 
-  Result.PersNr := FPersNr;
-  Result.Name   := FName;
-  Result.Vorname:= FVorname;
-  Result.Anrede := FAnrede;
+  Result.PersNr   := FPersNr;
+  Result.Name     := FName;
+  Result.Vorname  := FVorname;
+  Result.Anrede   := FAnrede;
   Result.Abteilung:= FAbteilung;
+  Result.ID       := FID;
+  Result.GebDatum := FGebDatum;
 
 end;
 
@@ -153,11 +158,12 @@ begin
   Result := Result and SameText( FVorname, value.Vorname );
   Result := Result and SameText( FAnrede, value.Anrede );
   Result := Result and SameText( FAbteilung, value.Abteilung );
+  Result := Result and SameText( FGebDatum, value.GebDatum );
 end;
 
 constructor TWaehler.create;
 begin
-
+  FID := -1;
 end;
 
 destructor TWaehler.Destroy;
@@ -179,7 +185,7 @@ begin
   if anz >= 3 then FVorname    := arr.Items[2].Value;
   if anz >= 4 then FAnrede     := arr.Items[3].Value;
   if anz >= 5 then FAbteilung  := arr.Items[4].Value;
-  if anz >= 5 then FGebDatum   := arr.Items[5].Value;
+  if anz >= 6 then FGebDatum   := arr.Items[5].Value;
 end;
 
 
@@ -196,6 +202,11 @@ end;
 function TWaehler.getGebDatum: string;
 begin
   Result := FGebDatum;
+end;
+
+function TWaehler.getID: integer;
+begin
+  Result := FId;
 end;
 
 function TWaehler.getName: string;
@@ -225,12 +236,18 @@ end;
 
 procedure TWaehler.setAnrede(value: string);
 begin
-  FAnrede := value;;
+
+  FAnrede := value;
 end;
 
 procedure TWaehler.setGebDatum(value: string);
 begin
   FGebDatum := value;
+end;
+
+procedure TWaehler.setID(value: integer);
+begin
+  FID := value;
 end;
 
 procedure TWaehler.setName(value: string);
@@ -240,6 +257,11 @@ end;
 
 procedure TWaehler.setPersNr(value: string);
 begin
+  value := trim(value);
+  while (Length(value) > 1) and (value[1] = '0') do
+  begin
+    Delete(value, 1, 1); // Lösche das erste Zeichen
+  end;
   FPersNr := value;
 end;
 

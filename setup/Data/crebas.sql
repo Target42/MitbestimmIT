@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     09.10.2025  21:06                          */
+/*   Created on:     18.10.2025  20:41                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -27,6 +27,7 @@ create table MA_MITARBEITER
     MA_GENDER                       CHAR(1)                        ,
     MA_ABTEILUNG                    VARCHAR(20)                    ,
     MA_MAIL                         VARCHAR(255)                   ,
+    MA_GEB                          DATE                           ,
     constraint PK_MA_MITARBEITER primary key (MA_ID)
 );
 

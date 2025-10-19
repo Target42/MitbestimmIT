@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     09.10.2025  21:06                          ' +
+            '/*   Created on:     18.10.2025  20:41                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -64,6 +64,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    MA_MAIL                         VARCHAR(255)                ' +
+            '   ,'
+          
+            '    MA_GEB                          DATE                        ' +
             '   ,'
           '    constraint PK_MA_MITARBEITER primary key (MA_ID)'
           ');'
@@ -793,7 +796,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     09.10.2025  21:06                          ' +
+            '/*   Created on:     18.10.2025  20:41                          ' +
             '*/'
           
             '/* ============================================================ ' +

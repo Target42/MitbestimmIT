@@ -53,7 +53,7 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
     Left = 0
     Top = 73
     Width = 624
-    Height = 128
+    Height = 136
     Align = alTop
     Caption = 'Feldzuordnungen'
     TabOrder = 1
@@ -91,6 +91,13 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       Width = 52
       Height = 15
       Caption = 'Abteilung'
+    end
+    object Label9: TLabel
+      Left = 288
+      Top = 77
+      Width = 80
+      Height = 15
+      Caption = 'Geburtstdatum'
     end
     object ComboBox1: TComboBox
       Left = 128
@@ -143,8 +150,8 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       TabOrder = 5
     end
     object btnUse: TBitBtn
-      Left = 408
-      Top = 80
+      Left = 406
+      Top = 105
       Width = 105
       Height = 25
       Hint = 
@@ -155,6 +162,14 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       Images = ResMod.PngImageList1
       TabOrder = 6
       OnClick = btnUseClick
+    end
+    object ComboBox9: TComboBox
+      Left = 406
+      Top = 74
+      Width = 145
+      Height = 23
+      TabOrder = 7
+      Text = 'ComboBox9'
     end
   end
   object StatusBar1: TStatusBar
@@ -179,7 +194,7 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       46)
     object btnUpdate: TBitBtn
       Left = 496
-      Top = 10
+      Top = 15
       Width = 107
       Height = 25
       Anchors = [akTop, akRight]
@@ -192,9 +207,9 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
   end
   object LV: TListView
     Left = 0
-    Top = 273
+    Top = 281
     Width = 624
-    Height = 330
+    Height = 322
     Align = alClient
     Columns = <
       item
@@ -209,11 +224,15 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
         Width = 150
       end
       item
-        Caption = 'Anrede'
+        Caption = 'Geschlecht'
         Width = 100
       end
       item
         Caption = 'Abteilung'
+        Width = 100
+      end
+      item
+        Caption = 'GebDat'
         Width = 100
       end>
     ReadOnly = True
@@ -223,12 +242,13 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
   end
   object GroupBox3: TGroupBox
     Left = 0
-    Top = 201
+    Top = 209
     Width = 624
     Height = 72
     Align = alTop
     Caption = 'Geschlechter'
     TabOrder = 5
+    ExplicitTop = 201
     object Label6: TLabel
       Left = 16
       Top = 14
@@ -251,8 +271,8 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       Caption = 'Divers'
     end
     object btnScan: TBitBtn
-      Left = 476
-      Top = 33
+      Left = 469
+      Top = 41
       Width = 75
       Height = 25
       Hint = 
@@ -285,8 +305,12 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
       Top = 35
       Width = 145
       Height = 23
+      ItemIndex = 1
       TabOrder = 3
-      Text = 'ComboBox6'
+      Text = 'weiblich'
+      Items.Strings = (
+        'm'#228'nnlich'
+        'weiblich')
     end
   end
   object OpenDialog1: TOpenDialog

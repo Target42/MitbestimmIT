@@ -58,6 +58,8 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
+    ComboBox9: TComboBox;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnLoadClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -102,6 +104,7 @@ begin
     m_sheet := NIL;
   end;
 
+  Screen.Cursor := crHourGlass;
   m_workBook := TZWorkBook.Create(NIL);
   try
     m_workBook.LoadFromFile(fname);
@@ -115,10 +118,12 @@ begin
     on E: Exception do
     begin
       FreeAndNil(m_workBook);
+      Screen.Cursor := crDefault;
       ShowMessage('Fehler beim Laden der Datei: ' + E.Message);
       Exit;
     end;
   end;
+    Screen.Cursor := crDefault;
 end;
 
 procedure TWaehlerlisteImportForm.btnScanClick(Sender: TObject);
@@ -149,15 +154,12 @@ begin
   for row := st to pred(m_sheet.RowCount) do
   begin
     s := trim(m_sheet.Cell[inx, row].AsString);
-    if list.IndexOf(s) = -1 then
+    if (s <> '') and (list.IndexOf(s) = -1) then
       list.Add(s);
   end;
-  if list.IndexOf('') = -1 then
-    list.Add('');
 
   ComboBox6.Items.Assign(list);
   ComboBox7.Items.Assign(list);
-  ComboBox8.Items.Assign(list);
 
   ComboBox6.ItemIndex := 0;
   ComboBox7.ItemIndex := 1;
@@ -172,8 +174,32 @@ var
   i     : integer;
   waehler: IWaehler;
   item  : TListItem;
+    m, w, d : string;
+
+  function geschlecht( s : string ) : string;
+  begin
+    Result := '';
+
+    if SameText( s, m) then
+      Result := 'männlich'
+    else if SameText(s, w) then
+      Result := 'weiblich'
+    else
+    begin
+      Result := d;
+    end;
+    if Result = '' then
+      Result := 'weiblich';
+  end;
+
+var
+  client : TWaehlerModClient;
+  res : TJSONObject;
 begin
   Screen.Cursor := crHourGlass;
+  m := ComboBox6.Text;
+  w := ComboBox7.Text;
+  d := ComboBox8.Text;
 
   liste := TWaehlerListe.create;
 
@@ -182,14 +208,19 @@ begin
     item := LV.Items[i];
 
     waehler := liste.new;
-    waehler.PersNr := item.Caption;
-    waehler.Name   := item.SubItems[0];
-    waehler.Vorname:= item.SubItems[1];
-    waehler.Anrede := item.SubItems[2];
+    waehler.PersNr    := item.Caption;
+    waehler.Name      := item.SubItems[0];
+    waehler.Vorname   := item.SubItems[1];
+    waehler.Anrede    := geschlecht(item.SubItems[2]);
     waehler.Abteilung := item.SubItems[3];
+    waehler.GebDatum  := item.SubItems[4];
 
     liste.add(waehler);
   end;
+
+  client := TWaehlerModClient.Create(GM.SQLConnection1.DBXConnection);
+  res := client.import(liste.toSimpleJSON);
+  client.Free;
 
   liste.release;
   Screen.Cursor := crDefault;
@@ -198,7 +229,7 @@ end;
 
 procedure TWaehlerlisteImportForm.btnUseClick(Sender: TObject);
 var
-  map : array[0..4] of Integer;
+  map : array[0..5] of Integer;
   item : TListItem;
   st : integer;
   row : integer;
@@ -209,14 +240,16 @@ var
     if inx > -1 then
       Result := m_sheet.Cell[map[inx], row].AsString;
   end;
+
 var
   s : string;
 begin
-  map[0] := ComboBox1.ItemIndex;
-  map[1] := ComboBox3.ItemIndex;
-  map[2] := ComboBox4.ItemIndex;
-  map[3] := ComboBox2.ItemIndex;
-  map[4] := ComboBox5.ItemIndex;
+  map[0] := ComboBox1.ItemIndex; // PersNr
+  map[1] := ComboBox3.ItemIndex; // Name
+  map[2] := ComboBox4.ItemIndex; // Vorname
+  map[3] := ComboBox2.ItemIndex; // Geschlecht
+  map[4] := ComboBox5.ItemIndex; // Abteilung
+  map[5] := ComboBox9.ItemIndex; // GebDat
 
   LV.Items.Clear;
   st := 0;
@@ -234,6 +267,7 @@ begin
       item.SubItems.Add(getCol( row, 2));
       item.SubItems.Add(getCol( row, 3));
       item.SubItems.Add(getCol( row, 4));
+      item.SubItems.Add(getCol( row, 5));
     end;
   end;
 end;
@@ -269,12 +303,14 @@ begin
   ComboBox3.Items.Assign(ComboBox1.Items);
   ComboBox4.Items.Assign(ComboBox1.Items);
   ComboBox5.Items.Assign(ComboBox1.Items);
+  ComboBox9.Items.Assign(ComboBox1.Items);
 
   setindex(ComboBox1, 0);
   setindex(ComboBox2, 3);
   setindex(ComboBox3, 2);
   setindex(ComboBox4, 1);
   setindex(ComboBox5, 4);
+  setindex(ComboBox9, 5);
 end;
 
 procedure TWaehlerlisteImportForm.FormCreate(Sender: TObject);
@@ -289,10 +325,10 @@ begin
   ComboBox5.Text := '';
   ComboBox6.Text := '';
   ComboBox7.Text := '';
-  ComboBox8.Text := '';
+  ComboBox9.Text := '';
 
 {$ifdef DEBUG}
-  Edit1.Text := 'D:\git_d12\MitbestimmIT\testdaten\Firma1\Mitarbeiterliste_120_Personen.xlsx';
+  Edit1.Text := 'D:\git_d12\MitbestimmIT\testdaten\Firma1\Wahlvorstand_120_Personen.xlsx';
 {$ENDIF}
 end;
 

@@ -41,7 +41,10 @@ uses
   u_json_db in '..\lib\u_json_db.pas',
   u_pwd in '..\lib\u_pwd.pas',
   m_wahl in 'm_wahl.pas' {WahlMod: TDSServerModule},
-  m_waehler in 'm_waehler.pas' {WaehlerMod: TDSServerModule};
+  m_waehler in 'm_waehler.pas' {WaehlerMod: TDSServerModule},
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
+  u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
+  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas';
 
 {$R *.RES}
 

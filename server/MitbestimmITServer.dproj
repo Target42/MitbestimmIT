@@ -150,6 +150,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
+        <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
+        <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

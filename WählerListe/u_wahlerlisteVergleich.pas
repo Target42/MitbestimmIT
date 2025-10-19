@@ -21,7 +21,7 @@ unit u_wahlerlisteVergleich;
 interface
 
 uses
-  u_Waehlerliste, System.JSON, i_waehlerliste;
+  u_Waehlerliste, System.JSON, i_waehlerliste, System.Classes;
 
 type
   TWaehlerlisteVergleich = class
@@ -40,6 +40,8 @@ type
       procedure findAdded;
       procedure findChanged;
 
+      procedure updateIDs;
+
     public
       constructor create;
       Destructor Destroy; override;
@@ -51,10 +53,11 @@ type
       property DelList : IWaehlerListe read m_del;
       property ChgList : IWaehlerListe read m_chg;
 
-      procedure execute( newList, oldList : TWaehlerListe ); overload;
+      procedure execute( newList, oldList : IWaehlerListe ); overload;
       procedure execute( newList : TJSONObject; fname : string ); overload;
 
-      procedure WriteChangeLog( fname : string );
+      procedure WriteChangeLog( fname : string ); overload;
+      procedure WriteChangeLog( st: TStream ); overload;
 
   end;
 
@@ -113,6 +116,7 @@ begin
   m_old.loadFromFile(fname);
   m_new.fromJSON(newList);
 
+  updateIDs;
 
   m_result.Assign(m_old);
 
@@ -121,13 +125,14 @@ begin
   findChanged;
 end;
 
-procedure TWaehlerlisteVergleich.execute(newList, oldList: TWaehlerListe);
+procedure TWaehlerlisteVergleich.execute(newList, oldList: IWaehlerListe);
 begin
   clear;
 
   m_old.Assign(oldList);
   m_new.Assign(newList);
 
+  updateIDs;
 
   m_result.Assign(oldList);
 
@@ -140,13 +145,20 @@ end;
 procedure TWaehlerlisteVergleich.findAdded;
 var
   nw : IWaehler;
+  ow : IWaehler;
 begin
   for nw in m_new.Items do
   begin
-    if not m_old.hasWaehler(nw.PersNr) then
+    ow := m_old.getWaehler(nw.PersNr);
+
+    if not Assigned(ow) then
     begin
       m_result.add(nw.clone);
       m_add.add(nw.clone);
+    end
+    else
+    begin
+      nw.ID := ow.ID;
     end;
   end;
 end;
@@ -163,7 +175,6 @@ begin
       if not old.compare(new) then
       begin
         m_chg.add(new.clone);
-        m_chg.add(old.clone);
         old.Assign(new);
       end;
     end;
@@ -184,7 +195,23 @@ begin
   end;
 end;
 
-procedure TWaehlerlisteVergleich.WriteChangeLog( fname : string );
+procedure TWaehlerlisteVergleich.updateIDs;
+var
+  nma : IWaehler;
+  oma : IWaehler;
+begin
+  for nma in m_new.Items do
+  begin
+    oma := m_old.getWaehler(nma.PersNr);
+    if Assigned(oma) then
+    begin
+      nma.ID := oma.ID;
+    end;
+  end;
+
+end;
+
+procedure TWaehlerlisteVergleich.WriteChangeLog(st: TStream);
 var
   Result : TJSONObject;
 begin
@@ -194,8 +221,17 @@ begin
   JReplace(Result, 'del', m_del.toSimpleJSON);
   JReplace(Result, 'change', m_chg.toSimpleJSON);
 
-  saveJSON(Result, fname);
+  saveJSON(Result, st);
   Result.Free;
+end;
+
+procedure TWaehlerlisteVergleich.WriteChangeLog( fname : string );
+var
+  st : TStream;
+begin
+  st := TFileStream.Create(fname, fmCreate);
+  WriteChangeLog( st);
+  st.Free;
 end;
 
 end.

@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 08.10.2025 20:21:42
+// 19.10.2025 13:40:13
 //
 
 unit u_stub;
@@ -62,6 +62,18 @@ type
     function saveWahlData(data: TJSONObject): TJSONObject;
     function loadWahlData: TJSONObject;
     function setWahl(id: Integer): Boolean;
+  end;
+
+  TWaehlerModClient = class(TDSAdminClient)
+  private
+    FMAQryBeforeOpenCommand: TDBXCommand;
+    FimportCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure MAQryBeforeOpen(DataSet: TDataSet);
+    function import(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -407,6 +419,50 @@ begin
   FsaveWahlDataCommand.Free;
   FloadWahlDataCommand.Free;
   FsetWahlCommand.Free;
+  inherited;
+end;
+
+procedure TWaehlerModClient.MAQryBeforeOpen(DataSet: TDataSet);
+begin
+  if FMAQryBeforeOpenCommand = nil then
+  begin
+    FMAQryBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMAQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMAQryBeforeOpenCommand.Text := 'TWaehlerMod.MAQryBeforeOpen';
+    FMAQryBeforeOpenCommand.Prepare;
+  end;
+  FMAQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMAQryBeforeOpenCommand.ExecuteUpdate;
+end;
+
+function TWaehlerModClient.import(data: TJSONObject): TJSONObject;
+begin
+  if FimportCommand = nil then
+  begin
+    FimportCommand := FDBXConnection.CreateCommand;
+    FimportCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FimportCommand.Text := 'TWaehlerMod.import';
+    FimportCommand.Prepare;
+  end;
+  FimportCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FimportCommand.ExecuteUpdate;
+  Result := TJSONObject(FimportCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TWaehlerModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TWaehlerModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TWaehlerModClient.Destroy;
+begin
+  FMAQryBeforeOpenCommand.Free;
+  FimportCommand.Free;
   inherited;
 end;
 

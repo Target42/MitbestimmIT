@@ -41,7 +41,10 @@ type
       procedure setAbteilung( value : string );
       function getGebDatum : string;
       procedure setGebDatum( value : string );
+      function getID : integer;
+      procedure setID( value : integer );
 
+      property ID : integer read getID write setID;
       property PersNr: String read getPersNr write setPersNr;
       property Name: string read getName write setName;
       property Vorname: string read getVorname write setVorname;
