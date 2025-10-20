@@ -23,13 +23,13 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
-  m_res, fr_base, Vcl.Buttons, u_wahllokal;
+  m_res, fr_base, Vcl.Buttons, u_wahllokal, Data.DB, Datasnap.DBClient,
+  Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids;
 
 type
   TWahllokalForm = class(TForm)
     GroupBox1: TGroupBox;
     Panel1: TPanel;
-    RaumView: TListView;
     btnAdd: TBitBtn;
     btnEdit: TBitBtn;
     btnDelete: TBitBtn;
@@ -40,19 +40,15 @@ type
     Panel2: TPanel;
     BitBtn1: TBitBtn;
     BitBtn3: TBitBtn;
-    procedure btnAddClick(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    DSProviderConnection1: TDSProviderConnection;
+    DBGrid1: TDBGrid;
+    LokalQry: TClientDataSet;
+    LokalSrc: TDataSource;
     procedure FormCreate(Sender: TObject);
-    procedure btnEditClick(Sender: TObject);
   private
-    m_items : TWahlLokalListe;
-    procedure UpdateView;
-    procedure UpdateRow( item : TListItem; lokal : TWahlLokal );
-
   public
     class procedure execute;
 
-    procedure load;
   end;
 
 var
@@ -67,77 +63,16 @@ uses
 
 { TWahllokalForm }
 
-procedure TWahllokalForm.btnAddClick(Sender: TObject);
-var
-  lokal :TWahllokal;
-begin
-  lokal := TWahllokalRaumform.add;
-  if Assigned(lokal) then
-  begin
-    m_items.add(lokal);
-  end;
-end;
-
-procedure TWahllokalForm.btnEditClick(Sender: TObject);
-var
-  lokal : TWahlLokal;
-begin
-  if not Assigned(RaumView.Selected) then
-    exit;
-
-  lokal := RaumView.Selected.Data;
-  if TWahllokalRaumform.edit(lokal) then
-  begin
-    UpdateRow(RaumView.Selected, lokal);
-  end;
-end;
-
 class procedure TWahllokalForm.execute;
 begin
   Application.CreateForm(TWahllokalForm, WahllokalForm);
-  WahllokalForm.load;
   WahllokalForm.ShowModal;
   WahllokalForm.Free;
 end;
 
 procedure TWahllokalForm.FormCreate(Sender: TObject);
 begin
-  m_items := TWahlLokalListe.create;
-end;
-
-procedure TWahllokalForm.FormDestroy(Sender: TObject);
-begin
-  m_items.free;
-end;
-
-procedure TWahllokalForm.load;
-begin
-  UpdateView;
-end;
-
-procedure TWahllokalForm.UpdateRow(item: TListItem; lokal: TWahlLokal);
-begin
-  item.Data := lokal;
-  item.Caption := lokal.Building;
-  item.SubItems.Clear;
-  item.SubItems.Add(lokal.Raum);
-  item.SubItems.Add(lokal.Stockwerk);
-  item.SubItems.Add(FormatDateTime('dd.MM.yyyy hh:mm', lokal.Von));
-  item.SubItems.Add(FormatDateTime('dd.MM.yyyy hh:mm', lokal.Bis));
-end;
-
-procedure TWahllokalForm.UpdateView;
-var
-  lokal : TWahlLokal;
-begin
-  RaumView.Items.BeginUpdate;
-  RaumView.Items.Clear;
-  Helferview.Items.Clear;
-
-  for lokal in m_items.Items do
-    UpdateRow(RaumView.Items.Add, lokal);
-
-  RaumView.Items.EndUpdate;
+  LokalQry.Open;
 end;
 
 end.

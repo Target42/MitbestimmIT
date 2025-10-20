@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 19.10.2025 13:40:13
+// 20.10.2025 21:18:44
 //
 
 unit u_stub;
@@ -66,14 +66,34 @@ type
 
   TWaehlerModClient = class(TDSAdminClient)
   private
-    FMAQryBeforeOpenCommand: TDBXCommand;
+    FMitarbeiterBeforeOpenCommand: TDBXCommand;
     FimportCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
-    procedure MAQryBeforeOpen(DataSet: TDataSet);
+    procedure MitarbeiterBeforeOpen(DataSet: TDataSet);
     function import(data: TJSONObject): TJSONObject;
+  end;
+
+  TLokaleModClient = class(TDSAdminClient)
+  private
+    FLokaleBeforeOpenCommand: TDBXCommand;
+    FLokaleBeforePostCommand: TDBXCommand;
+    FgetCommand: TDBXCommand;
+    FaddCommand: TDBXCommand;
+    FsaveCommand: TDBXCommand;
+    FdeleteCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure LokaleBeforeOpen(DataSet: TDataSet);
+    procedure LokaleBeforePost(DataSet: TDataSet);
+    function get(id: Integer): TJSONObject;
+    function add(data: TJSONObject): TJSONObject;
+    function save(data: TJSONObject): TJSONObject;
+    function delete(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -422,17 +442,17 @@ begin
   inherited;
 end;
 
-procedure TWaehlerModClient.MAQryBeforeOpen(DataSet: TDataSet);
+procedure TWaehlerModClient.MitarbeiterBeforeOpen(DataSet: TDataSet);
 begin
-  if FMAQryBeforeOpenCommand = nil then
+  if FMitarbeiterBeforeOpenCommand = nil then
   begin
-    FMAQryBeforeOpenCommand := FDBXConnection.CreateCommand;
-    FMAQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FMAQryBeforeOpenCommand.Text := 'TWaehlerMod.MAQryBeforeOpen';
-    FMAQryBeforeOpenCommand.Prepare;
+    FMitarbeiterBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMitarbeiterBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMitarbeiterBeforeOpenCommand.Text := 'TWaehlerMod.MitarbeiterBeforeOpen';
+    FMitarbeiterBeforeOpenCommand.Prepare;
   end;
-  FMAQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
-  FMAQryBeforeOpenCommand.ExecuteUpdate;
+  FMitarbeiterBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMitarbeiterBeforeOpenCommand.ExecuteUpdate;
 end;
 
 function TWaehlerModClient.import(data: TJSONObject): TJSONObject;
@@ -461,8 +481,111 @@ end;
 
 destructor TWaehlerModClient.Destroy;
 begin
-  FMAQryBeforeOpenCommand.Free;
+  FMitarbeiterBeforeOpenCommand.Free;
   FimportCommand.Free;
+  inherited;
+end;
+
+procedure TLokaleModClient.LokaleBeforeOpen(DataSet: TDataSet);
+begin
+  if FLokaleBeforeOpenCommand = nil then
+  begin
+    FLokaleBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FLokaleBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FLokaleBeforeOpenCommand.Text := 'TLokaleMod.LokaleBeforeOpen';
+    FLokaleBeforeOpenCommand.Prepare;
+  end;
+  FLokaleBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FLokaleBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TLokaleModClient.LokaleBeforePost(DataSet: TDataSet);
+begin
+  if FLokaleBeforePostCommand = nil then
+  begin
+    FLokaleBeforePostCommand := FDBXConnection.CreateCommand;
+    FLokaleBeforePostCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FLokaleBeforePostCommand.Text := 'TLokaleMod.LokaleBeforePost';
+    FLokaleBeforePostCommand.Prepare;
+  end;
+  FLokaleBeforePostCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FLokaleBeforePostCommand.ExecuteUpdate;
+end;
+
+function TLokaleModClient.get(id: Integer): TJSONObject;
+begin
+  if FgetCommand = nil then
+  begin
+    FgetCommand := FDBXConnection.CreateCommand;
+    FgetCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetCommand.Text := 'TLokaleMod.get';
+    FgetCommand.Prepare;
+  end;
+  FgetCommand.Parameters[0].Value.SetInt32(id);
+  FgetCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLokaleModClient.add(data: TJSONObject): TJSONObject;
+begin
+  if FaddCommand = nil then
+  begin
+    FaddCommand := FDBXConnection.CreateCommand;
+    FaddCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FaddCommand.Text := 'TLokaleMod.add';
+    FaddCommand.Prepare;
+  end;
+  FaddCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FaddCommand.ExecuteUpdate;
+  Result := TJSONObject(FaddCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLokaleModClient.save(data: TJSONObject): TJSONObject;
+begin
+  if FsaveCommand = nil then
+  begin
+    FsaveCommand := FDBXConnection.CreateCommand;
+    FsaveCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveCommand.Text := 'TLokaleMod.save';
+    FsaveCommand.Prepare;
+  end;
+  FsaveCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLokaleModClient.delete(data: TJSONObject): TJSONObject;
+begin
+  if FdeleteCommand = nil then
+  begin
+    FdeleteCommand := FDBXConnection.CreateCommand;
+    FdeleteCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FdeleteCommand.Text := 'TLokaleMod.delete';
+    FdeleteCommand.Prepare;
+  end;
+  FdeleteCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteCommand.ExecuteUpdate;
+  Result := TJSONObject(FdeleteCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TLokaleModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TLokaleModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TLokaleModClient.Destroy;
+begin
+  FLokaleBeforeOpenCommand.Free;
+  FLokaleBeforePostCommand.Free;
+  FgetCommand.Free;
+  FaddCommand.Free;
+  FsaveCommand.Free;
+  FdeleteCommand.Free;
   inherited;
 end;
 

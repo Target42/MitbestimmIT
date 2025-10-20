@@ -11,6 +11,7 @@ object WahllokalRaumform: TWahllokalRaumform
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poOwnerFormCenter
+  OnCreate = FormCreate
   TextHeight = 15
   object Label1: TLabel
     Left = 48

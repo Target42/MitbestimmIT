@@ -236,8 +236,10 @@ end;
 
 procedure TWaehler.setAnrede(value: string);
 begin
-
-  FAnrede := value;
+  if SameText(value, 'männlich') or SameText( value, 'm') then
+    FAnrede := 'm'
+  else
+    FAnrede := 'w';
 end;
 
 procedure TWaehler.setGebDatum(value: string);

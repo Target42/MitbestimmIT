@@ -12,7 +12,6 @@ uses
 
 type
   TWaehlerMod = class(TDSServerModule)
-    Mitarbeiter: TFDTable;
     MitarbeiterTab: TDataSetProvider;
     MAQry: TFDQuery;
     MAQryMA_ID: TIntegerField;
@@ -20,7 +19,6 @@ type
     MAQryMA_NAME: TStringField;
     MAQryMA_VORNAME: TStringField;
     MAQryMA_GENDER: TStringField;
-    MAQryMA_ABTEILUNG: TStringField;
     MAQryMA_MAIL: TStringField;
     MAQryMA_GEB: TDateField;
     NewMaTab: TFDTable;
@@ -40,6 +38,9 @@ type
     MCTabMC_DEL: TIntegerField;
     MCTabMC_DATA: TBlobField;
     MCTabMC_ID: TIntegerField;
+    MAQryMA_ABTEILUNG: TStringField;
+    Mitarbeiter: TFDQuery;
+    procedure MitarbeiterBeforeOpen(DataSet: TDataSet);
   private
     function getOldList: IWaehlerListe;
     procedure update( list : IWaehlerListe );
@@ -188,6 +189,11 @@ begin
     end;
   end;
 
+end;
+
+procedure TWaehlerMod.MitarbeiterBeforeOpen(DataSet: TDataSet);
+begin
+  Mitarbeiter.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 procedure TWaehlerMod.remove(list: IWaehlerListe);

@@ -94,7 +94,7 @@ var
 implementation
 
 uses
-  System.RegularExpressions, Vcl.Dialogs, system.IOUtils;
+  System.RegularExpressions, Vcl.Dialogs, system.IOUtils, Vcl.Forms;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -252,6 +252,11 @@ procedure TGM.SQLConnection1AfterDisconnect(Sender: TObject);
 begin
   FWahlName  := '';
   FSimulation:= false;
+
+  if Assigned( Screen.ActiveForm ) then
+  begin
+    Screen.ActiveForm.Close;
+  end;
 end;
 
 end.

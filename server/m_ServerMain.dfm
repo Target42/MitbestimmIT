@@ -124,13 +124,20 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Server = DSServer1
     LifeCycle = 'Invocation'
     Left = 552
-    Top = 24
+    Top = 16
   end
   object DSWaehler: TDSServerClass
     OnGetClass = DSWaehlerGetClass
     Server = DSServer1
     LifeCycle = 'Invocation'
-    Left = 640
-    Top = 32
+    Left = 624
+    Top = 16
+  end
+  object DSLokale: TDSServerClass
+    OnGetClass = DSLokaleGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 712
+    Top = 16
   end
 end

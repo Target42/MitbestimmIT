@@ -44,7 +44,8 @@ uses
   m_waehler in 'm_waehler.pas' {WaehlerMod: TDSServerModule},
   i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
-  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas';
+  u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
+  m_lokale in 'm_lokale.pas' {LokaleMod: TDSServerModule};
 
 {$R *.RES}
 

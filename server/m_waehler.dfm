@@ -1,12 +1,6 @@
 object WaehlerMod: TWaehlerMod
   Height = 480
   Width = 640
-  object Mitarbeiter: TFDTable
-    Connection = DBMod.FDConnection1
-    TableName = 'MA_MITARBEITER'
-    Left = 120
-    Top = 56
-  end
   object MitarbeiterTab: TDataSetProvider
     DataSet = Mitarbeiter
     Left = 120
@@ -19,7 +13,10 @@ object WaehlerMod: TWaehlerMod
       'SELECT *'
       'FROM MA_MITARBEITER a, MA_WA b'
       'where'
-      '  b.WA_ID = :wa_id')
+      '  b.WA_ID = :wa_id'
+      'and'
+      '  b.MA_ID = a.MA_ID'
+      '    ')
     Left = 296
     Top = 168
     ParamData = <
@@ -56,10 +53,6 @@ object WaehlerMod: TWaehlerMod
       FixedChar = True
       Size = 1
     end
-    object MAQryMA_ABTEILUNG: TStringField
-      FieldName = 'MA_ABTEILUNG'
-      Origin = 'MA_ABTEILUNG'
-    end
     object MAQryMA_MAIL: TStringField
       FieldName = 'MA_MAIL'
       Origin = 'MA_MAIL'
@@ -68,6 +61,11 @@ object WaehlerMod: TWaehlerMod
     object MAQryMA_GEB: TDateField
       FieldName = 'MA_GEB'
       Origin = 'MA_GEB'
+    end
+    object MAQryMA_ABTEILUNG: TStringField
+      FieldName = 'MA_ABTEILUNG'
+      Origin = 'MA_ABTEILUNG'
+      Size = 100
     end
   end
   object NewMaTab: TFDTable
@@ -85,7 +83,7 @@ object WaehlerMod: TWaehlerMod
   object FDTransaction1: TFDTransaction
     Options.AutoStop = False
     Connection = DBMod.FDConnection1
-    Left = 288
+    Left = 352
     Top = 56
   end
   object DelWahlHelferQry: TFDQuery
@@ -279,5 +277,25 @@ object WaehlerMod: TWaehlerMod
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
+  end
+  object Mitarbeiter: TFDQuery
+    BeforeOpen = MitarbeiterBeforeOpen
+    SQL.Strings = (
+      'SELECT *'
+      'FROM MA_MITARBEITER a, MA_WA b'
+      'where'
+      '  b.WA_ID = :wa_id'
+      'and'
+      '  b.MA_ID = a.MA_ID'
+      '    ')
+    Left = 120
+    Top = 64
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

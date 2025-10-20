@@ -220,6 +220,21 @@ begin
 
   client := TWaehlerModClient.Create(GM.SQLConnection1.DBXConnection);
   res := client.import(liste.toSimpleJSON);
+
+  if JBool( res, 'result') then
+  begin
+    ShowMessage(Format('Eingefügt:%d%sGeändert:%d%sGelöscht:%d',
+    [
+      JInt( res, 'add'), sLineBreak,
+      JInt( res, 'chg'), sLineBreak,
+      JInt( res, 'del')
+    ]));
+  end
+  else
+  begin
+    ShowMessage(JString( res, 'text'));
+  end;
+
   client.Free;
 
   liste.release;

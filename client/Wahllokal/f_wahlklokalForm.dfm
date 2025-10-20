@@ -12,7 +12,6 @@ object WahllokalForm: TWahllokalForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 0
@@ -53,7 +52,6 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 1
         Images = ResMod.PngImageList1
         TabOrder = 0
-        OnClick = btnAddClick
       end
       object btnEdit: TBitBtn
         Left = 136
@@ -64,7 +62,6 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 3
         Images = ResMod.PngImageList1
         TabOrder = 1
-        OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
         Left = 509
@@ -78,37 +75,53 @@ object WahllokalForm: TWahllokalForm
         TabOrder = 2
       end
     end
-    object RaumView: TListView
+    object DBGrid1: TDBGrid
       Left = 2
       Top = 17
       Width = 595
       Height = 111
       Align = alClient
+      DataSource = LokalSrc
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ReadOnly = True
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
       Columns = <
         item
-          Caption = 'Geb'#228'ude'
-          Width = 75
+          Expanded = False
+          FieldName = 'WL_BAU'
+          Title.Caption = 'Geb'#228'ude'
+          Width = 100
+          Visible = True
         end
         item
-          Caption = 'Raumnummer'
-          Width = 90
+          Expanded = False
+          FieldName = 'WL_STOCKWERK'
+          Title.Caption = 'Stockwerk'
+          Visible = True
         end
         item
-          Caption = 'Stockwerk'
-          Width = 75
+          Expanded = False
+          FieldName = 'WL_RAUM'
+          Title.Caption = 'Raum'
+          Visible = True
         end
         item
-          Caption = 'Start'
-          Width = 150
+          Expanded = False
+          FieldName = 'WL_START'
+          Title.Caption = 'Startzeit'
+          Visible = True
         end
         item
-          Caption = 'Ende'
-          Width = 150
+          Expanded = False
+          FieldName = 'WL_ENDE'
+          Title.Caption = 'Endzeit'
+          Visible = True
         end>
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 1
-      ViewStyle = vsReport
     end
   end
   object GroupBox2: TGroupBox
@@ -149,6 +162,8 @@ object WahllokalForm: TWahllokalForm
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
+      ExplicitLeft = 3
+      ExplicitTop = 11
     end
     object Panel2: TPanel
       Left = 2
@@ -209,5 +224,25 @@ object WahllokalForm: TWahllokalForm
         ExplicitLeft = 495
       end
     end
+  end
+  object DSProviderConnection1: TDSProviderConnection
+    ServerClassName = 'TLokaleMod'
+    Connected = True
+    SQLConnection = GM.SQLConnection1
+    Left = 48
+    Top = 48
+  end
+  object LokalQry: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'LokaleQry'
+    RemoteServer = DSProviderConnection1
+    Left = 160
+    Top = 40
+  end
+  object LokalSrc: TDataSource
+    DataSet = LokalQry
+    Left = 272
+    Top = 40
   end
 end

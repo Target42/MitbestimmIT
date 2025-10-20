@@ -36,14 +36,18 @@ type
     Label2: TLabel;
     BaseFrame1: TBaseFrame;
     procedure BaseFrame1OKBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
-    FRaum: TWahlLokal;
-    procedure setRaum( value : TWahlLokal );
+    FEditMode: boolean;
+    FRaumID : integer;
+    function GetRaumID: integer;
+    procedure SetRaumID(const Value: integer);
   public
-    property Raum: TWahlLokal read FRaum write setRaum;
+    property EditMode: boolean read FEditMode write FEditMode;
+    property RaumID: integer read GetRaumID write SetRaumID;
 
-    class function edit( lokal : TWahlLokal ) : Boolean;
-    class function add : TWahlLokal;
+    class function edit : Boolean;
+    class function add : boolean;
   end;
 
 var
@@ -60,6 +64,7 @@ begin
   Result := TWahlLokal.create;
 
   Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
+  WahllokalRaumform.EditMode := false;
   WahllokalRaumform.Raum := Result;
   if WahllokalRaumform.ShowModal <> mrOk then
     FreeAndNil(Result);
@@ -80,20 +85,26 @@ end;
 class function TWahllokalRaumform.edit(lokal: TWahlLokal): Boolean;
 begin
   Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
+  WahllokalRaumform.EditMode := true;
   WahllokalRaumform.Raum := lokal;
   Result := WahllokalRaumform.ShowModal = mrOk;
   WahllokalRaumform.Free;
 end;
 
-procedure TWahllokalRaumform.setRaum(value: TWahlLokal);
+procedure TWahllokalRaumform.FormCreate(Sender: TObject);
 begin
-  FRaum := value;
-  LabeledEdit1.Text := FRaum.Building;
-  LabeledEdit2.Text := FRaum.Raum;
-  LabeledEdit3.Text := FRaum.Stockwerk;
+  FRaumID := 0;
+end;
 
-  DateTimePicker1.DateTime := FRaum.Von;
-  DateTimePicker2.DateTime := FRaum.bis;
+function TWahllokalRaumform.GetRaumID: integer;
+begin
+
+end;
+
+
+procedure TWahllokalRaumform.SetRaumID(const Value: integer);
+begin
+  FRaumID := value;
 end;
 
 end.

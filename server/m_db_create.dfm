@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     18.10.2025  20:41                          ' +
+            '/*   Created on:     20.10.2025  20:54                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -60,7 +60,7 @@ object CreateDBMode: TCreateDBMode
             '    MA_GENDER                       CHAR(1)                     ' +
             '   ,'
           
-            '    MA_ABTEILUNG                    VARCHAR(20)                 ' +
+            '    MA_ABTEILUNG                    VARCHAR(100)                ' +
             '   ,'
           
             '    MA_MAIL                         VARCHAR(255)                ' +
@@ -291,6 +291,12 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WL_RAUM                         VARCHAR(10)                 ' +
+            '   ,'
+          
+            '    WL_START                        TIMESTAMP                   ' +
+            '   ,'
+          
+            '    WL_ENDE                         TIMESTAMP                   ' +
             '   ,'
           '    constraint PK_WL_WAHL_LOKAL primary key (WA_ID, WL_ID)'
           ');'

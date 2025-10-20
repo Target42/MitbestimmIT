@@ -147,7 +147,7 @@ commit;
 
 
 1753814221
-1760802435
+1760986470
 0
 0
 4
@@ -782,8 +782,8 @@ MA_ABTEILUNG
 
 1
 0
-VARCHAR(20)
-20
+VARCHAR(100)
+100
 0
 0
 
@@ -871,7 +871,7 @@ DATE
 1
 0
 0
-
+MA_GEB
 
 9
 3
@@ -1044,6 +1044,74 @@ VARCHAR(10)
 WL_RAUM
 
 5
+3
+1568
+1568
+WL_START
+WL_START
+
+
+
+2
+0
+TIMESTAMP
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+6
+3
+1569
+1569
+WL_ENDE
+WL_ENDE
+
+
+
+2
+0
+TIMESTAMP
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+7
 3
 21
 21
@@ -3525,7 +3593,7 @@ REF_20
 19
 1
 1
-0
+1
 1
 0
 0
@@ -5657,10 +5725,10 @@ OID     N8
 0
 0
 0
--92605
-26646
--78731
-36020
+-92607
+26644
+-78733
+36018
 2
 1
 0
@@ -5682,17 +5750,17 @@ OID     N8
 3
 1488
 289
-0
+2
 2
 0
 0
 0
 0
 0
--23225
--619
--8901
-5831
+-23228
+-1600
+-8904
+6800
 2
 1
 0
@@ -5721,10 +5789,10 @@ OID     N8
 0
 0
 0
--22864
-15091
--11090
-20565
+-22865
+15090
+-11091
+20564
 2
 1
 0
@@ -6105,10 +6173,10 @@ OID     N8
 0
 0
 0
--114189
-29509
--101590
-35958
+-114190
+29508
+-101591
+35957
 2
 1
 0
@@ -6137,9 +6205,9 @@ OID     N8
 0
 0
 0
--52922
+-52923
 23287
--45348
+-45349
 26811
 2
 1
@@ -6194,7 +6262,7 @@ OID     N8
 3
 2141
 289
-2
+0
 18
 0
 0
@@ -6248,7 +6316,7 @@ OID     N8
 0
 0
 4
-4ec6ffff4b0900004ec6ffff9c280000d2bdffff9c280000d2bdffff3e420000
+4bc6ffff000900004bc6ffff9c280000d1bdffff9c280000d1bdffff3d420000
 2
 
 
@@ -6472,7 +6540,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 2
-4043ffffbaebffff4043ffff17600000
+3f43ffffbaebffff3f43ffff17600000
 2
 
 
@@ -6504,7 +6572,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 4
-b1b6feff80770000ed00ffff80770000ed00ffffab600000a634ffffab600000
+afb6feff7e770000ed00ffff7e770000ed00ffffab600000a534ffffab600000
 2
 
 
@@ -6536,7 +6604,7 @@ b1b6feff80770000ed00ffff80770000ed00ffffab600000a634ffffab600000
 0
 0
 2
-c6aefeff547d0000755cfeff547d0000
+c4aefeff517d0000745cfeff517d0000
 2
 
 
@@ -6568,7 +6636,7 @@ c6aefeff547d0000755cfeff547d0000
 0
 0
 3
-8c35fffffd5b00008c35ffffcc3d000042f6feffcc3d0000
+8b35fffffd5b00008b35ffffcc3d000042f6feffcc3d0000
 2
 
 
@@ -6600,7 +6668,7 @@ c6aefeff547d0000755cfeff547d0000
 0
 0
 3
-0e4affffe16000000e4affff7e820000bda5ffff7e820000
+0d4affffe16000000d4affff7e820000bda5ffff7e820000
 1
 
 
@@ -6632,7 +6700,7 @@ c6aefeff547d0000755cfeff547d0000
 0
 0
 3
-d546ffff555e00000ebeffff555e00000ebeffff6a450000
+d446ffff555e00000dbeffff555e00000dbeffff69450000
 2
 
 
@@ -6664,7 +6732,7 @@ d546ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-2c3bffff4b6800002617ffff4b6800002617ffff07a10000
+2b3bffff4b6800002617ffff4b6800002617ffff07a10000
 2
 
 
@@ -6728,7 +6796,7 @@ d546ffff555e00000ebeffff555e00000ebeffff6a450000
 0
 0
 3
-0048fffff9e4ffffa5befffff9e4ffffa5befffff6020000
+0048fffff9e4ffffa2befffff9e4ffffa2beffffc2000000
 2
 
 
