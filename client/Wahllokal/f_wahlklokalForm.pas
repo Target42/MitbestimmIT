@@ -45,6 +45,9 @@ type
     LokalQry: TClientDataSet;
     LokalSrc: TDataSource;
     procedure FormCreate(Sender: TObject);
+    procedure btnAddClick(Sender: TObject);
+    procedure btnEditClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
   public
     class procedure execute;
@@ -57,11 +60,47 @@ var
 implementation
 
 uses
-  f_wahllokalRaum, m_glob;
+  f_wahllokalRaum, m_glob, u_stub;
 
 {$R *.dfm}
 
 { TWahllokalForm }
+
+procedure TWahllokalForm.btnAddClick(Sender: TObject);
+begin
+  if TWahllokalRaumform.add then
+  begin
+    LokalQry.Refresh;
+  end;
+end;
+
+procedure TWahllokalForm.btnDeleteClick(Sender: TObject);
+var
+  client : TLokaleModClient;
+begin
+  if LokalQry.IsEmpty then
+    exit;
+
+  if MessageDlg('Soll der Raum wirklich gelöscht werden?',  mtConfirmation,
+      [mbYes, mbNo], 0) <> mrYes then
+    exit;
+
+  client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+  client.delete(LokalQry.FieldByName('WL_ID').AsInteger);
+  client.Free;
+  LokalQry.Refresh;
+end;
+
+procedure TWahllokalForm.btnEditClick(Sender: TObject);
+begin
+  if LokalQry.IsEmpty then
+    exit;
+
+  if TWahllokalRaumform.edit(LokalQry.FieldByName('WL_ID').AsInteger ) then
+  begin
+    LokalQry.Refresh;
+  end;
+end;
 
 class procedure TWahllokalForm.execute;
 begin
@@ -73,6 +112,9 @@ end;
 procedure TWahllokalForm.FormCreate(Sender: TObject);
 begin
   LokalQry.Open;
+  if GM.MAUserTab.IsEmpty then
+    GM.updateMATab;
+
 end;
 
 end.

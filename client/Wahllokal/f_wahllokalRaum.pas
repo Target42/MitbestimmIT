@@ -23,7 +23,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.ExtCtrls, fr_base, u_wahllokal;
+  Vcl.ExtCtrls, fr_base, u_wahllokal, u_stub;
 
 type
   TWahllokalRaumform = class(TForm)
@@ -35,8 +35,8 @@ type
     Label1: TLabel;
     Label2: TLabel;
     BaseFrame1: TBaseFrame;
-    procedure BaseFrame1OKBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
     FEditMode: boolean;
     FRaumID : integer;
@@ -46,7 +46,7 @@ type
     property EditMode: boolean read FEditMode write FEditMode;
     property RaumID: integer read GetRaumID write SetRaumID;
 
-    class function edit : Boolean;
+    class function edit(id : integer ) : Boolean;
     class function add : boolean;
   end;
 
@@ -57,37 +57,54 @@ implementation
 
 {$R *.dfm}
 
+uses m_glob, System.JSON, u_json;
+
+
 { TWahllokalRaumform }
 
-class function TWahllokalRaumform.add: TWahlLokal;
+class function TWahllokalRaumform.add: boolean;
 begin
-  Result := TWahlLokal.create;
-
   Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
   WahllokalRaumform.EditMode := false;
-  WahllokalRaumform.Raum := Result;
-  if WahllokalRaumform.ShowModal <> mrOk then
-    FreeAndNil(Result);
+  Result := WahllokalRaumform.ShowModal = mrOk;
   WahllokalRaumform.Free;
 end;
 
 procedure TWahllokalRaumform.BaseFrame1OKBtnClick(Sender: TObject);
+var
+  lokal : TWahlLokal;
+  client: TLokaleModClient;
+  res   : TJSONObject;
 begin
-  FRaum.Building  := LabeledEdit1.Text;
-  FRaum.Raum      := LabeledEdit2.Text;
-  FRaum.Stockwerk := LabeledEdit3.Text;
+  lokal := TWahlLokal.create;
+  lokal.ID        := FRaumID;
+  lokal.Building  := LabeledEdit1.Text;
+  lokal.Raum      := LabeledEdit2.Text;
+  lokal.Stockwerk := LabeledEdit3.Text;
+  lokal.Von       := DateTimePicker1.DateTime;
+  lokal.Bis       := DateTimePicker2.DateTime;
 
-  FRaum.Von := DateTimePicker1.DateTime;
-  FRaum.bis := DateTimePicker2.DateTime;
+  client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
 
+  if not FEditMode then
+    res := client.add(lokal.toJSON)
+  else
+    res := client.save(lokal.toJSON);
+
+  ShowMessage(JString(res, 'text'));
+
+  lokal.Free;
+  client.Free;
 end;
 
-class function TWahllokalRaumform.edit(lokal: TWahlLokal): Boolean;
+class function TWahllokalRaumform.edit(id : integer ): Boolean;
 begin
   Application.CreateForm(TWahllokalRaumform, WahllokalRaumform);
+
   WahllokalRaumform.EditMode := true;
-  WahllokalRaumform.Raum := lokal;
-  Result := WahllokalRaumform.ShowModal = mrOk;
+  WahllokalRaumform.RaumID   := id;
+  Result                     := WahllokalRaumform.ShowModal = mrOk;
+
   WahllokalRaumform.Free;
 end;
 
@@ -98,13 +115,34 @@ end;
 
 function TWahllokalRaumform.GetRaumID: integer;
 begin
-
+  Result := FRaumID;
 end;
 
-
 procedure TWahllokalRaumform.SetRaumID(const Value: integer);
+var
+  lokal : TWahlLokal;
+  client: TLokaleModClient;
+  res : TJSONObject;
 begin
   FRaumID := value;
+
+  client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+
+  res := client.get(FRaumID);
+
+  if Assigned(res) then
+  begin
+    lokal := TWahlLokal.create;
+    lokal.fromJSON(res);
+    LabeledEdit1.Text := lokal.Building;
+    LabeledEdit2.Text  := lokal.Raum;
+    LabeledEdit3.Text := lokal.Stockwerk;
+    DateTimePicker1.DateTime  := lokal.Von;
+    DateTimePicker2.DateTime  := lokal.Bis;
+    lokal.Free;
+  end;
+
+  client.Free;
 end;
 
 end.

@@ -52,16 +52,18 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 1
         Images = ResMod.PngImageList1
         TabOrder = 0
+        OnClick = btnAddClick
       end
       object btnEdit: TBitBtn
         Left = 136
-        Top = 14
+        Top = 16
         Width = 97
         Height = 27
         Caption = 'Bearbeiten'
         ImageIndex = 3
         Images = ResMod.PngImageList1
         TabOrder = 1
+        OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
         Left = 509
@@ -73,6 +75,7 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 2
         Images = ResMod.PngImageList1
         TabOrder = 2
+        OnClick = btnDeleteClick
       end
     end
     object DBGrid1: TDBGrid
@@ -162,8 +165,6 @@ object WahllokalForm: TWahllokalForm
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 3
-      ExplicitTop = 11
     end
     object Panel2: TPanel
       Left = 2
@@ -227,7 +228,6 @@ object WahllokalForm: TWahllokalForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TLokaleMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 48
     Top = 48

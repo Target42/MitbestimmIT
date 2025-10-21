@@ -23,7 +23,12 @@ interface
 
 uses
   System.SysUtils, System.Classes, i_Storage, u_Waehlerliste, i_waehlerliste,
-  Data.DB, Data.SqlExpr, Data.DBXDataSnap, Data.DBXCommon, IPPeerClient;
+  Data.DB, Data.SqlExpr, Data.DBXDataSnap, Data.DBXCommon, IPPeerClient,
+  Datasnap.DBClient, Datasnap.DSConnect, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Comp.BatchMove.DataSet, FireDAC.Comp.BatchMove,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.UI.Intf,
+  FireDAC.VCLUI.Wait, FireDAC.Comp.UI;
 
 type
   {
@@ -46,6 +51,13 @@ type
   }
   TGM = class(TDataModule)
     SQLConnection1: TSQLConnection;
+    DSProviderConnection1: TDSProviderConnection;
+    ClientDataSet1: TClientDataSet;
+    MAUserTab: TFDMemTable;
+    FDBatchMove1: TFDBatchMove;
+    FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader;
+    FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
     procedure SQLConnection1AfterDisconnect(Sender: TObject);
@@ -86,6 +98,8 @@ type
 
     function connect: boolean;
     procedure disconnect;
+
+    procedure updateMATab;
   end;
 
 var
@@ -257,6 +271,12 @@ begin
   begin
     Screen.ActiveForm.Close;
   end;
+end;
+
+procedure TGM.updateMATab;
+begin
+  FDBatchMove1.Options := [poClearDest, poCreateDest, poIdentityInsert];
+  FDBatchMove1.Execute;
 end;
 
 end.

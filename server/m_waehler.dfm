@@ -280,6 +280,7 @@ object WaehlerMod: TWaehlerMod
   end
   object Mitarbeiter: TFDQuery
     BeforeOpen = MitarbeiterBeforeOpen
+    Connection = DBMod.FDConnection1
     SQL.Strings = (
       'SELECT *'
       'FROM MA_MITARBEITER a, MA_WA b'

@@ -31,8 +31,10 @@ type
       FStockwerk: string;
       FVon: TDateTime;
       FBis: TDateTime;
+      FID: integer;
     public
       const
+        WID        = 'id';
         WLBUILDING = 'gebaeude';
         WLROOM     = 'raum';
         WLSTOCKWERK= 'stockwerk';
@@ -42,6 +44,7 @@ type
       constructor create;
       Destructor Destroy; override;
 
+      property ID: integer read FID write FID;
       property Building: string read FBuilding write FBuilding;
       property Raum: string read FRaum write FRaum;
       property Stockwerk: string read FStockwerk write FStockwerk;
@@ -90,7 +93,7 @@ uses
 
 constructor TWahlLokal.create;
 begin
-
+  FID := 0;
 end;
 
 destructor TWahlLokal.Destroy;
@@ -105,6 +108,7 @@ var
 begin
   fmt := TFormatSettings.Create('de-DE');
 
+  FID        := JInt( data, WID);
   FBuilding  := JString(data, WLBUILDING);
   FRaum      := JString(data, WLROOM);
   FStockwerk := JString(data, WLSTOCKWERK);
@@ -120,11 +124,12 @@ begin
   fmt := TFormatSettings.Create('de-DE');
 
   Result := TJSONObject.Create;
-  JReplace( Result, WLBUILDING, FBuilding);
-  JReplace( Result, WLROOM, FRaum);
-  JReplace( Result, WLSTOCKWERK, FStockwerk);
-  JReplace(Result, WLVON, DateTimeToStr(FVon, fmt));
-  JReplace(Result, WLBIS, DateTimeToStr(FBis, fmt));
+  JReplace( Result, WID,          FID);
+  JReplace( Result, WLBUILDING,   FBuilding);
+  JReplace( Result, WLROOM,       FRaum);
+  JReplace( Result, WLSTOCKWERK,  FStockwerk);
+  JReplace(Result,  WLVON,        DateTimeToStr(FVon, fmt));
+  JReplace(Result,  WLBIS,        DateTimeToStr(FBis, fmt));
 end;
 
 { TWahlLokalListe }

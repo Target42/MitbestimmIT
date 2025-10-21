@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 20.10.2025 21:18:44
+// 21.10.2025 20:34:23
 //
 
 unit u_stub;
@@ -93,7 +93,7 @@ type
     function get(id: Integer): TJSONObject;
     function add(data: TJSONObject): TJSONObject;
     function save(data: TJSONObject): TJSONObject;
-    function delete(data: TJSONObject): TJSONObject;
+    function delete(id: Integer): TJSONObject;
   end;
 
 implementation
@@ -554,7 +554,7 @@ begin
   Result := TJSONObject(FsaveCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
-function TLokaleModClient.delete(data: TJSONObject): TJSONObject;
+function TLokaleModClient.delete(id: Integer): TJSONObject;
 begin
   if FdeleteCommand = nil then
   begin
@@ -563,7 +563,7 @@ begin
     FdeleteCommand.Text := 'TLokaleMod.delete';
     FdeleteCommand.Prepare;
   end;
-  FdeleteCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteCommand.Parameters[0].Value.SetInt32(id);
   FdeleteCommand.ExecuteUpdate;
   Result := TJSONObject(FdeleteCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;

@@ -194,6 +194,7 @@ object AdminForm: TAdminForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TAdminMod'
+    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 80
     Top = 56
