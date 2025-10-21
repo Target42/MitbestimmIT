@@ -24,15 +24,30 @@ type
     WLTabWL_ENDE: TSQLTimeStampField;
     DelHelferQry: TFDQuery;
     DelRaumQry: TFDQuery;
+    Helfer: TFDQuery;
+    HelferQry: TDataSetProvider;
+    UpdateHelferQry: TFDQuery;
+    DelHelfer: TFDQuery;
+    AddHelferQry: TFDQuery;
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
+    procedure HelferBeforeOpen(DataSet: TDataSet);
+    procedure UpdateHelferQryBeforeOpen(DataSet: TDataSet);
+    procedure DelHelferBeforeOpen(DataSet: TDataSet);
+    procedure AddHelferQryBeforeOpen(DataSet: TDataSet);
   private
     { Private-Deklarationen }
   public
+    // Wahllokale
     function get( id : integer ) : TJSONObject;
     function add( data : TJSONObject ) : TJSONObject;
     function save( data : TJSONObject ) : TJSONObject;
     function delete(id : integer ) : TJSONObject;
+
+    // Wahlhelfer
+    function addHelfer( data : TJSONObject ) :TJSONObject;
+    function saveHelfer( data : TJSONObject ) :TJSONObject;
+    function deleteHelfer( data : TJSONObject ) :TJSONObject;
   end;
 
 implementation
@@ -74,6 +89,25 @@ begin
   lokal.Free;
 end;
 
+function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
+begin
+  Result := TJSONObject.Create;
+  AddHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
+  AddHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  AddHelferQry.ParamByName('ROLLE').AsInteger := JInt( data, 'rolle');
+
+  if AddHelferQry.RowsAffected = 0 then
+    JResult( result, false, 'Es wurden kene Datensätze eingefügt')
+  else
+    JResult( result, true, Format('Es wurden %d Datensätze eingefügt', [AddHelferQry.RowsAffected]));
+
+end;
+
+procedure TLokaleMod.AddHelferQryBeforeOpen(DataSet: TDataSet);
+begin
+  AddHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+end;
+
 function TLokaleMod.delete(id : integer): TJSONObject;
 begin
   Result := TJSONObject.Create;
@@ -96,6 +130,25 @@ begin
     end;
 
   end;
+end;
+
+function TLokaleMod.deleteHelfer(data: TJSONObject): TJSONObject;
+begin
+  Result := TJSONObject.Create;
+
+  DelHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
+  DelHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  DelHelferQry.ExecSQL;
+
+  if DelHelferQry.RowsAffected = 0 then
+    JResult( result, false, 'Es wurden kene Datensätze gelöscht')
+  else
+    JResult( result, true, Format('Es wurden %d Datensätze gelöscht', [DelHelferQry.RowsAffected]));
+end;
+
+procedure TLokaleMod.DelHelferBeforeOpen(DataSet: TDataSet);
+begin
+  DelHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 function TLokaleMod.get(id: integer): TJSONObject;
@@ -124,8 +177,11 @@ begin
     JResult( result, false, 'Der Raum wurde nicht gefunden.');
   end;
   WLTab.Close;
+end;
 
-
+procedure TLokaleMod.HelferBeforeOpen(DataSet: TDataSet);
+begin
+  Helfer.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 procedure TLokaleMod.LokaleBeforeOpen(DataSet: TDataSet);
@@ -174,6 +230,26 @@ begin
 
   WLTab.Close;
   lokal.Free;
+end;
+
+function TLokaleMod.saveHelfer(data: TJSONObject): TJSONObject;
+begin
+  Result := TJSONObject.Create;
+
+  UpdateHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
+  UpdateHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  UpdateHelferQry.ExecSQL;
+
+  if UpdateHelferQry.RowsAffected = 0 then
+    JResult( result, false, 'Es wurden kene Datensätze aktualisiert')
+  else
+    JResult( result, true, Format('Es wurden %d Datensätze aktualisiert', [UpdateHelferQry.RowsAffected]));
+
+end;
+
+procedure TLokaleMod.UpdateHelferQryBeforeOpen(DataSet: TDataSet);
+begin
+  UpdateHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 end.

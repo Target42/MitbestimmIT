@@ -118,4 +118,148 @@ object LokaleMod: TLokaleMod
         Value = Null
       end>
   end
+  object Helfer: TFDQuery
+    BeforeOpen = HelferBeforeOpen
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'select * from WH_WAHL_HELFER a, MA_MITARBEITER b'
+      'where'
+      '  a.WA_ID = :wa_id'
+      'and'
+      '  a.WL_ID = :wl_id'
+      'and'
+      '  b.MA_ID = a.MA_ID')
+    Left = 96
+    Top = 248
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WL_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object HelferQry: TDataSetProvider
+    DataSet = Helfer
+    Left = 96
+    Top = 312
+  end
+  object UpdateHelferQry: TFDQuery
+    BeforeOpen = UpdateHelferQryBeforeOpen
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'UPDATE WH_WAHL_HELFER a'
+      'SET '
+      '    a.WH_ROLLE = :rolle'
+      'WHERE'
+      '    a.WL_ID = :wl_id AND '
+      '    a.MA_ID = :ma_id AND '
+      '    a.WA_ID = :wa_id'
+      '')
+    Left = 288
+    Top = 304
+    ParamData = <
+      item
+        Name = 'ROLLE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WL_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object DelHelfer: TFDQuery
+    BeforeOpen = DelHelferBeforeOpen
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'DELETE FROM WH_WAHL_HELFER a '
+      'WHERE'
+      '    a.WL_ID = :wl_id AND '
+      '    a.MA_ID = :ma_id AND '
+      '    a.WA_ID = :wa_id'
+      '')
+    Left = 392
+    Top = 296
+    ParamData = <
+      item
+        Name = 'WL_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object AddHelferQry: TFDQuery
+    BeforeOpen = AddHelferQryBeforeOpen
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'INSERT INTO WH_WAHL_HELFER (WL_ID, MA_ID, WA_ID, WH_ROLLE)'
+      'VALUES ('
+      '    :WL_ID, '
+      '    :MA_ID, '
+      '    :WA_ID, '
+      '    :WH_ROLLE'
+      ');'
+      '')
+    Left = 288
+    Top = 384
+    ParamData = <
+      item
+        Name = 'WL_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WH_ROLLE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end
