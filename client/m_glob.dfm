@@ -30,7 +30,7 @@ object GM: TGM
     Left = 256
     Top = 40
   end
-  object ClientDataSet1: TClientDataSet
+  object MAList: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'MitarbeiterTab'
@@ -38,6 +38,47 @@ object GM: TGM
     RemoteServer = DSProviderConnection1
     Left = 376
     Top = 32
+    object MAListMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Required = True
+    end
+    object MAListMA_PERSNR: TStringField
+      FieldName = 'MA_PERSNR'
+      Size = 10
+    end
+    object MAListMA_NAME: TStringField
+      FieldName = 'MA_NAME'
+      Size = 100
+    end
+    object MAListMA_VORNAME: TStringField
+      FieldName = 'MA_VORNAME'
+      Size = 100
+    end
+    object MAListMA_GENDER: TStringField
+      FieldName = 'MA_GENDER'
+      OnGetText = MAListMA_GENDERGetText
+      FixedChar = True
+      Size = 1
+    end
+    object MAListMA_ABTEILUNG: TStringField
+      FieldName = 'MA_ABTEILUNG'
+      Size = 100
+    end
+    object MAListMA_MAIL: TStringField
+      FieldName = 'MA_MAIL'
+      Size = 255
+    end
+    object MAListMA_GEB: TDateField
+      FieldName = 'MA_GEB'
+    end
+    object MAListWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      ReadOnly = True
+    end
+    object MAListMA_ID_1: TIntegerField
+      FieldName = 'MA_ID_1'
+      ReadOnly = True
+    end
   end
   object MAUserTab: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -59,7 +100,7 @@ object GM: TGM
     Top = 168
   end
   object FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader
-    DataSet = ClientDataSet1
+    DataSet = MAList
     Left = 304
     Top = 168
   end

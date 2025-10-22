@@ -156,7 +156,7 @@ object LokaleMod: TLokaleMod
     SQL.Strings = (
       'UPDATE WH_WAHL_HELFER a'
       'SET '
-      '    a.WH_ROLLE = :rolle'
+      '    a.WH_ROLLE = :wh_rolle'
       'WHERE'
       '    a.WL_ID = :wl_id AND '
       '    a.MA_ID = :ma_id AND '
@@ -166,7 +166,7 @@ object LokaleMod: TLokaleMod
     Top = 304
     ParamData = <
       item
-        Name = 'ROLLE'
+        Name = 'WH_ROLLE'
         DataType = ftString
         ParamType = ptInput
         Value = Null

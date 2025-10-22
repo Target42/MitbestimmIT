@@ -48,6 +48,8 @@ type
     procedure btnAddClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
   public
     class procedure execute;
@@ -60,12 +62,64 @@ var
 implementation
 
 uses
-  f_wahllokalRaum, m_glob, u_stub;
+  f_wahllokalRaum, m_glob, u_stub, i_waehlerliste, f_waehlerliste, System.JSON,
+  u_json;
 
 {$R *.dfm}
 
 { TWahllokalForm }
 
+procedure TWahllokalForm.BitBtn1Click(Sender: TObject);
+var
+  waehler : IWaehler;
+  client : TLokaleModClient;
+  data, res : TJSONOBject;
+begin
+  waehler := TWaehlerListeForm.executeform;
+
+  if Assigned(waehler) then
+  begin
+    data := TJSONObject.Create;
+
+    JReplace(data, 'raumid', LokalQry.FieldByName('WL_ID').AsInteger);
+    JReplace(data, 'maid', waehler.ID );
+
+    client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+    res := client.addHelfer(data);
+    if not JBool( res, 'result') then
+    begin
+      ShowMessage(JString(res, 'text'));
+    end;
+
+    client.Free;
+  end;
+end;
+
+procedure TWahllokalForm.BitBtn3Click(Sender: TObject);
+var
+  waehler : IWaehler;
+  client : TLokaleModClient;
+  data, res : TJSONOBject;
+begin
+  waehler := TWaehlerListeForm.executeform;
+
+  if Assigned(waehler) then
+  begin
+    data := TJSONObject.Create;
+
+    JReplace(data, 'raumid', LokalQry.FieldByName('WL_ID').AsInteger);
+    JReplace(data, 'maid', waehler.ID );
+
+    client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+    res := client.deleteHelfer(data);
+    if not JBool( res, 'result') then
+    begin
+      ShowMessage(JString(res, 'text'));
+    end;
+
+    client.Free;
+  end;
+end;
 procedure TWahllokalForm.btnAddClick(Sender: TObject);
 begin
   if TWahllokalRaumform.add then

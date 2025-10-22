@@ -188,6 +188,7 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 1
         Images = ResMod.PngImageList1
         TabOrder = 0
+        OnClick = BitBtn1Click
       end
       object BitBtn3: TBitBtn
         Left = 509
@@ -199,6 +200,7 @@ object WahllokalForm: TWahllokalForm
         ImageIndex = 2
         Images = ResMod.PngImageList1
         TabOrder = 1
+        OnClick = BitBtn3Click
       end
     end
   end

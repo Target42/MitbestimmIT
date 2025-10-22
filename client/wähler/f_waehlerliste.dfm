@@ -37,45 +37,59 @@ object WaehlerListeForm: TWaehlerListeForm
       end
     end
   end
-  object LV: TListView
+  object DBGrid1: TDBGrid
     Left = 0
     Top = 0
     Width = 624
-    Height = 320
+    Height = 381
     Align = alClient
+    DataSource = DataSource1
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    ReadOnly = True
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
     Columns = <
       item
-        Caption = 'PersNr'
+        Expanded = False
+        FieldName = 'MA_PERSNR'
+        Title.Caption = 'PersNr'
+        Visible = True
       end
       item
-        Caption = 'Name'
-        Width = 100
+        Expanded = False
+        FieldName = 'MA_NAME'
+        Title.Caption = 'Name'
+        Width = 120
+        Visible = True
       end
       item
-        Caption = 'Vorname'
-        Width = 100
+        Expanded = False
+        FieldName = 'MA_VORNAME'
+        Title.Caption = 'Vorname'
+        Width = 120
+        Visible = True
       end
       item
-        Caption = 'Geschlecht'
-        Width = 75
+        Expanded = False
+        FieldName = 'MA_GENDER'
+        Title.Caption = 'Geschlecht'
+        Visible = True
       end
       item
-        Caption = 'Abteilung'
-        Width = 100
+        Expanded = False
+        FieldName = 'MA_ABTEILUNG'
+        Title.Caption = 'Abteilung'
+        Width = 120
+        Visible = True
       end>
-    ReadOnly = True
-    RowSelect = True
-    TabOrder = 1
-    ViewStyle = vsReport
-    ExplicitHeight = 305
   end
-  object GroupBox1: TGroupBox
-    Left = 0
-    Top = 320
-    Width = 624
-    Height = 61
-    Align = alBottom
-    Caption = 'Suche'
-    TabOrder = 2
+  object DataSource1: TDataSource
+    DataSet = GM.MAList
+    Left = 304
+    Top = 224
   end
 end

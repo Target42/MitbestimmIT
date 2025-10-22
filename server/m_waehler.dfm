@@ -288,6 +288,7 @@ object WaehlerMod: TWaehlerMod
       '  b.WA_ID = :wa_id'
       'and'
       '  b.MA_ID = a.MA_ID'
+      'order by MA_NAME, MA_VORNAME, MA_ABTEILUNG'
       '    ')
     Left = 120
     Top = 64

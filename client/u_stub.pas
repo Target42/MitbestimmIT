@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 21.10.2025 20:34:23
+// 22.10.2025 21:08:46
 //
 
 unit u_stub;
@@ -80,20 +80,34 @@ type
   private
     FLokaleBeforeOpenCommand: TDBXCommand;
     FLokaleBeforePostCommand: TDBXCommand;
+    FHelferBeforeOpenCommand: TDBXCommand;
+    FUpdateHelferQryBeforeOpenCommand: TDBXCommand;
+    FDelHelferBeforeOpenCommand: TDBXCommand;
+    FAddHelferQryBeforeOpenCommand: TDBXCommand;
     FgetCommand: TDBXCommand;
     FaddCommand: TDBXCommand;
     FsaveCommand: TDBXCommand;
     FdeleteCommand: TDBXCommand;
+    FaddHelferCommand: TDBXCommand;
+    FsaveHelferCommand: TDBXCommand;
+    FdeleteHelferCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
+    procedure HelferBeforeOpen(DataSet: TDataSet);
+    procedure UpdateHelferQryBeforeOpen(DataSet: TDataSet);
+    procedure DelHelferBeforeOpen(DataSet: TDataSet);
+    procedure AddHelferQryBeforeOpen(DataSet: TDataSet);
     function get(id: Integer): TJSONObject;
     function add(data: TJSONObject): TJSONObject;
     function save(data: TJSONObject): TJSONObject;
     function delete(id: Integer): TJSONObject;
+    function addHelfer(data: TJSONObject): TJSONObject;
+    function saveHelfer(data: TJSONObject): TJSONObject;
+    function deleteHelfer(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -512,6 +526,58 @@ begin
   FLokaleBeforePostCommand.ExecuteUpdate;
 end;
 
+procedure TLokaleModClient.HelferBeforeOpen(DataSet: TDataSet);
+begin
+  if FHelferBeforeOpenCommand = nil then
+  begin
+    FHelferBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FHelferBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FHelferBeforeOpenCommand.Text := 'TLokaleMod.HelferBeforeOpen';
+    FHelferBeforeOpenCommand.Prepare;
+  end;
+  FHelferBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FHelferBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TLokaleModClient.UpdateHelferQryBeforeOpen(DataSet: TDataSet);
+begin
+  if FUpdateHelferQryBeforeOpenCommand = nil then
+  begin
+    FUpdateHelferQryBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FUpdateHelferQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FUpdateHelferQryBeforeOpenCommand.Text := 'TLokaleMod.UpdateHelferQryBeforeOpen';
+    FUpdateHelferQryBeforeOpenCommand.Prepare;
+  end;
+  FUpdateHelferQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FUpdateHelferQryBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TLokaleModClient.DelHelferBeforeOpen(DataSet: TDataSet);
+begin
+  if FDelHelferBeforeOpenCommand = nil then
+  begin
+    FDelHelferBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FDelHelferBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDelHelferBeforeOpenCommand.Text := 'TLokaleMod.DelHelferBeforeOpen';
+    FDelHelferBeforeOpenCommand.Prepare;
+  end;
+  FDelHelferBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FDelHelferBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TLokaleModClient.AddHelferQryBeforeOpen(DataSet: TDataSet);
+begin
+  if FAddHelferQryBeforeOpenCommand = nil then
+  begin
+    FAddHelferQryBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FAddHelferQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FAddHelferQryBeforeOpenCommand.Text := 'TLokaleMod.AddHelferQryBeforeOpen';
+    FAddHelferQryBeforeOpenCommand.Prepare;
+  end;
+  FAddHelferQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FAddHelferQryBeforeOpenCommand.ExecuteUpdate;
+end;
+
 function TLokaleModClient.get(id: Integer): TJSONObject;
 begin
   if FgetCommand = nil then
@@ -568,6 +634,48 @@ begin
   Result := TJSONObject(FdeleteCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TLokaleModClient.addHelfer(data: TJSONObject): TJSONObject;
+begin
+  if FaddHelferCommand = nil then
+  begin
+    FaddHelferCommand := FDBXConnection.CreateCommand;
+    FaddHelferCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FaddHelferCommand.Text := 'TLokaleMod.addHelfer';
+    FaddHelferCommand.Prepare;
+  end;
+  FaddHelferCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FaddHelferCommand.ExecuteUpdate;
+  Result := TJSONObject(FaddHelferCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLokaleModClient.saveHelfer(data: TJSONObject): TJSONObject;
+begin
+  if FsaveHelferCommand = nil then
+  begin
+    FsaveHelferCommand := FDBXConnection.CreateCommand;
+    FsaveHelferCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveHelferCommand.Text := 'TLokaleMod.saveHelfer';
+    FsaveHelferCommand.Prepare;
+  end;
+  FsaveHelferCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveHelferCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveHelferCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TLokaleModClient.deleteHelfer(data: TJSONObject): TJSONObject;
+begin
+  if FdeleteHelferCommand = nil then
+  begin
+    FdeleteHelferCommand := FDBXConnection.CreateCommand;
+    FdeleteHelferCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FdeleteHelferCommand.Text := 'TLokaleMod.deleteHelfer';
+    FdeleteHelferCommand.Prepare;
+  end;
+  FdeleteHelferCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteHelferCommand.ExecuteUpdate;
+  Result := TJSONObject(FdeleteHelferCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
 constructor TLokaleModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -582,10 +690,17 @@ destructor TLokaleModClient.Destroy;
 begin
   FLokaleBeforeOpenCommand.Free;
   FLokaleBeforePostCommand.Free;
+  FHelferBeforeOpenCommand.Free;
+  FUpdateHelferQryBeforeOpenCommand.Free;
+  FDelHelferBeforeOpenCommand.Free;
+  FAddHelferQryBeforeOpenCommand.Free;
   FgetCommand.Free;
   FaddCommand.Free;
   FsaveCommand.Free;
   FdeleteCommand.Free;
+  FaddHelferCommand.Free;
+  FsaveHelferCommand.Free;
+  FdeleteHelferCommand.Free;
   inherited;
 end;
 

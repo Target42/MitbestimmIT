@@ -52,15 +52,27 @@ type
   TGM = class(TDataModule)
     SQLConnection1: TSQLConnection;
     DSProviderConnection1: TDSProviderConnection;
-    ClientDataSet1: TClientDataSet;
+    MAList: TClientDataSet;
     MAUserTab: TFDMemTable;
     FDBatchMove1: TFDBatchMove;
     FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader;
     FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    MAListMA_ID: TIntegerField;
+    MAListMA_PERSNR: TStringField;
+    MAListMA_NAME: TStringField;
+    MAListMA_VORNAME: TStringField;
+    MAListMA_GENDER: TStringField;
+    MAListMA_ABTEILUNG: TStringField;
+    MAListMA_MAIL: TStringField;
+    MAListMA_GEB: TDateField;
+    MAListWA_ID: TIntegerField;
+    MAListMA_ID_1: TIntegerField;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
     procedure SQLConnection1AfterDisconnect(Sender: TObject);
+    procedure MAListMA_GENDERGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
   private
     FHost: string;
     FProtokoll: string;
@@ -203,6 +215,15 @@ begin
   if SQLConnection1.Connected then
     SQLConnection1.Close;
 
+end;
+
+procedure TGM.MAListMA_GENDERGetText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+begin
+  if Sender.AsString = 'm' then
+    Text := 'männlich'
+  else
+    Text := 'weiblich';
 end;
 
 {

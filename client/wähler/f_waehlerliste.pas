@@ -5,21 +5,20 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, fr_base, u_Waehlerliste,
-  Vcl.StdCtrls;
+  Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, i_waehlerliste;
 
 type
   TWaehlerListeForm = class(TForm)
     BaseFrame1: TBaseFrame;
-    LV: TListView;
-    GroupBox1: TGroupBox;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
     procedure FormCreate(Sender: TObject);
   private
-    procedure UpdateView;
-    function getWaehler : TWaehler;
+    function getWaehler : IWaehler;
   public
-    class function executeForm : TWaehler;
+    class function executeForm : IWaehler;
 
-    property Waehler : TWaehler read getWaehler;
+    property Waehler : IWaehler read getWaehler;
   end;
 
 var
@@ -29,9 +28,9 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, System.JSON, i_waehlerliste;
+uses m_glob, System.JSON;
 
-class function TWaehlerListeForm.executeform: TWaehler;
+class function TWaehlerListeForm.executeform: IWaehler;
 begin
   Result := NIL;
   Application.CreateForm(TWaehlerListeForm, WaehlerListeForm);
@@ -43,41 +42,28 @@ begin
 end;
 
 procedure TWaehlerListeForm.FormCreate(Sender: TObject);
-var
-  data : TJSONObject;
 begin
-  if GM.WaehlerListe.Items.Count = 0 then
-  begin
-    GM.WaehlerListe.fromJSON(data);
-    if Assigned(data) then
-      data.Free;
-  end;
-  UpdateView;
+  if GM.MAList.IsEmpty then
+    GM.updateMATab;
+
+  GM.MAList.Open;
 end;
 
-function TWaehlerListeForm.getWaehler: TWaehler;
+function TWaehlerListeForm.getWaehler: IWaehler;
 begin
   Result := NIL;
-  if Assigned(LV.Selected) then
-    Result := LV.Selected.Data;
-end;
 
-procedure TWaehlerListeForm.UpdateView;
-var
-  waehler : IWaehler;
-  item    : TListItem;
-begin
-  for waehler in GM.WaehlerListe.Items do
-  begin
-    item := Lv.Items.Add;
+  if DataSource1.DataSet.IsEmpty then
+    exit;
 
-    item.Data := waehler;
-    item.Caption := waehler.PersNr;
-    item.SubItems.Add(waehler.Name);
-    item.SubItems.Add(waehler.Vorname);
-    item.SubItems.Add(waehler.Anrede);
-    item.SubItems.Add(waehler.Abteilung);
-  end;
+  Result  := TWaehler.create;
+  Result.ID        := DataSource1.DataSet.FieldByName('MA_ID').AsInteger;
+  Result.PersNr    := DataSource1.DataSet.FieldByName('MA_PERSNR').AsString;
+  Result.Name      := DataSource1.DataSet.FieldByName('MA_NAME').AsString;
+  Result.Vorname   := DataSource1.DataSet.FieldByName('MA_VORNAME').AsString;
+  Result.Anrede    := DataSource1.DataSet.FieldByName('MA_GENDER').AsString;
+  Result.Abteilung := DataSource1.DataSet.FieldByName('MA_ABTEILUNG').AsString;
+
 end;
 
 end.

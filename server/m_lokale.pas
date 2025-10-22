@@ -94,7 +94,7 @@ begin
   Result := TJSONObject.Create;
   AddHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
   AddHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
-  AddHelferQry.ParamByName('ROLLE').AsInteger := JInt( data, 'rolle');
+  AddHelferQry.ParamByName('WH_ROLLE').AsString  := JString( data, 'rolle');
 
   if AddHelferQry.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze eingefügt')
@@ -238,6 +238,7 @@ begin
 
   UpdateHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
   UpdateHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  UpdateHelferQry.ParamByName('WH_ROLLE').AsString:= JString(data, 'rolle');
   UpdateHelferQry.ExecSQL;
 
   if UpdateHelferQry.RowsAffected = 0 then
