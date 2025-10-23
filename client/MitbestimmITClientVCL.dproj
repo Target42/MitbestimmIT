@@ -163,9 +163,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="wähler\f_waehlerliste_import.pas">
             <Form>WaehlerlisteImportForm</Form>
         </DCCReference>
-        <DCCReference Include="Wahllokal\f_wahlhelfer.pas">
-            <Form>WahlhelferForm</Form>
-        </DCCReference>
         <DCCReference Include="Wahllokal\f_wahlhelfer_person.pas">
             <Form>WahlhelferPersonForm</Form>
         </DCCReference>

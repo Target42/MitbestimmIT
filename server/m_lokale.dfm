@@ -122,24 +122,28 @@ object LokaleMod: TLokaleMod
     BeforeOpen = HelferBeforeOpen
     Connection = DBMod.FDConnection1
     SQL.Strings = (
-      'select * from WH_WAHL_HELFER a, MA_MITARBEITER b'
-      'where'
-      '  a.WA_ID = :wa_id'
-      'and'
+      'SELECT b.*, a.WH_ROLLE, a.WL_ID, a.WA_ID'
+      'FROM WH_WAHL_HELFER a, MA_MITARBEITER b'
+      'where '
       '  a.WL_ID = :wl_id'
       'and'
-      '  b.MA_ID = a.MA_ID')
+      '  a.WA_ID = :wa_id'
+      'and'
+      '  a.MA_ID = b.MA_ID'
+      'order by'
+      '  b.MA_NAME, b.MA_VORNAME, b.MA_ABTEILUNG'
+      '')
     Left = 96
     Top = 248
     ParamData = <
       item
-        Name = 'WA_ID'
+        Name = 'WL_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null
       end
       item
-        Name = 'WL_ID'
+        Name = 'WA_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null
@@ -151,7 +155,6 @@ object LokaleMod: TLokaleMod
     Top = 312
   end
   object UpdateHelferQry: TFDQuery
-    BeforeOpen = UpdateHelferQryBeforeOpen
     Connection = DBMod.FDConnection1
     SQL.Strings = (
       'UPDATE WH_WAHL_HELFER a'

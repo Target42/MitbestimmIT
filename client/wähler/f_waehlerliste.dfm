@@ -31,6 +31,9 @@ object WaehlerListeForm: TWaehlerListeForm
       Width = 624
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 624
+      inherited CancelBtn: TBitBtn
+        Visible = False
+      end
       inherited OKBtn: TBitBtn
         Left = 520
         ExplicitLeft = 520

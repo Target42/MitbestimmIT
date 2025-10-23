@@ -65,7 +65,7 @@ object MainClientForm: TMainClientForm
       end
     end
     object Wahl1: TMenuItem
-      Caption = 'Wahl'
+      Caption = 'Vorbereitung'
       object Planen1: TMenuItem
         Action = ac_wa_plan
       end
@@ -87,21 +87,21 @@ object MainClientForm: TMainClientForm
       object N1: TMenuItem
         Caption = '-'
       end
-      object Wahllisten1: TMenuItem
-        Action = ac_wa_listen
+      object N5: TMenuItem
+        Caption = '-'
       end
-    end
-    object Wahlbuero1: TMenuItem
-      Caption = 'Wahllokal'
       object Rume1: TMenuItem
         Action = ac_rooms
       end
-      object Wahlhelfer1: TMenuItem
-        Action = ac_helper
-      end
     end
-    object Briefwahl1: TMenuItem
-      Caption = 'Briefwahl'
+    object Wahl2: TMenuItem
+      Caption = 'Wahl'
+      object Wahllisten1: TMenuItem
+        Action = ac_wa_listen
+      end
+      object Briefwahl1: TMenuItem
+        Action = ac_wa_brief
+      end
     end
     object Auszhlung1: TMenuItem
       Caption = 'Ausz'#228'hlung'
@@ -134,22 +134,17 @@ object MainClientForm: TMainClientForm
       OnExecute = ac_infoExecute
     end
     object ac_wa_plan: TAction
-      Category = 'Wahl'
+      Category = 'Vorbereitung'
       Caption = 'Planen'
       OnExecute = ac_wa_planExecute
     end
     object ac_rooms: TAction
-      Category = 'Wahlb'#252'ro'
-      Caption = 'R'#228'ume'
+      Category = 'Vorbereitung'
+      Caption = 'Wahllokal'
       OnExecute = ac_roomsExecute
     end
-    object ac_helper: TAction
-      Category = 'Wahlb'#252'ro'
-      Caption = 'Wahlhelfer'
-      OnExecute = ac_helperExecute
-    end
     object ac_wa_berechtigte: TAction
-      Category = 'Wahl'
+      Category = 'Vorbereitung'
       Caption = 'Wahlberechtigte aktualisieren'
       OnExecute = ac_wa_berechtigteExecute
     end
@@ -158,7 +153,7 @@ object MainClientForm: TMainClientForm
       Caption = 'Wahllisten'
     end
     object ac_wa_vorstand: TAction
-      Category = 'Wahl'
+      Category = 'Vorbereitung'
       Caption = 'Wahlvorstand'
       OnExecute = ac_wa_vorstandExecute
     end
@@ -173,7 +168,7 @@ object MainClientForm: TMainClientForm
       OnExecute = ac_disconnectExecute
     end
     object ac_wa_waehlerliste: TAction
-      Category = 'Wahl'
+      Category = 'Vorbereitung'
       Caption = 'W'#228'hlerliste'
       OnExecute = ac_wa_waehlerlisteExecute
     end
@@ -181,6 +176,10 @@ object MainClientForm: TMainClientForm
       Category = 'Admin'
       Caption = 'Wahlen'
       OnExecute = ac_ad_wahlExecute
+    end
+    object ac_wa_brief: TAction
+      Category = 'Wahl'
+      Caption = 'Briefwahl'
     end
   end
   object Timer1: TTimer

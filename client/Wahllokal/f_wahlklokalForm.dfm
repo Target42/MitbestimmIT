@@ -2,8 +2,8 @@ object WahllokalForm: TWahllokalForm
   Left = 0
   Top = 0
   Caption = 'Wahllokale'
-  ClientHeight = 521
-  ClientWidth = 599
+  ClientHeight = 511
+  ClientWidth = 674
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,7 @@ object WahllokalForm: TWahllokalForm
   object Splitter1: TSplitter
     Left = 0
     Top = 177
-    Width = 599
+    Width = 674
     Height = 3
     Cursor = crVSplit
     Align = alTop
@@ -25,7 +25,7 @@ object WahllokalForm: TWahllokalForm
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 599
+    Width = 674
     Height = 177
     Align = alTop
     Caption = 'R'#228'ume'
@@ -33,7 +33,7 @@ object WahllokalForm: TWahllokalForm
     object Panel1: TPanel
       Left = 2
       Top = 128
-      Width = 595
+      Width = 670
       Height = 47
       Align = alBottom
       BevelOuter = bvNone
@@ -41,7 +41,7 @@ object WahllokalForm: TWahllokalForm
       ShowCaption = False
       TabOrder = 0
       DesignSize = (
-        595
+        670
         47)
       object btnAdd: TBitBtn
         Left = 14
@@ -66,7 +66,7 @@ object WahllokalForm: TWahllokalForm
         OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
-        Left = 509
+        Left = 584
         Top = 16
         Width = 75
         Height = 27
@@ -81,7 +81,7 @@ object WahllokalForm: TWahllokalForm
     object DBGrid1: TDBGrid
       Left = 2
       Top = 17
-      Width = 595
+      Width = 670
       Height = 111
       Align = alClient
       DataSource = LokalSrc
@@ -130,54 +130,25 @@ object WahllokalForm: TWahllokalForm
   object GroupBox2: TGroupBox
     Left = 0
     Top = 180
-    Width = 599
-    Height = 281
+    Width = 674
+    Height = 312
     Align = alClient
     Caption = 'Wahlhelfer'
     TabOrder = 1
-    object Helferview: TListView
-      Left = 2
-      Top = 17
-      Width = 595
-      Height = 215
-      Align = alClient
-      Columns = <
-        item
-          Caption = 'PersNr'
-        end
-        item
-          Caption = 'Name'
-          Width = 100
-        end
-        item
-          Caption = 'Vorname'
-          Width = 100
-        end
-        item
-          Caption = 'Geschlecht'
-          Width = 100
-        end
-        item
-          Caption = 'Abteilung'
-          Width = 100
-        end>
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-    end
+    ExplicitHeight = 281
     object Panel2: TPanel
       Left = 2
-      Top = 232
-      Width = 595
+      Top = 263
+      Width = 670
       Height = 47
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel1'
       ShowCaption = False
-      TabOrder = 1
+      TabOrder = 0
+      ExplicitTop = 232
       DesignSize = (
-        595
+        670
         47)
       object BitBtn1: TBitBtn
         Left = 14
@@ -191,7 +162,7 @@ object WahllokalForm: TWahllokalForm
         OnClick = BitBtn1Click
       end
       object BitBtn3: TBitBtn
-        Left = 509
+        Left = 584
         Top = 16
         Width = 75
         Height = 27
@@ -203,30 +174,74 @@ object WahllokalForm: TWahllokalForm
         OnClick = BitBtn3Click
       end
     end
+    object DBGrid2: TDBGrid
+      Left = 2
+      Top = 17
+      Width = 670
+      Height = 246
+      Align = alClient
+      DataSource = HelferSrc
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      PopupMenu = PopupMenu1
+      ReadOnly = True
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = 'Segoe UI'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'MA_PERSNR'
+          Title.Caption = 'PersNr'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MA_NAME'
+          Title.Caption = 'Name'
+          Width = 150
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MA_VORNAME'
+          Title.Caption = 'Vorname'
+          Width = 150
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MA_GENDER'
+          Title.Caption = 'Geschlecht'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MA_ABTEILUNG'
+          Title.Caption = 'Abteilung'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'WH_ROLLE'
+          Title.Caption = 'Bemerkung'
+          Width = 100
+          Visible = True
+        end>
+    end
   end
-  inline BaseFrame1: TBaseFrame
+  object StatusBar1: TStatusBar
     Left = 0
-    Top = 461
-    Width = 599
-    Height = 60
-    Align = alBottom
-    AutoSize = True
-    TabOrder = 2
-    ExplicitTop = 461
-    ExplicitWidth = 599
-    inherited StatusBar1: TStatusBar
-      Width = 599
-      ExplicitWidth = 599
-    end
-    inherited Panel1: TPanel
-      Width = 599
-      StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 599
-      inherited OKBtn: TBitBtn
-        Left = 495
-        ExplicitLeft = 495
-      end
-    end
+    Top = 492
+    Width = 674
+    Height = 19
+    Panels = <>
+    ExplicitLeft = 256
+    ExplicitTop = 560
+    ExplicitWidth = 0
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TLokaleMod'
@@ -246,5 +261,85 @@ object WahllokalForm: TWahllokalForm
     DataSet = LokalQry
     Left = 272
     Top = 40
+  end
+  object HelferQry: TClientDataSet
+    Aggregates = <>
+    IndexFieldNames = 'WL_ID;WA_ID'
+    MasterFields = 'WL_ID;WA_ID'
+    MasterSource = LokalSrc
+    PacketRecords = 0
+    Params = <>
+    ProviderName = 'HelferQry'
+    RemoteServer = DSProviderConnection1
+    Left = 40
+    Top = 228
+    object HelferQryMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Origin = 'MA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object HelferQryMA_PERSNR: TStringField
+      FieldName = 'MA_PERSNR'
+      Origin = 'MA_PERSNR'
+      Size = 10
+    end
+    object HelferQryMA_NAME: TStringField
+      FieldName = 'MA_NAME'
+      Origin = 'MA_NAME'
+      Size = 100
+    end
+    object HelferQryMA_VORNAME: TStringField
+      FieldName = 'MA_VORNAME'
+      Origin = 'MA_VORNAME'
+      Size = 100
+    end
+    object HelferQryMA_GENDER: TStringField
+      FieldName = 'MA_GENDER'
+      Origin = 'MA_GENDER'
+      OnGetText = HelferQryMA_GENDERGetText
+      FixedChar = True
+      Size = 1
+    end
+    object HelferQryMA_ABTEILUNG: TStringField
+      FieldName = 'MA_ABTEILUNG'
+      Origin = 'MA_ABTEILUNG'
+      Size = 100
+    end
+    object HelferQryMA_MAIL: TStringField
+      FieldName = 'MA_MAIL'
+      Origin = 'MA_MAIL'
+      Size = 255
+    end
+    object HelferQryMA_GEB: TDateField
+      FieldName = 'MA_GEB'
+      Origin = 'MA_GEB'
+    end
+    object HelferQryWH_ROLLE: TStringField
+      FieldName = 'WH_ROLLE'
+      Origin = 'WH_ROLLE'
+      Size = 100
+    end
+    object HelferQryWL_ID: TIntegerField
+      FieldName = 'WL_ID'
+      Required = True
+    end
+    object HelferQryWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Required = True
+    end
+  end
+  object HelferSrc: TDataSource
+    DataSet = HelferQry
+    Left = 112
+    Top = 228
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 304
+    Top = 268
+    object Bemerkungbearbeiten1: TMenuItem
+      Caption = 'Bemerkung bearbeiten'
+      OnClick = Bemerkungbearbeiten1Click
+    end
   end
 end

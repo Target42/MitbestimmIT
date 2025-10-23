@@ -39,15 +39,11 @@ type
     Info1: TMenuItem;
     StatusBar1: TStatusBar;
     Wahl1: TMenuItem;
-    Briefwahl1: TMenuItem;
     Auszhlung1: TMenuItem;
-    Wahlbuero1: TMenuItem;
     ac_wa_plan: TAction;
     Planen1: TMenuItem;
     ac_rooms: TAction;
-    ac_helper: TAction;
     Rume1: TMenuItem;
-    Wahlhelfer1: TMenuItem;
     ac_wa_berechtigte: TAction;
     Wahlberechtigteaktualisieren1: TMenuItem;
     ac_wa_listen: TAction;
@@ -69,10 +65,13 @@ type
     ac_ad_wahl: TAction;
     Wahlen1: TMenuItem;
     Label1: TLabel;
+    N5: TMenuItem;
+    Wahl2: TMenuItem;
+    ac_wa_brief: TAction;
+    Briefwahl1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
-    procedure ac_helperExecute(Sender: TObject);
     procedure ac_roomsExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -97,7 +96,7 @@ var
 implementation
 
 uses
-  f_info, f_planungsform, f_waehlerliste_import, f_wahlhelfer, f_wahlklokalForm,
+  f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select;
@@ -133,11 +132,6 @@ procedure TMainClientForm.ac_disconnectExecute(Sender: TObject);
 begin
   GM.Disconnect;
   setMenuState(msInit);
-end;
-
-procedure TMainClientForm.ac_helperExecute(Sender: TObject);
-begin
-  TWahlhelferForm.Execute;
 end;
 
 procedure TMainClientForm.ac_infoExecute(Sender: TObject);
@@ -184,8 +178,7 @@ begin
       begin
         Label1.Visible     := false;
         Wahl1.Enabled      := false;
-        Wahlbuero1.Enabled := false;
-        Briefwahl1.Enabled := false;
+        Wahl2.Enabled      := false;
         Auszhlung1.Enabled := false;
         ac_connect.Enabled := true;
         ac_disconnect.Enabled := false;
@@ -205,8 +198,7 @@ begin
 
         Label1.Visible     := true;
         Wahl1.Enabled      := true;
-        Wahlbuero1.Enabled := true;
-        Briefwahl1.Enabled := true;
+        Wahl2.Enabled      := false;
         Auszhlung1.Enabled := true;
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;
@@ -223,8 +215,7 @@ begin
         Label1.Caption     := 'Administratormode';
         Label1.Visible     := true;
         Wahl1.Enabled      := false;
-        Wahlbuero1.Enabled := false;
-        Briefwahl1.Enabled := false;
+        Wahl2.Enabled      := false;
         Auszhlung1.Enabled := false;
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;

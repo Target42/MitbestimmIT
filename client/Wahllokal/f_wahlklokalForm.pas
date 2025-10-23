@@ -24,7 +24,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.StdCtrls,
   m_res, fr_base, Vcl.Buttons, u_wahllokal, Data.DB, Datasnap.DBClient,
-  Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids;
+  Datasnap.DSConnect, Vcl.Grids, Vcl.DBGrids, Vcl.Menus;
 
 type
   TWahllokalForm = class(TForm)
@@ -34,9 +34,7 @@ type
     btnEdit: TBitBtn;
     btnDelete: TBitBtn;
     GroupBox2: TGroupBox;
-    BaseFrame1: TBaseFrame;
     Splitter1: TSplitter;
-    Helferview: TListView;
     Panel2: TPanel;
     BitBtn1: TBitBtn;
     BitBtn3: TBitBtn;
@@ -44,12 +42,32 @@ type
     DBGrid1: TDBGrid;
     LokalQry: TClientDataSet;
     LokalSrc: TDataSource;
+    HelferQry: TClientDataSet;
+    HelferSrc: TDataSource;
+    DBGrid2: TDBGrid;
+    HelferQryMA_ID: TIntegerField;
+    HelferQryMA_PERSNR: TStringField;
+    HelferQryMA_NAME: TStringField;
+    HelferQryMA_VORNAME: TStringField;
+    HelferQryMA_GENDER: TStringField;
+    HelferQryMA_ABTEILUNG: TStringField;
+    HelferQryMA_MAIL: TStringField;
+    HelferQryMA_GEB: TDateField;
+    HelferQryWH_ROLLE: TStringField;
+    HelferQryWL_ID: TIntegerField;
+    HelferQryWA_ID: TIntegerField;
+    PopupMenu1: TPopupMenu;
+    Bemerkungbearbeiten1: TMenuItem;
+    StatusBar1: TStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
+    procedure HelferQryMA_GENDERGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+    procedure Bemerkungbearbeiten1Click(Sender: TObject);
   private
   public
     class procedure execute;
@@ -63,11 +81,44 @@ implementation
 
 uses
   f_wahllokalRaum, m_glob, u_stub, i_waehlerliste, f_waehlerliste, System.JSON,
-  u_json;
+  u_json, system.UITypes;
 
 {$R *.dfm}
 
 { TWahllokalForm }
+
+procedure TWahllokalForm.Bemerkungbearbeiten1Click(Sender: TObject);
+var
+  s : string;
+  client : TLokaleModClient;
+  data, res : TJSONOBject;
+begin
+  if HelferQry.IsEmpty then
+    exit;
+
+  s := HelferQry.FieldByName('WH_ROLLE').AsString;
+
+  if InputQuery('Bemerkung', 'Text', s) then
+  begin
+    data := TJSONObject.Create;
+
+    JReplace(data, 'raumid', HelferQry.FieldByName('WL_ID').AsInteger);
+    JReplace(data, 'maid',   HelferQry.FieldByName('MA_ID').AsInteger);
+    JReplace(data, 'rolle',  s);
+
+    client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+    res := client.saveHelfer(data);
+    if not JBool( res, 'result') then
+    begin
+      ShowMessage(JString(res, 'text'));
+    end;
+
+    HelferQry.Refresh;
+    client.Free;
+
+  end;
+
+end;
 
 procedure TWahllokalForm.BitBtn1Click(Sender: TObject);
 var
@@ -91,34 +142,35 @@ begin
       ShowMessage(JString(res, 'text'));
     end;
 
+    HelferQry.Refresh;
     client.Free;
   end;
 end;
 
 procedure TWahllokalForm.BitBtn3Click(Sender: TObject);
 var
-  waehler : IWaehler;
   client : TLokaleModClient;
   data, res : TJSONOBject;
 begin
-  waehler := TWaehlerListeForm.executeform;
+  if MessageDlg('Soll der Wahöhelfer wirklich gelöscht werden?',  mtConfirmation,
+  [mbYes, mbNo], 0) <> mrYes then
+    exit;
 
-  if Assigned(waehler) then
+  data := TJSONObject.Create;
+
+  JReplace(data, 'raumid', HelferQry.FieldByName('WL_ID').AsInteger);
+  JReplace(data, 'maid', HelferQry.FieldByName('MA_ID').AsInteger);
+
+  client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
+  res := client.deleteHelfer(data);
+  if not JBool( res, 'result') then
   begin
-    data := TJSONObject.Create;
-
-    JReplace(data, 'raumid', LokalQry.FieldByName('WL_ID').AsInteger);
-    JReplace(data, 'maid', waehler.ID );
-
-    client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
-    res := client.deleteHelfer(data);
-    if not JBool( res, 'result') then
-    begin
-      ShowMessage(JString(res, 'text'));
-    end;
-
-    client.Free;
+    ShowMessage(JString(res, 'text'));
   end;
+  HelferQry.Refresh;
+
+  client.Free;
+
 end;
 procedure TWahllokalForm.btnAddClick(Sender: TObject);
 begin
@@ -169,6 +221,17 @@ begin
   if GM.MAUserTab.IsEmpty then
     GM.updateMATab;
 
+  HelferQry.Open;
+
+end;
+
+procedure TWahllokalForm.HelferQryMA_GENDERGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  if Sender.AsString = 'w' then
+    Text := 'weiblich'
+  else
+    Text := 'männlich';
 end;
 
 end.

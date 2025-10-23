@@ -32,7 +32,6 @@ type
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
     procedure HelferBeforeOpen(DataSet: TDataSet);
-    procedure UpdateHelferQryBeforeOpen(DataSet: TDataSet);
     procedure DelHelferBeforeOpen(DataSet: TDataSet);
     procedure AddHelferQryBeforeOpen(DataSet: TDataSet);
   private
@@ -92,9 +91,11 @@ end;
 function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
+  AddHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   AddHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
   AddHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
   AddHelferQry.ParamByName('WH_ROLLE').AsString  := JString( data, 'rolle');
+  AddHelferQry.ExecSQL;
 
   if AddHelferQry.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze eingefügt')
@@ -136,11 +137,12 @@ function TLokaleMod.deleteHelfer(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
 
-  DelHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
-  DelHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
-  DelHelferQry.ExecSQL;
+  DelHelfer.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  DelHelfer.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
+  DelHelfer.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  DelHelfer.ExecSQL;
 
-  if DelHelferQry.RowsAffected = 0 then
+  if DelHelfer.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze gelöscht')
   else
     JResult( result, true, Format('Es wurden %d Datensätze gelöscht', [DelHelferQry.RowsAffected]));
@@ -236,6 +238,7 @@ function TLokaleMod.saveHelfer(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
 
+  UpdateHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   UpdateHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
   UpdateHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
   UpdateHelferQry.ParamByName('WH_ROLLE').AsString:= JString(data, 'rolle');
@@ -246,11 +249,6 @@ begin
   else
     JResult( result, true, Format('Es wurden %d Datensätze aktualisiert', [UpdateHelferQry.RowsAffected]));
 
-end;
-
-procedure TLokaleMod.UpdateHelferQryBeforeOpen(DataSet: TDataSet);
-begin
-  UpdateHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 end.
