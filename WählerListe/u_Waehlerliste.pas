@@ -133,7 +133,7 @@ begin
   FPersNr     := value.PersNr;
   FName       := value.Name;
   FVorname    := value.Vorname;
-  FAnrede     := value.Anrede;
+  FAnrede     := value.Geschlecht;
   FAbteilung  := value.Abteilung;
 end;
 
@@ -144,7 +144,7 @@ begin
   Result.PersNr   := FPersNr;
   Result.Name     := FName;
   Result.Vorname  := FVorname;
-  Result.Anrede   := FAnrede;
+  Result.Geschlecht   := FAnrede;
   Result.Abteilung:= FAbteilung;
   Result.ID       := FID;
   Result.GebDatum := FGebDatum;
@@ -156,7 +156,7 @@ begin
   Result := SameText( FPersNr, value.PersNr );
   Result := Result and SameText( FName, value.Name );
   Result := Result and SameText( FVorname, value.Vorname );
-  Result := Result and SameText( FAnrede, value.Anrede );
+  Result := Result and SameText( FAnrede, value.Geschlecht );
   Result := Result and SameText( FAbteilung, value.Abteilung );
   Result := Result and SameText( FGebDatum, value.GebDatum );
 end;

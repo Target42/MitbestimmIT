@@ -211,7 +211,7 @@ begin
     waehler.PersNr    := item.Caption;
     waehler.Name      := item.SubItems[0];
     waehler.Vorname   := item.SubItems[1];
-    waehler.Anrede    := geschlecht(item.SubItems[2]);
+    waehler.Geschlecht:= geschlecht(item.SubItems[2]);
     waehler.Abteilung := item.SubItems[3];
     waehler.GebDatum  := item.SubItems[4];
 

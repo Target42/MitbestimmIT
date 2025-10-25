@@ -154,7 +154,7 @@ var
     WVTab.Append;
     WVTabMA_ID.AsInteger   := maid;
     WVTabWA_ID.AsInteger   := waid;
-    WVTabWV_ROLLE.AsString := 'Vorstand';
+    WVTabWV_ROLLE.AsString := 'Vorsitz';
     WVTabWV_CHEF.AsString  := 'T';
     WVTab.Post;
   end;

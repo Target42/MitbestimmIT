@@ -48,7 +48,7 @@ type
       property PersNr: String read getPersNr write setPersNr;
       property Name: string read getName write setName;
       property Vorname: string read getVorname write setVorname;
-      property Anrede: string read getAnrede write setAnrede;
+      property Geschlecht: string read getAnrede write setAnrede;
       property Abteilung: string read getAbteilung write setAbteilung;
       property GebDatum : string read getGebDatum write setGebDatum;
 

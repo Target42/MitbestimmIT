@@ -89,7 +89,7 @@ begin
     NewMaTab.FieldByName('MA_PERSNR').AsString    := ma.PersNr;
     NewMaTab.FieldByName('MA_NAME').AsString      := ma.Name;
     NewMaTab.FieldByName('MA_VORNAME').AsString   := ma.Vorname;
-    NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Anrede;
+    NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Geschlecht;
     NewMaTab.FieldByName('MA_ABTEILUNG').AsString := ma.Abteilung;
     NewMaTab.FieldByName('MA_GEB').AsDateTime     := safeDate(ma.GebDatum, fmt);
     NewMaTab.Post;
@@ -138,7 +138,7 @@ begin
     ma.PersNr := MAQryMA_PERSNR.AsString;
     ma.Name   := MAQryMA_NAME.AsString;
     ma.Vorname:= MAQryMA_VORNAME.AsString;
-    ma.Anrede := MAQryMA_GENDER.AsString;
+    ma.Geschlecht := MAQryMA_GENDER.AsString;
     ma.Abteilung := MAQryMA_ABTEILUNG.AsString;
     ma.GebDatum  := FormatDateTime('dd.MM.yyyy', MAQryMA_GEB.AsDateTime );
 
@@ -262,7 +262,7 @@ begin
       NewMaTab.FieldByName('MA_PERSNR').AsString    := ma.PersNr;
       NewMaTab.FieldByName('MA_NAME').AsString      := ma.Name;
       NewMaTab.FieldByName('MA_VORNAME').AsString   := ma.Vorname;
-      NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Anrede;
+      NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Geschlecht;
       NewMaTab.FieldByName('MA_ABTEILUNG').AsString := ma.Abteilung;
       NewMaTab.FieldByName('MA_GEB').AsDateTime     := safeDate(ma.GebDatum, fmt);
       NewMaTab.Post;

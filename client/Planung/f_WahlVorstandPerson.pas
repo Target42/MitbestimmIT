@@ -32,12 +32,10 @@ type
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
     LabeledEdit4: TLabeledEdit;
-    CheckBox1: TCheckBox;
     Label1: TLabel;
     ComboBox1: TComboBox;
-    ComboBox2: TComboBox;
-    Label2: TLabel;
     LabeledEdit5: TLabeledEdit;
+    LabeledEdit6: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
@@ -61,14 +59,8 @@ implementation
 procedure TWahlVorstandPersonForm.BaseFrame1OKBtnClick(Sender: TObject);
 begin
   // übernehmen der Werte !
-  m_person.Login  := LabeledEdit1.Text;
-  m_person.Name   := LabeledEdit2.Text;
-  m_person.Vorname:= LabeledEdit3.Text;
   m_person.eMail  := LabeledEdit4.Text;
   m_person.Login  := LabeledEdit5.Text;
-
-  m_person.Stimmberechtigt := CheckBox1.Checked;
-  m_person.Anrede := ComboBox2.Items[ComboBox2.ItemIndex];
   m_person.Rolle  := StringToTWahlvorstandsRolle( ComboBox1.Items[ComboBox1.ItemIndex]);
 end;
 
@@ -94,13 +86,12 @@ begin
   if not Assigned(m_person) then
     exit;
 
-  LabeledEdit1.Text := m_person.Login;
+  LabeledEdit1.Text := m_person.PersNr;
   LabeledEdit2.Text := m_person.Name;
   LabeledEdit3.Text := m_person.Vorname;
   LabeledEdit4.Text := m_person.eMail;
   LabeledEdit5.Text := m_person.Login;
-  CheckBox1.Checked := m_person.Stimmberechtigt;
-  ComboBox2.ItemIndex := ComboBox2.Items.IndexOf(m_person.Anrede);
+  LabeledEdit6.Text := m_person.GeschlechtStr;
   ComboBox1.ItemIndex := ComboBox1.Items.IndexOf(TWahlvorstandsRolleToString(m_person.Rolle));
 end;
 

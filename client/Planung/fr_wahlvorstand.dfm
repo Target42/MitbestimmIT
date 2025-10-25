@@ -13,7 +13,6 @@ object WahlVorstandFrame: TWahlVorstandFrame
     Align = alClient
     Caption = 'Wahlvorstand'
     TabOrder = 0
-    ExplicitWidth = 640
     object LV: TListView
       Left = 2
       Top = 17
@@ -33,10 +32,12 @@ object WahlVorstandFrame: TWahlVorstandFrame
           Width = 100
         end
         item
-          Caption = 'Anrede'
+          Caption = 'Geschlecht'
+          Width = 100
         end
         item
           Caption = 'Rolle'
+          Width = 100
         end
         item
           Caption = 'Stimmberechtigt'
@@ -54,6 +55,7 @@ object WahlVorstandFrame: TWahlVorstandFrame
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
+      OnDblClick = LVDblClick
     end
     object Panel1: TPanel
       Left = 2
@@ -65,7 +67,6 @@ object WahlVorstandFrame: TWahlVorstandFrame
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      ExplicitWidth = 636
       DesignSize = (
         872
         41)
@@ -102,7 +103,6 @@ object WahlVorstandFrame: TWahlVorstandFrame
         Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = btnDeleteClick
-        ExplicitLeft = 544
       end
     end
   end

@@ -24,9 +24,10 @@ uses
   System.Generics.Collections, system.JSON, System.Classes, i_waehlerliste;
 
 const
+  wvID                = 'id';
   wvPersNr            = 'persnr';
   wvIDLogin           = 'login';
-  wvIDAnrede          = 'anrede';
+  wvIDGeschlecht      = 'geschlecht';
   wvIDName            = 'name';
   wvIDVorname         = 'vorname';
   wvIDStimmberechtigt = 'stimmberechtigt';
@@ -50,7 +51,6 @@ type
     function GetLogin: string;
     procedure SetLogin(const Value: string);
     function GetStimmberechtigt: boolean;
-    procedure SetStimmberechtigt(const Value: boolean);
     function GetRolle: TWahlvorstandsRolle;
     procedure SetRolle(const Value: TWahlvorstandsRolle);
     function GeteMail: string;
@@ -60,18 +60,25 @@ type
     function getAbteilung : string;
     procedure setAbteilung( value : string );
 
+    function getID : integer;
+    procedure setID( value : integer );
+
     //public
 
+    property ID : integer read getID write setID;
     property PersNr : string read getPersNr write setPersNr;
-    property Anrede: string read GetAnrede write SetAnrede;
+    property Geschlecht: string read GetAnrede write SetAnrede;
     property Name: string read GetName write SetName;
     property Vorname: string read GetVorname write SetVorname;
     property Abteilung : string read getAbteilung write setAbteilung;
 
     property Login: string read GetLogin write SetLogin;
-    property Stimmberechtigt: boolean read GetStimmberechtigt write SetStimmberechtigt;
+    property Stimmberechtigt: boolean read GetStimmberechtigt;
     property Rolle: TWahlvorstandsRolle read GetRolle write SetRolle;
     property eMail: string read GeteMail write SeteMail;
+
+    function RolleStr : string;
+    function GeschlechtStr : string;
 
     function toJSON : TJSONObject;
     procedure fromJSON( data : TJSONObject );
@@ -88,8 +95,11 @@ type
     property Items : TList<IWahlvorstandPerson> read getItems;
 
     function new : IWahlvorstandPerson;
-    function add( persnr : string ) : IWahlvorstandPerson;
-    function get( persnr : string ) : IWahlvorstandPerson;
+    function add( persnr : string ) : IWahlvorstandPerson; overload;
+    function add( person : IWahlvorstandPerson ) : IWahlvorstandPerson; overload;
+
+    function get( persnr : string ) : IWahlvorstandPerson; overload;
+    function get( id : integer ) : IWahlvorstandPerson; overload;
 
     procedure delete( person : IWahlvorstandPerson );
 
@@ -101,6 +111,7 @@ type
   end;
 
 function createWahlvorstand : IWahlvorstand;
+function createWahlvorstandPerson : IWahlvorstandPerson;
 
 function StringToTWahlvorstandsRolle(const Text: string): TWahlvorstandsRolle;
 function TWahlvorstandsRolleToString(Rolle: TWahlvorstandsRolle): string;
@@ -114,6 +125,7 @@ uses
 type
   TWahlvorstandPersonImpl =  class(TInterfacedObject, IWahlvorstandPerson)
   private
+    m_id              : integer;
     m_persNr          : string;
     m_login           : string;
     m_name            : string;
@@ -134,7 +146,6 @@ type
     function GetLogin: string;
     procedure SetLogin(const Value: string);
     function GetStimmberechtigt: boolean;
-    procedure SetStimmberechtigt(const Value: boolean);
     function GetRolle: TWahlvorstandsRolle;
     procedure SetRolle(const Value: TWahlvorstandsRolle);
     function GeteMail: string;
@@ -143,10 +154,15 @@ type
     procedure SetAnrede(const Value: string);
     function getAbteilung : string;
     procedure setAbteilung( value : string );
+    function getID : integer;
+    procedure setID( value : integer );
 
   public
     constructor create;
     Destructor Destroy; override;
+
+    function RolleStr : string;
+    function GeschlechtStr : string;
 
     function toJSON : TJSONObject;
     procedure fromJSON( data : TJSONObject );
@@ -165,8 +181,12 @@ type
     Destructor Destroy; override;
 
     function new : IWahlvorstandPerson;
-    function add( persnr : string ) : IWahlvorstandPerson;
-    function get( persnr : string ) : IWahlvorstandPerson;
+    function add( persnr : string ) : IWahlvorstandPerson; overload;
+    function add( person : IWahlvorstandPerson ) : IWahlvorstandPerson; overload;
+
+    function get( persnr : string ) : IWahlvorstandPerson; overload;
+    function get( id :integer ) : IWahlvorstandPerson; overload;
+
     procedure delete( person : IWahlvorstandPerson );
 
     function toJSON: TJSONObject;
@@ -185,6 +205,15 @@ begin
   Result.PersNr := persnr;
   m_items.Add(Result);
   m_map.AddOrSetValue(persnr, Result);
+end;
+
+function TWahlvorstandImpl.add(
+  person: IWahlvorstandPerson): IWahlvorstandPerson;
+begin
+  if m_items.IndexOf(person) = -1 then
+    m_items.Add( person);
+
+  m_map.AddOrSetValue(person.PersNr, person);
 end;
 
 constructor TWahlvorstandImpl.create;
@@ -235,6 +264,22 @@ begin
     Result := add(persnr);
 end;
 
+function TWahlvorstandImpl.get(id: integer): IWahlvorstandPerson;
+var
+  p : IWahlvorstandPerson;
+begin
+  Result := NIL;
+  for p in m_items do
+  begin
+    if p.ID = id then
+    begin
+      result := p;
+      break;
+    end;
+  end;
+
+end;
+
 function TWahlvorstandImpl.getItems: TList<IWahlvorstandPerson>;
 begin
   Result := m_items;
@@ -273,7 +318,7 @@ end;
 
 constructor TWahlvorstandPersonImpl.create;
 begin
-
+  m_id := -1;
 end;
 
 destructor TWahlvorstandPersonImpl.Destroy;
@@ -284,14 +329,23 @@ end;
 
 procedure TWahlvorstandPersonImpl.fromJSON(data: TJSONObject);
 begin
+  m_id                := JInt( data, wvID);
   m_persNr            := JString( data, wvPersNr );
   m_login             := JString( data, wvIDLogin);
-  m_anrede            := JString( data, wvIDAnrede);
+  m_anrede            := JString( data, wvIDGeschlecht);
   m_name              := JString( data, wvIDName);
   m_vorname           := JString( data, wvIDVorname);
   m_stimmberechtigt   := JBool(  data,  wvIDStimmberechtigt);
   m_mail              := JString( data, wvIDMail);
   m_rolle             := StringToTWahlvorstandsRolle(JString( data, wvIDRolle));
+end;
+
+function TWahlvorstandPersonImpl.GeschlechtStr: string;
+begin
+  if m_anrede = 'w' then
+    Result := 'weiblich'
+  else
+    Result := 'männlich';
 end;
 
 function TWahlvorstandPersonImpl.getAbteilung: string;
@@ -307,6 +361,11 @@ end;
 function TWahlvorstandPersonImpl.GeteMail: string;
 begin
   Result := m_mail;
+end;
+
+function TWahlvorstandPersonImpl.getID: integer;
+begin
+  Result := m_id;
 end;
 
 function TWahlvorstandPersonImpl.GetLogin: string;
@@ -344,6 +403,11 @@ begin
 
 end;
 
+function TWahlvorstandPersonImpl.RolleStr: string;
+begin
+  Result := TWahlvorstandsRolleToString(m_rolle);
+end;
+
 procedure TWahlvorstandPersonImpl.setAbteilung(value: string);
 begin
   m_abteilung := value;
@@ -357,6 +421,11 @@ end;
 procedure TWahlvorstandPersonImpl.SeteMail(const Value: string);
 begin
   m_mail := value;
+end;
+
+procedure TWahlvorstandPersonImpl.setID(value: integer);
+begin
+  m_id := value;
 end;
 
 procedure TWahlvorstandPersonImpl.SetLogin(const Value: string);
@@ -398,11 +467,6 @@ begin
   end;
 end;
 
-procedure TWahlvorstandPersonImpl.SetStimmberechtigt(const Value: boolean);
-begin
-  m_stimmberechtigt := value;
-end;
-
 procedure TWahlvorstandPersonImpl.SetVorname(const Value: string);
 begin
   m_vorname := value;
@@ -412,9 +476,10 @@ function TWahlvorstandPersonImpl.toJSON: TJSONObject;
 begin
   Result := TJSONObject.Create;
 
+  JReplace(Result, wvID,                m_id);
   JReplace(Result, wvPersNr,            m_persNr);
   JReplace(Result, wvIDLogin,           m_login );
-  JReplace(Result, wvIDAnrede,          m_anrede);
+  JReplace(Result, wvIDGeschlecht,      m_anrede);
   JReplace(Result, wvIDName,            m_name );
   JReplace(Result, wvIDVorname,         m_vorname );
   JReplace(Result, wvIDStimmberechtigt, m_stimmberechtigt );
@@ -426,12 +491,12 @@ end;
 function TWahlvorstandsRolleToString(Rolle: TWahlvorstandsRolle): string;
 begin
   case Rolle of
-    wvVorsitz: Result := 'Vorsitz';
-    wvStellvertretung: Result := 'Stellvertretung';
-    wvErsatz: Result := 'Ersatz';
-    wvGewerkschaft: Result := 'Gewerkschaft';
+    wvVorsitz:          Result := 'Vorsitz';
+    wvStellvertretung:  Result := 'Stellvertretung';
+    wvErsatz:           Result := 'Ersatz';
+    wvGewerkschaft:     Result := 'Gewerkschaft';
   else
-    Result := 'Unbekannt';
+                        Result := 'Unbekannt';
   end;
 end;
 
@@ -461,6 +526,11 @@ end;
 function createWahlvorstand : IWahlvorstand;
 begin
   Result := TWahlvorstandImpl.create;
+end;
+
+function createWahlvorstandPerson : IWahlvorstandPerson;
+begin
+  Result := TWahlvorstandPersonImpl.create;
 end;
 
 end.

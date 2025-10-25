@@ -1,6 +1,7 @@
 object MainClientForm: TMainClientForm
   Left = 0
   Top = 0
+  HelpContext = 1
   Caption = 'MitbestimmIT Client VCL'
   ClientHeight = 623
   ClientWidth = 980
@@ -10,9 +11,13 @@ object MainClientForm: TMainClientForm
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  HelpFile = 'dummy.hlp'
+  KeyPreview = True
   Menu = MainMenu1
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   TextHeight = 15
   object Label1: TLabel
     Left = 0
@@ -117,6 +122,12 @@ object MainClientForm: TMainClientForm
       object Info1: TMenuItem
         Action = ac_info
       end
+      object N6: TMenuItem
+        Caption = '-'
+      end
+      object Fehler1: TMenuItem
+        Action = ac_error
+      end
     end
   end
   object ActionList1: TActionList
@@ -180,6 +191,11 @@ object MainClientForm: TMainClientForm
     object ac_wa_brief: TAction
       Category = 'Wahl'
       Caption = 'Briefwahl'
+    end
+    object ac_error: TAction
+      Category = 'Window'
+      Caption = 'Fehler'
+      OnExecute = ac_errorExecute
     end
   end
   object Timer1: TTimer

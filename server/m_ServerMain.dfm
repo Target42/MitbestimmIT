@@ -140,4 +140,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 712
     Top = 16
   end
+  object DSVorstand: TDSServerClass
+    OnGetClass = DSVorstandGetClass
+    Server = DSServer1
+    Left = 784
+    Top = 16
+  end
 end

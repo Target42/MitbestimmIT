@@ -46,7 +46,9 @@ uses
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
   m_lokale in 'm_lokale.pas' {LokaleMod: TDSServerModule},
-  u_wahllokal in '..\Wahllokale\u_wahllokal.pas';
+  u_wahllokal in '..\Wahllokale\u_wahllokal.pas',
+  m_vorstand in 'm_vorstand.pas' {VortandMod: TDSServerModule},
+  u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas';
 
 {$R *.RES}
 

@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 22.10.2025 21:08:46
+// 25.10.2025 21:19:16
 //
 
 unit u_stub;
@@ -81,7 +81,6 @@ type
     FLokaleBeforeOpenCommand: TDBXCommand;
     FLokaleBeforePostCommand: TDBXCommand;
     FHelferBeforeOpenCommand: TDBXCommand;
-    FUpdateHelferQryBeforeOpenCommand: TDBXCommand;
     FDelHelferBeforeOpenCommand: TDBXCommand;
     FAddHelferQryBeforeOpenCommand: TDBXCommand;
     FgetCommand: TDBXCommand;
@@ -98,7 +97,6 @@ type
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
     procedure HelferBeforeOpen(DataSet: TDataSet);
-    procedure UpdateHelferQryBeforeOpen(DataSet: TDataSet);
     procedure DelHelferBeforeOpen(DataSet: TDataSet);
     procedure AddHelferQryBeforeOpen(DataSet: TDataSet);
     function get(id: Integer): TJSONObject;
@@ -108,6 +106,24 @@ type
     function addHelfer(data: TJSONObject): TJSONObject;
     function saveHelfer(data: TJSONObject): TJSONObject;
     function deleteHelfer(data: TJSONObject): TJSONObject;
+  end;
+
+  TVortandModClient = class(TDSAdminClient)
+  private
+    FgetlistCommand: TDBXCommand;
+    FaddCommand: TDBXCommand;
+    FgetCommand: TDBXCommand;
+    FsaveCommand: TDBXCommand;
+    FdeleteCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function getlist: TJSONObject;
+    function add(data: TJSONObject): TJSONObject;
+    function get(ma_id: Integer): TJSONObject;
+    function save(data: TJSONObject): TJSONObject;
+    function delete(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -539,19 +555,6 @@ begin
   FHelferBeforeOpenCommand.ExecuteUpdate;
 end;
 
-procedure TLokaleModClient.UpdateHelferQryBeforeOpen(DataSet: TDataSet);
-begin
-  if FUpdateHelferQryBeforeOpenCommand = nil then
-  begin
-    FUpdateHelferQryBeforeOpenCommand := FDBXConnection.CreateCommand;
-    FUpdateHelferQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
-    FUpdateHelferQryBeforeOpenCommand.Text := 'TLokaleMod.UpdateHelferQryBeforeOpen';
-    FUpdateHelferQryBeforeOpenCommand.Prepare;
-  end;
-  FUpdateHelferQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
-  FUpdateHelferQryBeforeOpenCommand.ExecuteUpdate;
-end;
-
 procedure TLokaleModClient.DelHelferBeforeOpen(DataSet: TDataSet);
 begin
   if FDelHelferBeforeOpenCommand = nil then
@@ -691,7 +694,6 @@ begin
   FLokaleBeforeOpenCommand.Free;
   FLokaleBeforePostCommand.Free;
   FHelferBeforeOpenCommand.Free;
-  FUpdateHelferQryBeforeOpenCommand.Free;
   FDelHelferBeforeOpenCommand.Free;
   FAddHelferQryBeforeOpenCommand.Free;
   FgetCommand.Free;
@@ -701,6 +703,95 @@ begin
   FaddHelferCommand.Free;
   FsaveHelferCommand.Free;
   FdeleteHelferCommand.Free;
+  inherited;
+end;
+
+function TVortandModClient.getlist: TJSONObject;
+begin
+  if FgetlistCommand = nil then
+  begin
+    FgetlistCommand := FDBXConnection.CreateCommand;
+    FgetlistCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetlistCommand.Text := 'TVortandMod.getlist';
+    FgetlistCommand.Prepare;
+  end;
+  FgetlistCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetlistCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TVortandModClient.add(data: TJSONObject): TJSONObject;
+begin
+  if FaddCommand = nil then
+  begin
+    FaddCommand := FDBXConnection.CreateCommand;
+    FaddCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FaddCommand.Text := 'TVortandMod.add';
+    FaddCommand.Prepare;
+  end;
+  FaddCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FaddCommand.ExecuteUpdate;
+  Result := TJSONObject(FaddCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TVortandModClient.get(ma_id: Integer): TJSONObject;
+begin
+  if FgetCommand = nil then
+  begin
+    FgetCommand := FDBXConnection.CreateCommand;
+    FgetCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetCommand.Text := 'TVortandMod.get';
+    FgetCommand.Prepare;
+  end;
+  FgetCommand.Parameters[0].Value.SetInt32(ma_id);
+  FgetCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TVortandModClient.save(data: TJSONObject): TJSONObject;
+begin
+  if FsaveCommand = nil then
+  begin
+    FsaveCommand := FDBXConnection.CreateCommand;
+    FsaveCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveCommand.Text := 'TVortandMod.save';
+    FsaveCommand.Prepare;
+  end;
+  FsaveCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TVortandModClient.delete(data: TJSONObject): TJSONObject;
+begin
+  if FdeleteCommand = nil then
+  begin
+    FdeleteCommand := FDBXConnection.CreateCommand;
+    FdeleteCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FdeleteCommand.Text := 'TVortandMod.delete';
+    FdeleteCommand.Prepare;
+  end;
+  FdeleteCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteCommand.ExecuteUpdate;
+  Result := TJSONObject(FdeleteCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TVortandModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TVortandModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TVortandModClient.Destroy;
+begin
+  FgetlistCommand.Free;
+  FaddCommand.Free;
+  FgetCommand.Free;
+  FsaveCommand.Free;
+  FdeleteCommand.Free;
   inherited;
 end;
 

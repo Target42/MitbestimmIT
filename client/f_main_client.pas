@@ -25,7 +25,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnList, System.Actions,
   Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
-  m_glob, Vcl.StdCtrls;
+  m_glob, Vcl.StdCtrls, System.Generics.Collections, ShellAPI;
 
 type
   TMainClientForm = class(TForm)
@@ -69,6 +69,9 @@ type
     Wahl2: TMenuItem;
     ac_wa_brief: TAction;
     Briefwahl1: TMenuItem;
+    N6: TMenuItem;
+    ac_error: TAction;
+    Fehler1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -80,10 +83,18 @@ type
     procedure ac_wa_waehlerlisteExecute(Sender: TObject);
     procedure ac_disconnectExecute(Sender: TObject);
     procedure ac_ad_wahlExecute(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ac_errorExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
   private
+    m_helpMap : TDictionary<string, string>;
+
+    function ApplicationHelp(Command: Word; Data: NativeInt;  var CallHelp: Boolean): Boolean;
+    procedure fillHelp;
+
     procedure setMenuState( state : TMenuState );
     procedure setPanelText( section : integer; text : string );
   public
@@ -134,6 +145,11 @@ begin
   setMenuState(msInit);
 end;
 
+procedure TMainClientForm.ac_errorExecute(Sender: TObject);
+begin
+  ShellExecute(handle, 'open', 'https://github.com/Target42/MitbestimmIT/issues', nil, nil, SW_SHOWNORMAL);
+end;
+
 procedure TMainClientForm.ac_infoExecute(Sender: TObject);
 begin
   TinfoForm.ShowInfo;
@@ -164,12 +180,56 @@ begin
   TWaehlerListeForm.executeform;
 end;
 
+function TMainClientForm.ApplicationHelp(Command: Word; Data: NativeInt;
+  var CallHelp: Boolean): Boolean;
+var
+  page : string;
+  url  : string;
+begin
+  CallHelp := false;
+
+  page := '';
+  m_helpMap.TryGetValue(Screen.ActiveForm.ClassName, page);
+  url := 'https://github.com/Target42/MitbestimmIT/wiki' + page;
+
+  ShellExecute(handle, 'open', PChar(url), NIL, nil, SW_SHOWNORMAL);
+
+  Result := true;
+end;
+
+procedure TMainClientForm.fillHelp;
+begin
+  m_helpMap.AddOrSetValue('TMainClientForm', '');
+end;
+
 procedure TMainClientForm.FormCreate(Sender: TObject);
 begin
+  m_helpMap := TDictionary<string, string>.Create;
+  Application.OnHelp := ApplicationHelp;
+  fillHelp;
+
   setMenuState( msInit );
   Timer1.Enabled := true;
 end;
 
+
+procedure TMainClientForm.FormDestroy(Sender: TObject);
+begin
+  m_helpMap.Free;
+end;
+
+procedure TMainClientForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  res : Boolean;
+begin
+  if Key = VK_F1 then
+  begin
+    Key := 0;
+    res := false;
+    ApplicationHelp( 0, 0, res );
+  end;
+end;
 
 procedure TMainClientForm.setMenuState(state: TMenuState);
 begin

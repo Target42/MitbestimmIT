@@ -159,6 +159,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahllokale\u_wahllokal.pas"/>
+        <DCCReference Include="m_vorstand.pas">
+            <Form>VortandMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Wahlvorstand\u_Wahlvorstand.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

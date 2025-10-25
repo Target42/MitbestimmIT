@@ -61,7 +61,7 @@ begin
   Result.PersNr    := DataSource1.DataSet.FieldByName('MA_PERSNR').AsString;
   Result.Name      := DataSource1.DataSet.FieldByName('MA_NAME').AsString;
   Result.Vorname   := DataSource1.DataSet.FieldByName('MA_VORNAME').AsString;
-  Result.Anrede    := DataSource1.DataSet.FieldByName('MA_GENDER').AsString;
+  Result.Geschlecht:= DataSource1.DataSet.FieldByName('MA_GENDER').AsString;
   Result.Abteilung := DataSource1.DataSet.FieldByName('MA_ABTEILUNG').AsString;
 
 end;

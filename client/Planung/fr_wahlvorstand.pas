@@ -37,6 +37,7 @@ type
     procedure btnAddClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure LVDblClick(Sender: TObject);
   private
     m_vorstand : IWahlvorstand;
     m_map : Tdictionary<string, integer>;
@@ -44,8 +45,8 @@ type
 
     procedure setWahlVerfahren( value : TWahlVerfahren );
 
-    procedure setWahlvorstand( value : TJSONObject );
-    function   getWahlvorstand : TJSONObject;
+    procedure setWahlvorstand( value : IWahlvorstand );
+    function   getWahlvorstand : IWahlvorstand;
 
     procedure UpdateView;
     procedure UpdateRow( person : IWahlvorstandPerson; item : TListItem );
@@ -54,28 +55,52 @@ type
     procedure release;
 
     property WahlVerfahren: TWahlVerfahren read FWahlVerfahren write setWahlVerfahren;
-    property WahlVorstand : TJSONObject read getWahlvorstand write setWahlvorstand;
+    property WahlVorstand : IWahlvorstand read getWahlvorstand write setWahlvorstand;
   end;
 
 implementation
 
 {$R *.dfm}
 uses
-  u_json, u_utils, m_res, f_WahlVorstandPerson, Vcl.Dialogs, system.UITypes;
+  u_json, u_utils, m_res, f_WahlVorstandPerson, Vcl.Dialogs, system.UITypes,
+  u_stub, m_glob, i_waehlerliste, f_waehlerliste;
 
 { TWahlVorstandFrame }
 
 procedure TWahlVorstandFrame.btnAddClick(Sender: TObject);
 var
   person : IWahlvorstandPerson;
+  w : IWaehler;
+  client : TVortandModClient;
+  res : TJSONObject;
 begin
+  w := TWaehlerListeForm.executeform;
+  if not Assigned(w) then
+    exit;
+
+  person := createWahlvorstandPerson;
+  person.ID         := w.ID;
+  person.PersNr     := w.PersNr;
+  person.Name       := w.Name;
+  person.Vorname    := w.Vorname;
+  person.Abteilung  := w.Abteilung;
+  person.Geschlecht := w.Geschlecht;
+
   Application.CreateForm(TWahlVorstandPersonForm, WahlVorstandPersonForm);
-  person := m_vorstand.new;
+
   WahlVorstandPersonForm.Person := person;
   if WahlVorstandPersonForm.ShowModal = mrOk then
-    UpdateRow(person, LV.Items.Add)
+  begin
+    UpdateRow(person, LV.Items.Add);
+    m_vorstand.add(person);
+
+    client := TVortandModClient.Create(GM.SQLConnection1.DBXConnection);
+    client.add(person.toJSON);
+    client.Free
+  end
   else
-    m_vorstand.delete( person );
+    person .release;
+
   WahlVorstandPersonForm.Free;
 end;
 
@@ -83,6 +108,8 @@ procedure TWahlVorstandFrame.btnDeleteClick(Sender: TObject);
 var
   person : IWahlvorstandPerson;
   s : string;
+  client : TVortandModClient;
+  res : TJSONObject;
 begin
   if not Assigned(LV.Selected) then
     exit;
@@ -91,14 +118,22 @@ begin
   s := format('Der der Benutzer %s, %s aus der Liste gelöscht werden?', [person.Name, person.Vorname]);
   if MessageDlg(s,  mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
-    Lv.Items.Delete(LV.Selected.Index);
-    m_vorstand.delete(person);
+    client := TVortandModClient.Create(GM.SQLConnection1.DBXConnection);
+
+    res := client.delete(person.toJSON);
+    if JBool(res, 'result') then
+    begin
+      Lv.Items.Delete(LV.Selected.Index);
+      m_vorstand.delete(person);
+    end;
+    client.Free;
   end;
 end;
 
 procedure TWahlVorstandFrame.btnEditClick(Sender: TObject);
 var
   person : IWahlvorstandPerson;
+  client : TVortandModClient;
 begin
   if not Assigned(LV.Selected) then
     exit;
@@ -108,14 +143,19 @@ begin
 
   WahlVorstandPersonForm.Person := person;
   if WahlVorstandPersonForm.ShowModal = mrOk then
+  begin
     UpdateRow(person, LV.Selected);
+    client := TVortandModClient.Create(GM.SQLConnection1.DBXConnection);
+    client.save(person.toJSON);
+    client.Free;
+  end;
 
   WahlVorstandPersonForm.Free;
 end;
 
-function TWahlVorstandFrame.getWahlvorstand: TJSONObject;
+function TWahlVorstandFrame.getWahlvorstand: IWahlvorstand;
 begin
-  Result := m_vorstand.toJSON;
+  Result := m_vorstand;
 end;
 
 procedure TWahlVorstandFrame.init;
@@ -124,8 +164,6 @@ var
   i    : Integer;
   grp  : TListGroup;
 begin
-  m_vorstand := createWahlvorstand;
-
   m_map := Tdictionary<string, integer>.Create;
   list := TStringList.Create;
   TWahlvorstandsRolleToList( list );
@@ -139,11 +177,14 @@ begin
   list.Free
 end;
 
+procedure TWahlVorstandFrame.LVDblClick(Sender: TObject);
+begin
+  btnEdit.Click;
+end;
+
 procedure TWahlVorstandFrame.release;
 begin
   m_map.Free;
-  if Assigned(m_vorstand) then
-    m_vorstand.release;
   m_vorstand := NIL;
 end;
 
@@ -152,9 +193,9 @@ begin
   FWahlVerfahren := value;
 end;
 
-procedure TWahlVorstandFrame.setWahlvorstand(value: TJSONObject);
+procedure TWahlVorstandFrame.setWahlvorstand(value: IWahlvorstand);
 begin
-  m_vorstand.fromJSON(value);
+  m_vorstand := value;
 
   UpdateView;
 end;
@@ -165,12 +206,13 @@ var
   id : integer;
 begin
   item.Data := person;
-  item.Caption := person.Login;
   item.SubItems.Clear;
 
+  item.Caption := person.PersNr;
   Item.SubItems.Add(person.Name);
   Item.SubItems.Add(person.Vorname);
-  Item.SubItems.Add(person.Anrede);
+  Item.SubItems.Add(person.GeschlechtStr);
+  Item.SubItems.Add(person.RolleStr);
   Item.SubItems.Add( BoolToJaNein(person.Stimmberechtigt));
   Item.SubItems.Add(person.Login);
   Item.SubItems.Add(person.eMail);
@@ -190,7 +232,6 @@ begin
 
   for person in m_vorstand.Items do
   begin
-
     item := LV.Items.Add;
     UpdateRow(person, item);
   end;
