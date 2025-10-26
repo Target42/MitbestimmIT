@@ -576,7 +576,7 @@ MA_WL
 0
 0
 0
-
+MA_WL
 
 
 
@@ -3611,7 +3611,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 1
 3
@@ -3645,7 +3645,7 @@ INTEGER
 1
 0
 0
-
+MA_ID
 
 2
 3
@@ -3679,7 +3679,7 @@ INTEGER
 1
 0
 0
-
+WL_ID
 
 3
 3
@@ -3713,7 +3713,7 @@ TIMESTAMP
 1
 0
 0
-
+WL_TIMESTAMP
 
 4
 /END_TABLE AMCCOLN
@@ -4077,7 +4077,7 @@ REF_1717
 1
 0
 0
-
+REF_1717
 
 19
 3
@@ -4095,7 +4095,7 @@ REF_1724
 1
 0
 0
-
+REF_1724
 
 20
 /END_TABLE AMCREFR
@@ -4626,7 +4626,7 @@ set term ;/
 ti_aw_auswertung
 89
 1
-1
+3
 InsertTrigger
 /*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
 set term /;\
@@ -4634,6 +4634,7 @@ create trigger %TRIGGER% for %TABLE%\
 before insert as\
 begin\
     new.lg_id = gen_id(gen_lg_id, 1);\
+    new.lg_timestamp = CURRENT_TIMESTAMP;\
 \
 end;/\
 set term ;/
@@ -4885,6 +4886,10 @@ MS Sans Serif
 Arial
 8
 8
+4
+Courier New
+10
+1
 /END_TABLE AMCFONT
 
 /BEGIN_TABLE AMCPENS
@@ -6281,9 +6286,9 @@ OID     N8
 0
 0
 0
--54947
+-54872
 -30799
--43923
+-43848
 -25325
 2
 1
@@ -6712,7 +6717,7 @@ c9830000ec3c0000c983000004070000
 0
 0
 2
-733effffa6d6ffff733effff3188ffff
+983effffa6d6ffff983effff3188ffff
 2
 
 

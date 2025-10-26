@@ -20,6 +20,9 @@ type
 
     function UserID : integer;
     function WahlID : integer;
+
+    function AddRole( newRole : string; oldRoles : string ) : string;
+    function RemoveRole( delRole, oldRoles : string ) : string;
   end;
 
 var
@@ -58,6 +61,25 @@ begin
   end;
 end;
 
+function TDBMod.RemoveRole(delRole, oldRoles: string): string;
+var
+  list : TStringList;
+  inx : integer;
+begin
+  list := TStringList.Create;
+  list.StrictDelimiter := true;
+  list.Delimiter := ',';
+  list.DelimitedText := oldRoles;
+
+  inx := list.IndexOf(delRole);
+  if inx <> -1 then
+    list.Delete(inx);
+
+  Result := list.DelimitedText;
+
+  list.Free;
+end;
+
 function TDBMod.UserID: integer;
 var
   session : TDSSession;
@@ -80,6 +102,23 @@ begin
   if session.HasData('WahlID') then
     result := StrToIntDef(Session.GetData('WahlID'), 0);
 
+end;
+
+function TDBMod.AddRole(newRole, oldRoles: string): string;
+var
+  list : TStringList;
+begin
+  list := TStringList.Create;
+  list.StrictDelimiter := true;
+  list.Delimiter := ',';
+  list.DelimitedText := oldRoles;
+
+  if list.IndexOf(newRole) = -1 then
+    list.Add(newRole);
+
+  Result := list.DelimitedText;
+
+  list.Free;
 end;
 
 function TDBMod.closeDB: boolean;

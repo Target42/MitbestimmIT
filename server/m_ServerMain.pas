@@ -70,8 +70,8 @@ type
     function startServer : boolean;
     function stopServer : boolean;
 
-    function validateAdmin( pwd : string ) : boolean;
-    function validateUser( user, pwd : string ) : Boolean;
+    function validateAdmin( pwd : string; var UserRoles: TStrings ) : boolean;
+    function validateUser( user, pwd : string; var UserRoles: TStrings ) : Boolean;
 
   protected
     function DoStop: Boolean; override;
@@ -94,7 +94,7 @@ uses
   Winapi.Windows,
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
-  m_vorstand;
+  m_vorstand, u_rollen;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -119,15 +119,11 @@ begin
   valid := false;
   if SameText('admin_user', user ) then
   begin
-    valid := validateAdmin(Password);
-    if valid then
-      UserRoles.Add('admim');
+    valid := validateAdmin(Password, UserRoles);
   end
   else
   begin
-    valid := validateUser(User, Password);
-    if valid then
-      UserRoles.Add('user');
+    valid := validateUser(User, Password, UserRoles);
   end;
 end;
 
@@ -135,10 +131,6 @@ procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
   Sender: TObject; EventObject: TDSAuthorizeEventObject;
   var valid: Boolean);
 begin
-  { TODO : Autorisieren Sie einen Benutzer zum Ausführen einer Methode.
-    Verwenden Sie Werte von EventObject, wie z.B. UserName, UserRoles, AuthorizedRoles und DeniedRoles.
-    Verwenden Sie DSAuthenticationManager1.Roles zum Definieren von 'Authorized'- und 'Denied'-Rollen
-    für bestimmte Servermethoden. }
   valid := True;
 end;
 
@@ -257,7 +249,7 @@ begin
   result := (DBMod.FDConnection1.Connected = false );
 end;
 
-function TMitbestimmITSrv.validateAdmin(pwd: string): boolean;
+function TMitbestimmITSrv.validateAdmin(pwd: string; var UserRoles: TStrings): boolean;
 var
   pwdHash : string;
 begin
@@ -268,13 +260,16 @@ begin
   begin
     result := SameText(AdminTab.FieldByName('AD_PWD').AsString , pwdHash);
     if result then
-        TDSSessionManager.GetThreadSession.PutData('UserID', '1');
+    begin
+      TDSSessionManager.GetThreadSession.PutData('UserID', '1');
+      UserRoles.Add(roAdmin);
+    end;
   end;
   AdminTab.Close;
 
 end;
 
-function TMitbestimmITSrv.validateUser(user, pwd: string): Boolean;
+function TMitbestimmITSrv.validateUser(user, pwd: string; var UserRoles: TStrings): Boolean;
 var
   pwdHash : string;
 begin
@@ -286,7 +281,10 @@ begin
   begin
     result := SameText(UserPWDQry.FieldByName('mw_pwd').AsString, pwdHash);
     if Result then
+    begin
       TDSSessionManager.GetThreadSession.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
+      UserRoles.DelimitedText := UserPWDQry.FieldByName('MW_ROLLE').AsString;
+    end;
 
   end;
   UserPWDQry.Close;

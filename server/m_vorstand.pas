@@ -8,9 +8,10 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Datasnap.Provider, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  System.JSON, u_Wahlvorstand;
+  System.JSON, u_Wahlvorstand, u_rollen;
 
 type
+  [TRoleAuth(roWahlVorsitz)]
   TVortandMod = class(TDSServerModule)
     ListMAQry: TFDQuery;
     ListMAQryWV_ROLLE: TStringField;
@@ -30,13 +31,14 @@ type
     UpdateWVQry: TFDQuery;
     UpdateLoginQry: TFDQuery;
     UpdateMailQry: TFDQuery;
-    AddLoginQry: TFDQuery;
     AddVorstandQry: TFDQuery;
+    MAPWDTab: TFDTable;
   private
     { Private-Deklarationen }
     procedure addMAData( person : IWahlvorstandPerson );
     procedure addLogin( person : IWahlvorstandPerson );
   public
+    [TRoleAuth(roPublic)]
     function getlist : TJSONObject;
     function add( data : TJSONObject ) : TJSONObject;
     function get( ma_id : integer ) : TJSONObject;
@@ -48,7 +50,8 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses m_db, u_json;
+uses
+  m_db, u_json, System.Variants;
 
 {$R *.dfm}
 
@@ -60,8 +63,20 @@ begin
   person.fromJSON(data);
 
   try
-    AddLoginQry.ParamByName('MA_ID').AsInteger := person.ID;
-    AddLoginQry.ExecSQL;
+    MAPWDTab.Open;
+    if not MAPWDTab.Locate('MA_ID', VarArrayOf([person.ID]), []) then
+    begin
+      MAPWDTab.Append;
+      MAPWDTab.FieldByName('MA_ID').AsInteger := person.ID;
+    end
+    else
+    begin
+      MAPWDTab.Edit;
+    end;
+    MAPWDTab.FieldByName('MW_ROLLE').AsString := DBMod.AddRole(roWahlVorstand, MAPWDTab.FieldByName('MW_ROLLE').AsString);
+    MAPWDTab.Post;
+
+    MAPWDTab.Close;
 
     AddVorstandQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
     AddVorstandQry.ParamByName('MA_ID').AsInteger := person.ID;

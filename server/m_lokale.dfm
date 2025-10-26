@@ -203,8 +203,8 @@ object LokaleMod: TLokaleMod
       '    a.MA_ID = :ma_id AND '
       '    a.WA_ID = :wa_id'
       '')
-    Left = 392
-    Top = 296
+    Left = 408
+    Top = 208
     ParamData = <
       item
         Name = 'WL_ID'
@@ -264,5 +264,11 @@ object LokaleMod: TLokaleMod
         ParamType = ptInput
         Value = Null
       end>
+  end
+  object MAPwdTab: TFDTable
+    Connection = DBMod.FDConnection1
+    TableName = 'MA_PWD'
+    Left = 472
+    Top = 328
   end
 end

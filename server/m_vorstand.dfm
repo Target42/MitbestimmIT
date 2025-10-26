@@ -248,24 +248,6 @@ object VortandMod: TVortandMod
         Value = Null
       end>
   end
-  object AddLoginQry: TFDQuery
-    Connection = DBMod.FDConnection1
-    SQL.Strings = (
-      'INSERT INTO MA_PWD (MA_ID)'
-      'VALUES ('
-      '    :MA_ID'
-      ');'
-      '')
-    Left = 440
-    Top = 128
-    ParamData = <
-      item
-        Name = 'MA_ID'
-        DataType = ftInteger
-        ParamType = ptInput
-        Value = Null
-      end>
-  end
   object AddVorstandQry: TFDQuery
     Connection = DBMod.FDConnection1
     SQL.Strings = (
@@ -290,5 +272,11 @@ object VortandMod: TVortandMod
         ParamType = ptInput
         Value = Null
       end>
+  end
+  object MAPWDTab: TFDTable
+    Connection = DBMod.FDConnection1
+    TableName = 'MA_PWD'
+    Left = 440
+    Top = 72
   end
 end

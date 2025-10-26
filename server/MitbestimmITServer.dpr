@@ -48,7 +48,8 @@ uses
   m_lokale in 'm_lokale.pas' {LokaleMod: TDSServerModule},
   u_wahllokal in '..\Wahllokale\u_wahllokal.pas',
   m_vorstand in 'm_vorstand.pas' {VortandMod: TDSServerModule},
-  u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas';
+  u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas',
+  u_rollen in 'u_rollen.pas';
 
 {$R *.RES}
 

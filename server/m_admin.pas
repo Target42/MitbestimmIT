@@ -54,7 +54,8 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants,
+  u_rollen;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -165,7 +166,7 @@ var
     begin
       PwdTab.Append;
       PwdTabMA_ID.AsInteger   := maid;
-      PwdTabMW_ROLLE.AsString := 'Vorstand';
+      PwdTabMW_ROLLE.AsString := Format('%s;%s;%s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
       PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
       PwdTabMW_LOGIN.AsString := JString( wv, 'login');
       PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));

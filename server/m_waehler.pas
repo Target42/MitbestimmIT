@@ -8,9 +8,11 @@ uses
   FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Datasnap.Provider,
-  System.JSON, i_waehlerliste, u_wahlerlisteVergleich, System.SysUtils;
+  System.JSON, i_waehlerliste, u_wahlerlisteVergleich, System.SysUtils,
+  u_rollen;
 
 type
+  [TRoleAuth(roWahlVorsitz)]
   TWaehlerMod = class(TDSServerModule)
     MitarbeiterTab: TDataSetProvider;
     MAQry: TFDQuery;

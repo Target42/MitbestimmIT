@@ -29,6 +29,7 @@ type
     UpdateHelferQry: TFDQuery;
     DelHelfer: TFDQuery;
     AddHelferQry: TFDQuery;
+    MAPwdTab: TFDTable;
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
     procedure HelferBeforeOpen(DataSet: TDataSet);
@@ -54,7 +55,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, u_wahllokal, system.Variants;
+  u_json, u_wahllokal, system.Variants, u_rollen;
 
 
 {$R *.dfm}
@@ -89,13 +90,34 @@ begin
 end;
 
 function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
+var
+  id : integer;
 begin
+  id := JInt( data, 'maid');
   Result := TJSONObject.Create;
   AddHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   AddHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
-  AddHelferQry.ParamByName('MA_ID').AsInteger := JInt( data, 'maid');
+  AddHelferQry.ParamByName('MA_ID').AsInteger := id;
   AddHelferQry.ParamByName('WH_ROLLE').AsString  := JString( data, 'rolle');
   AddHelferQry.ExecSQL;
+
+  MAPwdTab.Open;
+  if not MAPwdTab.Locate('MA_ID', VarArrayOf([id]), []) then
+  begin
+    MAPwdTab.Append;
+    MAPwdTab.FieldByName('MA_ID').AsInteger := id;
+
+  end
+  else
+  begin
+    MAPwdTab.Edit;
+  end;
+
+  MAPwdTab.FieldByName('MW_ROLLE').AsString := DBMod.AddRole(roWahlHelfer, MAPwdTab.FieldByName('MW_ROLLE').AsString );
+  MAPwdTab.Post;
+
+  MAPwdTab.Close;
+
 
   if AddHelferQry.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze eingefügt')

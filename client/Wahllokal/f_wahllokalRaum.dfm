@@ -39,25 +39,25 @@ object WahllokalRaumform: TWahllokalRaumform
     Text = ''
   end
   object LabeledEdit2: TLabeledEdit
-    Left = 176
+    Left = 312
     Top = 40
     Width = 121
     Height = 23
     EditLabel.Width = 77
     EditLabel.Height = 15
     EditLabel.Caption = 'Raumnummer'
-    TabOrder = 1
+    TabOrder = 2
     Text = ''
   end
   object LabeledEdit3: TLabeledEdit
-    Left = 312
+    Left = 175
     Top = 40
     Width = 121
     Height = 23
     EditLabel.Width = 54
     EditLabel.Height = 15
     EditLabel.Caption = 'Stockwerk'
-    TabOrder = 2
+    TabOrder = 1
     Text = ''
   end
   object DateTimePicker1: TDateTimePicker
