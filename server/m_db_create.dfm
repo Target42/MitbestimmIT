@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     26.10.2025  15:47                          ' +
+            '/*   Created on:     27.10.2025  20:21                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -462,6 +462,9 @@ object CreateDBMode: TCreateDBMode
           
             '    LG_DATA                         BLOB                        ' +
             '   ,'
+          
+            '    LG_USER                         VARCHAR(100)                ' +
+            '   ,'
           '    constraint PK_LG_LOG primary key (WA_ID, LG_ID)'
           ');'
           ''
@@ -836,7 +839,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     26.10.2025  15:47                          ' +
+            '/*   Created on:     27.10.2025  20:21                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -881,7 +884,7 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           '    new.lg_id = gen_id(gen_lg_id, 1);'
-          '    new.lg_timestamp = CURRENT_TIMESTAMP;'
+          '    new.lg_stamp = CURRENT_TIMESTAMP;'
           ''
           'end;/'
           'set term ;/'

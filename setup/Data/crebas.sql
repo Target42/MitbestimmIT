@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     26.10.2025  15:47                          */
+/*   Created on:     27.10.2025  21:09                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -153,7 +153,8 @@ create table WV_WAHL_VORSTAND
     WA_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
     WV_ROLLE                        VARCHAR(100)                   ,
-    WV_CHEF                         CHARACTER                      ,
+    WV_CHEF                         CHARACTER                      
+        default 'F',
     constraint PK_WV_WAHL_VORSTAND primary key (WA_ID, MA_ID)
 );
 
@@ -204,6 +205,7 @@ create table LG_LOG
     LG_ID                           INTEGER                not null,
     LG_STAMP                        TIMESTAMP                      ,
     LG_DATA                         BLOB                           ,
+    LG_USER                         VARCHAR(100)                   ,
     constraint PK_LG_LOG primary key (WA_ID, LG_ID)
 );
 

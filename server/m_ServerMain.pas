@@ -44,6 +44,7 @@ type
     DSWaehler: TDSServerClass;
     DSLokale: TDSServerClass;
     DSVorstand: TDSServerClass;
+    GetUserQry: TFDQuery;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -262,6 +263,7 @@ begin
     if result then
     begin
       TDSSessionManager.GetThreadSession.PutData('UserID', '1');
+      TDSSessionManager.GetThreadSession.PutData('UserName', 'Admin');
       UserRoles.Add(roAdmin);
     end;
   end;
@@ -284,6 +286,18 @@ begin
     begin
       TDSSessionManager.GetThreadSession.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
       UserRoles.DelimitedText := UserPWDQry.FieldByName('MW_ROLLE').AsString;
+
+      GetUserQry.ParamByName('MA_ID').AsInteger := UserPWDQry.FieldByName('MA_ID').AsInteger;
+      GetUserQry.Open;
+      if not GetUserQry.IsEmpty then
+      begin
+        TDSSessionManager.GetThreadSession.PutData('UserName',
+          format('%s %s', [
+            GetUserQry.FieldByName('MA_VORNAME').AsString,
+            GetUserQry.FieldByName('MA_NAME').AsString
+          ]));
+      end;
+      GetUserQry.Close;
     end;
 
   end;

@@ -51,7 +51,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, u_json, System.Variants;
+  m_db, u_json, System.Variants, m_log;
 
 {$R *.dfm}
 
@@ -81,6 +81,9 @@ begin
     AddVorstandQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
     AddVorstandQry.ParamByName('MA_ID').AsInteger := person.ID;
     AddVorstandQry.ExecSQL;
+
+    JReplace( data, 'action', 'add wahlvorstand');
+    TLogMod.log( formatJSON(data) );
 
     Result := save(data);
   except
@@ -122,9 +125,14 @@ begin
   DelQry.ExecSQL;
 
   if DelQry.RowsAffected = 0 then
-     JResult(Result, false, 'Es wurde niemand gelöscht. Oder die Person ist der Wahlvorstand, den man nicht löschen kann.')
+  begin
+     JResult(Result, false, 'Es wurde niemand gelöscht. Oder die Person ist der Wahlvorstand, den man nicht löschen kann.');
+    JReplace( data, 'action', 'löschen');
+    TLogMod.log(formatJSON(data));
+  end
   else
     JResult(Result, true, 'Das Löschen war erfolgreich.');
+
 end;
 
 function TVortandMod.get(ma_id: integer): TJSONObject;

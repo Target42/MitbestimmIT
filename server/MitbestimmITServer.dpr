@@ -49,7 +49,8 @@ uses
   u_wahllokal in '..\Wahllokale\u_wahllokal.pas',
   m_vorstand in 'm_vorstand.pas' {VortandMod: TDSServerModule},
   u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas',
-  u_rollen in 'u_rollen.pas';
+  u_rollen in 'u_rollen.pas',
+  m_log in 'm_log.pas' {LogMod: TDataModule};
 
 {$R *.RES}
 
@@ -77,10 +78,7 @@ begin
 
     // Create the TService descendant manually.
     MitbestimmITSrv := TMitbestimmITSrv.Create(nil);
-    DBMod      := TDBMod.Create(MitbestimmITSrv);
-
-//    CreateDBMode := TCreateDBMode.Create(MitbestimmITSrv);
-//    CreateDBMode.createDB;
+    DBMod           := TDBMod.Create(MitbestimmITSrv);
 
     // Simulate service start.
     MitbestimmITSrv.ServiceStart(MitbestimmITSrv, MyDummyBoolean);

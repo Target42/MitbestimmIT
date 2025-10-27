@@ -147,7 +147,7 @@ commit;
 
 
 1753814221
-1761326080
+1761595749
 0
 0
 4
@@ -1381,14 +1381,14 @@ WV_CHEF
 29
 0
 CHARACTER
-1
 0
 0
+0
 
 
 
 
-
+F
 0
 0
 0
@@ -2458,6 +2458,40 @@ BLOB
 LG_DATA
 
 4
+3
+1892
+1892
+LG_USER
+LG_USER
+
+
+
+107
+0
+VARCHAR(100)
+100
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+LG_USER
+
+5
 3
 185
 185
@@ -4634,7 +4668,7 @@ create trigger %TRIGGER% for %TABLE%\
 before insert as\
 begin\
     new.lg_id = gen_id(gen_lg_id, 1);\
-    new.lg_timestamp = CURRENT_TIMESTAMP;\
+    new.lg_stamp = CURRENT_TIMESTAMP;\
 \
 end;/\
 set term ;/
@@ -6055,17 +6089,17 @@ OID     N8
 3
 1500
 289
-0
+2
 4
 0
 0
 0
 0
 0
--24304
-32033
--12530
-37507
+-24307
+32030
+-12533
+37504
 2
 1
 0
@@ -6286,10 +6320,10 @@ OID     N8
 0
 0
 0
--54872
--30799
--43848
--25325
+-55292
+-31296
+-43443
+-24847
 2
 1
 0
@@ -6717,7 +6751,7 @@ c9830000ec3c0000c983000004070000
 0
 0
 2
-983effffa6d6ffff983effff3188ffff
+8c3effffa6d6ffff8c3effff5786ffff
 2
 
 
@@ -6941,7 +6975,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-0d4affffe16000000d4affff7e820000bda5ffff7e820000
+0d4affffe16000000d4affff7b820000baa5ffff7b820000
 1
 
 

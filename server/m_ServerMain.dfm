@@ -146,4 +146,21 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 784
     Top = 16
   end
+  object GetUserQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT *'
+      'FROM MA_MITARBEITER '
+      'where'
+      '  ma_id = :ma_id')
+    Left = 224
+    Top = 368
+    ParamData = <
+      item
+        Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end
