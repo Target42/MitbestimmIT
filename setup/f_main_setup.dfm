@@ -1,6 +1,7 @@
 object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
+  HelpContext = 42
   ActiveControl = CheckBox1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
@@ -11,8 +12,10 @@ object MainSetupForm: TMainSetupForm
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  HelpFile = 'dummy.hlp'
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnHelp = FormHelp
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
@@ -126,6 +129,46 @@ object MainSetupForm: TMainSetupForm
         TabOrder = 1
       end
     end
+    object JvWizardInteriorPage6: TJvWizardInteriorPage
+      Header.Title.Color = clNone
+      Header.Title.Text = 'Vorraussetzungen'
+      Header.Title.Anchors = [akLeft, akTop, akRight]
+      Header.Title.Font.Charset = DEFAULT_CHARSET
+      Header.Title.Font.Color = clWindowText
+      Header.Title.Font.Height = -16
+      Header.Title.Font.Name = 'Segoe UI'
+      Header.Title.Font.Style = [fsBold]
+      Header.Subtitle.Color = clNone
+      Header.Subtitle.Text = 'Dinge, die f'#252'r die Installation ben'#246'tigt werden'
+      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
+      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
+      Header.Subtitle.Font.Color = clWindowText
+      Header.Subtitle.Font.Height = -12
+      Header.Subtitle.Font.Name = 'Segoe UI'
+      Header.Subtitle.Font.Style = []
+      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
+      Caption = 'JvWizardInteriorPage6'
+      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
+      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      inline PreFrame1: TPreFrame
+        Left = 0
+        Top = 70
+        Width = 754
+        Height = 367
+        Align = alClient
+        TabOrder = 0
+        ExplicitTop = 70
+        ExplicitWidth = 754
+        ExplicitHeight = 367
+        inherited RichEdit1: TRichEdit
+          Width = 754
+          Height = 367
+          StyleElements = [seFont, seClient, seBorder]
+          ExplicitWidth = 754
+          ExplicitHeight = 367
+        end
+      end
+    end
     object JvWizardInteriorPage1: TJvWizardInteriorPage
       Header.Title.Color = clNone
       Header.Title.Text = 'Grundlagen'
@@ -183,46 +226,6 @@ object MainSetupForm: TMainSetupForm
             ExplicitWidth = 750
             ExplicitHeight = 265
           end
-        end
-      end
-    end
-    object JvWizardInteriorPage6: TJvWizardInteriorPage
-      Header.Title.Color = clNone
-      Header.Title.Text = 'Vorraussetzungen'
-      Header.Title.Anchors = [akLeft, akTop, akRight]
-      Header.Title.Font.Charset = DEFAULT_CHARSET
-      Header.Title.Font.Color = clWindowText
-      Header.Title.Font.Height = -16
-      Header.Title.Font.Name = 'Segoe UI'
-      Header.Title.Font.Style = [fsBold]
-      Header.Subtitle.Color = clNone
-      Header.Subtitle.Text = 'Dinge, die f'#252'r die Installation ben'#246'tigt werden'
-      Header.Subtitle.Anchors = [akLeft, akTop, akRight, akBottom]
-      Header.Subtitle.Font.Charset = DEFAULT_CHARSET
-      Header.Subtitle.Font.Color = clWindowText
-      Header.Subtitle.Font.Height = -12
-      Header.Subtitle.Font.Name = 'Segoe UI'
-      Header.Subtitle.Font.Style = []
-      VisibleButtons = [bkBack, bkNext, bkCancel, bkHelp]
-      Caption = 'JvWizardInteriorPage6'
-      OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
-      OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
-      inline PreFrame1: TPreFrame
-        Left = 0
-        Top = 70
-        Width = 754
-        Height = 367
-        Align = alClient
-        TabOrder = 0
-        ExplicitTop = 70
-        ExplicitWidth = 754
-        ExplicitHeight = 367
-        inherited RichEdit1: TRichEdit
-          Width = 754
-          Height = 367
-          StyleElements = [seFont, seClient, seBorder]
-          ExplicitWidth = 754
-          ExplicitHeight = 367
         end
       end
     end
@@ -313,7 +316,6 @@ object MainSetupForm: TMainSetupForm
         inherited Panel1: TPanel
           Width = 754
           StyleElements = [seFont, seClient, seBorder]
-          ExplicitTop = 289
           ExplicitWidth = 754
         end
         inherited IdTCPServer1: TIdTCPServer

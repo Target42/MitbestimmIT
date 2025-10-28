@@ -67,6 +67,8 @@ type
     procedure JvWizard1HelpButtonClick(Sender: TObject);
     procedure JvWizardWelcomePage1HelpButtonClick(Sender: TObject;
       var Stop: Boolean);
+    function FormHelp(Command: Word; Data: THelpEventData;
+      var CallHelp: Boolean): Boolean;
   private
   public
     { Public-Deklarationen }
@@ -109,6 +111,13 @@ begin
   JvWizardWelcomePage1.VisibleButtons := [TJvWizardButtonKind.bkFinish, TJvWizardButtonKind.bkHelp];
 end;
 
+function TMainSetupForm.FormHelp(Command: Word; Data: THelpEventData;
+  var CallHelp: Boolean): Boolean;
+begin
+  CallHelp := false;
+  JvWizard1HelpButtonClick( nil );
+end;
+
 procedure TMainSetupForm.JvWizard1CancelButtonClick(Sender: TObject);
 begin
   Glob.writeData;
@@ -120,8 +129,27 @@ begin
 end;
 
 procedure TMainSetupForm.JvWizard1HelpButtonClick(Sender: TObject);
+const
+  wwwroot = 'https://github.com/Target42/MitbestimmIT/wiki';
+var
+  page : string;
+  url : string;
 begin
-//
+  if JvWizard1.ActivePage = JvWizardWelcomePage1 then         page := '/Setup-Start'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage6 then   page := '/Setup-Vorraussetzungen'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage1 then   page := '/Setup-Grundlagen'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage7 then   page := '/Setup-Port-Check'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage2 then   page := '/Setup-Administrator'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage3 then   page := '/Setup-Datenbank'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage4 then   page := '/Setup-Zertifkate'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage5 then   page := '/Setup-Mailserver'
+  else if JvWizard1.ActivePage = JvWizardInteriorPage6 then   page := '/Setup-Server'
+  else
+    page := '/Installation';
+
+  url := wwwroot + page;
+
+  ShellExecute( 0, 'open', PCHAR(url), nil, nil, SW_SHOWNORMAL );
 end;
 
 procedure TMainSetupForm.JvWizardInteriorPage1NextButtonClick(Sender: TObject;
