@@ -37,7 +37,7 @@ const
 type
   IWahlvorstandPerson = interface;
   IWahlvorstand       = interface;
-  TWahlvorstandsRolle = (wvUnbekannt, wvVorsitz, wvStellvertretung, wvErsatz, wvGewerkschaft);
+  TWahlvorstandsRolle = (wvUnbekannt, wvVorsitz, wvOrdentlichesMitglied, wvErsatz, wvGewerkschaft, wvOrga);
 
   IWahlvorstandPerson = interface
     ['{49C3CA09-7600-4881-A484-EDE5237C82F2}']
@@ -452,7 +452,7 @@ begin
       begin
         m_stimmberechtigt := true;
       end;
-    wvStellvertretung:
+    wvOrdentlichesMitglied:
       begin
         m_stimmberechtigt := true;
       end;
@@ -461,6 +461,10 @@ begin
         m_stimmberechtigt := false
       end;
     wvGewerkschaft:
+      begin
+        m_stimmberechtigt := false
+      end;
+      wvOrga:
       begin
         m_stimmberechtigt := false
       end;
@@ -491,10 +495,11 @@ end;
 function TWahlvorstandsRolleToString(Rolle: TWahlvorstandsRolle): string;
 begin
   case Rolle of
-    wvVorsitz:          Result := 'Vorsitz';
-    wvStellvertretung:  Result := 'Stellvertretung';
-    wvErsatz:           Result := 'Ersatz';
-    wvGewerkschaft:     Result := 'Gewerkschaft';
+    wvVorsitz:                Result := 'Vorsitz';
+    wvOrdentlichesMitglied:   Result := 'Mitglied';
+    wvErsatz:                 Result := 'Ersatz';
+    wvGewerkschaft:           Result := 'Gewerkschaft';
+    wvOrga:                   Result := 'Assistenz';
   else
                         Result := 'Unbekannt';
   end;
@@ -504,12 +509,14 @@ function StringToTWahlvorstandsRolle(const Text: string): TWahlvorstandsRolle;
 begin
   if Text = 'Vorsitz' then
     Result := wvVorsitz
-  else if Text = 'Stellvertretung' then
-    Result := wvStellvertretung
+  else if Text = 'Mitglied' then
+    Result := wvOrdentlichesMitglied
   else if Text = 'Ersatz' then
     Result := wvErsatz
   else if Text = 'Gewerkschaft' then
     Result := wvGewerkschaft
+    else if Text = 'Assistenz' then
+      Result := wvOrga
   else
     Result := wvUnbekannt;
 end;
@@ -517,10 +524,11 @@ end;
 procedure TWahlvorstandsRolleToList( list : TStrings );
 begin
   list.Add(TWahlvorstandsRolleToString(wvVorsitz));
-  list.Add(TWahlvorstandsRolleToString(wvStellvertretung));
+  list.Add(TWahlvorstandsRolleToString(wvOrdentlichesMitglied));
   list.Add(TWahlvorstandsRolleToString(wvErsatz));
   list.Add(TWahlvorstandsRolleToString(wvGewerkschaft));
   list.Add(TWahlvorstandsRolleToString(wvUnbekannt));
+  list.Add(TWahlvorstandsRolleToString(wvOrga));
 end;
 
 function createWahlvorstand : IWahlvorstand;
