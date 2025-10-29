@@ -14,9 +14,9 @@ type
   private
     { Private-Deklarationen }
   public
-    procedure addLog( text : string );
+    procedure addLog( titel, text : string );
 
-    class procedure log( text : string );
+    class procedure log( titel, text : string );
   end;
 
 var
@@ -33,23 +33,23 @@ uses
 
 { TLogMod }
 
-procedure TLogMod.addLog(text: string);
+procedure TLogMod.addLog(titel, text: string);
 begin
   AddLogQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
-  //AddLogQry.ParamByName('LG_DATA').AsBlob := TFDByteString(TEncoding.UTF8.GetBytes(text));
   AddLogQry.ParamByName('LG_DATA').AsString := text;
   AddLogQry.ParamByName('LG_USER').AsString := TDSSessionManager.GetThreadSession.getData('UserName' );
+  AddLogQry.ParamByName('LG_TITEL').AsString:= titel;
   AddLogQry.ExecSQL;
 
   AddLogQry.close;
 end;
 
-class procedure TLogMod.log(text: string);
+class procedure TLogMod.log(titel, text: string);
 var
   lg : TLogMod;
 begin
   lg := TLogMod.Create(NIL);
-  lg.addLog(text);
+  lg.addLog(titel, text);
   lg.free;
 end;
 

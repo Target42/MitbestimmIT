@@ -1,6 +1,7 @@
 object MainClientForm: TMainClientForm
   Left = 0
   Top = 0
+  HelpType = htKeyword
   HelpContext = 1
   Caption = 'MitbestimmIT Client VCL'
   ClientHeight = 623
@@ -17,7 +18,6 @@ object MainClientForm: TMainClientForm
   Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
   TextHeight = 15
   object Label1: TLabel
     Left = 0

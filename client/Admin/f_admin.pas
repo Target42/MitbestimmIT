@@ -53,7 +53,7 @@ var
 implementation
 
 uses
-  System.JSON, u_json;
+  System.JSON, u_json, m_res;
 
 {$R *.dfm}
 

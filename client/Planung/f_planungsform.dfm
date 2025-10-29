@@ -1,8 +1,8 @@
 object Planungsform: TPlanungsform
   Left = 0
   Top = 0
-  ActiveControl = WahlverfahrenFrame1.RichEdit1
-  Caption = 'Planungsform'
+  ActiveControl = WahlfristenFrame1.Chart1
+  Caption = 'Wahlplanung'
   ClientHeight = 573
   ClientWidth = 756
   Color = clBtnFace
@@ -27,7 +27,7 @@ object Planungsform: TPlanungsform
     Top = 0
     Width = 756
     Height = 554
-    ActivePage = JvWizardWelcomePage1
+    ActivePage = JvWizardInteriorPage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1

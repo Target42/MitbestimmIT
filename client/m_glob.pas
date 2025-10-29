@@ -287,11 +287,6 @@ procedure TGM.SQLConnection1AfterDisconnect(Sender: TObject);
 begin
   FWahlName  := '';
   FSimulation:= false;
-
-  if Assigned( Screen.ActiveForm ) then
-  begin
-    Screen.ActiveForm.Close;
-  end;
 end;
 
 procedure TGM.updateMATab;

@@ -55,7 +55,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, u_wahllokal, system.Variants, u_rollen;
+  u_json, u_wahllokal, system.Variants, u_rollen, m_log;
 
 
 {$R *.dfm}
@@ -87,6 +87,9 @@ begin
   end;
   WLTab.Close;
   lokal.Free;
+
+  TLogMod.log('Wahllokal: add', formatJSON(data));
+
 end;
 
 function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
@@ -122,7 +125,10 @@ begin
   if AddHelferQry.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze eingefügt')
   else
+  begin
     JResult( result, true, Format('Es wurden %d Datensätze eingefügt', [AddHelferQry.RowsAffected]));
+     TLogMod.log('Wahllokal: add helfer', formatJSON(data));
+  end;
 
 end;
 
@@ -146,6 +152,7 @@ begin
     DelRaumQry.ExecSQL;
 
     JResult( result, true, 'Der Raum wurde gelöscht.');
+    TLogMod.log('Wahllokal: löschen', IntToStr(id));
   except
     on e : exception do
     begin
@@ -167,7 +174,10 @@ begin
   if DelHelfer.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze gelöscht')
   else
+  begin
     JResult( result, true, Format('Es wurden %d Datensätze gelöscht', [DelHelferQry.RowsAffected]));
+     TLogMod.log('Wahllokal: delete helfer', formatJSON(data));
+  end;
 end;
 
 procedure TLokaleMod.DelHelferBeforeOpen(DataSet: TDataSet);
@@ -240,6 +250,7 @@ begin
     try
       WLTab.Post;
       JResult( result, true, 'Der Raum wurde gespeichert');
+       TLogMod.log('Wahllokal: save', formatJSON(data));
     except
       on e : exception do
       begin
@@ -269,7 +280,10 @@ begin
   if UpdateHelferQry.RowsAffected = 0 then
     JResult( result, false, 'Es wurden kene Datensätze aktualisiert')
   else
+  begin
+     TLogMod.log('Wahllokal: save Helfer', formatJSON(data));
     JResult( result, true, Format('Es wurden %d Datensätze aktualisiert', [UpdateHelferQry.RowsAffected]));
+  end;
 
 end;
 

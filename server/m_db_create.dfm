@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     27.10.2025  20:21                          ' +
+            '/*   Created on:     28.10.2025  20:24                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -351,7 +351,8 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WV_CHEF                         CHARACTER                   ' +
-            '   ,'
+            '   '
+          '        default '#39'F'#39','
           '    constraint PK_WV_WAHL_VORSTAND primary key (WA_ID, MA_ID)'
           ');'
           ''
@@ -464,6 +465,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    LG_USER                         VARCHAR(100)                ' +
+            '   ,'
+          
+            '    LG_TITEL                        VARCHAR(100)                ' +
             '   ,'
           '    constraint PK_LG_LOG primary key (WA_ID, LG_ID)'
           ');'
@@ -829,6 +833,7 @@ object CreateDBMode: TCreateDBMode
           ''
           'commit;'
           ''
+          ''
           
             '/* ============================================================ ' +
             '*/'
@@ -839,7 +844,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     27.10.2025  20:21                          ' +
+            '/*   Created on:     28.10.2025  20:24                          ' +
             '*/'
           
             '/* ============================================================ ' +

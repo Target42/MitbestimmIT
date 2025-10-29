@@ -10,6 +10,7 @@ object AdminForm: TAdminForm
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  HelpFile = 'dummy.hlp'
   Position = poOwnerFormCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -112,7 +113,7 @@ object AdminForm: TAdminForm
       Width = 620
       Height = 189
       Align = alClient
-      Caption = 'Wahlvorstand'
+      Caption = 'Wahlvorstandvorsitz'
       TabOrder = 1
       object LabeledEdit2: TLabeledEdit
         Left = 111
@@ -152,9 +153,9 @@ object AdminForm: TAdminForm
         Top = 95
         Width = 121
         Height = 23
-        EditLabel.Width = 79
+        EditLabel.Width = 87
         EditLabel.Height = 15
-        EditLabel.Caption = 'Initial Passwort'
+        EditLabel.Caption = 'initialesPasswort'
         PasswordChar = '*'
         TabOrder = 4
         Text = '0815'
@@ -185,16 +186,17 @@ object AdminForm: TAdminForm
     object BitBtn1: TBitBtn
       Left = 18
       Top = 10
-      Width = 75
+      Width = 89
       Height = 25
       Caption = 'Anlegen'
+      ImageIndex = 9
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TAdminMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 80
     Top = 56

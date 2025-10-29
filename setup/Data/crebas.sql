@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     27.10.2025  21:09                          */
+/*   Created on:     28.10.2025  20:24                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -206,6 +206,7 @@ create table LG_LOG
     LG_STAMP                        TIMESTAMP                      ,
     LG_DATA                         BLOB                           ,
     LG_USER                         VARCHAR(100)                   ,
+    LG_TITEL                        VARCHAR(100)                   ,
     constraint PK_LG_LOG primary key (WA_ID, LG_ID)
 );
 

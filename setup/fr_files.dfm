@@ -2,7 +2,7 @@ object FilesFrame: TFilesFrame
   Left = 0
   Top = 0
   Width = 849
-  Height = 420
+  Height = 373
   Align = alClient
   TabOrder = 0
   OnResize = FrameResize
@@ -10,13 +10,13 @@ object FilesFrame: TFilesFrame
     Left = 0
     Top = 0
     Width = 849
-    Height = 83
+    Height = 81
     Align = alTop
     Caption = 'Zielpfad'
     TabOrder = 0
     DesignSize = (
       849
-      83)
+      81)
     object SpeedButton1: TSpeedButton
       Left = 807
       Top = 35
@@ -40,23 +40,26 @@ object FilesFrame: TFilesFrame
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 83
+    Top = 81
     Width = 849
-    Height = 337
+    Height = 292
     Align = alClient
     Caption = 'Log'
     TabOrder = 1
+    ExplicitTop = 83
+    ExplicitHeight = 337
     object Memo1: TMemo
       Left = 2
       Top = 17
       Width = 845
-      Height = 318
+      Height = 273
       Align = alClient
       Lines.Strings = (
         'Memo1')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
+      ExplicitHeight = 318
     end
   end
   object ActionList1: TActionList

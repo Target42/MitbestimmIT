@@ -97,6 +97,7 @@ end;
 procedure TPlanungsform.JvWizardInteriorPage1FinishButtonClick(Sender: TObject;
   var Stop: Boolean);
 begin
+  stop := true;
   saveData;
   Close;
 end;

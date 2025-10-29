@@ -59,7 +59,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, DSSession, u_json;
+  m_db, DSSession, u_json, m_log;
 
 {$R *.dfm}
 
@@ -153,7 +153,7 @@ begin
   if FDTransaction1.Active then
     FDTransaction1.Commit;
   WFTab.Close;
-
+  TLogMod.log('Wahl: save', formatJSON(data));
 end;
 
 function TWahlMod.setWahl(id: integer): Boolean;
@@ -195,7 +195,6 @@ begin
     Text := 'Ja'
   else
     Text := 'Nein';
-
 end;
 
 end.

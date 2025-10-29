@@ -82,8 +82,7 @@ begin
     AddVorstandQry.ParamByName('MA_ID').AsInteger := person.ID;
     AddVorstandQry.ExecSQL;
 
-    JReplace( data, 'action', 'add wahlvorstand');
-    TLogMod.log( formatJSON(data) );
+    TLogMod.log( 'Wahlvorstand hinzugefügt', formatJSON(data) );
 
     Result := save(data);
   except
@@ -127,12 +126,13 @@ begin
   if DelQry.RowsAffected = 0 then
   begin
      JResult(Result, false, 'Es wurde niemand gelöscht. Oder die Person ist der Wahlvorstand, den man nicht löschen kann.');
-    JReplace( data, 'action', 'löschen');
-    TLogMod.log(formatJSON(data));
   end
   else
+  begin
     JResult(Result, true, 'Das Löschen war erfolgreich.');
 
+    TLogMod.log('Wahlvorstand gelöscht', formatJSON(data));
+  end;
 end;
 
 function TVortandMod.get(ma_id: integer): TJSONObject;
@@ -239,6 +239,8 @@ begin
   UpdateMailQry.ExecSQL;
 
   JResult(Result, true, 'Update ausgeführt');
+
+  TLogMod.log('Wahlvorstandänderung gespeichert', formatJSON(data));
 end;
 
 end.

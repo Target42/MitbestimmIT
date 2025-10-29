@@ -64,7 +64,7 @@ implementation
 
 uses
   m_db, DSSession, u_Waehlerliste, System.Variants,
-  u_json;
+  u_json, m_log;
 
 {$R *.dfm}
 
@@ -180,9 +180,17 @@ begin
     addLog(cmp);
     removeOldMA;
 
+    TLogMod.log('Import Wählerliste', Format('add:%d, del:%d, chg:%d',
+    [
+      cmp.AddList.Items.Count,
+      cmp.DelList.Items.Count,
+      cmp.ChgList .Items.Count
+    ]));
+
     cmp.Free;
     FDTransaction1.Commit;
     JResult( result, true, '');
+
 
   except
     on e : exception do

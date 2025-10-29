@@ -7,11 +7,12 @@ object LogMod: TLogMod
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoIncFields = 'LG_ID'
     SQL.Strings = (
-      'INSERT INTO LG_LOG (WA_ID, LG_DATA, LG_USER)'
+      'INSERT INTO LG_LOG (WA_ID, LG_DATA, LG_USER, LG_TITEL )'
       'VALUES ('
       '    :WA_ID, '
       '    :LG_DATA,'
-      '    :LG_USER'
+      '    :LG_USER,'
+      '    :LG_TITEL'
       ');'
       '')
     Left = 120
@@ -31,6 +32,12 @@ object LogMod: TLogMod
       end
       item
         Name = 'LG_USER'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'LG_TITEL'
         DataType = ftString
         ParamType = ptInput
         Value = Null

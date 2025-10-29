@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     27.10.2025  20:21                          */
+/*   Created on:     28.10.2025  20:24                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */

@@ -204,6 +204,9 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox1: TGroupBox
           Width = 754
           ExplicitWidth = 754
+          DesignSize = (
+            754
+            81)
           inherited SpeedButton1: TSpeedButton
             Left = 719
             ExplicitLeft = 719
@@ -216,12 +219,12 @@ object MainSetupForm: TMainSetupForm
         end
         inherited GroupBox2: TGroupBox
           Width = 754
-          Height = 284
+          Height = 286
           ExplicitWidth = 754
-          ExplicitHeight = 284
+          ExplicitHeight = 254
           inherited Memo1: TMemo
             Width = 750
-            Height = 265
+            Height = 267
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 750
             ExplicitHeight = 265
