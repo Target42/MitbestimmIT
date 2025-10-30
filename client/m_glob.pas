@@ -22,7 +22,7 @@ unit m_glob;
 interface
 
 uses
-  System.SysUtils, System.Classes, i_Storage, u_Waehlerliste, i_waehlerliste,
+  System.SysUtils, System.Classes, u_Waehlerliste, i_waehlerliste,
   Data.DB, Data.SqlExpr, Data.DBXDataSnap, Data.DBXCommon, IPPeerClient,
   Datasnap.DBClient, Datasnap.DSConnect, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,

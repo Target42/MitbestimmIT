@@ -186,30 +186,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
         <DCCReference Include="..\WahlDefininition\u_WahlDef.pas"/>
-        <DCCReference Include="..\Storage\i_Storage.pas"/>
         <DCCReference Include="Simulation\f_simulation_load.pas">
             <Form>SimulationLoadForm</Form>
         </DCCReference>
-        <DCCReference Include="..\Storage\Simulation\u_StorageWahlDefinition.pas"/>
-        <DCCReference Include="..\Storage\Simulation\u_StorageSimulation.pas">
-            <Form>,
-  u_StorageWaehlerListe in &apos;..\Storage\Simulation\u_StorageWaehlerListe.pas&apos; {,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
-  u_StorageWaehlerListe in &apos;..\Storage\Simulation\u_StorageWaehlerListe.pas&apos; {,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
-  u_StorageWahlvorstand in &apos;..\Storage\Simulation\u_StorageWahlvorstand.pas&apos;,
-  f_WahlvorStand in &apos;Planung\f_WahlvorStand.pas&apos; {WahlVorstandForm</Form>
-        </DCCReference>
-        <DCCReference Include="..\Storage\Simulation\u_StorageWaehlerListe.pas">
-            <Form>,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
-  u_wahlerlisteVergleich in &apos;..\WählerListe\u_wahlerlisteVergleich.pas&apos; ,
-  u_StorageWahlvorstand in &apos;..\Storage\Simulation\u_StorageWahlvorstand.pas&apos;,
-  f_WahlvorStand in &apos;Planung\f_WahlvorStand.pas&apos; {WahlVorstandForm</Form>
-        </DCCReference>
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
-        <DCCReference Include="..\Storage\Simulation\u_StorageWahlvorstand.pas"/>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
         </DCCReference>

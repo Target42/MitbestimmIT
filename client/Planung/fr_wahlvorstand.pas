@@ -72,7 +72,6 @@ var
   person : IWahlvorstandPerson;
   w : IWaehler;
   client : TVortandModClient;
-  res : TJSONObject;
 begin
   w := TWaehlerListeForm.executeform;
   if not Assigned(w) then
