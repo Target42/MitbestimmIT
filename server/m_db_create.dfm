@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     31.10.2025  20:54                          ' +
+            '/*   Created on:     01.11.2025  21:21                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -379,6 +379,9 @@ object CreateDBMode: TCreateDBMode
             'ull,'
           
             '    WT_WA_POS                       INTEGER                     ' +
+            '   ,'
+          
+            '    WT_WA_JOB                       VARCHAR(150)                ' +
             '   ,'
           '    constraint PK_WT_WA primary key (WA_ID, MA_ID, WT_ID)'
           ');'
