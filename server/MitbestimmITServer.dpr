@@ -50,7 +50,9 @@ uses
   m_vorstand in 'm_vorstand.pas' {VortandMod: TDSServerModule},
   u_Wahlvorstand in '..\Wahlvorstand\u_Wahlvorstand.pas',
   u_rollen in 'u_rollen.pas',
-  m_log in 'm_log.pas' {LogMod: TDataModule};
+  m_log in 'm_log.pas' {LogMod: TDataModule},
+  m_wahl_liste in 'm_wahl_liste.pas' {WahlListeMod: TDSServerModule},
+  u_wahlliste in '..\Wahlliste\u_wahlliste.pas';
 
 {$R *.RES}
 

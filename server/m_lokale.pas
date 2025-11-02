@@ -8,9 +8,10 @@ uses
   m_db, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Datasnap.Provider, System.JSON;
+  FireDAC.Comp.Client, Datasnap.Provider, System.JSON, u_rollen;
 
 type
+  [TRoleAuth(roWahlVorstand)]
   TLokaleMod = class(TDSServerModule)
     Lokale: TFDQuery;
     LokaleQry: TDataSetProvider;
@@ -55,7 +56,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, u_wahllokal, system.Variants, u_rollen, m_log;
+  u_json, u_wahllokal, system.Variants, m_log;
 
 
 {$R *.dfm}

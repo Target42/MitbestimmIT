@@ -54,7 +54,8 @@ create generator gen_sz_id;\
 create generator gen_lg_id;\
 create generator gen_aw_id;\
 create generator gen_wa_id;\
-create generator gen_mc_id;
+create generator gen_mc_id;\
+create generator gen_bw_id;
 set generator gen_ma_id to 100;\
 \
 commit;\
@@ -99,6 +100,7 @@ GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;\
+GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;\
 \
 commit;\
 \
@@ -147,7 +149,7 @@ commit;
 
 
 1753814221
-1761679434
+1762027438
 0
 0
 4
@@ -1643,14 +1645,14 @@ WT_ID
 
 3
 3
-780
-780
-WA_ID
-WA_ID
+2151
+2151
+WT_WA_POS
+WT_WA_POS
 
 
 
-76
+67
 0
 INTEGER
 0
@@ -1667,118 +1669,220 @@ INTEGER
 
 
 
-1
-1
-1
-1
-0
-0
-WA_ID
-
-1
-3
-783
-783
-MA_ID
-MA_ID
-
-
-
-76
-0
-INTEGER
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-1
-1
-1
-1
-0
-0
-MA_ID
-
-2
-3
-81
-81
-BW_ANTRAG
-BW_ANTRAG
-
-
-
-76
-0
-DATE
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
 0
 0
 0
 1
 0
 0
-BW_ANTRAG
-
-3
-3
-82
-82
-BW_VERSENDET
-BW_VERSENDET
-
-
-
-76
-0
-DATE
-0
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-0
-0
-1
-0
-0
-BW_VERSENDET
+WT_WA_POS
 
 4
 3
+2608
+2608
+WT_WA_JOB
+WT_WA_JOB
+
+
+
+67
+0
+VARCHAR(150)
+150
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+5
+3
+2152
+2152
+BW_ID
+BW_ID
+
+
+
+76
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+0
+1
+1
+0
+0
+BW_ID
+
+1
+3
+780
+780
+WA_ID
+WA_ID
+
+
+
+76
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+1
+1
+1
+0
+0
+WA_ID
+
+2
+3
+783
+783
+MA_ID
+MA_ID
+
+
+
+76
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+1
+1
+1
+0
+0
+MA_ID
+
+3
+3
+81
+81
+BW_ANTRAG
+BW_ANTRAG
+
+
+
+76
+0
+DATE
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+BW_ANTRAG
+
+4
+3
+82
+82
+BW_VERSENDET
+BW_VERSENDET
+
+
+
+76
+0
+DATE
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+BW_VERSENDET
+
+5
+3
 83
 83
 BW_EMPFANGEN
@@ -1811,21 +1915,55 @@ DATE
 0
 BW_EMPFANGEN
 
-5
+6
 3
-84
-84
-BW_UNGšLTIG
-BW_UNGULTIG
+2465
+2465
+BW_ERROR
+BW_ERROR
 
 
 
 76
 0
-CHAR(1)
+CHAR
+0
+0
+0
+
+
+
+
+F
+0
+0
+0
+
+
+
+0
+0
+0
 1
 0
 0
+BW_ERROR
+
+7
+3
+2466
+2466
+BW_DATA
+BW_DATA
+
+
+
+76
+0
+BLOB
+0
+0
+0
 
 
 
@@ -1843,9 +1981,9 @@ CHAR(1)
 1
 0
 0
-BW_UNGULTIG
+BW_DATA
 
-6
+8
 3
 86
 86
@@ -2523,7 +2661,7 @@ VARCHAR(100)
 1
 0
 0
-
+LG_TITEL
 
 6
 3
@@ -4764,6 +4902,34 @@ set term ;/
 ti_mc_ma_change
 1257
 1
+1
+InsertTrigger
+/*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
+set term /;\
+create trigger %TRIGGER% for %TABLE%\
+before insert as\
+begin\
+    new.bw_id = gen_id(gen_bw_id, 1);\
+end;/\
+set term ;/
+ti_bw_brief_wahl
+76
+1
+1
+InsertTrigger
+/*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
+set term /;\
+create trigger %TRIGGER% for %TABLE%\
+before insert as\
+begin\
+\
+    new.wl_stamp = CURRENT_TIMESTAMP;\
+\
+end;/\
+set term ;/
+ti_ma_wl
+1716
+1
 /END_TABLE AMCTRGR
 
 /BEGIN_TABLE AMCPROC
@@ -6030,10 +6196,10 @@ OID     N8
 0
 0
 0
--92607
-26644
--78733
-36018
+-93732
+21319
+-79858
+30693
 2
 1
 0
@@ -6062,10 +6228,10 @@ OID     N8
 0
 0
 0
--8753
--1750
-5571
-6650
+4522
+-2050
+18846
+6350
 2
 1
 0
@@ -6094,10 +6260,10 @@ OID     N8
 0
 0
 0
--6890
-15015
-4884
-20489
+6385
+14715
+18159
+20189
 2
 1
 0
@@ -6158,10 +6324,10 @@ OID     N8
 0
 0
 0
--73396
-1079
--61922
-6553
+-39421
+-271
+-27947
+5203
 2
 1
 0
@@ -6183,17 +6349,17 @@ OID     N8
 3
 1537
 289
-0
+2
 6
 0
 0
 0
 0
 0
--71906
-13492
--64332
-17991
+-40452
+11234
+-27853
+17683
 2
 1
 0
@@ -6222,10 +6388,10 @@ OID     N8
 0
 0
 0
--62981
-39023
--50907
-46447
+28810
+37964
+40884
+47338
 2
 1
 0
@@ -6254,10 +6420,10 @@ OID     N8
 0
 0
 0
-28420
-14768
-39819
-19267
+30970
+13418
+42369
+17917
 2
 1
 0
@@ -6318,10 +6484,10 @@ OID     N8
 0
 0
 0
-28942
-217
-41691
-6665
+31417
+142
+44166
+6590
 2
 1
 0
@@ -6343,17 +6509,17 @@ OID     N8
 3
 1568
 289
-2
+0
 11
 0
 0
 0
 0
 0
--55295
--31785
--43446
--24361
+-55296
+-31786
+-43447
+-24362
 2
 1
 0
@@ -6414,10 +6580,10 @@ OID     N8
 0
 0
 0
--106317
-14620
--94543
-19119
+-124692
+-1430
+-112918
+3069
 2
 1
 0
@@ -6446,10 +6612,10 @@ OID     N8
 0
 0
 0
--107553
-634
--92554
-6108
+-125928
+-15416
+-110929
+-9942
 2
 1
 0
@@ -6478,10 +6644,10 @@ OID     N8
 0
 0
 0
--114190
-29508
--101591
-35957
+-115465
+23283
+-102866
+29732
 2
 1
 0
@@ -6542,10 +6708,10 @@ OID     N8
 0
 0
 0
--74302
--21424
--62528
--14000
+-72727
+-31249
+-60953
+-23825
 2
 1
 0
@@ -6574,10 +6740,10 @@ OID     N8
 0
 0
 0
--89747
-13046
--78573
-21445
+-96797
+-8554
+-85623
+-155
 2
 1
 0
@@ -6606,10 +6772,10 @@ OID     N8
 0
 0
 0
--35523
-8801
--22249
-14275
+-18873
+-949
+-5599
+4525
 2
 1
 0
@@ -6653,7 +6819,7 @@ OID     N8
 0
 0
 2
-87fdffff6a08000087fdfffff2410000
+623100003e07000062310000c6400000
 2
 
 
@@ -6685,7 +6851,7 @@ OID     N8
 0
 0
 2
-5ff9feffa60a00005ff9feffbe3c0000
+227fffff60050000227fffff68370000
 2
 
 
@@ -6717,7 +6883,7 @@ OID     N8
 0
 0
 2
-d58600003fcdffffd586000046120000
+5a9000007dcbffff5a900000fb110000
 2
 
 
@@ -6749,7 +6915,7 @@ d58600003fcdffffd586000046120000
 0
 0
 2
-c9830000ec3c0000c983000004070000
+998d0000a6370000998d0000b9060000
 2
 
 
@@ -6781,7 +6947,7 @@ c9830000ec3c0000c983000004070000
 0
 0
 2
-893effffa6d6ffff893effff8584ffff
+883effffa6d6ffff883effff8484ffff
 2
 
 
@@ -6813,7 +6979,7 @@ c9830000ec3c0000c983000004070000
 0
 0
 3
-3829ffffbfe3ffff3829ffff0c1100007c05ffff0c110000
+bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 2
 
 
@@ -6845,7 +7011,7 @@ c9830000ec3c0000c983000004070000
 0
 0
 4
-e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
+1a31feffbf0100001a31feffcbe9ffff002dfeffcbe9ffff002dfeffd7ceffff
 2
 
 
@@ -6877,7 +7043,7 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 0
 0
 2
-3f43ffffbaebffff3f43ffff17600000
+2233ffff8eeaffff2233ffffeb5e0000
 2
 
 
@@ -6908,8 +7074,8 @@ e178feff71400000e178feff7d280000c774feff7d280000c774feff890d0000
 1
 0
 0
-4
-afb6feff7e770000ed00ffff7e770000ed00ffffab600000a534ffffab600000
+2
+4ab2feffae610000a534ffffae610000
 2
 
 
@@ -6941,7 +7107,7 @@ afb6feff7e770000ed00ffff7e770000ed00ffffab600000a534ffffab600000
 0
 0
 2
-c4aefeff517d0000745cfeff517d0000
+5faafeffc26600007957feffc2660000
 2
 
 
@@ -6973,7 +7139,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-8b35fffffd5b00008b35ffffcc3d000042f6feffcc3d0000
+4b48ffff675b00004b48ffffea3800002d7bffffea380000
 2
 
 
@@ -7037,7 +7203,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-6a47ffffa865000074fcffffa865000074fcffff1e450000
+2c49ffff006800004f300000006800004f300000f2430000
 2
 
 
@@ -7069,7 +7235,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-2b3bffff4b6800002617ffff4b6800002617ffff07a10000
+2b3bffff4b6800002b3bffffe39f00006f780000e39f0000
 2
 
 
@@ -7100,8 +7266,8 @@ c4aefeff517d0000745cfeff517d0000
 1
 0
 0
-3
-0048ffffa2dcffff0048ffff95ceffff4479000095ceffff
+2
+c249ffff45d9fffff47d000045d9ffff
 2
 
 
@@ -7133,7 +7299,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-0048fffff9e4ffff2df7fffff9e4ffff2df7ffff2c000000
+0048fffff9e4ffff082b0000f9e4ffff082b000000ffffff
 2
 
 
@@ -7165,7 +7331,7 @@ c4aefeff517d0000745cfeff517d0000
 0
 0
 3
-8033ffffe4e0ffff06fafeffe4e0ffff06fafeffedb9ffff
+8033ffffe4e0ffff2d00ffffe4e0ffff2d00ffff8c93ffff
 2
 
 
@@ -7196,8 +7362,8 @@ c4aefeff517d0000745cfeff517d0000
 1
 0
 0
-3
-c031ffff97efffffc7bcfeff97efffffc7bcfeff143d0000
+2
+c031ffffe7edfffff2a0feffe7edffff
 2
 
 
@@ -7229,7 +7395,7 @@ c031ffff97efffffc7bcfeff97efffffc7bcfeff143d0000
 0
 0
 3
-5443fffffa5b0000228bfffffa5b0000228bffff6f2e0000
+be42ffffaf5b00002cccffffaf5b00002cccffff59080000
 2
 
 
@@ -7260,8 +7426,8 @@ c031ffff97efffffc7bcfeff97efffffc7bcfeff143d0000
 1
 0
 0
-3
-98efffffc6080000178bffffc6080000178bffff52340000
+2
+73230000d70700006cccffffd7070000
 2
 
 

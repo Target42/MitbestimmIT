@@ -25,7 +25,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnList, System.Actions,
   Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
-  m_glob, Vcl.StdCtrls, System.Generics.Collections, ShellAPI;
+  m_glob, Vcl.StdCtrls, System.Generics.Collections, ShellAPI, f_wahlliste;
 
 type
   TMainClientForm = class(TForm)
@@ -46,7 +46,6 @@ type
     Rume1: TMenuItem;
     ac_wa_berechtigte: TAction;
     Wahlberechtigteaktualisieren1: TMenuItem;
-    ac_wa_listen: TAction;
     Wahllisten1: TMenuItem;
     N1: TMenuItem;
     N2: TMenuItem;
@@ -72,6 +71,8 @@ type
     N6: TMenuItem;
     ac_error: TAction;
     Fehler1: TMenuItem;
+    ac_wahlliste: TAction;
+    Wahllisten2: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -85,6 +86,7 @@ type
     procedure ac_ad_wahlExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ac_errorExecute(Sender: TObject);
+    procedure ac_wahllisteExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -157,6 +159,11 @@ end;
 procedure TMainClientForm.ac_roomsExecute(Sender: TObject);
 begin
   TWahllokalForm.execute;
+end;
+
+procedure TMainClientForm.ac_wahllisteExecute(Sender: TObject);
+begin
+  TWahllistenForm.execute;
 end;
 
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);

@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 25.10.2025 21:19:16
+// 01.11.2025 16:22:30
 //
 
 unit u_stub;
@@ -124,6 +124,30 @@ type
     function get(ma_id: Integer): TJSONObject;
     function save(data: TJSONObject): TJSONObject;
     function delete(data: TJSONObject): TJSONObject;
+  end;
+
+  TWahlListeModClient = class(TDSAdminClient)
+  private
+    FWahlListeBeforeOpenCommand: TDBXCommand;
+    FWahllisteMABeforeOpenCommand: TDBXCommand;
+    FaddCommand: TDBXCommand;
+    FsaveCommand: TDBXCommand;
+    FdeleteCommand: TDBXCommand;
+    FaddMACommand: TDBXCommand;
+    FsaveMACommand: TDBXCommand;
+    FdeleteMACommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure WahlListeBeforeOpen(DataSet: TDataSet);
+    procedure WahllisteMABeforeOpen(DataSet: TDataSet);
+    function add(data: TJSONObject): TJSONObject;
+    function save(data: TJSONObject): TJSONObject;
+    function delete(data: TJSONObject): TJSONObject;
+    function addMA(data: TJSONObject): TJSONObject;
+    function saveMA(data: TJSONObject): TJSONObject;
+    function deleteMA(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -792,6 +816,139 @@ begin
   FgetCommand.Free;
   FsaveCommand.Free;
   FdeleteCommand.Free;
+  inherited;
+end;
+
+procedure TWahlListeModClient.WahlListeBeforeOpen(DataSet: TDataSet);
+begin
+  if FWahlListeBeforeOpenCommand = nil then
+  begin
+    FWahlListeBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FWahlListeBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahlListeBeforeOpenCommand.Text := 'TWahlListeMod.WahlListeBeforeOpen';
+    FWahlListeBeforeOpenCommand.Prepare;
+  end;
+  FWahlListeBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FWahlListeBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TWahlListeModClient.WahllisteMABeforeOpen(DataSet: TDataSet);
+begin
+  if FWahllisteMABeforeOpenCommand = nil then
+  begin
+    FWahllisteMABeforeOpenCommand := FDBXConnection.CreateCommand;
+    FWahllisteMABeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahllisteMABeforeOpenCommand.Text := 'TWahlListeMod.WahllisteMABeforeOpen';
+    FWahllisteMABeforeOpenCommand.Prepare;
+  end;
+  FWahllisteMABeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FWahllisteMABeforeOpenCommand.ExecuteUpdate;
+end;
+
+function TWahlListeModClient.add(data: TJSONObject): TJSONObject;
+begin
+  if FaddCommand = nil then
+  begin
+    FaddCommand := FDBXConnection.CreateCommand;
+    FaddCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FaddCommand.Text := 'TWahlListeMod.add';
+    FaddCommand.Prepare;
+  end;
+  FaddCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FaddCommand.ExecuteUpdate;
+  Result := TJSONObject(FaddCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlListeModClient.save(data: TJSONObject): TJSONObject;
+begin
+  if FsaveCommand = nil then
+  begin
+    FsaveCommand := FDBXConnection.CreateCommand;
+    FsaveCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveCommand.Text := 'TWahlListeMod.save';
+    FsaveCommand.Prepare;
+  end;
+  FsaveCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlListeModClient.delete(data: TJSONObject): TJSONObject;
+begin
+  if FdeleteCommand = nil then
+  begin
+    FdeleteCommand := FDBXConnection.CreateCommand;
+    FdeleteCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FdeleteCommand.Text := 'TWahlListeMod.delete';
+    FdeleteCommand.Prepare;
+  end;
+  FdeleteCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteCommand.ExecuteUpdate;
+  Result := TJSONObject(FdeleteCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlListeModClient.addMA(data: TJSONObject): TJSONObject;
+begin
+  if FaddMACommand = nil then
+  begin
+    FaddMACommand := FDBXConnection.CreateCommand;
+    FaddMACommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FaddMACommand.Text := 'TWahlListeMod.addMA';
+    FaddMACommand.Prepare;
+  end;
+  FaddMACommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FaddMACommand.ExecuteUpdate;
+  Result := TJSONObject(FaddMACommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlListeModClient.saveMA(data: TJSONObject): TJSONObject;
+begin
+  if FsaveMACommand = nil then
+  begin
+    FsaveMACommand := FDBXConnection.CreateCommand;
+    FsaveMACommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveMACommand.Text := 'TWahlListeMod.saveMA';
+    FsaveMACommand.Prepare;
+  end;
+  FsaveMACommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveMACommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveMACommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlListeModClient.deleteMA(data: TJSONObject): TJSONObject;
+begin
+  if FdeleteMACommand = nil then
+  begin
+    FdeleteMACommand := FDBXConnection.CreateCommand;
+    FdeleteMACommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FdeleteMACommand.Text := 'TWahlListeMod.deleteMA';
+    FdeleteMACommand.Prepare;
+  end;
+  FdeleteMACommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FdeleteMACommand.ExecuteUpdate;
+  Result := TJSONObject(FdeleteMACommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TWahlListeModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TWahlListeModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TWahlListeModClient.Destroy;
+begin
+  FWahlListeBeforeOpenCommand.Free;
+  FWahllisteMABeforeOpenCommand.Free;
+  FaddCommand.Free;
+  FsaveCommand.Free;
+  FdeleteCommand.Free;
+  FaddMACommand.Free;
+  FsaveMACommand.Free;
+  FdeleteMACommand.Free;
   inherited;
 end;
 

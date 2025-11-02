@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     28.10.2025  20:24                          ' +
+            '/*   Created on:     31.10.2025  20:54                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -33,6 +33,7 @@ object CreateDBMode: TCreateDBMode
           'create generator gen_aw_id;'
           'create generator gen_wa_id;'
           'create generator gen_mc_id;'
+          'create generator gen_bw_id;'
           
             '/* ============================================================ ' +
             '*/'
@@ -376,6 +377,9 @@ object CreateDBMode: TCreateDBMode
           
             '    WT_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    WT_WA_POS                       INTEGER                     ' +
+            '   ,'
           '    constraint PK_WT_WA primary key (WA_ID, MA_ID, WT_ID)'
           ');'
           ''
@@ -390,6 +394,9 @@ object CreateDBMode: TCreateDBMode
             '*/'
           'create table BW_BRIEF_WAHL'
           '('
+          
+            '    BW_ID                           INTEGER                not n' +
+            'ull,'
           
             '    WA_ID                           INTEGER                not n' +
             'ull,'
@@ -406,9 +413,15 @@ object CreateDBMode: TCreateDBMode
             '    BW_EMPFANGEN                    DATE                        ' +
             '   ,'
           
-            '    BW_UNGULTIG                     CHAR(1)                     ' +
+            '    BW_ERROR                        CHAR                        ' +
+            '   '
+          '        default '#39'F'#39','
+          
+            '    BW_DATA                         BLOB                        ' +
             '   ,'
-          '    constraint PK_BW_BRIEF_WAHL primary key (WA_ID, MA_ID)'
+          
+            '    constraint PK_BW_BRIEF_WAHL primary key (BW_ID, WA_ID, MA_ID' +
+            ')'
           ');'
           ''
           
@@ -772,6 +785,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;'
           ''
           'commit;'
           ''
@@ -833,7 +847,6 @@ object CreateDBMode: TCreateDBMode
           ''
           'commit;'
           ''
-          ''
           
             '/* ============================================================ ' +
             '*/'
@@ -844,7 +857,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     28.10.2025  20:24                          ' +
+            '/*   Created on:     31.10.2025  20:55                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -883,6 +896,17 @@ object CreateDBMode: TCreateDBMode
           'end;/'
           'set term ;/'
           ''
+          
+            '/*  Insert trigger "ti_bw_brief_wahl" for table "BW_BRIEF_WAHL" ' +
+            ' */'
+          'set term /;'
+          'create trigger ti_bw_brief_wahl for BW_BRIEF_WAHL'
+          'before insert as'
+          'begin'
+          '    new.bw_id = gen_id(gen_bw_id, 1);'
+          'end;/'
+          'set term ;/'
+          ''
           '/*  Insert trigger "ti_tab_107" for table "LG_LOG"  */'
           'set term /;'
           'create trigger ti_tab_107 for LG_LOG'
@@ -900,6 +924,17 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           '    new.ma_id = gen_id(gen_ma_id, 1);'
+          ''
+          'end;/'
+          'set term ;/'
+          ''
+          '/*  Insert trigger "ti_ma_wl" for table "MA_WL"  */'
+          'set term /;'
+          'create trigger ti_ma_wl for MA_WL'
+          'before insert as'
+          'begin'
+          ''
+          '    new.wl_stamp = CURRENT_TIMESTAMP;'
           ''
           'end;/'
           'set term ;/'

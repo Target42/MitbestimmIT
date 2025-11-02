@@ -135,7 +135,6 @@ object WahllokalForm: TWahllokalForm
     Align = alClient
     Caption = 'Wahlhelfer'
     TabOrder = 1
-    ExplicitHeight = 281
     object Panel2: TPanel
       Left = 2
       Top = 263
@@ -146,7 +145,6 @@ object WahllokalForm: TWahllokalForm
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 0
-      ExplicitTop = 232
       DesignSize = (
         670
         47)
@@ -239,9 +237,6 @@ object WahllokalForm: TWahllokalForm
     Width = 674
     Height = 19
     Panels = <>
-    ExplicitLeft = 256
-    ExplicitTop = 560
-    ExplicitWidth = 0
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TLokaleMod'

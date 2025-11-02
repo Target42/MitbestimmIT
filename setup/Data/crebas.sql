@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     28.10.2025  20:24                          */
+/*   Created on:     01.11.2025  21:21                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -15,6 +15,7 @@ create generator gen_lg_id;
 create generator gen_aw_id;
 create generator gen_wa_id;
 create generator gen_mc_id;
+create generator gen_bw_id;
 /* ============================================================ */
 /*   Table: MA_MITARBEITER                                      */
 /* ============================================================ */
@@ -166,6 +167,8 @@ create table WT_WA
     WA_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
     WT_ID                           INTEGER                not null,
+    WT_WA_POS                       INTEGER                        ,
+    WT_WA_JOB                       VARCHAR(150)                   ,
     constraint PK_WT_WA primary key (WA_ID, MA_ID, WT_ID)
 );
 
@@ -174,13 +177,16 @@ create table WT_WA
 /* ============================================================ */
 create table BW_BRIEF_WAHL
 (
+    BW_ID                           INTEGER                not null,
     WA_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
     BW_ANTRAG                       DATE                           ,
     BW_VERSENDET                    DATE                           ,
     BW_EMPFANGEN                    DATE                           ,
-    BW_UNGULTIG                     CHAR(1)                        ,
-    constraint PK_BW_BRIEF_WAHL primary key (WA_ID, MA_ID)
+    BW_ERROR                        CHAR                           
+        default 'F',
+    BW_DATA                         BLOB                           ,
+    constraint PK_BW_BRIEF_WAHL primary key (BW_ID, WA_ID, MA_ID)
 );
 
 /* ============================================================ */
@@ -400,6 +406,7 @@ GRANT USAGE ON GENERATOR  gen_sz_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;
 
 commit;
 

@@ -29,13 +29,10 @@ uses
   u_ComandOptions in 'cli\u_ComandOptions.pas',
   f_connet in 'gui\f_connet.pas' {ConnectForm},
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
-  u_WahlDef in '..\WahlDefininition\u_WahlDef.pas',
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
-  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas' {,
-  u_stub in 'u_stub.pas',
-  f_admin in 'Admin\f_admin.pas' {AdminForm},
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
   u_stub in 'u_stub.pas',
   f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_json_db in '..\lib\u_json_db.pas',
@@ -46,7 +43,11 @@ uses
   fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
   f_wahl_phase in 'Planung\f_wahl_phase.pas' {WahlPhaseForm},
   f_wahldate in 'Planung\f_wahldate.pas' {WahlDateform},
-  f_wahl_select in 'gui\f_wahl_select.pas' {WahlSelectForm};
+  f_wahl_select in 'gui\f_wahl_select.pas' {WahlSelectForm},
+  f_wahlliste in 'Wahlliste\f_wahlliste.pas' {WahllistenForm},
+  u_wahlliste in '..\Wahlliste\u_wahlliste.pas',
+  f_wahlliste_name in 'Wahlliste\f_wahlliste_name.pas' {WahllistenNameForm},
+  f_wahlliste_personen in 'Wahlliste\f_wahlliste_personen.pas' {WahllistenPersonenForm};
 
 {$R *.res}
 
@@ -65,5 +66,6 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
+
   Application.Run;
 end.

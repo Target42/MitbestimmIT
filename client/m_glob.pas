@@ -112,6 +112,8 @@ type
     procedure disconnect;
 
     procedure updateMATab;
+
+    function cleanPersNr( persNr : string ) : string;
   end;
 
 var
@@ -158,6 +160,22 @@ uses
     - Die Funktion verwendet `SQLConnection1`, um die Verbindung zu konfigurieren und zu öffnen.
     - Die Protokoll- und Portkonfiguration erfolgt basierend auf dem Wert von `FProtokoll`.
 }
+
+function TGM.cleanPersNr(persNr: string): string;
+var
+  i : integer;
+begin
+  persNr := trim(persNr );
+
+  for i := 1 to Length(persNr) do
+  begin
+    if persNr[i] = '0' then
+      persNr[i] := ' '
+    else
+      break;
+  end;
+  Result := trim(persNr);
+end;
 
 function TGM.connect: boolean;
 

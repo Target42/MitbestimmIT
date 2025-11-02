@@ -92,6 +92,9 @@ object MainClientForm: TMainClientForm
       object N1: TMenuItem
         Caption = '-'
       end
+      object Wahllisten2: TMenuItem
+        Action = ac_wahlliste
+      end
       object N5: TMenuItem
         Caption = '-'
       end
@@ -102,7 +105,7 @@ object MainClientForm: TMainClientForm
     object Wahl2: TMenuItem
       Caption = 'Wahl'
       object Wahllisten1: TMenuItem
-        Action = ac_wa_listen
+        Caption = 'Wahllisten'
       end
       object Briefwahl1: TMenuItem
         Action = ac_wa_brief
@@ -159,10 +162,6 @@ object MainClientForm: TMainClientForm
       Caption = 'Wahlberechtigte aktualisieren'
       OnExecute = ac_wa_berechtigteExecute
     end
-    object ac_wa_listen: TAction
-      Category = 'Wahl'
-      Caption = 'Wahllisten'
-    end
     object ac_wa_vorstand: TAction
       Category = 'Vorbereitung'
       Caption = 'Wahlvorstand'
@@ -196,6 +195,11 @@ object MainClientForm: TMainClientForm
       Category = 'Window'
       Caption = 'Fehler'
       OnExecute = ac_errorExecute
+    end
+    object ac_wahlliste: TAction
+      Category = 'Vorbereitung'
+      Caption = 'Wahlisten'
+      OnExecute = ac_wahllisteExecute
     end
   end
   object Timer1: TTimer

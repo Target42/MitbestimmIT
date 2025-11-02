@@ -163,4 +163,11 @@ object MitbestimmITSrv: TMitbestimmITSrv
         Value = Null
       end>
   end
+  object DSWahlliste: TDSServerClass
+    OnGetClass = DSWahllisteGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 856
+    Top = 16
+  end
 end

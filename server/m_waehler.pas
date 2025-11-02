@@ -12,7 +12,7 @@ uses
   u_rollen;
 
 type
-  [TRoleAuth(roWahlVorsitz)]
+  [TRoleAuth(roWahlVorstand)]
   TWaehlerMod = class(TDSServerModule)
     MitarbeiterTab: TDataSetProvider;
     MAQry: TFDQuery;

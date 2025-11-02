@@ -45,6 +45,7 @@ type
     DSLokale: TDSServerClass;
     DSVorstand: TDSServerClass;
     GetUserQry: TFDQuery;
+    DSWahlliste: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -66,6 +67,8 @@ type
     procedure DSLokaleGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure DSVorstandGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
+    procedure DSWahllisteGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
@@ -95,7 +98,7 @@ uses
   Winapi.Windows,
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
-  m_vorstand, u_rollen;
+  m_vorstand, u_rollen, m_wahl_liste;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -169,6 +172,12 @@ procedure TMitbestimmITSrv.DSWahlGetClass(DSServerClass: TDSServerClass;
   var PersistentClass: TPersistentClass);
 begin
   PersistentClass := m_wahl.TWahlMod;
+end;
+
+procedure TMitbestimmITSrv.DSWahllisteGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_wahl_liste.TWahlListeMod;
 end;
 
 procedure ServiceController(CtrlCode: DWord); stdcall;

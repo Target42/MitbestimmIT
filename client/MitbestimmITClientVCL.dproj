@@ -185,7 +185,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>ConnectForm</Form>
         </DCCReference>
         <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
-        <DCCReference Include="..\WahlDefininition\u_WahlDef.pas"/>
         <DCCReference Include="Simulation\f_simulation_load.pas">
             <Form>SimulationLoadForm</Form>
         </DCCReference>
@@ -233,6 +232,19 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="gui\f_wahl_select.pas">
             <Form>WahlSelectForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Wahlliste\f_wahlliste.pas">
+            <Form>WahllistenForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\Wahlliste\u_wahlliste.pas"/>
+        <DCCReference Include="Wahlliste\f_wahlliste_name.pas">
+            <Form>WahllistenNameForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Wahlliste\f_wahlliste_personen.pas">
+            <Form>WahllistenPersonenForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>

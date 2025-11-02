@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     28.10.2025  20:24                          */
+/*   Created on:     31.10.2025  20:55                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -33,6 +33,15 @@ begin
 end;/
 set term ;/
 
+/*  Insert trigger "ti_bw_brief_wahl" for table "BW_BRIEF_WAHL"  */
+set term /;
+create trigger ti_bw_brief_wahl for BW_BRIEF_WAHL
+before insert as
+begin
+    new.bw_id = gen_id(gen_bw_id, 1);
+end;/
+set term ;/
+
 /*  Insert trigger "ti_tab_107" for table "LG_LOG"  */
 set term /;
 create trigger ti_tab_107 for LG_LOG
@@ -50,6 +59,17 @@ create trigger ti_tab_1 for MA_MITARBEITER
 before insert as
 begin
     new.ma_id = gen_id(gen_ma_id, 1);
+
+end;/
+set term ;/
+
+/*  Insert trigger "ti_ma_wl" for table "MA_WL"  */
+set term /;
+create trigger ti_ma_wl for MA_WL
+before insert as
+begin
+
+    new.wl_stamp = CURRENT_TIMESTAMP;
 
 end;/
 set term ;/
