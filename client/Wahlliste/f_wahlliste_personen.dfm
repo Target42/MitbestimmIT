@@ -2,8 +2,8 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   Left = 0
   Top = 0
   Caption = 'Mitglieder der Wahlliste'
-  ClientHeight = 441
-  ClientWidth = 624
+  ClientHeight = 516
+  ClientWidth = 985
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,11 +16,12 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 624
+    Width = 985
     Height = 73
     Align = alTop
     Caption = 'Wahlliste'
     TabOrder = 0
+    ExplicitWidth = 624
     object LabeledEdit1: TLabeledEdit
       Left = 11
       Top = 32
@@ -48,8 +49,8 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   end
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 381
-    Width = 624
+    Top = 456
+    Width = 985
     Height = 60
     Align = alBottom
     AutoSize = True
@@ -57,16 +58,15 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     ExplicitTop = 381
     ExplicitWidth = 624
     inherited StatusBar1: TStatusBar
-      Width = 624
-      ExplicitWidth = 624
+      Width = 985
+      ExplicitWidth = 986
     end
     inherited Panel1: TPanel
-      Width = 624
+      Width = 985
       StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 624
       inherited OKBtn: TBitBtn
-        Left = 520
-        OnClick = BaseFrame1OKBtnClick
+        Left = 881
         ExplicitLeft = 520
       end
     end
@@ -74,8 +74,8 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   object SG: TStringGrid
     Left = 0
     Top = 73
-    Width = 624
-    Height = 308
+    Width = 985
+    Height = 383
     Align = alClient
     DefaultDrawing = False
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goFixedRowDefAlign]

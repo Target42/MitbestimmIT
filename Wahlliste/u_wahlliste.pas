@@ -106,6 +106,7 @@ var
   arr : TJSONArray;
   row : TArrayIterator;
   p   : TWahllistePerson;
+  s   : string;
 begin
   FName := JString( data, wlName, FName);
   FKurz := JString(data, wlKurz, FKurz );
@@ -119,6 +120,7 @@ begin
     while row.Next do
     begin
       p := TWahllistePerson.create;
+      s := formatJSON( row.CurrentItem );
       p.fromJSON(row.CurrentItem);
       m_list.Add(p);
     end;
@@ -178,9 +180,9 @@ end;
 
 procedure TWahllistePerson.fromJSON(data: TJSONObject);
 begin
-  JInt(data, wpNr, FNr);
-  JInt(data, wpID, FID);
-  JString(data, wpJob, FJob);
+  FNr := JInt(data, wpNr, FNr);
+  FID := JInt(data, wpID, FID);
+  FJob := JString(data, wpJob, FJob);
 end;
 
 function TWahllistePerson.toJSON: TJSONObject;

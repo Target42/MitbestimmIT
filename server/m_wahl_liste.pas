@@ -220,6 +220,10 @@ begin
   waid := DBMod.WahlID;
   if ( wl.Personen.Count > 0 ) then
   begin
+    DelMAWTQry.ParamByName('WT_ID').AsInteger := wl.ID;
+    DelMAWTQry.ParamByName('WA_ID').AsInteger := waid;
+    DelMAWTQry.ExecSQL;
+
     WahlPersTab.Open;
     for p in wl.Personen do
     begin
@@ -234,13 +238,16 @@ begin
         WahlPersTab.FieldByName('MA_ID').AsInteger := p.ID;
         WahlPersTab.FieldByName('WT_ID').AsInteger := wl.ID;
       end;
+
+      WahlPersTab.FieldByName('WT_WA_JOB').AsString  := p.Job;
       WahlPersTab.FieldByName('WT_WA_POS').AsInteger := p.Nr;
       WahlPersTab.Post;
     end;
-
     WahlPersTab.Close;
   end;
   wl.Free;
+
+  JResult( result, true, 'Mitglieder gespeichert!');
 end;
 
 procedure TWahlListeMod.WahlListeBeforeOpen(DataSet: TDataSet);

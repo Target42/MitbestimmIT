@@ -27,11 +27,24 @@ type
     btnEdit: TBitBtn;
     btnDelete: TBitBtn;
     BitBtn1: TBitBtn;
+    MAQryWA_ID: TIntegerField;
+    MAQryMA_ID: TIntegerField;
+    MAQryWT_ID: TIntegerField;
+    MAQryWT_WA_POS: TIntegerField;
+    MAQryMA_PERSNR: TStringField;
+    MAQryMA_NAME: TStringField;
+    MAQryMA_VORNAME: TStringField;
+    MAQryMA_GENDER: TStringField;
+    MAQryMA_ABTEILUNG: TStringField;
+    MAQryMA_GEB: TDateField;
+    MAQryWT_WA_JOB: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure MAQryMA_GENDERGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
   private
     { Private-Deklarationen }
   public
@@ -73,19 +86,25 @@ begin
     p := wl.add;
     p.Nr := MAQry.FieldByName('WT_WA_POS').AsInteger;
     p.ID := MAQry.FieldByName('MA_ID').AsInteger;
+    p.Job:= MAQry.FieldByName('WT_WA_JOB').AsString;
     MAQry.Next;
   end;
+  MAQry.First;
 
   if TWahllistenPersonenForm.execute(wl) then
   begin
     client := TWahlListeModClient.Create(GM.SQLConnection1.DBXConnection);
-    client.saveMA(wl.toJSON);
+    res := client.saveMA(wl.toJSON);
+    if not JBool( res, 'result') then
+      ShowMessage(JString(res, 'text'));
     client.Free;
   end;
   wl.Free;
 
   MAQry.EnableControls;
   ListenQry.EnableControls;
+
+  MAQry.Refresh;
 end;
 
 procedure TWahllistenForm.btnAddClick(Sender: TObject);
@@ -175,6 +194,15 @@ procedure TWahllistenForm.FormCreate(Sender: TObject);
 begin
   ListenQry.Open;
   MAQry.Open;
+end;
+
+procedure TWahllistenForm.MAQryMA_GENDERGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  if Sender.AsString = 'w' then
+    Text := 'weiblich'
+  else
+    Text := 'männlich';
 end;
 
 end.

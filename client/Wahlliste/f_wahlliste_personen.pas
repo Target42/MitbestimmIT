@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_wahlliste, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.ExtCtrls, m_glob, Vcl.Grids, fr_base, Vcl.Menus, u_stub;
+  Vcl.ExtCtrls, m_glob, Vcl.Grids, fr_base, Vcl.Menus, u_stub, Vcl.ComCtrls,
+  u_json, Vcl.Buttons;
 
 type
   TWahllistenPersonenForm = class(TForm)
@@ -23,7 +24,6 @@ type
     procedure PopupMenu11Click(Sender: TObject);
     procedure SGDrawCell(Sender: TObject; ACol, ARow: LongInt; Rect: TRect;
       State: TGridDrawState);
-    procedure BaseFrame1OKBtnClick(Sender: TObject);
   private
     const
     colNr         = 0;
@@ -74,16 +74,6 @@ begin
   end;
 end;
 
-procedure TWahllistenPersonenForm.BaseFrame1OKBtnClick(Sender: TObject);
-var
-  client : TWahlListeModClient;
-  res : TJSONObject;
-begin
-  client := TWahlListeModClient.Create(GM.SQLConnection1.DBXConnection);
-  res := client.saveMA(m_liste.toJSON);
-  client.Free;
-end;
-
 class function TWahllistenPersonenForm.execute(var wl: TWahlliste): boolean;
 begin
   Application.CreateForm(TWahllistenPersonenForm, WahllistenPersonenForm);
@@ -115,6 +105,14 @@ begin
   SG.Cells[colGeschlecht, 0] := 'Geschlecht';
   SG.Cells[colAbteilung,  0] := 'Abteilung';
   SG.Cells[colJob,        0] := 'Job';
+
+  SG.ColWidths[colNr]         := 50;
+  SG.ColWidths[colPersNr]     := 75;
+  SG.ColWidths[colName]       := 150;
+  SG.ColWidths[colVorname]    := 150;
+  SG.ColWidths[colGeschlecht] := 75;
+  SG.ColWidths[colAbteilung]  := 100;
+  SG.ColWidths[colJob]        := 100;
 
   for i := 1 to SG.RowCount do
     SG.Cells[0, i] := intToStr(i);
@@ -149,6 +147,7 @@ var
   list : TSTringList;
   lines : TStringList;
   i : integer;
+  inx : integer;
   p   : TWahllistePerson;
 begin
   lines := TStringList.Create;
@@ -165,7 +164,31 @@ begin
       list.DelimitedText := lines[i];
       if list.Count > 0 then
       begin
-        Add(list[0]);
+        p := Add(list[0]);
+        if list.Count >= 7 then
+          p.Job := list[colJob];
+      end;
+    end;
+  end
+  else if Sg.Col = colJob then
+  begin
+    if SG.Row < 1 then
+      SG.Row := 1;
+
+    inx := SG.Row -1;
+    // jobs einfügen
+    for i := 0 to pred(lines.Count) do
+    begin
+      list.DelimitedText := lines[i];
+      if list.Count > 0 then
+      begin
+        if inx < m_liste.Personen.Count then
+        begin
+          p := m_liste.Personen[inx];
+          p.Job := list[0];
+          Sg.Cells[colJob,inx + 1] := list[0];
+          inc(inx);
+        end;
       end;
     end;
   end;
@@ -177,14 +200,18 @@ end;
 procedure TWahllistenPersonenForm.SetWahlliste(const Value: TWahlliste);
 var
   p : TWahllistePerson;
+  inx : integer;
 begin
   m_liste := value;
   LabeledEdit1.Text := m_liste.Name;
   LabeledEdit2.Text := m_liste.Kurz;
 
+  inx := 1;
   for p in m_liste.Personen do
   begin
     lookup(p);
+    UpdateRow(inx, p);
+    inc(inx);
   end;
 
 end;
@@ -219,31 +246,72 @@ end;
 
 procedure TWahllistenPersonenForm.SGKeyPress(Sender: TObject; var Key: Char);
 var
-  id : integeR;
+  id : integer;
   p  : TWahllistePerson;
-  s : string;
+  inx : integer;
 begin
   if key = #13 then
   begin
-    s := GM.cleanPersNr(SG.Cells[SG.Col, SG.Row]);
-    SG.Cells[SG.Col, SG.Row] := '';
-
-    id := findID(s);
-
-    if id > 0 then
+    if SG.Col = colPersNr then
     begin
-      p := m_liste.add;
-      p.ID := id;
-      lookup(p);
-      UpdateRow( m_liste.Personen.Count, p );
+      id := findID(GM.cleanPersNr(SG.Cells[SG.Col, SG.Row]));
+      SG.Cells[SG.Col, SG.Row] := '';
+
+      if id > 0 then
+      begin
+        p := m_liste.add;
+        p.ID := id;
+        lookup(p);
+        UpdateRow( m_liste.Personen.Count, p );
+      end;
+    end
+    else if Sg.Col = colJob then
+    begin
+      inx := SG.Row - 1;
+      if inx < m_liste.Personen.Count then
+      begin
+        p := m_liste.Personen[inx];
+        p.Job := trim(SG.Cells[SG.Col, SG.Row]);
+      end;
     end;
+
   end;
 end;
 
 procedure TWahllistenPersonenForm.SGSelectCell(Sender: TObject; ACol,
   ARow: LongInt; var CanSelect: Boolean);
+var
+  inx : integer;
+  id  :  integer;
+  p   : TWahllistePerson;
 begin
-  CanSelect := ( ACol = 1 ) or ( ACol = 6);
+  CanSelect := ( ACol = colPersNr  ) or ( ACol = colJob);
+
+  inx := SG.Row - 1;
+  if ( SG.Col = colJob) and ( SG.Row > 0 ) then
+  begin
+    if (inx >= 0 ) and ( inx < m_liste.Personen.Count) then
+    begin
+      p := m_liste.Personen[inx];
+      p.Job := trim(SG.Cells[colJob, SG.Row]);
+    end;
+  end
+  else if (SG.Col = colPersNr) and ( SG.Row > 0 ) then
+  begin
+    if inx >= m_liste.Personen.Count then
+    begin
+      id := findID(GM.cleanPersNr(SG.Cells[SG.Col, SG.Row]));
+      SG.Cells[SG.Col, SG.Row] := '';
+
+      if id > 0 then
+      begin
+        p := m_liste.add;
+        p.ID := id;
+        lookup(p);
+        UpdateRow( m_liste.Personen.Count, p );
+      end;
+    end;
+  end;
 end;
 
 procedure TWahllistenPersonenForm.UpdateRow(row: integer; p: TWahllistePerson);
@@ -251,6 +319,7 @@ begin
   SG.Cells[colPersNr,     row] := p.PersNr;
   SG.Cells[colName,       row] := p.Name;
   SG.Cells[colVorname,    row] := p.Vorname;
+  SG.Cells[colGeschlecht, row] := p.Gender;
   SG.Cells[colGeschlecht, row] := p.Gender;
   SG.Cells[colAbteilung,  row] := p.Abteilung;
   SG.Cells[colJob,        row] := p.Job;

@@ -38,7 +38,7 @@ object WahlListeMod: TWahlListeMod
     UpdateOptions.EnableUpdate = False
     SQL.Strings = (
       'SELECT '
-      '    a.WA_ID, a.MA_ID, a.WT_ID, a.WT_WA_POS,'
+      '    a.WA_ID, a.MA_ID, a.WT_ID, a.WT_WA_POS, a.WT_WA_JOB,'
       
         '    b.MA_PERSNR, b.MA_NAME, b.MA_VORNAME, b.MA_GENDER, b.MA_ABTE' +
         'ILUNG, b.MA_GEB'

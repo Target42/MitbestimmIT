@@ -2,8 +2,8 @@ object WahllistenForm: TWahllistenForm
   Left = 0
   Top = 0
   Caption = 'Wahllisten'
-  ClientHeight = 441
-  ClientWidth = 640
+  ClientHeight = 472
+  ClientWidth = 873
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,7 @@ object WahllistenForm: TWahllistenForm
   object Splitter1: TSplitter
     Left = 0
     Top = 201
-    Width = 640
+    Width = 873
     Height = 3
     Cursor = crVSplit
     Align = alTop
@@ -24,25 +24,26 @@ object WahllistenForm: TWahllistenForm
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 422
-    Width = 640
+    Top = 453
+    Width = 873
     Height = 19
     Panels = <>
-    ExplicitWidth = 624
+    ExplicitTop = 422
+    ExplicitWidth = 640
   end
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 640
+    Width = 873
     Height = 201
     Align = alTop
     Caption = 'Wahllisten'
     TabOrder = 1
-    ExplicitWidth = 624
+    ExplicitWidth = 640
     object DBGrid1: TDBGrid
       Left = 2
       Top = 17
-      Width = 636
+      Width = 869
       Height = 141
       Align = alClient
       DataSource = DataSource1
@@ -72,16 +73,16 @@ object WahllistenForm: TWahllistenForm
     object Panel1: TPanel
       Left = 2
       Top = 158
-      Width = 636
+      Width = 869
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      ExplicitWidth = 620
+      ExplicitWidth = 636
       DesignSize = (
-        636
+        869
         41)
       object btnAdd: TBitBtn
         Left = 14
@@ -106,7 +107,7 @@ object WahllistenForm: TWahllistenForm
         OnClick = btnEditClick
       end
       object btnDelete: TBitBtn
-        Left = 545
+        Left = 778
         Top = 6
         Width = 75
         Height = 27
@@ -116,23 +117,25 @@ object WahllistenForm: TWahllistenForm
         Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = btnDeleteClick
+        ExplicitLeft = 545
       end
     end
   end
   object GroupBox2: TGroupBox
     Left = 0
     Top = 204
-    Width = 640
-    Height = 218
+    Width = 873
+    Height = 249
     Align = alClient
     Caption = 'Mitglieder'
     TabOrder = 2
-    ExplicitWidth = 624
+    ExplicitWidth = 640
+    ExplicitHeight = 218
     object DBGrid2: TDBGrid
       Left = 2
       Top = 17
-      Width = 636
-      Height = 158
+      Width = 869
+      Height = 189
       Align = alClient
       DataSource = DataSource2
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -190,20 +193,27 @@ object WahllistenForm: TWahllistenForm
           Title.Caption = 'GebDat'
           Width = 75
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'WT_WA_JOB'
+          Title.Caption = 'Job'
+          Width = 150
+          Visible = True
         end>
     end
     object Panel2: TPanel
       Left = 2
-      Top = 175
-      Width = 636
+      Top = 206
+      Width = 869
       Height = 41
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel2'
       ShowCaption = False
       TabOrder = 1
-      ExplicitLeft = 3
-      ExplicitTop = 171
+      ExplicitTop = 175
+      ExplicitWidth = 636
       object BitBtn1: TBitBtn
         Left = 14
         Top = 10
@@ -247,6 +257,56 @@ object WahllistenForm: TWahllistenForm
     RemoteServer = DSProviderConnection1
     Left = 48
     Top = 240
+    object MAQryWA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Required = True
+    end
+    object MAQryMA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      Required = True
+    end
+    object MAQryWT_ID: TIntegerField
+      FieldName = 'WT_ID'
+      Required = True
+    end
+    object MAQryWT_WA_POS: TIntegerField
+      FieldName = 'WT_WA_POS'
+    end
+    object MAQryMA_PERSNR: TStringField
+      FieldName = 'MA_PERSNR'
+      ReadOnly = True
+      Size = 10
+    end
+    object MAQryMA_NAME: TStringField
+      FieldName = 'MA_NAME'
+      ReadOnly = True
+      Size = 100
+    end
+    object MAQryMA_VORNAME: TStringField
+      FieldName = 'MA_VORNAME'
+      ReadOnly = True
+      Size = 100
+    end
+    object MAQryMA_GENDER: TStringField
+      FieldName = 'MA_GENDER'
+      ReadOnly = True
+      OnGetText = MAQryMA_GENDERGetText
+      FixedChar = True
+      Size = 1
+    end
+    object MAQryMA_ABTEILUNG: TStringField
+      FieldName = 'MA_ABTEILUNG'
+      ReadOnly = True
+      Size = 100
+    end
+    object MAQryMA_GEB: TDateField
+      FieldName = 'MA_GEB'
+      ReadOnly = True
+    end
+    object MAQryWT_WA_JOB: TStringField
+      FieldName = 'WT_WA_JOB'
+      Size = 150
+    end
   end
   object DataSource2: TDataSource
     DataSet = MAQry
