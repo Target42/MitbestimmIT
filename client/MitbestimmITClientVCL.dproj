@@ -247,6 +247,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>WahllistenPersonenForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Briefwahl\f_briefwahl.pas">
+            <Form>BriefwahlForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

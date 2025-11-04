@@ -46,6 +46,7 @@ type
     DSVorstand: TDSServerClass;
     GetUserQry: TFDQuery;
     DSWahlliste: TDSServerClass;
+    DSBriefwahl: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -69,6 +70,8 @@ type
     procedure DSVorstandGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure DSWahllisteGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
+    procedure DSBriefwahlGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
@@ -98,7 +101,7 @@ uses
   Winapi.Windows,
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
-  m_vorstand, u_rollen, m_wahl_liste;
+  m_vorstand, u_rollen, m_wahl_liste, m_brief;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -136,6 +139,12 @@ procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
   var valid: Boolean);
 begin
   valid := True;
+end;
+
+procedure TMitbestimmITSrv.DSBriefwahlGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_brief.TBriefWahlMod;
 end;
 
 procedure TMitbestimmITSrv.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APasskey: TStringBuilder);

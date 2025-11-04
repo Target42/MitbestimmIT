@@ -47,7 +47,8 @@ uses
   f_wahlliste in 'Wahlliste\f_wahlliste.pas' {WahllistenForm},
   u_wahlliste in '..\Wahlliste\u_wahlliste.pas',
   f_wahlliste_name in 'Wahlliste\f_wahlliste_name.pas' {WahllistenNameForm},
-  f_wahlliste_personen in 'Wahlliste\f_wahlliste_personen.pas' {WahllistenPersonenForm};
+  f_wahlliste_personen in 'Wahlliste\f_wahlliste_personen.pas' {WahllistenPersonenForm},
+  f_briefwahl in 'Briefwahl\f_briefwahl.pas' {BriefwahlForm};
 
 {$R *.res}
 

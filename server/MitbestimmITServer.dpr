@@ -52,7 +52,9 @@ uses
   u_rollen in 'u_rollen.pas',
   m_log in 'm_log.pas' {LogMod: TDataModule},
   m_wahl_liste in 'm_wahl_liste.pas' {WahlListeMod: TDSServerModule},
-  u_wahlliste in '..\Wahlliste\u_wahlliste.pas';
+  u_wahlliste in '..\Wahlliste\u_wahlliste.pas',
+  m_brief in 'm_brief.pas' {BriefWahlMod: TDSServerModule},
+  u_briefwahl in '..\Briefwahl\u_briefwahl.pas';
 
 {$R *.RES}
 

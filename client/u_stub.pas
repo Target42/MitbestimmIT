@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 01.11.2025 16:22:30
+// 04.11.2025 17:45:26
 //
 
 unit u_stub;
@@ -148,6 +148,24 @@ type
     function addMA(data: TJSONObject): TJSONObject;
     function saveMA(data: TJSONObject): TJSONObject;
     function deleteMA(data: TJSONObject): TJSONObject;
+  end;
+
+  TBriefWahlModClient = class(TDSAdminClient)
+  private
+    FMaListBeforeOpenCommand: TDBXCommand;
+    FMaBwBeforeOpenCommand: TDBXCommand;
+    FsetEventCommand: TDBXCommand;
+    FsetInvalidCommand: TDBXCommand;
+    FremoveInvalidCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure MaListBeforeOpen(DataSet: TDataSet);
+    procedure MaBwBeforeOpen(DataSet: TDataSet);
+    function setEvent(data: TJSONObject): TJSONObject;
+    function setInvalid(data: TJSONObject): TJSONObject;
+    function removeInvalid(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -949,6 +967,94 @@ begin
   FaddMACommand.Free;
   FsaveMACommand.Free;
   FdeleteMACommand.Free;
+  inherited;
+end;
+
+procedure TBriefWahlModClient.MaListBeforeOpen(DataSet: TDataSet);
+begin
+  if FMaListBeforeOpenCommand = nil then
+  begin
+    FMaListBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMaListBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMaListBeforeOpenCommand.Text := 'TBriefWahlMod.MaListBeforeOpen';
+    FMaListBeforeOpenCommand.Prepare;
+  end;
+  FMaListBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMaListBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TBriefWahlModClient.MaBwBeforeOpen(DataSet: TDataSet);
+begin
+  if FMaBwBeforeOpenCommand = nil then
+  begin
+    FMaBwBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMaBwBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMaBwBeforeOpenCommand.Text := 'TBriefWahlMod.MaBwBeforeOpen';
+    FMaBwBeforeOpenCommand.Prepare;
+  end;
+  FMaBwBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMaBwBeforeOpenCommand.ExecuteUpdate;
+end;
+
+function TBriefWahlModClient.setEvent(data: TJSONObject): TJSONObject;
+begin
+  if FsetEventCommand = nil then
+  begin
+    FsetEventCommand := FDBXConnection.CreateCommand;
+    FsetEventCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetEventCommand.Text := 'TBriefWahlMod.setEvent';
+    FsetEventCommand.Prepare;
+  end;
+  FsetEventCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsetEventCommand.ExecuteUpdate;
+  Result := TJSONObject(FsetEventCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TBriefWahlModClient.setInvalid(data: TJSONObject): TJSONObject;
+begin
+  if FsetInvalidCommand = nil then
+  begin
+    FsetInvalidCommand := FDBXConnection.CreateCommand;
+    FsetInvalidCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetInvalidCommand.Text := 'TBriefWahlMod.setInvalid';
+    FsetInvalidCommand.Prepare;
+  end;
+  FsetInvalidCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsetInvalidCommand.ExecuteUpdate;
+  Result := TJSONObject(FsetInvalidCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TBriefWahlModClient.removeInvalid(data: TJSONObject): TJSONObject;
+begin
+  if FremoveInvalidCommand = nil then
+  begin
+    FremoveInvalidCommand := FDBXConnection.CreateCommand;
+    FremoveInvalidCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FremoveInvalidCommand.Text := 'TBriefWahlMod.removeInvalid';
+    FremoveInvalidCommand.Prepare;
+  end;
+  FremoveInvalidCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FremoveInvalidCommand.ExecuteUpdate;
+  Result := TJSONObject(FremoveInvalidCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TBriefWahlModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TBriefWahlModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TBriefWahlModClient.Destroy;
+begin
+  FMaListBeforeOpenCommand.Free;
+  FMaBwBeforeOpenCommand.Free;
+  FsetEventCommand.Free;
+  FsetInvalidCommand.Free;
+  FremoveInvalidCommand.Free;
   inherited;
 end;
 

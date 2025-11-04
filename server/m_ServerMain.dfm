@@ -170,4 +170,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 856
     Top = 16
   end
+  object DSBriefwahl: TDSServerClass
+    OnGetClass = DSBriefwahlGetClass
+    Server = DSServer1
+    Left = 384
+    Top = 88
+  end
 end

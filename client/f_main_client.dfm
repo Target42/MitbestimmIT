@@ -190,6 +190,7 @@ object MainClientForm: TMainClientForm
     object ac_wa_brief: TAction
       Category = 'Wahl'
       Caption = 'Briefwahl'
+      OnExecute = ac_wa_briefExecute
     end
     object ac_error: TAction
       Category = 'Window'

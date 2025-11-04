@@ -87,6 +87,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure ac_errorExecute(Sender: TObject);
     procedure ac_wahllisteExecute(Sender: TObject);
+    procedure ac_wa_briefExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -111,7 +112,7 @@ uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
-  f_admin, f_wahl_select;
+  f_admin, f_wahl_select, f_briefwahl;
 
 {$R *.dfm}
 
@@ -169,6 +170,11 @@ end;
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);
 begin
   TWaehlerlisteImportForm.ExecuteForm;
+end;
+
+procedure TMainClientForm.ac_wa_briefExecute(Sender: TObject);
+begin
+  TBriefwahlForm.execute;
 end;
 
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
@@ -263,7 +269,7 @@ begin
 
         Label1.Visible     := true;
         Wahl1.Enabled      := true;
-        Wahl2.Enabled      := false;
+        Wahl2.Enabled      := true;
         Auszhlung1.Enabled := true;
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;

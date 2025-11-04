@@ -177,6 +177,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahlliste\u_wahlliste.pas"/>
+        <DCCReference Include="m_brief.pas">
+            <Form>BriefWahlMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Briefwahl\u_briefwahl.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">
