@@ -3,7 +3,7 @@
 interface
 
 uses
-  System.Classes;
+  System.Classes, System.JSON;
 
 function SaveRCDataToFile( const ResName, filename: string ) : boolean;
 procedure LoadRCDataToStream(const ResName: string; Stream: TStream);
@@ -11,10 +11,12 @@ function findInPath( PrgName : string ) : Boolean;
 
 function GenerateFirebirdPassword(size: Integer = 20): string;
 
+function ShowResult( res : TJSONObject; showOk : boolean = false ) : boolean;
+
 implementation
 
 uses
-  Windows, SysUtils, system.IOUtils;
+  Windows, SysUtils, system.IOUtils, u_json, Vcl.Dialogs;
 
 function SaveRCDataToFile( const ResName, filename: string ) : boolean;
 var
@@ -102,6 +104,16 @@ begin
 
   for I := 1 to size do
     Result := Result + CChars[Random(len) + 1];
+end;
+
+function ShowResult( res : TJSONObject; showOk : boolean ) : boolean;
+begin
+  Result := JBool( res, 'result');
+  if not Result then
+    ShowMessage(JString( res, 'text'))
+  else if showOk then
+    ShowMessage(JString( res, 'text'))
+
 end;
 
 

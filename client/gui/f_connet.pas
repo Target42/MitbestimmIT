@@ -147,6 +147,7 @@ begin
       GM.Passwort    := ConnectForm.Passwort;
 
       result := GM.connect;
+
       if Result then
         break;
 

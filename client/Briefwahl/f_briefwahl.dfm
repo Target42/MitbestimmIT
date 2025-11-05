@@ -19,8 +19,6 @@ object BriefwahlForm: TBriefwahlForm
     Width = 832
     Height = 19
     Panels = <>
-    ExplicitTop = 422
-    ExplicitWidth = 624
   end
   object DBGrid1: TDBGrid
     Left = 0
@@ -105,8 +103,6 @@ object BriefwahlForm: TBriefwahlForm
     Align = alBottom
     Caption = 'Aktionen'
     TabOrder = 2
-    ExplicitTop = 508
-    ExplicitWidth = 1188
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 40
@@ -130,6 +126,33 @@ object BriefwahlForm: TBriefwahlForm
       TabOrder = 1
       Text = ''
       OnKeyPress = LabeledEdit2KeyPress
+    end
+    object BitBtn1: TBitBtn
+      Left = 248
+      Top = 32
+      Width = 105
+      Height = 25
+      Action = ac_request
+      Caption = 'Beantragt'
+      TabOrder = 2
+    end
+    object BitBtn2: TBitBtn
+      Left = 400
+      Top = 32
+      Width = 105
+      Height = 25
+      Action = ac_send
+      Caption = 'Versendet'
+      TabOrder = 3
+    end
+    object BitBtn3: TBitBtn
+      Left = 552
+      Top = 32
+      Width = 97
+      Height = 25
+      Action = ac_received
+      Caption = 'Empfangen'
+      TabOrder = 4
     end
   end
   object DSProviderConnection1: TDSProviderConnection
@@ -231,8 +254,7 @@ object BriefwahlForm: TBriefwahlForm
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
     ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvCheckReadOnly, uvAutoCommitUpdates]
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 24
@@ -275,15 +297,13 @@ object BriefwahlForm: TBriefwahlForm
     end
     object BriefTabBW_ANTRAG: TDateField
       FieldName = 'BW_ANTRAG'
-      ReadOnly = True
+      OnGetText = BriefTabBW_ANTRAGGetText
     end
     object BriefTabBW_VERSENDET: TDateField
       FieldName = 'BW_VERSENDET'
-      ReadOnly = True
     end
     object BriefTabBW_EMPFANGEN: TDateField
       FieldName = 'BW_EMPFANGEN'
-      ReadOnly = True
     end
     object BriefTabBW_ERROR: TStringField
       FieldName = 'BW_ERROR'
@@ -313,5 +333,25 @@ object BriefwahlForm: TBriefwahlForm
     DataSet = BriefTab
     Left = 96
     Top = 248
+  end
+  object ActionList1: TActionList
+    Images = ResMod.PngImageList1
+    Left = 408
+    Top = 304
+    object ac_request: TAction
+      Caption = 'Beantragt'
+      ImageIndex = 10
+      OnExecute = ac_requestExecute
+    end
+    object ac_send: TAction
+      Caption = 'Versendet'
+      ImageIndex = 11
+      OnExecute = ac_sendExecute
+    end
+    object ac_received: TAction
+      Caption = 'Empfangen'
+      ImageIndex = 12
+      OnExecute = ac_receivedExecute
+    end
   end
 end

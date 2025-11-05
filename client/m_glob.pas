@@ -221,6 +221,7 @@ begin
   FWahlID      := -1;
   FUser        := 'jd0815';
   FPasswort    := '0815';
+
 end;
 
 procedure TGM.DataModuleDestroy(Sender: TObject);

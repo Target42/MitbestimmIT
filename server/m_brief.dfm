@@ -57,4 +57,15 @@ object BriefWahlMod: TBriefWahlMod
     Left = 200
     Top = 160
   end
+  object BWTab: TFDTable
+    IndexFieldNames = 'BW_ID;WA_ID;MA_ID'
+    Connection = DBMod.FDConnection1
+    ResourceOptions.AssignedValues = [rvEscapeExpand]
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvCheckReadOnly]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoIncFields = 'BW_ID'
+    TableName = 'BW_BRIEF_WAHL'
+    Left = 328
+    Top = 96
+  end
 end

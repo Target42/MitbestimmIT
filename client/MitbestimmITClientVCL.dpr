@@ -48,7 +48,8 @@ uses
   u_wahlliste in '..\Wahlliste\u_wahlliste.pas',
   f_wahlliste_name in 'Wahlliste\f_wahlliste_name.pas' {WahllistenNameForm},
   f_wahlliste_personen in 'Wahlliste\f_wahlliste_personen.pas' {WahllistenPersonenForm},
-  f_briefwahl in 'Briefwahl\f_briefwahl.pas' {BriefwahlForm};
+  f_briefwahl in 'Briefwahl\f_briefwahl.pas' {BriefwahlForm},
+  u_briefwahl in '..\Briefwahl\u_briefwahl.pas';
 
 {$R *.res}
 
@@ -67,6 +68,5 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
-
   Application.Run;
 end.
