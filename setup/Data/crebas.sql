@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     01.11.2025  21:21                          */
+/*   Created on:     06.11.2025  19:58                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -180,9 +180,9 @@ create table BW_BRIEF_WAHL
     BW_ID                           INTEGER                not null,
     WA_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
-    BW_ANTRAG                       DATE                           ,
-    BW_VERSENDET                    DATE                           ,
-    BW_EMPFANGEN                    DATE                           ,
+    BW_ANTRAG                       TIMESTAMP                      ,
+    BW_VERSENDET                    TIMESTAMP                      ,
+    BW_EMPFANGEN                    TIMESTAMP                      ,
     BW_ERROR                        CHAR                           
         default 'F',
     BW_DATA                         BLOB                           ,

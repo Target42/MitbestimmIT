@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     31.10.2025  20:55                          */
+/*   Created on:     06.11.2025  19:59                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -69,7 +69,7 @@ create trigger ti_ma_wl for MA_WL
 before insert as
 begin
 
-    new.wl_stamp = CURRENT_TIMESTAMP;
+    new.wl_timestamp = CURRENT_TIMESTAMP;
 
 end;/
 set term ;/

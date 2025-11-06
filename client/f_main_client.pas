@@ -46,7 +46,6 @@ type
     Rume1: TMenuItem;
     ac_wa_berechtigte: TAction;
     Wahlberechtigteaktualisieren1: TMenuItem;
-    Wahllisten1: TMenuItem;
     N1: TMenuItem;
     N2: TMenuItem;
     Timer1: TTimer;

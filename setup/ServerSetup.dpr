@@ -16,9 +16,10 @@ uses
   fr_server in 'fr_server.pas' {ServerFrame: TFrame},
   fr_mail in 'fr_mail.pas' {MailFrame: TFrame},
   fr_pre in 'fr_pre.pas' {PreFrame: TFrame},
-  u_helper in '..\lib\u_helper.pas',
   fr_portcheck in 'fr_portcheck.pas' {PortCheckFrame: TFrame},
-  u_pwd in '..\lib\u_pwd.pas';
+  u_pwd in '..\lib\u_pwd.pas',
+  u_helper in '..\lib\u_helper.pas',
+  u_json in '..\lib\u_json.pas';
 
 {$R *.res}
 

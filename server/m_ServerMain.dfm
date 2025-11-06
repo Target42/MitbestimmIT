@@ -176,4 +176,11 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 384
     Top = 88
   end
+  object DsStat: TDSServerClass
+    OnGetClass = DsStatGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 472
+    Top = 88
+  end
 end

@@ -109,7 +109,7 @@ begin
     if BWTab.FieldByName('BW_VERSENDET').IsNull then
     begin
       BWTab.edit;
-      BWTab.FieldByName('BW_ANTRAG').AsDateTime := now;
+      BWTab.FieldByName('BW_VERSENDET').AsDateTime := now;
       BWTab.Post;
       Text := 'Der Antrag ist gespeichert.';
       result := true;
@@ -134,6 +134,7 @@ begin
   b.fromJson(data);
   maid := b.MA_ID;
 
+  ok := false;
   BWTab.Open;
   case b.Event of
     etAntrag:

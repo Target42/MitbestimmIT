@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 05.11.2025 20:08:10
+// 06.11.2025 20:58:48
 //
 
 unit u_stub;
@@ -166,6 +166,16 @@ type
     function setEvent(data: TJSONObject): TJSONObject;
     function setInvalid(data: TJSONObject): TJSONObject;
     function removeInvalid(data: TJSONObject): TJSONObject;
+  end;
+
+  TStadModClient = class(TDSAdminClient)
+  private
+    FgetStatsCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function getStats: TJSONObject;
   end;
 
 implementation
@@ -1055,6 +1065,35 @@ begin
   FsetEventCommand.Free;
   FsetInvalidCommand.Free;
   FremoveInvalidCommand.Free;
+  inherited;
+end;
+
+function TStadModClient.getStats: TJSONObject;
+begin
+  if FgetStatsCommand = nil then
+  begin
+    FgetStatsCommand := FDBXConnection.CreateCommand;
+    FgetStatsCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetStatsCommand.Text := 'TStadMod.getStats';
+    FgetStatsCommand.Prepare;
+  end;
+  FgetStatsCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetStatsCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TStadModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TStadModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TStadModClient.Destroy;
+begin
+  FgetStatsCommand.Free;
   inherited;
 end;
 

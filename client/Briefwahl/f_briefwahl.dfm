@@ -74,24 +74,28 @@ object BriefwahlForm: TBriefwahlForm
         Expanded = False
         FieldName = 'BW_ANTRAG'
         Title.Caption = 'Antrag'
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BW_VERSENDET'
         Title.Caption = 'Versendet'
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BW_EMPFANGEN'
         Title.Caption = 'Empfange'
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'BW_ERROR'
         Title.Caption = 'Ung'#252'ltig'
+        Width = 75
         Visible = True
       end>
   end
@@ -157,11 +161,13 @@ object BriefwahlForm: TBriefwahlForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TBriefWahlMod'
+    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 88
     Top = 56
   end
   object MaTable: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'MaListQry'
@@ -219,17 +225,17 @@ object BriefwahlForm: TBriefwahlForm
       item
         Name = 'BW_ANTRAG'
         Attributes = [faReadonly]
-        DataType = ftDate
+        DataType = ftTimeStamp
       end
       item
         Name = 'BW_VERSENDET'
         Attributes = [faReadonly]
-        DataType = ftDate
+        DataType = ftTimeStamp
       end
       item
         Name = 'BW_EMPFANGEN'
         Attributes = [faReadonly]
-        DataType = ftDate
+        DataType = ftTimeStamp
       end
       item
         Name = 'BW_ERROR'
@@ -255,6 +261,7 @@ object BriefwahlForm: TBriefwahlForm
     ResourceOptions.AssignedValues = [rvSilentMode]
     ResourceOptions.SilentMode = True
     UpdateOptions.AssignedValues = [uvCheckRequired, uvCheckReadOnly, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 24
@@ -295,15 +302,17 @@ object BriefwahlForm: TBriefwahlForm
       FieldName = 'BW_ID'
       ReadOnly = True
     end
-    object BriefTabBW_ANTRAG: TDateField
+    object BriefTabBW_ANTRAG: TSQLTimeStampField
       FieldName = 'BW_ANTRAG'
       OnGetText = BriefTabBW_ANTRAGGetText
     end
-    object BriefTabBW_VERSENDET: TDateField
+    object BriefTabBW_VERSENDET: TSQLTimeStampField
       FieldName = 'BW_VERSENDET'
+      OnGetText = BriefTabBW_ANTRAGGetText
     end
-    object BriefTabBW_EMPFANGEN: TDateField
+    object BriefTabBW_EMPFANGEN: TSQLTimeStampField
       FieldName = 'BW_EMPFANGEN'
+      OnGetText = BriefTabBW_ANTRAGGetText
     end
     object BriefTabBW_ERROR: TStringField
       FieldName = 'BW_ERROR'

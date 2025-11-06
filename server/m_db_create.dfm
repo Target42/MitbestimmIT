@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     01.11.2025  21:21                          ' +
+            '/*   Created on:     06.11.2025  19:58                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -407,13 +407,13 @@ object CreateDBMode: TCreateDBMode
             '    MA_ID                           INTEGER                not n' +
             'ull,'
           
-            '    BW_ANTRAG                       DATE                        ' +
+            '    BW_ANTRAG                       TIMESTAMP                   ' +
             '   ,'
           
-            '    BW_VERSENDET                    DATE                        ' +
+            '    BW_VERSENDET                    TIMESTAMP                   ' +
             '   ,'
           
-            '    BW_EMPFANGEN                    DATE                        ' +
+            '    BW_EMPFANGEN                    TIMESTAMP                   ' +
             '   ,'
           
             '    BW_ERROR                        CHAR                        ' +
@@ -860,7 +860,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     31.10.2025  20:55                          ' +
+            '/*   Created on:     06.11.2025  19:59                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -937,7 +937,7 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           ''
-          '    new.wl_stamp = CURRENT_TIMESTAMP;'
+          '    new.wl_timestamp = CURRENT_TIMESTAMP;'
           ''
           'end;/'
           'set term ;/'

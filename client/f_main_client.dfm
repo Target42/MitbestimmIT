@@ -104,9 +104,6 @@ object MainClientForm: TMainClientForm
     end
     object Wahl2: TMenuItem
       Caption = 'Wahl'
-      object Wahllisten1: TMenuItem
-        Caption = 'Wahllisten'
-      end
       object Briefwahl1: TMenuItem
         Action = ac_wa_brief
       end
