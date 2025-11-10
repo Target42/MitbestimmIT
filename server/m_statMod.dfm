@@ -10,7 +10,7 @@ object StadMod: TStadMod
       'from '
       '    ma_wa a, ma_mitarbeiter b'
       'where '
-      '  a.wa_id = :ma_id'
+      '  a.wa_id = :wa_id'
       'and  '
       '  a.MA_ID = b.MA_ID'
       'group by b.ma_gender'
@@ -19,7 +19,7 @@ object StadMod: TStadMod
     Top = 40
     ParamData = <
       item
-        Name = 'MA_ID'
+        Name = 'WA_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null
@@ -66,6 +66,26 @@ object StadMod: TStadMod
       '   ')
     Left = 56
     Top = 120
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object WahlQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT '
+      '  *'
+      'FROM '
+      '  WF_FRISTEN '
+      'where'
+      '  wa_id = :wa_id'
+      '  ')
+    Left = 152
+    Top = 144
     ParamData = <
       item
         Name = 'WA_ID'

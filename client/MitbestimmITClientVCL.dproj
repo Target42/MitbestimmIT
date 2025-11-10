@@ -105,6 +105,9 @@
         <DCC_ExeOutput>D:\DelphiBin\MitbestimmIT\Client\</DCC_ExeOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Icon_MainIcon>..\pictures\Application\main.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>..\pictures\Application\logo_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>..\pictures\Application\logo_150.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -252,6 +255,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Briefwahl\u_briefwahl.pas"/>
+        <DCCReference Include="stat\fr_stat.pas">
+            <Form>StatFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="u_msgID.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">
@@ -486,6 +495,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 <DeployFile LocalName="..\fonts\static\Montserrat-ThinItalic.ttf" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\pictures\Application\logo_150.png" Configuration="Debug" Class="UWP_DelphiLogo150">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo150x150.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\pictures\Application\logo_44.png" Configuration="Debug" Class="UWP_DelphiLogo44">
+                    <Platform Name="Win32">
+                        <RemoteDir>Assets\</RemoteDir>
+                        <RemoteName>Logo44x44.png</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

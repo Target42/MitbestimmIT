@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 06.11.2025 20:58:48
+// 09.11.2025 15:51:06
 //
 
 unit u_stub;

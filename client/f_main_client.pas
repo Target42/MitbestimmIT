@@ -25,7 +25,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.ActnList, System.Actions,
   Vcl.StdActns, Vcl.Menus, Vcl.ComCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
-  m_glob, Vcl.StdCtrls, System.Generics.Collections, ShellAPI, f_wahlliste;
+  m_glob, Vcl.StdCtrls, System.Generics.Collections, ShellAPI, f_wahlliste,
+  fr_stat, Vcl.AppEvnts;
 
 type
   TMainClientForm = class(TForm)
@@ -72,6 +73,10 @@ type
     Fehler1: TMenuItem;
     ac_wahlliste: TAction;
     Wahllisten2: TMenuItem;
+    StatBox: TGroupBox;
+    StatFrame1: TStatFrame;
+    ApplicationEvents1: TApplicationEvents;
+    Splitter1: TSplitter;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -87,17 +92,19 @@ type
     procedure ac_errorExecute(Sender: TObject);
     procedure ac_wahllisteExecute(Sender: TObject);
     procedure ac_wa_briefExecute(Sender: TObject);
+    procedure ApplicationEvents1Message(var Msg: TMsg; var Handled: Boolean);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
   private
     m_helpMap : TDictionary<string, string>;
 
-    procedure AppMessage(var Msg: TMsg; var Handled: Boolean);
     procedure fillHelp;
 
     procedure setMenuState( state : TMenuState );
     procedure setPanelText( section : integer; text : string );
+
+    procedure showF1;
   public
 
   end;
@@ -111,7 +118,7 @@ uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
-  f_admin, f_wahl_select, f_briefwahl;
+  f_admin, f_wahl_select, f_briefwahl, u_msgID;
 
 {$R *.dfm}
 
@@ -133,7 +140,10 @@ begin
     else
     begin
       if TWahlSelectForm.execute then
-        setMenuState(msLoaded)
+      begin
+        setMenuState(msLoaded);
+        PostMessage( Handle, msgConnected, 0, 0);
+      end
       else
         ac_disconnect.Execute;
     end;
@@ -191,30 +201,37 @@ begin
   TWaehlerListeForm.executeform;
 end;
 
-procedure TMainClientForm.AppMessage(var Msg: TMsg; var Handled: Boolean);
-var
-  page : string;
-  url  : string;
-  y, m, d: word;
-  h, mm, s: word;
+procedure TMainClientForm.ApplicationEvents1Message(var Msg: TMsg;
+  var Handled: Boolean);
 begin
-  if (Msg.Message = WM_KEYDOWN) and (Msg.wParam = VK_F1) then
-  begin
-    page := '';
-    m_helpMap.TryGetValue(Screen.ActiveForm.ClassName, page);
-    url := 'https://github.com/Target42/MitbestimmIT/wiki' + page;
-
-    DecodeDate(now, y, m, d);
-    DecodeTime(now, h, mm, s, s);
-
-    if (( d = 25 ) and ( m = 11 )) or ( (h = 16) and ( mm = 4)) then
-      url := 'https://www.youtube.com/watch?v=UjsvyeBWNQQ&list=RDUjsvyeBWNQQ&start_radio=1';
-
-    ShellExecute(handle, 'open', PChar(url), NIL, nil, SW_SHOWNORMAL);
-
-    Handled := True;
+  Handled  := true;
+  case Msg.message of
+    WM_KEYDOWN:
+    begin
+      if msg.wParam = VK_F1 then
+      begin
+        ShowF1;
+      end
+      else
+        Handled := false;
+    end;
+    msgConnected:
+    begin
+      Splitter1 .Visible := true;
+      StatBox.Visible := true;
+      StatFrame1.UpdateData;
+    end;
+    msgDisconnected:
+    begin
+      StatBox.Visible := false;
+      Splitter1 .Visible := false;
+    end
+  else
+    Handled := false;
   end;
 end;
+
+
 procedure TMainClientForm.fillHelp;
 begin
   m_helpMap.AddOrSetValue('TMainClientForm',          '/Das-MitbestimmIT%E2%80%90Tool');
@@ -228,7 +245,6 @@ end;
 procedure TMainClientForm.FormCreate(Sender: TObject);
 begin
   m_helpMap := TDictionary<string, string>.Create;
-  Application.OnMessage := AppMessage;
   fillHelp;
 
   setMenuState( msInit );
@@ -307,6 +323,26 @@ begin
   len := StatusBar1.Canvas.TextWidth(text) + 8;
   StatusBar1.Panels.Items[section].Width := len;
   StatusBar1.Panels.Items[section].Text  := text;
+end;
+
+procedure TMainClientForm.showF1;
+var
+  page : string;
+  url  : string;
+  y, m, d: word;
+  h, mm, s: word;
+begin
+  page := '';
+  m_helpMap.TryGetValue(Screen.ActiveForm.ClassName, page);
+  url := 'https://github.com/Target42/MitbestimmIT/wiki' + page;
+
+  DecodeDate(now, y, m, d);
+  DecodeTime(now, h, mm, s, s);
+
+  if (( d = 25 ) and ( m = 11 )) or ( (h = 16) and ( mm = 4)) then
+    url := 'https://www.youtube.com/watch?v=UjsvyeBWNQQ&list=RDUjsvyeBWNQQ&start_radio=1';
+
+  ShellExecute(handle, 'open', PChar(url), NIL, nil, SW_SHOWNORMAL);
 end;
 
 procedure TMainClientForm.Timer1Timer(Sender: TObject);

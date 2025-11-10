@@ -149,7 +149,7 @@ commit;
 
 
 1753814221
-1762454511
+1762455516
 0
 0
 4
@@ -4915,7 +4915,7 @@ set term ;/
 ti_bw_brief_wahl
 76
 1
-1
+3
 InsertTrigger
 /*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
 set term /;\
@@ -4923,7 +4923,7 @@ create trigger %TRIGGER% for %TABLE%\
 before insert as\
 begin\
 \
-    new.wl_stamp = CURRENT_TIMESTAMP;\
+    new.wl_timestamp = CURRENT_TIMESTAMP;\
 \
 end;/\
 set term ;/
@@ -5120,6 +5120,10 @@ MS Sans Serif
 Arial
 8
 8
+4
+Courier New
+10
+1
 /END_TABLE AMCFONT
 
 /BEGIN_TABLE AMCPENS
@@ -6381,7 +6385,7 @@ OID     N8
 3
 1544
 289
-2
+0
 7
 0
 0
@@ -6772,10 +6776,10 @@ OID     N8
 0
 0
 0
--18873
--949
--5599
-4525
+-18874
+-950
+-5600
+4524
 2
 1
 0
@@ -7395,7 +7399,7 @@ c031ffffe7edfffff2a0feffe7edffff
 0
 0
 3
-be42ffffaf5b00002cccffffaf5b00002cccffff59080000
+be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 2
 
 
@@ -7427,7 +7431,7 @@ be42ffffaf5b00002cccffffaf5b00002cccffff59080000
 0
 0
 2
-73230000d70700006cccffffd7070000
+73230000d60700006bccffffd6070000
 2
 
 

@@ -32,7 +32,9 @@ uses
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
-  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas' {,
+  u_stub in 'u_stub.pas',
+  f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_stub in 'u_stub.pas',
   f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_json_db in '..\lib\u_json_db.pas',
@@ -49,7 +51,9 @@ uses
   f_wahlliste_name in 'Wahlliste\f_wahlliste_name.pas' {WahllistenNameForm},
   f_wahlliste_personen in 'Wahlliste\f_wahlliste_personen.pas' {WahllistenPersonenForm},
   f_briefwahl in 'Briefwahl\f_briefwahl.pas' {BriefwahlForm},
-  u_briefwahl in '..\Briefwahl\u_briefwahl.pas';
+  u_briefwahl in '..\Briefwahl\u_briefwahl.pas',
+  fr_stat in 'stat\fr_stat.pas' {StatFrame: TFrame},
+  u_msgID in 'u_msgID.pas';
 
 {$R *.res}
 

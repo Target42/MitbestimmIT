@@ -15,10 +15,12 @@ type
     MAQry: TFDQuery;
     ListenQry: TFDQuery;
     LokaleQry: TFDQuery;
+    WahlQry: TFDQuery;
   private
     function getMAData : TJSONObject;
     function getWahlListen : TJSONArray;
     function getLokale : TJSONArray;
+    function getWahl : TJSONArray;
   public
     function getStats : TJSONObject;
   end;
@@ -46,8 +48,8 @@ begin
 
     JReplace( row, 'bau',       LokaleQry.FieldByName('WL_BAU').AsString);
     JReplace( row, 'stockwerk', LokaleQry.FieldByName('WL_STOCKWERK').AsString);
-    JReplace( row, 'raum',      LokaleQry.FieldByName('WLRAUM').AsString);
-    JReplace( row, 'count',     LokaleQry.FieldByName('count').AsInteger);
+    JReplace( row, 'raum',      LokaleQry.FieldByName('WL_RAUM').AsString);
+    JReplace( row, 'count',     LokaleQry.FieldByName('count').AsString);
     result.Add(row);
 
     LokaleQry.Next;
@@ -58,6 +60,7 @@ end;
 function TStadMod.getMAData: TJSONObject;
 var
   m, w : integer;
+  sitze : integer;
 begin
   Result := TJSONObject.Create;
 
@@ -77,11 +80,15 @@ begin
   end;
   MAQry.Close;
 
+  JReplace( result, 'w', w );
+  JReplace( result, 'm', m );
   JReplace( result, 'summe', m + w);
 
-  JReplace( result, 'gremium',        BerechneBetriebsratsgroesse( m + w));
+  sitze := BerechneBetriebsratsgroesse( m + w);
+  JReplace( result, 'gremium',        sitze);
   JReplace( result, 'freistellungen', BerechneAnzahlFreistellungen( m + w ));
-  JReplace( result, 'minmin',         MindestanzahlMinderheitengeschlecht( m, w, m +w ));
+  JReplace( result, 'minmin',         MindestanzahlMinderheitengeschlecht( m, w, sitze ));
+
   if Minderheitengeschlecht(m, w) = gMale then
     JReplace( result, 'minderheit', 'Männer')
   else
@@ -96,6 +103,32 @@ begin
   JReplace( Result, 'ma',     getMAData);
   JReplace( Result, 'listen', getWahlListen);
   JReplace( result, 'lokale', getLokale);
+  JReplace( result, 'wahl',   getWahl );
+end;
+
+function TStadMod.getWahl: TJSONArray;
+var
+  row : TJSONObject;
+begin
+  Result := TJSONArray.Create;
+  WahlQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  WahlQry.Open;
+  while not WahlQry.Eof do
+  begin
+    row := TJSONObject.Create;
+
+    JReplace(row, 'titel', WahlQry.FieldByName('WF_TITEL').AsString);
+    JReplace(row, 'typ', WahlQry.FieldByName('WF_TYP').AsInteger);
+    JReplaceDouble( row, 'start', WahlQry.FieldByName('WF_START').AsDateTime);
+    if WahlQry.FieldByName('WF_TYP').AsInteger > 1 then
+      JReplaceDouble( row, 'ende', WahlQry.FieldByName('WF_ENDE').AsDateTime)
+    else
+      JReplaceDouble( row, 'ende', 0.0 );
+
+    result.Add(row);
+    WahlQry.Next;
+  end;
+  WahlQry.Close;
 end;
 
 function TStadMod.getWahlListen: TJSONArray;

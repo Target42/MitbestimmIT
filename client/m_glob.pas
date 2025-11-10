@@ -122,7 +122,8 @@ var
 implementation
 
 uses
-  System.RegularExpressions, Vcl.Dialogs, system.IOUtils, Vcl.Forms;
+  System.RegularExpressions, Vcl.Dialogs, system.IOUtils, Vcl.Forms,
+  Winapi.Windows, u_msgID;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -306,6 +307,7 @@ procedure TGM.SQLConnection1AfterDisconnect(Sender: TObject);
 begin
   FWahlName  := '';
   FSimulation:= false;
+  PostMessage( Application.MainFormHandle, msgDisconnected, 0, 0);
 end;
 
 procedure TGM.updateMATab;

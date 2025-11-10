@@ -4,8 +4,8 @@ object MainClientForm: TMainClientForm
   HelpType = htKeyword
   HelpContext = 1
   Caption = 'MitbestimmIT Client VCL'
-  ClientHeight = 623
-  ClientWidth = 980
+  ClientHeight = 731
+  ClientWidth = 1103
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object MainClientForm: TMainClientForm
   object Label1: TLabel
     Left = 0
     Top = 0
-    Width = 980
+    Width = 1103
     Height = 32
     Align = alTop
     Alignment = taCenter
@@ -35,10 +35,19 @@ object MainClientForm: TMainClientForm
     ParentFont = False
     ExplicitWidth = 68
   end
+  object Splitter1: TSplitter
+    Left = 321
+    Top = 32
+    Height = 680
+    Visible = False
+    ExplicitLeft = 808
+    ExplicitTop = 184
+    ExplicitHeight = 100
+  end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 604
-    Width = 980
+    Top = 712
+    Width = 1103
     Height = 19
     Panels = <
       item
@@ -50,10 +59,116 @@ object MainClientForm: TMainClientForm
       item
         Width = 50
       end>
+    ExplicitTop = 604
+    ExplicitWidth = 980
+  end
+  object StatBox: TGroupBox
+    Left = 0
+    Top = 32
+    Width = 321
+    Height = 680
+    Align = alLeft
+    Caption = 'Daten'
+    TabOrder = 1
+    Visible = False
+    ExplicitHeight = 572
+    inline StatFrame1: TStatFrame
+      Left = 2
+      Top = 17
+      Width = 317
+      Height = 661
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 2
+      ExplicitTop = 17
+      inherited Splitter1: TSplitter
+        Width = 317
+      end
+      inherited Splitter2: TSplitter
+        Width = 317
+      end
+      inherited Splitter3: TSplitter
+        Width = 317
+      end
+      inherited Splitter4: TSplitter
+        Width = 317
+      end
+      inherited GroupBox1: TGroupBox
+        Width = 317
+        inherited Chart1: TChart
+          Width = 313
+          ExplicitLeft = 2
+          ExplicitTop = 17
+          ExplicitWidth = 378
+          ExplicitHeight = 158
+        end
+      end
+      inherited GroupBox2: TGroupBox
+        Width = 317
+        ExplicitTop = 180
+        inherited Label1: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Gremium: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label2: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Freistellungen: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label3: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Minderheit: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label4: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited MinderheitnSitze: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+      end
+      inherited GroupBox3: TGroupBox
+        Width = 317
+        ExplicitLeft = 0
+        ExplicitTop = 303
+        ExplicitWidth = 382
+        inherited Wahllisten: TListView
+          Width = 313
+          ExplicitLeft = 2
+          ExplicitTop = 17
+        end
+      end
+      inherited GroupBox4: TGroupBox
+        Width = 317
+        ExplicitLeft = 0
+        ExplicitTop = 411
+        ExplicitWidth = 382
+        inherited Wahllokale: TListView
+          Width = 313
+          ExplicitTop = 17
+        end
+      end
+      inherited GroupBox5: TGroupBox
+        Width = 317
+        Height = 142
+        ExplicitLeft = 0
+        ExplicitTop = 519
+        ExplicitWidth = 382
+        ExplicitHeight = 227
+        inherited Wahlphasen: TListView
+          Width = 313
+          Height = 123
+        end
+      end
+    end
   end
   object MainMenu1: TMainMenu
-    Left = 24
-    Top = 24
+    Left = 40
+    Top = 96
     object Programm1: TMenuItem
       Caption = 'Programm'
       object Verbinden1: TMenuItem
@@ -131,8 +246,8 @@ object MainClientForm: TMainClientForm
     end
   end
   object ActionList1: TActionList
-    Left = 128
-    Top = 32
+    Left = 104
+    Top = 128
     object FileExit1: TFileExit
       Category = 'Datei'
       Caption = '&Beenden'
@@ -204,7 +319,12 @@ object MainClientForm: TMainClientForm
     Enabled = False
     Interval = 250
     OnTimer = Timer1Timer
-    Left = 216
-    Top = 32
+    Left = 184
+    Top = 120
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnMessage = ApplicationEvents1Message
+    Left = 384
+    Top = 120
   end
 end

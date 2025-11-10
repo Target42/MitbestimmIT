@@ -136,7 +136,7 @@ begin
     gMale:
       Minderheitenanteil := male / Gesamtzahl;
     gFemale:
-      Minderheitenanteil := female / Gesamtzahl;
+      Minderheitenanteil := female / Gesamtzahl ;
   else
     Minderheitenanteil := 0;
   end;
