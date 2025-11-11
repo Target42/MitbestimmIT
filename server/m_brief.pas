@@ -8,9 +8,10 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Datasnap.Provider, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.JSON;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.JSON, u_rollen;
 
 type
+  [TRoleAuth(roWahlVorstand)]
   TBriefWahlMod = class(TDSServerModule)
     MaList: TFDQuery;
     MaListQry: TDataSetProvider;
@@ -25,7 +26,9 @@ type
     function recive( maid : integer; var text : string ) :Boolean;
   public
     function setEvent( data : TJSONObject ) : TJSONObject;
+    [TRoleAuth(roWahlVorsitz)]
     function setInvalid( data : TJSONObject ) : TJSONObject;
+    [TRoleAuth(roWahlVorsitz)]
     function removeInvalid( data : TJSONObject ) : TJSONObject;
   end;
 

@@ -8,9 +8,10 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Datasnap.Provider;
+  FireDAC.Comp.Client, Datasnap.Provider, u_rollen;
 
 type
+  [TRoleAuth(roWahlVorsitz)]
   TWahlMod = class(TDSServerModule)
     WAtab: TFDTable;
     WAtabWA_ID: TIntegerField;
@@ -48,9 +49,13 @@ type
   private
     { Private-Deklarationen }
   public
+    [TRoleAuth(roPublic)]
     function getWahlData : TJSONObject;
+
     function saveWahlData( data : TJSONObject ) : TJSONObject;
     function loadWahlData : TJSONObject;
+
+    [TRoleAuth(roPublic)]
     function setWahl( id : integer ) : Boolean;
   end;
 

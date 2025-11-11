@@ -11,7 +11,7 @@ uses
   System.JSON, u_Wahlvorstand, u_rollen;
 
 type
-  [TRoleAuth(roWahlVorsitz)]
+  [TRoleAuth(roWahlVorsitz, roWahlVorstand)]
   TVortandMod = class(TDSServerModule)
     ListMAQry: TFDQuery;
     ListMAQryWV_ROLLE: TStringField;
@@ -40,9 +40,12 @@ type
   public
     [TRoleAuth(roPublic)]
     function getlist : TJSONObject;
+
     function add( data : TJSONObject ) : TJSONObject;
     function get( ma_id : integer ) : TJSONObject;
     function save( data : TJSONObject ) : TJSONObject;
+
+    [TRoleAuth(roWahlVorsitz)]
     function delete( data : TJSONObject ) : TJSONObject;
   end;
 

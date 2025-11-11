@@ -140,8 +140,33 @@ end;
 procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthorize(
   Sender: TObject; EventObject: TDSAuthorizeEventObject;
   var valid: Boolean);
+var
+  i : integer;
 begin
-  valid := True;
+  valid := not Assigned(EventObject.AuthorizedRoles) or
+           not Assigned(EventObject.DeniedRoles);
+
+  if not valid and Assigned(EventObject.AuthorizedRoles) then
+  begin
+    for i := 0 to pred( EventObject.UserRoles.Count) do begin
+      if EventObject.AuthorizedRoles.IndexOf(EventObject.UserRoles.Strings[i]) > -1 then
+      begin
+        valid := true;
+        break;
+      end;
+    end;
+  end;
+
+  if not valid and Assigned(EventObject.DeniedRoles) then
+  begin
+    for i := 0 to pred( EventObject.UserRoles.Count) do
+    begin
+      if EventObject.DeniedRoles.IndexOf(EventObject.UserRoles.Strings[i]) > -1 then begin
+        valid := false;
+        break;
+      end;
+    end;
+  end;
 end;
 
 procedure TMitbestimmITSrv.DSBriefwahlGetClass(DSServerClass: TDSServerClass;
