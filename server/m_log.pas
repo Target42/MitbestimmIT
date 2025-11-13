@@ -14,43 +14,83 @@ type
   private
     { Private-Deklarationen }
   public
-    procedure addLog( titel, text : string );
-
-    class procedure log( titel, text : string );
+    procedure addLog( wahl : boolean; titel, text : string; id : integer; user : string );
   end;
 
-var
-  LogMod: TLogMod;
+procedure CreateLogthread;
+procedure EndLogThread;
+procedure Savelog( wahl : boolean; title, text : string );
 
 implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, System.SysUtils, Datasnap.DSSession;
+  m_db, System.SysUtils, Datasnap.DSSession, LogThread;
 
 {$R *.dfm}
 
 { TLogMod }
 
-procedure TLogMod.addLog(titel, text: string);
-begin
-  AddLogQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
-  AddLogQry.ParamByName('LG_DATA').AsString := text;
-  AddLogQry.ParamByName('LG_USER').AsString := TDSSessionManager.GetThreadSession.getData('UserName' );
-  AddLogQry.ParamByName('LG_TITEL').AsString:= titel;
-  AddLogQry.ExecSQL;
-
-  AddLogQry.close;
-end;
-
-class procedure TLogMod.log(titel, text: string);
 var
-  lg : TLogMod;
+  LogMod: TLogMod;
+  m_logger : TLogThread;
+
+
+procedure TLogMod.addLog(wahl : boolean; titel, text: string; id : integer; user : string);
 begin
-  lg := TLogMod.Create(NIL);
-  lg.addLog(titel, text);
-  lg.free;
+  if wahl then
+  begin
+    AddLogQry.ParamByName('WA_ID').AsInteger := id;
+    AddLogQry.ParamByName('LG_DATA').AsString := text;
+    AddLogQry.ParamByName('LG_USER').AsString := user;
+    AddLogQry.ParamByName('LG_TITEL').AsString:= titel;
+    AddLogQry.ExecSQL;
+
+    AddLogQry.close;
+  end;
 end;
+
+procedure doSaveLog( wahl : boolean; title, text : string; id : integer; user : string );
+begin
+  if Assigned(LogMod) then
+    LogMod.addLog(wahl, title, text, id, user);
+end;
+
+procedure Savelog( wahl : boolean; title, text : string );
+var
+  session : TDSSession;
+  id : integer;
+  user : string;
+begin
+  id := 0;
+  user := '';
+
+  session := TDSSessionManager.GetThreadSession;
+  if Assigned(session) then
+  begin
+    id := DBMod.WahlID;
+    user := TDSSessionManager.GetThreadSession.getData('UserName' );
+  end;
+  m_logger.AddLog(wahl, title, text, id, user);
+end;
+
+procedure CreateLogthread;
+begin
+  LogMod :=  TLogMod.Create(nil);
+  m_logger := TLogThread.Create(doSaveLog);
+end;
+
+procedure EndLogThread;
+begin
+  m_logger.EndLog;
+  m_logger := NIL;
+  LogMod.Free;
+  LogMod := NIL;
+end;
+
+
+
+
 
 end.
