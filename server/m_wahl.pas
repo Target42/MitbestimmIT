@@ -41,6 +41,7 @@ type
     WFTabWF_ENDE: TSQLTimeStampField;
     WFTabWF_TYP: TIntegerField;
     PhasenQrx: TFDQuery;
+    FDTransaction2: TFDTransaction;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -158,12 +159,13 @@ begin
   if FDTransaction1.Active then
     FDTransaction1.Commit;
   WFTab.Close;
-  TLogMod.log('Wahl: save', formatJSON(data));
+  Savelog(true, 'Wahl: save', formatJSON(data));
 end;
 
 function TWahlMod.setWahl(id: integer): Boolean;
 var
   session : TDSSession;
+  data    : TJSONObject;
 begin
   result := false;
   session := TDSSessionManager.GetThreadSession;
@@ -174,6 +176,15 @@ begin
   if not CheckMAIDQry.IsEmpty then
   begin
     session.PutData('WahlID', CheckMAIDQry.FieldByName('WA_ID').AsString);
+
+    data := TJSONObject.Create;
+    JReplace( data, 'user',     session.GetData('UserName'));
+    JReplace( data, 'remoteip', session.GetData('remoteip'));
+    JReplace( data, 'wahl',    id );
+
+    Savelog( true, 'wahl', formatJSON(data));
+    data.Free;
+
     result := true;
   end;
   CheckMAIDQry.Close;

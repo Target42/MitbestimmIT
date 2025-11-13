@@ -31,6 +31,7 @@ type
     DelHelfer: TFDQuery;
     AddHelferQry: TFDQuery;
     MAPwdTab: TFDTable;
+    FDTransaction1: TFDTransaction;
     procedure LokaleBeforeOpen(DataSet: TDataSet);
     procedure LokaleBeforePost(DataSet: TDataSet);
     procedure HelferBeforeOpen(DataSet: TDataSet);
@@ -89,7 +90,7 @@ begin
   WLTab.Close;
   lokal.Free;
 
-  TLogMod.log('Wahllokal: add', formatJSON(data));
+  SAveLog(true, 'Wahllokal: add', formatJSON(data));
 
 end;
 
@@ -128,7 +129,7 @@ begin
   else
   begin
     JResult( result, true, Format('Es wurden %d Datensätze eingefügt', [AddHelferQry.RowsAffected]));
-     TLogMod.log('Wahllokal: add helfer', formatJSON(data));
+     SaveLog(true, 'Wahllokal: add helfer', formatJSON(data));
   end;
 
 end;
@@ -153,7 +154,7 @@ begin
     DelRaumQry.ExecSQL;
 
     JResult( result, true, 'Der Raum wurde gelöscht.');
-    TLogMod.log('Wahllokal: löschen', IntToStr(id));
+    SaveLog(true, 'Wahllokal: löschen', IntToStr(id));
   except
     on e : exception do
     begin
@@ -177,7 +178,7 @@ begin
   else
   begin
     JResult( result, true, Format('Es wurden %d Datensätze gelöscht', [DelHelferQry.RowsAffected]));
-     TLogMod.log('Wahllokal: delete helfer', formatJSON(data));
+     SAveLog(true, 'Wahllokal: delete helfer', formatJSON(data));
   end;
 end;
 
@@ -251,7 +252,7 @@ begin
     try
       WLTab.Post;
       JResult( result, true, 'Der Raum wurde gespeichert');
-       TLogMod.log('Wahllokal: save', formatJSON(data));
+       SaveLog(true, 'Wahllokal: save', formatJSON(data));
     except
       on e : exception do
       begin
@@ -282,7 +283,7 @@ begin
     JResult( result, false, 'Es wurden kene Datensätze aktualisiert')
   else
   begin
-     TLogMod.log('Wahllokal: save Helfer', formatJSON(data));
+     SaveLog(true, 'Wahllokal: save Helfer', formatJSON(data));
     JResult( result, true, Format('Es wurden %d Datensätze aktualisiert', [UpdateHelferQry.RowsAffected]));
   end;
 

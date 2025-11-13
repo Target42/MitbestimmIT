@@ -5,6 +5,7 @@ object LokaleMod: TLokaleMod
     BeforeOpen = LokaleBeforeOpen
     BeforePost = LokaleBeforePost
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'SELECT *'
       'FROM WL_WAHL_LOKAL'
@@ -72,6 +73,7 @@ object LokaleMod: TLokaleMod
   end
   object DelHelferQry: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'DELETE FROM WH_WAHL_HELFER a '
       'WHERE'
@@ -96,6 +98,7 @@ object LokaleMod: TLokaleMod
   end
   object DelRaumQry: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'DELETE FROM WL_WAHL_LOKAL a '
       'WHERE'
@@ -121,6 +124,7 @@ object LokaleMod: TLokaleMod
   object Helfer: TFDQuery
     BeforeOpen = HelferBeforeOpen
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'SELECT b.*, a.WH_ROLLE, a.WL_ID, a.WA_ID'
       'FROM WH_WAHL_HELFER a, MA_MITARBEITER b'
@@ -156,6 +160,7 @@ object LokaleMod: TLokaleMod
   end
   object UpdateHelferQry: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'UPDATE WH_WAHL_HELFER a'
       'SET '
@@ -196,6 +201,7 @@ object LokaleMod: TLokaleMod
   object DelHelfer: TFDQuery
     BeforeOpen = DelHelferBeforeOpen
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'DELETE FROM WH_WAHL_HELFER a '
       'WHERE'
@@ -228,6 +234,7 @@ object LokaleMod: TLokaleMod
   object AddHelferQry: TFDQuery
     BeforeOpen = AddHelferQryBeforeOpen
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     SQL.Strings = (
       'INSERT INTO WH_WAHL_HELFER (WL_ID, MA_ID, WA_ID, WH_ROLLE)'
       'VALUES ('
@@ -267,8 +274,14 @@ object LokaleMod: TLokaleMod
   end
   object MAPwdTab: TFDTable
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
     TableName = 'MA_PWD'
     Left = 472
     Top = 328
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = DBMod.FDConnection1
+    Left = 96
+    Top = 400
   end
 end

@@ -180,7 +180,7 @@ begin
     addLog(cmp);
     removeOldMA;
 
-    TLogMod.log('Import Wählerliste', Format('add:%d, del:%d, chg:%d',
+    SaveLog(true, 'Import Wählerliste', Format('add:%d, del:%d, chg:%d',
     [
       cmp.AddList.Items.Count,
       cmp.DelList.Items.Count,

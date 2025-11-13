@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     06.11.2025  19:59                          */
+/*   Created on:     11.11.2025  21:01                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -49,6 +49,17 @@ before insert as
 begin
     new.lg_id = gen_id(gen_lg_id, 1);
     new.lg_stamp = CURRENT_TIMESTAMP;
+
+end;/
+set term ;/
+
+/*  Insert trigger "ti_lg_login" for table "LO_LOGIN"  */
+set term /;
+create trigger ti_lg_login for LO_LOGIN
+before insert as
+begin
+    new.lo_id = gen_id(gen_lo_id, 1);
+    new.lo_stamp = CURRENT_TIMESTAMP;
 
 end;/
 set term ;/

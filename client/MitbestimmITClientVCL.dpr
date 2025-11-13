@@ -53,7 +53,8 @@ uses
   f_briefwahl in 'Briefwahl\f_briefwahl.pas' {BriefwahlForm},
   u_briefwahl in '..\Briefwahl\u_briefwahl.pas',
   fr_stat in 'stat\fr_stat.pas' {StatFrame: TFrame},
-  u_msgID in 'u_msgID.pas';
+  u_msgID in 'u_msgID.pas',
+  f_User in 'Admin\f_User.pas' {UserForm};
 
 {$R *.res}
 
@@ -72,5 +73,6 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
+  Application.CreateForm(TUserForm, UserForm);
   Application.Run;
 end.

@@ -55,7 +55,8 @@ create generator gen_lg_id;\
 create generator gen_aw_id;\
 create generator gen_wa_id;\
 create generator gen_mc_id;\
-create generator gen_bw_id;
+create generator gen_bw_id;\
+create generator gen_lo_id;
 set generator gen_ma_id to 100;\
 \
 commit;\
@@ -91,6 +92,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;\
 \
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;\
@@ -101,6 +103,7 @@ GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;\
+GRANT USAGE ON GENERATOR  gen_lo_id  TO ROLE appuser;\
 \
 commit;\
 \
@@ -114,12 +117,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appadmin;\
 \
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;\
 GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;\
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;\
 GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;\
-\
+GRANT USAGE ON GENERATOR  gen_lo_id  TO appadmin;\
 commit;\
 \
 /* ============================================================ */\
@@ -149,7 +153,7 @@ commit;
 
 
 1753814221
-1762455516
+1762891237
 0
 0
 4
@@ -586,6 +590,26 @@ MA_WL
 
 
 19
+3
+2758
+2758
+4
+LO_LOGIN
+LO_LOGIN
+
+
+
+0
+0
+0
+
+
+
+
+
+
+
+20
 /END_TABLE AMCTABL
 
 /BEGIN_TABLE AMCCOLN
@@ -3922,6 +3946,176 @@ TIMESTAMP
 WL_TIMESTAMP
 
 4
+3
+2759
+2759
+LO_ID
+LO_ID
+
+
+
+2758
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+0
+1
+1
+0
+0
+
+
+1
+3
+2760
+2760
+LO_TIMESTAMP
+LO_TIMESTAMP
+
+
+
+2758
+0
+TIMESTAMP
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+2
+3
+2761
+2761
+LO_USER
+LO_USER
+
+
+
+2758
+0
+VARCHAR(100)
+100
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+3
+3
+2762
+2762
+LO_IP
+LO_IP
+
+
+
+2758
+0
+VARCHAR(100)
+100
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+4
+3
+2763
+2763
+LO_OK
+LO_OK
+
+
+
+2758
+0
+CHAR(1)
+1
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+5
 /END_TABLE AMCCOLN
 
 /BEGIN_TABLE AMCREFR
@@ -4930,6 +5124,21 @@ set term ;/
 ti_ma_wl
 1716
 1
+1
+InsertTrigger
+/*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
+set term /;\
+create trigger %TRIGGER% for %TABLE%\
+before insert as\
+begin\
+    new.lo_id = gen_id(gen_lo_id, 1);\
+    new.lo_stamp = CURRENT_TIMESTAMP;\
+\
+end;/\
+set term ;/
+ti_lg_login
+2758
+1
 /END_TABLE AMCTRGR
 
 /BEGIN_TABLE AMCPROC
@@ -5120,6 +5329,10 @@ MS Sans Serif
 Arial
 8
 8
+4
+Courier New
+10
+1
 /END_TABLE AMCFONT
 
 /BEGIN_TABLE AMCPENS
@@ -6701,7 +6914,7 @@ OID     N8
 3
 2035
 289
-2
+0
 17
 0
 0
@@ -6795,10 +7008,42 @@ OID     N8
 2
 1716
 3
+2373
+289
+2
+20
+0
+0
+0
+0
+0
+-101968
+-30983
+-87944
+-24534
+2
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+0
+
+
+
+2
+2758
+3
 1490
 290
 0
-20
+21
 0
 1488
 1489
@@ -6830,7 +7075,7 @@ OID     N8
 1538
 290
 0
-21
+22
 0
 1536
 1537
@@ -6862,7 +7107,7 @@ OID     N8
 1557
 290
 0
-22
+23
 0
 1553
 1556
@@ -6894,7 +7139,7 @@ OID     N8
 1560
 290
 0
-23
+24
 0
 1552
 1556
@@ -6926,7 +7171,7 @@ OID     N8
 1646
 290
 0
-24
+25
 0
 1629
 1568
@@ -6958,7 +7203,7 @@ OID     N8
 1652
 290
 0
-25
+26
 0
 1629
 1536
@@ -6990,7 +7235,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1727
 290
 0
-26
+27
 0
 1720
 1726
@@ -7022,7 +7267,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1935
 290
 0
-27
+28
 0
 1629
 1934
@@ -7054,7 +7299,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1938
 290
 0
-28
+29
 0
 1487
 1934
@@ -7086,7 +7331,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1950
 290
 0
-29
+30
 0
 1487
 1832
@@ -7118,7 +7363,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1957
 290
 0
-30
+31
 0
 1934
 1537
@@ -7150,7 +7395,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1965
 290
 0
-31
+32
 0
 1934
 1500
@@ -7182,7 +7427,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1972
 290
 0
-32
+33
 0
 1934
 1489
@@ -7214,7 +7459,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1975
 290
 0
-33
+34
 0
 1934
 1544
@@ -7246,7 +7491,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1982
 290
 0
-34
+35
 0
 1629
 1553
@@ -7278,7 +7523,7 @@ c249ffff45d9fffff47d000045d9ffff
 2000
 290
 0
-35
+36
 0
 1629
 1488
@@ -7310,7 +7555,7 @@ c249ffff45d9fffff47d000045d9ffff
 2036
 290
 0
-36
+37
 0
 1629
 2035
@@ -7342,7 +7587,7 @@ c249ffff45d9fffff47d000045d9ffff
 2142
 290
 0
-37
+38
 0
 1629
 2141
@@ -7374,7 +7619,7 @@ c031ffffe7edfffff2a0feffe7edffff
 2253
 290
 0
-38
+39
 0
 1934
 2252
@@ -7406,7 +7651,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 2256
 290
 0
-39
+40
 0
 1488
 2252

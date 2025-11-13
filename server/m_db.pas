@@ -12,6 +12,7 @@ uses
 type
   TDBMod = class(TDataModule)
     FDConnection1: TFDConnection;
+    FDTransaction1: TFDTransaction;
   private
     { Private-Deklarationen }
   public
@@ -109,8 +110,6 @@ var
   list : TStringList;
 begin
   list := TStringList.Create;
-  list.StrictDelimiter := true;
-  list.Delimiter := ',';
   list.DelimitedText := oldRoles;
 
   if list.IndexOf(newRole) = -1 then

@@ -261,6 +261,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="u_msgID.pas"/>
+        <DCCReference Include="Admin\f_User.pas">
+            <Form>UserForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

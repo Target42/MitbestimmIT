@@ -26,7 +26,7 @@ uses System.SysUtils, System.Classes,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, LogThread;
 
 type
   TMitbestimmITSrv = class(TService)
@@ -48,6 +48,7 @@ type
     DSWahlliste: TDSServerClass;
     DSBriefwahl: TDSServerClass;
     DsStat: TDSServerClass;
+    DSUser: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -76,6 +77,9 @@ type
       var PersistentClass: TPersistentClass);
     procedure DsStatGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSUserGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
+    procedure DSServer1Connect(DSConnectEventObject: TDSConnectEventObject);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -104,7 +108,8 @@ uses
   Winapi.Windows,
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
-  m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod;
+  m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod, m_user, Data.DBXTransport,
+  m_log;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -193,10 +198,30 @@ begin
   PersistentClass := m_lokale.TLokaleMod;
 end;
 
+procedure TMitbestimmITSrv.DSServer1Connect(
+  DSConnectEventObject: TDSConnectEventObject);
+var
+  session : TDSSession;
+  ClientInfo: TdbxClientInfo;
+begin
+  session := TDSSessionManager.GetThreadSession;
+  ClientInfo := DSConnectEventObject.ChannelInfo.ClientInfo;
+  if Assigned(session) then
+  begin
+    session.PutData('remoteip', ClientInfo.IpAddress);
+  end;
+end;
+
 procedure TMitbestimmITSrv.DsStatGetClass(DSServerClass: TDSServerClass;
   var PersistentClass: TPersistentClass);
 begin
   PersistentClass := m_statMod.TStadMod;
+end;
+
+procedure TMitbestimmITSrv.DSUserGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_user.TUserMod;
 end;
 
 procedure TMitbestimmITSrv.DSVorstandGetClass(DSServerClass: TDSServerClass;
@@ -268,11 +293,13 @@ end;
 procedure TMitbestimmITSrv.ServiceStart(Sender: TService; var Started: Boolean);
 begin
   Started := startServer;
+  CreateLogthread;
 end;
 
 procedure TMitbestimmITSrv.ServiceStop(Sender: TService; var Stopped: Boolean);
 begin
   Stopped := DoStop;
+  EndLogThread;
 end;
 
 function TMitbestimmITSrv.startServer: boolean;
@@ -326,9 +353,12 @@ end;
 function TMitbestimmITSrv.validateUser(user, pwd: string; var UserRoles: TStrings): Boolean;
 var
   pwdHash : string;
+  session : TDSSession;
 begin
   Result := false;
   pwdHash := CalcPwdHash(pwd);
+  session := TDSSessionManager.GetThreadSession;
+
   UserPWDQry.ParamByName('login').AsString := user;
   UserPWDQry.Open;
   if not UserPWDQry.IsEmpty then
@@ -336,7 +366,7 @@ begin
     result := SameText(UserPWDQry.FieldByName('mw_pwd').AsString, pwdHash);
     if Result then
     begin
-      TDSSessionManager.GetThreadSession.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
+      session.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
       UserRoles.DelimitedText := UserPWDQry.FieldByName('MW_ROLLE').AsString;
 
       GetUserQry.ParamByName('MA_ID').AsInteger := UserPWDQry.FieldByName('MA_ID').AsInteger;
@@ -354,6 +384,13 @@ begin
 
   end;
   UserPWDQry.Close;
+
+  pwdHash := session.SessionName;
+
+  if Result then
+    SaveLog( false, 'Login ok', Format('user %s from %s', [user, session.GetData('remoteip')]))
+  else
+    SaveLog( false, 'Login FAIL', Format('user %s from %s', [user, session.GetData('remoteip')]));
 
 end;
 

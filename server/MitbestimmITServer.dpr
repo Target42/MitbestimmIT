@@ -55,7 +55,9 @@ uses
   u_wahlliste in '..\Wahlliste\u_wahlliste.pas',
   m_brief in 'm_brief.pas' {BriefWahlMod: TDSServerModule},
   u_briefwahl in '..\Briefwahl\u_briefwahl.pas',
-  m_statMod in 'm_statMod.pas' {StadMod: TDSServerModule};
+  m_statMod in 'm_statMod.pas' {StadMod: TDSServerModule},
+  m_user in 'm_user.pas' {UserMod: TDSServerModule},
+  LogThread in 'LogThread.pas';
 
 {$R *.RES}
 

@@ -6,6 +6,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
   Height = 470
   Width = 1026
   object DSServer1: TDSServer
+    OnConnect = DSServer1Connect
     Left = 72
     Top = 25
   end
@@ -181,6 +182,12 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Server = DSServer1
     LifeCycle = 'Invocation'
     Left = 472
+    Top = 88
+  end
+  object DSUser: TDSServerClass
+    OnGetClass = DSUserGetClass
+    Server = DSServer1
+    Left = 552
     Top = 88
   end
 end

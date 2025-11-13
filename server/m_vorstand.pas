@@ -85,7 +85,7 @@ begin
     AddVorstandQry.ParamByName('MA_ID').AsInteger := person.ID;
     AddVorstandQry.ExecSQL;
 
-    TLogMod.log( 'Wahlvorstand hinzugefügt', formatJSON(data) );
+    SaveLog( true, 'Wahlvorstand hinzugefügt', formatJSON(data) );
 
     Result := save(data);
   except
@@ -134,7 +134,7 @@ begin
   begin
     JResult(Result, true, 'Das Löschen war erfolgreich.');
 
-    TLogMod.log('Wahlvorstand gelöscht', formatJSON(data));
+    SaveLog(true, 'Wahlvorstand gelöscht', formatJSON(data));
   end;
 end;
 
@@ -243,7 +243,7 @@ begin
 
   JResult(Result, true, 'Update ausgeführt');
 
-  TLogMod.log('Wahlvorstandänderung gespeichert', formatJSON(data));
+  SaveLog(true, 'Wahlvorstandänderung gespeichert', formatJSON(data));
 end;
 
 end.

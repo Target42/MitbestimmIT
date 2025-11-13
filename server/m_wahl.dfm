@@ -43,6 +43,7 @@ object WahlMod: TWahlMod
   object WahlList: TFDQuery
     BeforeOpen = WahlListBeforeOpen
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction2
     UpdateOptions.AssignedValues = [uvEDelete, uvEInsert, uvEUpdate]
     UpdateOptions.EnableDelete = False
     UpdateOptions.EnableInsert = False
@@ -109,6 +110,7 @@ object WahlMod: TWahlMod
   end
   object CheckMAIDQry: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction2
     SQL.Strings = (
       'SELECT WA_ID, MA_ID'
       'FROM MA_WA '
@@ -134,6 +136,7 @@ object WahlMod: TWahlMod
   end
   object WahlDataQry: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction2
     SQL.Strings = (
       'SELECT *'
       'FROM WA_WAHL a'
@@ -198,8 +201,8 @@ object WahlMod: TWahlMod
   object FDTransaction1: TFDTransaction
     Options.AutoStart = False
     Connection = DBMod.FDConnection1
-    Left = 264
-    Top = 280
+    Left = 24
+    Top = 288
   end
   object WFTab: TFDTable
     IndexFieldNames = 'WA_ID;WF_ID'
@@ -241,6 +244,7 @@ object WahlMod: TWahlMod
   end
   object PhasenQrx: TFDQuery
     Connection = DBMod.FDConnection1
+    Transaction = FDTransaction2
     SQL.Strings = (
       'SELECT *'
       'FROM WF_FRISTEN '
@@ -255,5 +259,10 @@ object WahlMod: TWahlMod
         ParamType = ptInput
         Value = Null
       end>
+  end
+  object FDTransaction2: TFDTransaction
+    Connection = DBMod.FDConnection1
+    Left = 488
+    Top = 328
   end
 end

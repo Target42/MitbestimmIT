@@ -9,7 +9,13 @@ object DBMod: TDBMod
       'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
       'DriverID=FB')
     LoginPrompt = False
+    Transaction = FDTransaction1
     Left = 56
     Top = 32
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = FDConnection1
+    Left = 56
+    Top = 96
   end
 end

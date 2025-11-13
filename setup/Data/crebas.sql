@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     06.11.2025  19:58                          */
+/*   Created on:     11.11.2025  21:01                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -16,6 +16,20 @@ create generator gen_aw_id;
 create generator gen_wa_id;
 create generator gen_mc_id;
 create generator gen_bw_id;
+create generator gen_lo_id;
+/* ============================================================ */
+/*   Table: LO_LOGIN                                            */
+/* ============================================================ */
+create table LO_LOGIN
+(
+    LO_ID                           INTEGER                not null,
+    LO_TIMESTAMP                    TIMESTAMP                      ,
+    LO_USER                         VARCHAR(100)                   ,
+    LO_IP                           VARCHAR(100)                   ,
+    LO_OK                           CHAR(1)                        ,
+    constraint PK_LO_LOGIN primary key (LO_ID)
+);
+
 /* ============================================================ */
 /*   Table: MA_MITARBEITER                                      */
 /* ============================================================ */
@@ -397,6 +411,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;
 
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;
@@ -407,6 +422,7 @@ GRANT USAGE ON GENERATOR  gen_lg_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;
+GRANT USAGE ON GENERATOR  gen_lo_id  TO ROLE appuser;
 
 commit;
 
@@ -420,12 +436,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appadmin;
 
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;
-
+GRANT USAGE ON GENERATOR  gen_lo_id  TO appadmin;
 commit;
 
 /* ============================================================ */
