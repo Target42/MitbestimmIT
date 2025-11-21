@@ -114,6 +114,9 @@ type
     procedure updateMATab;
 
     function cleanPersNr( persNr : string ) : string;
+    procedure GenderText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
+
   end;
 
 var
@@ -234,6 +237,16 @@ procedure TGM.disconnect;
 begin
   if SQLConnection1.Connected then
     SQLConnection1.Close;
+
+end;
+
+procedure TGM.GenderText(Sender: TField; var Text: string;
+  DisplayText: Boolean);
+begin
+  if Sender.AsString = 'w' then
+    Text := 'weiblich'
+  else
+    Text := 'männlich';
 
 end;
 

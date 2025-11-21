@@ -49,6 +49,7 @@ type
     DSBriefwahl: TDSServerClass;
     DsStat: TDSServerClass;
     DSUser: TDSServerClass;
+    DSWahlLokal: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -80,6 +81,8 @@ type
     procedure DSUserGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure DSServer1Connect(DSConnectEventObject: TDSConnectEventObject);
+    procedure DSWahlLokalGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -109,7 +112,7 @@ uses
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
   m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod, m_user, Data.DBXTransport,
-  m_log;
+  m_log, u_debug, m_wahllokal, m_http;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -248,6 +251,12 @@ begin
   PersistentClass := m_wahl_liste.TWahlListeMod;
 end;
 
+procedure TMitbestimmITSrv.DSWahlLokalGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_wahllokal.TWahlLokalMod;
+end;
+
 procedure ServiceController(CtrlCode: DWord); stdcall;
 begin
   MitbestimmITSrv.Controller(CtrlCode);
@@ -317,6 +326,7 @@ begin
   end;
 
   DBMod.openDB;
+  THttpMod.startHttp;
   result := DSServer1.Started and DBMod.FDConnection1.Connected;
 end;
 
@@ -325,6 +335,7 @@ begin
   DSServer1.Stop;
   DSHTTPService2.Server := NIL;
   DBMod.closeDB;
+  THttpMod.stopHttp;
 
   result := (DBMod.FDConnection1.Connected = false );
 end;

@@ -36,7 +36,7 @@ implementation
 {$R *.dfm}
 
 uses
-  system.IOUtils, u_glob, DSSession;
+  system.IOUtils, u_glob, DSSession, u_debug;
 
 function TDBMod.openDB: boolean;
 begin
@@ -50,6 +50,9 @@ begin
       RoleName := 'appuser';
       Password := glob.UserPWD;
     end;
+
+    DebugMsg('host:'+Glob.DBHost);
+    DebugMsg('db:'+glob.DBName);
 
     FDConnection1.Open;
     result := FDConnection1.Connected;

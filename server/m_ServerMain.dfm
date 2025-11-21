@@ -190,4 +190,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 552
     Top = 88
   end
+  object DSWahlLokal: TDSServerClass
+    OnGetClass = DSWahlLokalGetClass
+    Server = DSServer1
+    Left = 624
+    Top = 88
+  end
 end

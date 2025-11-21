@@ -192,13 +192,9 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>SimulationLoadForm</Form>
         </DCCReference>
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
+        <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
         <DCCReference Include="Planung\f_WahlvorStand.pas">
             <Form>WahlVorstandForm</Form>
-        </DCCReference>
-        <DCCReference Include="..\WählerListe\i_waehlerliste.pas">
-            <Form>,
-  u_stub in &apos;u_stub.pas&apos;,
-  f_admin in &apos;Admin\f_admin.pas&apos; {AdminForm</Form>
         </DCCReference>
         <DCCReference Include="u_stub.pas"/>
         <DCCReference Include="Admin\f_admin.pas">
@@ -207,64 +203,55 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\lib\u_json_db.pas"/>
         <DCCReference Include="..\lib\fr_base.pas">
             <Form>BaseFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_helper.pas"/>
         <DCCReference Include="Planung\fr_wahlverfahren.pas">
             <Form>WahlverfahrenFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="wähler\f_waehlerliste.pas">
             <Form>WaehlerListeForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Planung\fr_wahlfristen.pas">
             <Form>WahlfristenFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="Planung\f_wahl_phase.pas">
             <Form>WahlPhaseForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Planung\f_wahldate.pas">
             <Form>WahlDateform</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="gui\f_wahl_select.pas">
             <Form>WahlSelectForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Wahlliste\f_wahlliste.pas">
             <Form>WahllistenForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Wahlliste\u_wahlliste.pas"/>
         <DCCReference Include="Wahlliste\f_wahlliste_name.pas">
             <Form>WahllistenNameForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Wahlliste\f_wahlliste_personen.pas">
             <Form>WahllistenPersonenForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Briefwahl\f_briefwahl.pas">
             <Form>BriefwahlForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\Briefwahl\u_briefwahl.pas"/>
         <DCCReference Include="stat\fr_stat.pas">
             <Form>StatFrame</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <DCCReference Include="u_msgID.pas"/>
         <DCCReference Include="Admin\f_User.pas">
             <Form>UserForm</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Admin\f_userEdit.pas">
+            <Form>UserEditForm</Form>
+        </DCCReference>
+        <DCCReference Include="..\server\u_rollen.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

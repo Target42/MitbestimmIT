@@ -46,8 +46,6 @@ object FilesFrame: TFilesFrame
     Align = alClient
     Caption = 'Log'
     TabOrder = 1
-    ExplicitTop = 83
-    ExplicitHeight = 337
     object Memo1: TMemo
       Left = 2
       Top = 17
@@ -59,7 +57,6 @@ object FilesFrame: TFilesFrame
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
-      ExplicitHeight = 318
     end
   end
   object ActionList1: TActionList

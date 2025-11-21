@@ -57,7 +57,10 @@ uses
   u_briefwahl in '..\Briefwahl\u_briefwahl.pas',
   m_statMod in 'm_statMod.pas' {StadMod: TDSServerModule},
   m_user in 'm_user.pas' {UserMod: TDSServerModule},
-  LogThread in 'LogThread.pas';
+  LogThread in 'LogThread.pas',
+  u_debug in 'u_debug.pas',
+  m_wahllokal in 'm_wahllokal.pas' {WahlLokalMod: TDSServerModule},
+  m_http in 'm_http.pas' {HttpMod: TDataModule};
 
 {$R *.RES}
 

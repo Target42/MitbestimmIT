@@ -31,10 +31,8 @@ uses
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
   f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
+  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},
-  i_waehlerliste in '..\WählerListe\i_waehlerliste.pas' {,
-  u_stub in 'u_stub.pas',
-  f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_stub in 'u_stub.pas',
   f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_json_db in '..\lib\u_json_db.pas',
@@ -54,7 +52,9 @@ uses
   u_briefwahl in '..\Briefwahl\u_briefwahl.pas',
   fr_stat in 'stat\fr_stat.pas' {StatFrame: TFrame},
   u_msgID in 'u_msgID.pas',
-  f_User in 'Admin\f_User.pas' {UserForm};
+  f_User in 'Admin\f_User.pas' {UserForm},
+  f_userEdit in 'Admin\f_userEdit.pas' {UserEditForm},
+  u_rollen in '..\server\u_rollen.pas';
 
 {$R *.res}
 
@@ -73,6 +73,5 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
-  Application.CreateForm(TUserForm, UserForm);
   Application.Run;
 end.

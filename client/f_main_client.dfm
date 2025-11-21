@@ -59,8 +59,6 @@ object MainClientForm: TMainClientForm
       item
         Width = 50
       end>
-    ExplicitTop = 604
-    ExplicitWidth = 980
   end
   object StatBox: TGroupBox
     Left = 0
@@ -71,7 +69,6 @@ object MainClientForm: TMainClientForm
     Caption = 'Daten'
     TabOrder = 1
     Visible = False
-    ExplicitHeight = 572
     inline StatFrame1: TStatFrame
       Left = 2
       Top = 17
@@ -81,31 +78,39 @@ object MainClientForm: TMainClientForm
       TabOrder = 0
       ExplicitLeft = 2
       ExplicitTop = 17
+      ExplicitWidth = 317
+      ExplicitHeight = 661
       inherited Splitter1: TSplitter
         Width = 317
+        ExplicitWidth = 317
       end
       inherited Splitter2: TSplitter
         Width = 317
+        ExplicitWidth = 317
       end
       inherited Splitter3: TSplitter
         Width = 317
+        ExplicitWidth = 317
       end
       inherited Splitter4: TSplitter
         Width = 317
+        ExplicitWidth = 317
       end
       inherited GroupBox1: TGroupBox
         Width = 317
+        ExplicitWidth = 317
         inherited Chart1: TChart
           Width = 313
           ExplicitLeft = 2
           ExplicitTop = 17
-          ExplicitWidth = 378
+          ExplicitWidth = 313
           ExplicitHeight = 158
         end
       end
       inherited GroupBox2: TGroupBox
         Width = 317
         ExplicitTop = 180
+        ExplicitWidth = 317
         inherited Label1: TLabel
           StyleElements = [seFont, seClient, seBorder]
         end
@@ -135,21 +140,23 @@ object MainClientForm: TMainClientForm
         Width = 317
         ExplicitLeft = 0
         ExplicitTop = 303
-        ExplicitWidth = 382
+        ExplicitWidth = 317
         inherited Wahllisten: TListView
           Width = 313
           ExplicitLeft = 2
           ExplicitTop = 17
+          ExplicitWidth = 313
         end
       end
       inherited GroupBox4: TGroupBox
         Width = 317
         ExplicitLeft = 0
         ExplicitTop = 411
-        ExplicitWidth = 382
+        ExplicitWidth = 317
         inherited Wahllokale: TListView
           Width = 313
           ExplicitTop = 17
+          ExplicitWidth = 313
         end
       end
       inherited GroupBox5: TGroupBox
@@ -157,11 +164,13 @@ object MainClientForm: TMainClientForm
         Height = 142
         ExplicitLeft = 0
         ExplicitTop = 519
-        ExplicitWidth = 382
-        ExplicitHeight = 227
+        ExplicitWidth = 317
+        ExplicitHeight = 142
         inherited Wahlphasen: TListView
           Width = 313
           Height = 123
+          ExplicitWidth = 313
+          ExplicitHeight = 123
         end
       end
     end
@@ -215,6 +224,12 @@ object MainClientForm: TMainClientForm
       end
       object Rume1: TMenuItem
         Action = ac_rooms
+      end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object Benutzerverwaltung1: TMenuItem
+        Action = aC_wa_user
       end
     end
     object Wahl2: TMenuItem
@@ -313,6 +328,10 @@ object MainClientForm: TMainClientForm
       Category = 'Vorbereitung'
       Caption = 'Wahlisten'
       OnExecute = ac_wahllisteExecute
+    end
+    object aC_wa_user: TAction
+      Caption = 'Benutzerverwaltung'
+      OnExecute = aC_wa_userExecute
     end
   end
   object Timer1: TTimer

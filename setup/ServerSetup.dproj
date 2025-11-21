@@ -193,6 +193,7 @@
         <DCCReference Include="..\lib\u_pwd.pas"/>
         <DCCReference Include="..\lib\u_helper.pas"/>
         <DCCReference Include="..\lib\u_json.pas"/>
+        <DCCReference Include="..\server\u_debug.pas"/>
         <RcItem Include="Data\ssl.zip">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
@@ -233,6 +234,15 @@
             <ResourceType>RCDATA</ResourceType>
             <ResourceId>zertifikate</ResourceId>
         </RcItem>
+        <RcItem Include="Data\index.html">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>index</ResourceId>
+        </RcItem>
+        <RcItem Include="..\pictures\logo.png">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>logo</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -261,6 +271,12 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
+                <DeployFile LocalName="..\pictures\logo.png" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="D:\DelphiBin\MitbestimmIT\Setup\ServerSetup.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>ServerSetup.exe</RemoteName>
@@ -352,6 +368,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Data\fb_client.zip" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Data\index.html" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

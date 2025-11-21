@@ -2,7 +2,7 @@ object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
   HelpContext = 42
-  ActiveControl = CheckBox1
+  ActiveControl = ServerFrame1.LV
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -29,7 +29,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardWelcomePage1
+    ActivePage = JvWizardInteriorPage8
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -220,14 +220,15 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 286
+          ExplicitTop = 81
           ExplicitWidth = 754
-          ExplicitHeight = 254
+          ExplicitHeight = 286
           inherited Memo1: TMemo
             Width = 750
             Height = 267
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 750
-            ExplicitHeight = 265
+            ExplicitHeight = 267
           end
         end
       end
@@ -394,7 +395,7 @@ object MainSetupForm: TMainSetupForm
             ExplicitTop = 17
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 479
+              Width = 469
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -402,13 +403,11 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -442,6 +441,8 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70

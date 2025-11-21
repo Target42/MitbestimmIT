@@ -194,6 +194,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="LogThread.pas"/>
+        <DCCReference Include="u_debug.pas"/>
+        <DCCReference Include="m_wahllokal.pas">
+            <Form>WahlLokalMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="m_http.pas">
+            <Form>HttpMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

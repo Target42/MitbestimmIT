@@ -11,7 +11,7 @@ uses
   System.JSON, u_Wahlvorstand, u_rollen;
 
 type
-  [TRoleAuth(roWahlVorsitz, roWahlVorstand)]
+  [TRoleAuth(roWahlVorsitz +' ' +roWahlVorstand)]
   TVortandMod = class(TDSServerModule)
     ListMAQry: TFDQuery;
     ListMAQryWV_ROLLE: TStringField;

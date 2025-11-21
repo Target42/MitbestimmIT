@@ -95,7 +95,8 @@ var
 implementation
 
 uses
-  System.SysUtils, system.IniFiles, system.ZLib, u_helper, system.IOUtils;
+  System.SysUtils, system.IniFiles, system.ZLib, u_helper, system.IOUtils,
+  u_debug;
 
 { TGlob }
 
@@ -171,14 +172,22 @@ var
 begin
   Result := FileExists(FFileName);
   if not Result then
+  begin
+    DebugMsg('Konfiguration nicht gefunden!');
     exit;
+  end;
+  DebugMsg('Lade Konfiguration');
 
   DecompressStream;
 
   ini := TMemIniFile.Create(m_data);
 
+
   FHomeDir      := ini.ReadString('app', 'homedir', '');
   FTempDir      := ini.ReadString('app', 'tempir', '');
+
+  DebugMsg( FHomeDir );
+  DebugMsg( FTempDir );
 
   FDBEmbedded   := ini.ReadBool  ('db', 'embedded', false);
   FDBHost       := ini.ReadString('db', 'host', 'localhost');
@@ -209,7 +218,7 @@ begin
   FPortHttp     := ini.ReadInteger('ports', 'http', 9001);
   FPortHttps    := ini.ReadInteger('ports', 'https',9002);
 
-  FPortClientHttp := ini.ReadInteger('ports', 'client',8080);
+  FPortClientHttp := ini.ReadInteger('ports', 'client',0);
 
   ini.Free;
 

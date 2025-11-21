@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 09.11.2025 15:51:06
+// 17.11.2025 20:32:34
 //
 
 unit u_stub;
@@ -176,6 +176,18 @@ type
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     function getStats: TJSONObject;
+  end;
+
+  TUserModClient = class(TDSAdminClient)
+  private
+    FUserBeforeOpenCommand: TDBXCommand;
+    FsetUserDataCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure UserBeforeOpen(DataSet: TDataSet);
+    function setUserData(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -1094,6 +1106,50 @@ end;
 destructor TStadModClient.Destroy;
 begin
   FgetStatsCommand.Free;
+  inherited;
+end;
+
+procedure TUserModClient.UserBeforeOpen(DataSet: TDataSet);
+begin
+  if FUserBeforeOpenCommand = nil then
+  begin
+    FUserBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FUserBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FUserBeforeOpenCommand.Text := 'TUserMod.UserBeforeOpen';
+    FUserBeforeOpenCommand.Prepare;
+  end;
+  FUserBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FUserBeforeOpenCommand.ExecuteUpdate;
+end;
+
+function TUserModClient.setUserData(data: TJSONObject): TJSONObject;
+begin
+  if FsetUserDataCommand = nil then
+  begin
+    FsetUserDataCommand := FDBXConnection.CreateCommand;
+    FsetUserDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetUserDataCommand.Text := 'TUserMod.setUserData';
+    FsetUserDataCommand.Prepare;
+  end;
+  FsetUserDataCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsetUserDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FsetUserDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TUserModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TUserModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TUserModClient.Destroy;
+begin
+  FUserBeforeOpenCommand.Free;
+  FsetUserDataCommand.Free;
   inherited;
 end;
 

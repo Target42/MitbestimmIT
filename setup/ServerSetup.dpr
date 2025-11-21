@@ -19,7 +19,8 @@ uses
   fr_portcheck in 'fr_portcheck.pas' {PortCheckFrame: TFrame},
   u_pwd in '..\lib\u_pwd.pas',
   u_helper in '..\lib\u_helper.pas',
-  u_json in '..\lib\u_json.pas';
+  u_json in '..\lib\u_json.pas',
+  u_debug in '..\server\u_debug.pas';
 
 {$R *.res}
 

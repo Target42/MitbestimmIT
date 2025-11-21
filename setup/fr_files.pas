@@ -84,7 +84,8 @@ begin
 
       ForceDirectories(TPath.Combine(Glob.HomeDir, 'client'));
       done := SaveRCDataToFile('client', TPath.Combine(Glob.HomeDir, 'client\client.zip')) and done;
-
+      done := SaveRCDataToFile('index',  TPath.Combine(Glob.HomeDir, 'client\index.html')) and done;
+      done := SaveRCDataToFile('logo',   TPath.Combine(Glob.HomeDir, 'client\logo.png'))   and done;
     end;
 
     unzipSSL;

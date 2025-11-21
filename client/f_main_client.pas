@@ -77,6 +77,9 @@ type
     StatFrame1: TStatFrame;
     ApplicationEvents1: TApplicationEvents;
     Splitter1: TSplitter;
+    aC_wa_user: TAction;
+    N7: TMenuItem;
+    Benutzerverwaltung1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -93,6 +96,7 @@ type
     procedure ac_wahllisteExecute(Sender: TObject);
     procedure ac_wa_briefExecute(Sender: TObject);
     procedure ApplicationEvents1Message(var Msg: TMsg; var Handled: Boolean);
+    procedure aC_wa_userExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -118,7 +122,7 @@ uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
-  f_admin, f_wahl_select, f_briefwahl, u_msgID;
+  f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User;
 
 {$R *.dfm}
 
@@ -189,6 +193,11 @@ end;
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
 begin
   TPlanungsform.Execute;
+end;
+
+procedure TMainClientForm.aC_wa_userExecute(Sender: TObject);
+begin
+  TUserForm.Execute;
 end;
 
 procedure TMainClientForm.ac_wa_vorstandExecute(Sender: TObject);
