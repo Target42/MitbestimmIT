@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>MitbestimmIT-Client</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Eine lesbare Schriftart */
+        }
+
+        body {
+           background-color: #000000; /* Reines Schwarz */
+            background-image: url('logo.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain; /* Oder 'cover', je nachdem wie das Bild skalieren soll */
+
+            display: flex; /* Flexbox für einfache Zentrierung der Box */
+            justify-content: center; /* Horizontale Zentrierung der Box */
+            align-items: center; /* Vertikale Zentrierung der Box */
+            min-height: 100vh; /* Mindesthöhe des Bodys auf den Viewport setzen */
+            color: #333; /* Standard-Textfarbe für die Lesbarkeit */
+        }
+
+        /* NEU: Styling für die Content-Box */
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.8); /* Weiß mit 80% Deckkraft */
+            padding: 30px; /* Innenabstand der Box */
+            border-radius: 10px; /* Abgerundete Ecken */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatten */
+            max-width: 600px; /* Maximale Breite der Box */
+            text-align: center; /* Text innerhalb der Box zentrieren */
+            border: 2px solid #FF0000;
+        }
+
+        .content-box h1, .content-box h2 {
+            margin-top: 0; /* Abstand oben bei Überschriften entfernen */
+            color: #1a1a1a; /* Dunklere Farbe für Überschriften */
+        }
+
+        .content-box a {
+            color: #007bff;
+            text-decoration: none;
+            /* NEU: Schriftart auf Fett setzen */
+            font-weight: bold;
+        }
+
+        .content-box a:hover {
+            text-decoration: underline;
+        }    </style>
+</head>
+<body>
+
+    <div class="content-box">
+        <h1>MitbestimmIT-Client</h1>
+        <h2>Verbindungsdaten</h2>
+        ds://<#hostname>:<#dsport><br>
+        http://<#hostname>:<#httpport><br>
+        https://<#hostname>:<#httpsport><br>
+        <br>
+        <h2>Download</h2>
+        <a href="client.zip" download>MitbestimmIT-client download</a>
+        <p></p>
+    </div>
+
+</body>
+</html>
