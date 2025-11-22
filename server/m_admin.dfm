@@ -4,12 +4,11 @@ object AdminMod: TAdminMod
   Width = 640
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=D:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
+      'Database=x:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
       'User_Name=admin_user'
       'Password=snoopy'
       'RoleName=appadmin'
       'DriverID=FB')
-    Connected = True
     LoginPrompt = False
     Transaction = FDTransaction1
     Left = 88

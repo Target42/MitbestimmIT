@@ -54,7 +54,8 @@ uses
   u_msgID in 'u_msgID.pas',
   f_User in 'Admin\f_User.pas' {UserForm},
   f_userEdit in 'Admin\f_userEdit.pas' {UserEditForm},
-  u_rollen in '..\server\u_rollen.pas';
+  u_rollen in '..\server\u_rollen.pas',
+  System.SysUtils;
 
 {$R *.res}
 
@@ -65,11 +66,14 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
 
-{$ifndef DEBUG}
-  Splashform := TSplashform.Create(NIL);
-  Splashform.Show;
-  Splashform.Update;
-{$ENDIF}
+
+  if not SameText( GetEnvironmentVariable('COMPUTERNAME'), 'ODIN') then
+  begin
+    Splashform := TSplashform.Create(NIL);
+    Splashform.Show;
+    Splashform.Update;
+  end;
+
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);

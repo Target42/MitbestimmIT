@@ -2,7 +2,7 @@ object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
   HelpContext = 42
-  ActiveControl = ServerFrame1.LV
+  ActiveControl = CheckBox1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -29,7 +29,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardInteriorPage8
+    ActivePage = JvWizardWelcomePage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -220,7 +220,6 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 286
-          ExplicitTop = 81
           ExplicitWidth = 754
           ExplicitHeight = 286
           inherited Memo1: TMemo
@@ -751,6 +750,11 @@ object MainSetupForm: TMainSetupForm
           000049454E44AE426082}
       end>
     Left = 448
+    Top = 256
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 368
     Top = 256
   end
 end

@@ -25,10 +25,7 @@ uses
 type
   TSplashform = class(TForm)
     Image1: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
     Timer1: TTimer;
-    Label3: TLabel;
     procedure Timer1Timer(Sender: TObject);
   private
     { Private-Deklarationen }

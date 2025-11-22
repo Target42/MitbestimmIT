@@ -10,7 +10,8 @@ uses
   IdHTTPServer, IdContext, IdGlobal, Vcl.ComCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.ExtCtrls, JvWizard, JvExControls, System.ImageList,
   Vcl.ImgList, PngImageList, fr_admin, fr_database, fr_zertifikate,
-  System.SysUtils, fr_files, fr_mail, fr_pre, fr_portcheck, fr_server;
+  System.SysUtils, fr_files, fr_mail, fr_pre, fr_portcheck, fr_server,
+  Vcl.AppEvnts;
 
 type
   TMainSetupForm = class(TForm)
@@ -38,6 +39,7 @@ type
     PortCheckFrame1: TPortCheckFrame;
     JvWizardInteriorPage8: TJvWizardInteriorPage;
     ServerFrame1: TServerFrame;
+    ApplicationEvents1: TApplicationEvents;
     procedure FormCreate(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure JvWizardInteriorPage1NextButtonClick(Sender: TObject;
@@ -69,6 +71,7 @@ type
       var Stop: Boolean);
     function FormHelp(Command: Word; Data: THelpEventData;
       var CallHelp: Boolean): Boolean;
+    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private
   public
     { Public-Deklarationen }
@@ -83,6 +86,12 @@ uses
   system.IOUtils, u_helper, u_glob, System.Zip, ShellApi;
 
 {$R *.dfm}
+
+procedure TMainSetupForm.ApplicationEvents1Exception(Sender: TObject;
+  E: Exception);
+begin
+  // ignore messages
+end;
 
 procedure TMainSetupForm.CheckBox1Click(Sender: TObject);
 begin
@@ -116,6 +125,7 @@ function TMainSetupForm.FormHelp(Command: Word; Data: THelpEventData;
 begin
   CallHelp := false;
   JvWizard1HelpButtonClick( nil );
+  Result := true;
 end;
 
 procedure TMainSetupForm.JvWizard1CancelButtonClick(Sender: TObject);
