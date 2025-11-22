@@ -1,6 +1,6 @@
 cd d:\git_d12\MitbestimmIT
 
-rsvars.bat
+call rsvars.bat
 
 msbuild MitbestimmIT.groupproj /t:Clean /p:Configuration=Debug /p:Platform=Win32
 msbuild MitbestimmIT.groupproj /t:Clean /p:Configuration=Release /p:Platform=Win32
