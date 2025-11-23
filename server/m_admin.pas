@@ -9,9 +9,10 @@ uses
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.VCLUI.Wait, FireDAC.Comp.Client, Data.DB, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, Datasnap.Provider, System.JSON;
+  FireDAC.DApt, FireDAC.Comp.DataSet, Datasnap.Provider, System.JSON, u_rollen;
 
 type
+  [TRoleAuth(roAdmin)]
   TAdminMod = class(TDSServerModule)
     FDConnection1: TFDConnection;
     FDTransaction1: TFDTransaction;
@@ -54,8 +55,7 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants,
-  u_rollen;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -166,7 +166,7 @@ var
     begin
       PwdTab.Append;
       PwdTabMA_ID.AsInteger   := maid;
-      PwdTabMW_ROLLE.AsString := Format('%s;%s;%s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
+      PwdTabMW_ROLLE.AsString := Format('%s %s %s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
       PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
       PwdTabMW_LOGIN.AsString := JString( wv, 'login');
       PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));

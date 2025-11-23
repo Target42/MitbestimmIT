@@ -16,7 +16,7 @@ unit m_ServerMain;
 interface
 
 uses System.SysUtils, System.Classes,
-  Vcl.SvcMgr,
+  Vcl.SvcMgr, CodeSiteLogging,
   Datasnap.DSTCPServerTransport,
   Datasnap.DSHTTPCommon, Datasnap.DSHTTP,
   Datasnap.DSServer, Datasnap.DSCommonServer,
@@ -293,9 +293,13 @@ procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
 begin
   Glob.readData;
 
-  DSHTTPService2.CertFiles.KeyFile      := glob.KeyFile;
-  DSHTTPService2.CertFiles.CertFile     := glob.CertFile;
-  DSHTTPService2.CertFiles.RootCertFile := glob.CertFile;
+  try
+    DSHTTPService2.CertFiles.KeyFile      := glob.KeyFile;
+    DSHTTPService2.CertFiles.CertFile     := glob.CertFile;
+    DSHTTPService2.CertFiles.RootCertFile := glob.CertFile;
+  except
+
+  end;
 
 end;
 
@@ -313,6 +317,8 @@ end;
 
 function TMitbestimmITSrv.startServer: boolean;
 begin
+  CodeSite.EnterMethod('startServer');
+
   DSHTTPService2.Server := NIL;
   DSServer1.Start;
   try
@@ -320,7 +326,7 @@ begin
   except
     on e : exception do
     begin
-      Writeln('SSL-Error');
+      Codesite.SendError(e.ToString);
       DSHTTPService2.Server := NIL;
     end;
   end;
@@ -328,6 +334,7 @@ begin
   DBMod.openDB;
   THttpMod.startHttp;
   result := DSServer1.Started and DBMod.FDConnection1.Connected;
+  CodeSite.ExitMethod('startServer');
 end;
 
 function TMitbestimmITSrv.stopServer: boolean;

@@ -40,7 +40,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IOUtils, Vcl.Forms, u_debug, Windows;
+  System.IOUtils, Vcl.Forms, u_debug, Windows, CodeSiteLogging;
 
 { THttpMod }
 
@@ -142,9 +142,12 @@ end;
 
 function THttpMod.start: boolean;
 begin
+  CodeSite.EnterMethod('start');
   if Glob.PortClientHttp = 0 then
   begin
     Result := true;
+    CodeSite.Send('Kein http-Port gesetzt');
+    CodeSite.ExitMethod('start');
     exit;
   end;
 
@@ -154,10 +157,14 @@ begin
     IdHTTPServer1.DefaultPort := Glob.PortClientHttp;
     IdHTTPServer1.Active := true;
     result := IdHTTPServer1.Active;
-    DebugMsg(Format('http client %d', [Glob.PortClientHttp]));
+    CodeSite.Send(Format('http client %d', [Glob.PortClientHttp]));
   except
-
+    on e : exception do
+    begin
+      CodeSite.SendError(e.ToString);
+    end;
   end;
+  CodeSite.ExitMethod('start');
 
 end;
 

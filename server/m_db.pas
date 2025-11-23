@@ -7,7 +7,8 @@ uses
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
-  FireDAC.Comp.ScriptCommands, FireDAC.Stan.Util, FireDAC.Comp.Script;
+  FireDAC.Comp.ScriptCommands, FireDAC.Stan.Util, FireDAC.Comp.Script,
+  CodeSiteLogging;
 
 type
   TDBMod = class(TDataModule)
@@ -40,6 +41,7 @@ uses
 
 function TDBMod.openDB: boolean;
 begin
+  CodeSite.EnterMethod('openDB');
   Result := false;
   try
     with FDConnection1.Params as TFDPhysFBConnectionDefParams do
@@ -51,18 +53,19 @@ begin
       Password := glob.UserPWD;
     end;
 
-    DebugMsg('host:'+Glob.DBHost);
-    DebugMsg('db:'+glob.DBName);
+    CodeSite.Send('host:'+Glob.DBHost);
+    CodeSite.Send('db:'+glob.DBName);
 
     FDConnection1.Open;
     result := FDConnection1.Connected;
   except
     on e : exception do
     begin
-      Writeln(e.ToString);
+      CodeSite.SendError(e.ToString);
     end;
 
   end;
+  CodeSite.ExitMethod('openDB');
 end;
 
 function TDBMod.RemoveRole(delRole, oldRoles: string): string;

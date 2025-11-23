@@ -96,7 +96,7 @@ implementation
 
 uses
   System.SysUtils, system.IniFiles, system.ZLib, u_helper, system.IOUtils,
-  u_debug;
+  u_debug, CodeSiteLogging;
 
 { TGlob }
 
@@ -170,13 +170,15 @@ function TGlob.readData: boolean;
 var
   ini : TMemIniFile;
 begin
+  CodeSite.EnterMethod('readdata');
   Result := FileExists(FFileName);
   if not Result then
   begin
-    DebugMsg('Konfiguration nicht gefunden!');
+    CodeSite.SendError( 'Konfiguration nicht gefunden!');
+    CodeSite.ExitMethod('readData');
     exit;
   end;
-  DebugMsg('Lade Konfiguration');
+  CodeSite.Send('Lade Konfiguration');
 
   DecompressStream;
 
@@ -186,8 +188,8 @@ begin
   FHomeDir      := ini.ReadString('app', 'homedir', '');
   FTempDir      := ini.ReadString('app', 'tempir', '');
 
-  DebugMsg( FHomeDir );
-  DebugMsg( FTempDir );
+  CodeSite.Send( 'homedir: '+FHomeDir );
+  CodeSite.Send( 'tempdir: '+FTempDir );
 
   FDBEmbedded   := ini.ReadBool  ('db', 'embedded', false);
   FDBHost       := ini.ReadString('db', 'host', 'localhost');
@@ -225,6 +227,7 @@ begin
   if FPlain then
     SavePlain;
 
+  CodeSite.ExitMethod('readData');
 end;
 
 procedure TGlob.SavePlain;

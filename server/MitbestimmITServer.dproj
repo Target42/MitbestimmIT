@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -66,6 +66,8 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_Define>CODESITE;$(DCC_Define)</DCC_Define>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>FireDACIBDriver;vclwinx;DataSnapServer;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;appanalytics;IndyProtocols;vclx;dbxcds;vcledge;IcsCommonD12Run;FmxTeeUI;EasyListviewD;DBXFirebirdDriver;FireDACSqliteDriver;DbxClientDriver;soapmidas;Mitov_FMX_BasicLab;TeeUI;OpenWireEditorBasicPkg;dbexpress;Python;IcsVclD12Run;PowerPDFDR;SignalLabScopePkg;inet;PythonVcl;vcltouch;FireDACDBXDriver;fmxdae;OpenWireBindingFmxPkg;SignalLabGenericBasicPkg;CustomIPTransport;FireDACMSSQLDriver;LockBox3DR;OmniThreadLibraryRuntime;IndySystem;ibxbindings;OpenWireBindingDatabasePkg;vclFireDAC;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;Mitov_VCL_BasicLab;DOSCommandDR;FMX_SignalLabScopePkg;bindcompdbx;rtl;FireDACMySQLDriver;Mitov_BasicLab;DBXSqliteDriver;VirtualTreesDR;DBXSybaseASEDriver;VirtualShellToolsD;PlotLabPkg;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;xmlrtl;P4DEnvironment;ibxpress;dsnap;FireDACDb2Driver;DBXOracleDriver;DBXInformixDriver;vclib;fmxobj;bindcompvclsmp;DataSnapNativeClient;DatasnapConnectorsFreePascal;emshosting;FireDACCommonDriver;MPCommonLibD;IndyIPClient;Mitov_Runtime;bindcompvclwinx;emsedge;bindcompfmx;inetdb;ibmonitor;OpenWireStudioHostPkg;FireDACASADriver;Tee;OrpheusDBDR;TimingLabBasicPkg;vclactnband;fmxFireDAC;FireDACInfxDriver;DBXMySQLDriver;VclSmp;DataSnapCommon;fmxase;DBXOdbcDriver;dbrtl;FireDACOracleDriver;TeeDB;FireDACMSAccDriver;IcsFmxD12Run;DataSnapIndy10ServerTransport;DataSnapConnectors;vcldsnap;DBXInterBaseDriver;FireDACMongoDBDriver;PngComponentsD;OpenWireEditorPkg;OrpheusDR;FireDACTDataDriver;FMX_PlotLabPkg;Skia.Package.VCL;vcldb;SynEditDR;bindcomp;IndyCore;RESTBackendComponents;FireDACADSDriver;RaizeComponentsVclDb;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;TaurusTLS_RT;DBXDb2Driver;OpenWireBindingPkg;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;Mitov_VCL_Runtime;OpenWirePkg;tethering;bindcompvcl;CloudService;DBXSybaseASADriver;OpenWireBindingVclPkg;FMXTee;PythonFmx;soaprtl;SignalLabBasicPkg;RaizeComponentsVcl;soapserver;$(DCC_UsePackage)</DCC_UsePackage>
@@ -116,18 +118,15 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="u_config.pas"/>
         <DCCReference Include="m_db.pas">
             <Form>DBMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="m_db_create.pas">
             <Form>CreateDBMode</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_helper.pas"/>
         <DCCReference Include="m_admin.pas">
             <Form>AdminMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_json.pas"/>
@@ -135,19 +134,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\setup\u_glob.pas"/>
         <DCCReference Include="m_login.pas">
             <Form>LoginMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_json_db.pas"/>
         <DCCReference Include="..\lib\u_pwd.pas"/>
         <DCCReference Include="m_wahl.pas">
             <Form>WahlMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="m_waehler.pas">
             <Form>WaehlerMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
@@ -155,54 +151,45 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
         <DCCReference Include="m_lokale.pas">
             <Form>LokaleMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahllokale\u_wahllokal.pas"/>
         <DCCReference Include="m_vorstand.pas">
             <Form>VortandMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahlvorstand\u_Wahlvorstand.pas"/>
         <DCCReference Include="u_rollen.pas"/>
         <DCCReference Include="m_log.pas">
             <Form>LogMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="m_wahl_liste.pas">
             <Form>WahlListeMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Wahlliste\u_wahlliste.pas"/>
         <DCCReference Include="m_brief.pas">
             <Form>BriefWahlMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\Briefwahl\u_briefwahl.pas"/>
         <DCCReference Include="m_statMod.pas">
             <Form>StadMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="m_user.pas">
             <Form>UserMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="LogThread.pas"/>
         <DCCReference Include="u_debug.pas"/>
         <DCCReference Include="m_wahllokal.pas">
             <Form>WahlLokalMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="m_http.pas">
             <Form>HttpMod</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <None Include="..\LICENSE"/>

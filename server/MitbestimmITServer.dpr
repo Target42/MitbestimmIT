@@ -20,11 +20,16 @@
 program MitbestimmITServer;
 
 {$ifdef DEBUG}
+  {$define CONAPP}
+{$endif}
+
+{$ifdef CONAPP}
   {$APPTYPE CONSOLE}
 {$endif}
 
 uses
   Vcl.SvcMgr,
+  CodeSiteLogging,
   m_ServerMain in 'm_ServerMain.pas' {MitbestimmITSrv: TService},
   System.SysUtils {ServerMethods1: TDSServerModule},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
@@ -66,20 +71,23 @@ uses
 
 
 
-{$ifdef DEBUG}
+{$ifdef CONAPP}
 var
   MyDummyBoolean  : Boolean;
   s : string;
+{$else}
+const
+  LogFileName = 'Server.csl';
 {$ENDIF}
 
-{$IFDEF DEBUG}
+{$IFDEF CONAPP}
 //{$e console.exe}
 {$ELSE}
 {$e service.exe}
 {$ENDIF}
 
 begin
-{$ifdef DEBUG}
+{$ifdef CONAPP}
   try
     ReportMemoryLeaksOnShutdown := true;
     // In debug mode the server acts as a console application.
@@ -109,11 +117,24 @@ begin
     end;
   end;
 {$else}
+
+  CodeSite.Enabled := false;
+  CodeSite.EnterMethod('main');
+
   if not Application.DelayInitialize or Application.Installing then
     Application.Initialize;
 
-  Application.CreateForm(TMitbestimmITSrv, MitbestimmITSrv);
+  try
+    Application.CreateForm(TMitbestimmITSrv, MitbestimmITSrv);
+    Application.CreateForm(TDBMod, DBMod);
+  except
+      on e : exception do
+      begin
+        CodeSite.SendError(e.ToString);
+      end;
+  end;
   Application.Run;
+  CodeSite.ExitMethod('main');
 {$endif}
 end.
 
