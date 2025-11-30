@@ -111,30 +111,6 @@ object MainClientForm: TMainClientForm
         Width = 317
         ExplicitTop = 180
         ExplicitWidth = 317
-        inherited Label1: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Gremium: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Label2: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Freistellungen: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Label3: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Minderheit: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited Label4: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
-        inherited MinderheitnSitze: TLabel
-          StyleElements = [seFont, seClient, seBorder]
-        end
       end
       inherited GroupBox3: TGroupBox
         Width = 317
@@ -176,8 +152,8 @@ object MainClientForm: TMainClientForm
     end
   end
   object MainMenu1: TMainMenu
-    Left = 40
-    Top = 96
+    Left = 496
+    Top = 56
     object Programm1: TMenuItem
       Caption = 'Programm'
       object Verbinden1: TMenuItem
@@ -237,6 +213,9 @@ object MainClientForm: TMainClientForm
       object Briefwahl1: TMenuItem
         Action = ac_wa_brief
       end
+      object Wahllokal1: TMenuItem
+        Action = ac_wa_lokal
+      end
     end
     object Auszhlung1: TMenuItem
       Caption = 'Ausz'#228'hlung'
@@ -261,8 +240,8 @@ object MainClientForm: TMainClientForm
     end
   end
   object ActionList1: TActionList
-    Left = 104
-    Top = 128
+    Left = 376
+    Top = 48
     object FileExit1: TFileExit
       Category = 'Datei'
       Caption = '&Beenden'
@@ -333,13 +312,18 @@ object MainClientForm: TMainClientForm
       Caption = 'Benutzerverwaltung'
       OnExecute = aC_wa_userExecute
     end
+    object ac_wa_lokal: TAction
+      Category = 'Wahl'
+      Caption = 'Wahllokal'
+      OnExecute = ac_wa_lokalExecute
+    end
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 250
     OnTimer = Timer1Timer
-    Left = 184
-    Top = 120
+    Left = 488
+    Top = 128
   end
   object ApplicationEvents1: TApplicationEvents
     OnMessage = ApplicationEvents1Message

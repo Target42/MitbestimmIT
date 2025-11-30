@@ -161,19 +161,17 @@ object BriefwahlForm: TBriefwahlForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TBriefWahlMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 88
     Top = 56
   end
   object MaTable: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'MaListQry'
     RemoteServer = DSProviderConnection1
-    Left = 216
-    Top = 56
+    Left = 184
+    Top = 144
   end
   object BriefTab: TFDMemTable
     Active = True
@@ -264,8 +262,8 @@ object BriefwahlForm: TBriefwahlForm
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 24
-    Top = 136
+    Left = 432
+    Top = 200
     object BriefTabMA_ID: TIntegerField
       FieldName = 'MA_ID'
       Required = True
@@ -325,8 +323,8 @@ object BriefwahlForm: TBriefwahlForm
     Writer = FDBatchMoveDataSetWriter1
     Mappings = <>
     LogFileName = 'Data.log'
-    Left = 176
-    Top = 136
+    Left = 312
+    Top = 56
   end
   object FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader
     DataSet = MaTable

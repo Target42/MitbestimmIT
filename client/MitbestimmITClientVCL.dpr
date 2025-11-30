@@ -36,7 +36,6 @@ uses
   u_stub in 'u_stub.pas',
   f_admin in 'Admin\f_admin.pas' {AdminForm},
   u_json_db in '..\lib\u_json_db.pas',
-  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
   u_helper in '..\lib\u_helper.pas',
   fr_wahlverfahren in 'Planung\fr_wahlverfahren.pas' {WahlverfahrenFrame: TFrame},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
@@ -55,7 +54,12 @@ uses
   f_User in 'Admin\f_User.pas' {UserForm},
   f_userEdit in 'Admin\f_userEdit.pas' {UserEditForm},
   u_rollen in '..\server\u_rollen.pas',
-  System.SysUtils;
+  System.SysUtils,
+  f_wahllokal in 'Wahllokal\f_wahllokal.pas' {WahlForm},
+  f_wahllokal_select in 'Wahllokal\f_wahllokal_select.pas' {SelectWahlLokalForm},
+  fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 

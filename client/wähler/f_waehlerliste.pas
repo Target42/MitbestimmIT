@@ -13,6 +13,7 @@ type
     DBGrid1: TDBGrid;
     DataSource1: TDataSource;
     procedure FormCreate(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     function getWaehler : IWaehler;
   public
@@ -29,6 +30,11 @@ implementation
 {$R *.dfm}
 
 uses m_glob, System.JSON;
+
+procedure TWaehlerListeForm.DBGrid1DblClick(Sender: TObject);
+begin
+  BaseFrame1.OKBtn.Click;
+end;
 
 class function TWaehlerListeForm.executeform: IWaehler;
 begin

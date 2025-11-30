@@ -57,7 +57,7 @@ begin
   PwdQry.Open;
   if not PwdQry.IsEmpty then
   begin
-    hash:= CalcPwdHash(JString( data, 'pwd'));
+    hash:= CalcPwdHash(JString( data, 'pwd'), Glob.ServerSecret);
   end;
   PwdQry.Close;
 end;

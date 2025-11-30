@@ -1,7 +1,7 @@
 object GM: TGM
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 480
+  Height = 369
   Width = 640
   object SQLConnection1: TSQLConnection
     DriverName = 'DataSnap'
@@ -36,8 +36,8 @@ object GM: TGM
     ProviderName = 'MitarbeiterTab'
     ReadOnly = True
     RemoteServer = DSProviderConnection1
-    Left = 376
-    Top = 32
+    Left = 160
+    Top = 96
     object MAListMA_ID: TIntegerField
       FieldName = 'MA_ID'
       Required = True
@@ -88,26 +88,26 @@ object GM: TGM
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 72
-    Top = 168
+    Left = 296
+    Top = 296
   end
   object FDBatchMove1: TFDBatchMove
     Reader = FDBatchMoveDataSetReader1
     Writer = FDBatchMoveDataSetWriter1
     Mappings = <>
     LogFileName = 'Data.log'
-    Left = 168
-    Top = 168
+    Left = 160
+    Top = 224
   end
   object FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader
     DataSet = MAList
-    Left = 304
-    Top = 168
+    Left = 160
+    Top = 160
   end
   object FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter
     DataSet = MAUserTab
-    Left = 304
-    Top = 232
+    Left = 152
+    Top = 288
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'

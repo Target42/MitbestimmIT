@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     18.11.2025  21:03                          */
+/*   Created on:     30.11.2025  17:44                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -74,6 +74,16 @@ begin
 end;/
 set term ;/
 
+/*  Insert trigger "ti_wa_wa_wl" for table "MA_WA_WL"  */
+set term /;
+create trigger ti_wa_wa_wl for MA_WA_WL
+before insert as
+begin
+    new.wm_stamp = CURRENT_TIMESTAMP;
+
+end;/
+set term ;/
+
 /*  Insert trigger "ti_ma_wl" for table "MA_WL"  */
 set term /;
 create trigger ti_ma_wl for MA_WL
@@ -101,16 +111,6 @@ create trigger ti_sz_stimmzettel for SZ_STIMMZETTEL
 before insert as
 begin
     new.sz_id = gen_id(gen_sz_id, 1);
-
-end;/
-set term ;/
-
-/*  Insert trigger "ti_wa_wa_wl" for table "WA_WA_WL"  */
-set term /;
-create trigger ti_wa_wa_wl for WA_WA_WL
-before insert as
-begin
-    new.wm_stamp = CURRENT_TIMESTAMP;
 
 end;/
 set term ;/

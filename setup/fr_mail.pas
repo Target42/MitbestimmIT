@@ -68,16 +68,31 @@ begin
   adr := IdMessage1.Recipients.Add;
   adr.Address := LabeledEdit5.Text;
 
+  Screen.Cursor := crHourGlass;
   try
-    IdSMTP1.Connect;
+    try
+      IdSMTP1.Connect;
+    except
+      on e : exception do
+      begin
+        Screen.Cursor := crDefault;
+        showMessage('Fehler beim Verbinden mit dem Mailserver!'+sLineBreak+e.ToString);
+        exit;
+      end;
+    end;
     Application.ProcessMessages;
     IdSMTP1.Send(IdMessage1);
+    ShowMessage('Nachricht gesendet!');
     m_ok := true;
   except
-
+    on e : exception do
+    begin
+      Screen.Cursor := crDefault;
+      ShowMessage(e.ToString);
+    end;
   end;
   IdSMTP1.Disconnect;
-
+  Screen.Cursor := crDefault;
 end;
 
 procedure TMailFrame.ComboBox1Change(Sender: TObject);
@@ -88,7 +103,6 @@ Explizit (Port 587)
 Implizit (Port 465)
 
 }
-
   case ComboBox1.ItemIndex of
     0 :
     begin

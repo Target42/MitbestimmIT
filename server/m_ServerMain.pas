@@ -351,7 +351,7 @@ function TMitbestimmITSrv.validateAdmin(pwd: string; var UserRoles: TStrings): b
 var
   pwdHash : string;
 begin
-  pwdHash := CalcPwdHash(pwd);
+  pwdHash := CalcPwdHash(pwd, Glob.ServerSecret);
   result  := false;
   AdminTab.Open;
   if not AdminTab.IsEmpty then
@@ -374,7 +374,7 @@ var
   session : TDSSession;
 begin
   Result := false;
-  pwdHash := CalcPwdHash(pwd);
+  pwdHash := CalcPwdHash(pwd, Glob.ServerSecret);
   session := TDSSessionManager.GetThreadSession;
 
   UserPWDQry.ParamByName('login').AsString := user;

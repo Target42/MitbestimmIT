@@ -47,7 +47,6 @@ function GenerateBase32Secret(Length: Integer): string;
 var
   i: Integer;
 begin
-  Randomize;
   Result := '';
   for i := 1 to Length do
     Result := Result + Base32Chars[Random(sizeof(Base32Chars)) + 1];
@@ -155,5 +154,6 @@ end;
 
 initialization
   ntp_UTC := 0.0;
+  Randomize;
 
 end.

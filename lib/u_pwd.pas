@@ -2,16 +2,16 @@
 
 interface
 
-function CalcPwdHash( pwd : string ) : string;
+function CalcPwdHash( pwd, secret : string ) : string;
 
 implementation
 
 uses
   System.Hash, System.SysUtils;
 
-function CalcPwdHash( pwd : string ) : string;
+function CalcPwdHash( pwd, secret : string ) : string;
 begin
-  Result := THashSHA2.GetHashString( pwd );
+  Result := THashSHA2.GetHashString( pwd + secret );
 end;
 
 end.

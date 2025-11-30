@@ -134,6 +134,7 @@ begin
 
     JReplace(data, 'raumid', LokalQry.FieldByName('WL_ID').AsInteger);
     JReplace(data, 'maid', waehler.ID );
+    JReplace(data, 'persnr', waehler.PersNr);
 
     client := TLokaleModClient.Create(GM.SQLConnection1.DBXConnection);
     res := client.addHelfer(data);

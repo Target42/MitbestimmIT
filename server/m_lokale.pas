@@ -57,7 +57,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, u_wahllokal, system.Variants, m_log;
+  u_json, u_wahllokal, system.Variants, m_log, u_pwd, u_totp, u_glob;
 
 
 {$R *.dfm}
@@ -97,8 +97,11 @@ end;
 function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
 var
   id : integer;
+  persnr : string;
 begin
   id := JInt( data, 'maid');
+  persnr := JString( data, 'persnr');
+
   Result := TJSONObject.Create;
   AddHelferQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
   AddHelferQry.ParamByName('WL_ID').AsInteger := JInt( data, 'raumid');
@@ -111,11 +114,19 @@ begin
   begin
     MAPwdTab.Append;
     MAPwdTab.FieldByName('MA_ID').AsInteger := id;
-
   end
   else
   begin
     MAPwdTab.Edit;
+  end;
+
+  if (MAPwdTab.FieldByName('MW_PwD').IsNull ) or (MAPwdTab.FieldByName('MW_PwD').AsString = '') then
+  begin
+    MAPwdTab.FieldByName('MW_PwD').AsString := CalcPwdHash(persnr, Glob.ServerSecret);
+  end;
+  if (MAPwdTab.FieldByName('MW_SECRET').IsNull ) or (MAPwdTab.FieldByName('MW_SECRET').AsString = '') then
+  begin
+    MAPwdTab.FieldByName('MW_SECRET').AsString := GenerateBase32Secret;
   end;
 
   MAPwdTab.FieldByName('MW_ROLLE').AsString := DBMod.AddRole(roWahlHelfer, MAPwdTab.FieldByName('MW_ROLLE').AsString );

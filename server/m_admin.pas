@@ -169,7 +169,7 @@ var
       PwdTabMW_ROLLE.AsString := Format('%s %s %s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
       PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
       PwdTabMW_LOGIN.AsString := JString( wv, 'login');
-      PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'));
+      PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'), Glob.ServerSecret);
       PwdTab.Post;
     end;
   end;

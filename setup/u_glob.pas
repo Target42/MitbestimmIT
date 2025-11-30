@@ -39,6 +39,7 @@ type
     FPlain: boolean;
     FDBPwdCheck: string;
     FEigenes: boolean;
+    FServerSecret: string;
 
     procedure CompressStream;
     procedure DecompressStream;
@@ -58,6 +59,7 @@ type
     property DBName: string read FDBName write FDBName;
     property UserPWD: string read FUserPWD write FUserPWD;
     property DBPwdCheck: String read FDBPwdCheck write FDBPwdCheck;
+    property ServerSecret: string read FServerSecret write FServerSecret;
 
     property AdminPwd: string read FAdminPwd write FAdminPwd;
     property Faktor2: boolean read FFaktor2 write FFaktor2;
@@ -129,6 +131,8 @@ begin
   FDBPwdCheck := GenerateFirebirdPassword;
 
   FHomeDir  := ExtractFilePath(ParamStr(0));
+
+  FServerSecret := TGUID.NewGuid.ToString;
 
   FPlain    := false;
 
@@ -222,6 +226,8 @@ begin
 
   FPortClientHttp := ini.ReadInteger('ports', 'client',0);
 
+  FServerSecret   := ini.ReadString('server', 'secret', FServerSecret);
+
   ini.Free;
 
   if FPlain then
@@ -288,6 +294,8 @@ begin
   ini.WriteInteger('ports', 'http',   FPortHttp);
   ini.WriteInteger('ports', 'https',  FPortHttps);
   ini.WriteInteger('ports', 'client', FPortClientHttp);
+
+  ini.WriteString('server', 'secret', FServerSecret);
 
   ini.UpdateFile;
   ini.Free;

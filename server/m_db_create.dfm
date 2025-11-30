@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     06.11.2025  19:58                          ' +
+            '/*   Created on:     30.11.2025  17:44                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -34,6 +34,36 @@ object CreateDBMode: TCreateDBMode
           'create generator gen_wa_id;'
           'create generator gen_mc_id;'
           'create generator gen_bw_id;'
+          'create generator gen_lo_id;'
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: LO_LOGIN                                            ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table LO_LOGIN'
+          '('
+          
+            '    LO_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    LO_TIMESTAMP                    TIMESTAMP                   ' +
+            '   ,'
+          
+            '    LO_USER                         VARCHAR(100)                ' +
+            '   ,'
+          
+            '    LO_IP                           VARCHAR(100)                ' +
+            '   ,'
+          
+            '    LO_OK                           CHAR(1)                     ' +
+            '   ,'
+          '    constraint PK_LO_LOGIN primary key (LO_ID)'
+          ');'
+          ''
           
             '/* ============================================================ ' +
             '*/'
@@ -636,6 +666,63 @@ object CreateDBMode: TCreateDBMode
           '    constraint PK_MA_WL primary key (WA_ID, MA_ID, WL_ID)'
           ');'
           ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: MA_WA_WL                                            ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table MA_WA_WL'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WL_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    MA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WM_STAMP                        TIMESTAMP                   ' +
+            '   ,'
+          '    constraint PK_MA_WA_WL primary key (WA_ID, WL_ID, MA_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   View: MA_LISTE                                             ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create view MA_LISTE as'
+          'select MA_MITARBEITER.*, MA_WA.WA_ID'
+          'from MA_WA, MA_MITARBEITER'
+          'where MA_MITARBEITER.MA_ID = MA_WA.MA_ID;'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   View: WA_STAMP                                             ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create view WA_STAMP as'
+          
+            'select WL_WAHL_LOKAL.WL_BAU, WL_WAHL_LOKAL.WL_STOCKWERK, WL_WAHL' +
+            '_LOKAL.WL_RAUM, '
+          'MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID'
+          'from MA_WL, WL_WAHL_LOKAL'
+          'where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID;'
+          ''
           'alter table WT_WAHL_LISTE'
           '    add constraint FK_REF_225 foreign key  (WA_ID)'
           '       references WA_WAHL;'
@@ -716,6 +803,14 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_1724 foreign key  (WA_ID, WL_ID)'
           '       references WL_WAHL_LOKAL;'
           ''
+          'alter table MA_WA_WL'
+          '    add constraint FK_REF_2946 foreign key  (WA_ID, WL_ID)'
+          '       references WL_WAHL_LOKAL;'
+          ''
+          'alter table MA_WA_WL'
+          '    add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)'
+          '       references MA_WA;'
+          ''
           'set generator gen_ma_id to 100;'
           ''
           'commit;'
@@ -779,6 +874,11 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;'
+          ''
+          'grant select on ma_liste TO appuser;'
+          'grant select on wa_stamp TO appuser;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;'
@@ -789,6 +889,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT USAGE ON GENERATOR  gen_aw_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_mc_id TO ROLE appuser;'
           'GRANT USAGE ON GENERATOR  gen_bw_id  TO ROLE appuser;'
+          'GRANT USAGE ON GENERATOR  gen_lo_id  TO ROLE appuser;'
           ''
           'commit;'
           ''
@@ -814,12 +915,13 @@ object CreateDBMode: TCreateDBMode
             'dmin;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appadmin;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;'
           'GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;'
           'GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appadmin;'
           'GRANT USAGE ON GENERATOR gen_wa_id TO ROLE appadmin;'
-          ''
+          'GRANT USAGE ON GENERATOR  gen_lo_id  TO appadmin;'
           'commit;'
           ''
           
@@ -860,7 +962,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     06.11.2025  19:59                          ' +
+            '/*   Created on:     30.11.2025  17:44                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -921,12 +1023,33 @@ object CreateDBMode: TCreateDBMode
           'end;/'
           'set term ;/'
           ''
+          '/*  Insert trigger "ti_lg_login" for table "LO_LOGIN"  */'
+          'set term /;'
+          'create trigger ti_lg_login for LO_LOGIN'
+          'before insert as'
+          'begin'
+          '    new.lo_id = gen_id(gen_lo_id, 1);'
+          '    new.lo_timestamp = CURRENT_TIMESTAMP;'
+          ''
+          'end;/'
+          'set term ;/'
+          ''
           '/*  Insert trigger "ti_tab_1" for table "MA_MITARBEITER"  */'
           'set term /;'
           'create trigger ti_tab_1 for MA_MITARBEITER'
           'before insert as'
           'begin'
           '    new.ma_id = gen_id(gen_ma_id, 1);'
+          ''
+          'end;/'
+          'set term ;/'
+          ''
+          '/*  Insert trigger "ti_wa_wa_wl" for table "MA_WA_WL"  */'
+          'set term /;'
+          'create trigger ti_wa_wa_wl for MA_WA_WL'
+          'before insert as'
+          'begin'
+          '    new.wm_stamp = CURRENT_TIMESTAMP;'
           ''
           'end;/'
           'set term ;/'
@@ -1026,8 +1149,8 @@ object CreateDBMode: TCreateDBMode
   object ExecQry: TFDQuery
     Connection = FDConnection1
     Transaction = FDTransaction1
-    Left = 408
-    Top = 104
+    Left = 424
+    Top = 80
   end
   object ExistsQry: TFDQuery
     Connection = FDConnection1

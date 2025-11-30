@@ -390,11 +390,9 @@ object MainSetupForm: TMainSetupForm
           inherited Panel1: TPanel
             Width = 485
             StyleElements = [seFont, seClient, seBorder]
-            ExplicitLeft = 2
-            ExplicitTop = 17
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 469
+              Width = 479
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -402,11 +400,13 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
+              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -440,8 +440,6 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70

@@ -93,6 +93,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;\
+\
+grant select on ma_liste TO appuser;\
+grant select on wa_stamp TO appuser;\
 \
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;\
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;\
@@ -153,7 +157,7 @@ commit;
 
 
 1753814221
-1763495984
+1764354264
 0
 0
 4
@@ -614,15 +618,15 @@ LO_LOGIN
 2945
 2945
 4
+MA_WA_WL
+MA_WA_WL
+
+
+
+0
+0
+0
 WA_WA_WL
-WA_WA_WL
-
-
-
-0
-0
-0
-
 
 
 
@@ -4167,7 +4171,7 @@ INTEGER
 1
 0
 0
-
+WA_ID
 
 1
 3
@@ -4201,7 +4205,7 @@ INTEGER
 1
 0
 0
-
+WL_ID
 
 2
 3
@@ -4235,7 +4239,7 @@ INTEGER
 1
 0
 0
-
+MA_ID
 
 3
 3
@@ -4269,7 +4273,7 @@ TIMESTAMP
 1
 0
 0
-
+WM_STAMP
 
 4
 /END_TABLE AMCCOLN
@@ -4669,7 +4673,7 @@ REF_2946
 1
 0
 0
-
+REF_2946
 
 21
 3
@@ -4687,7 +4691,7 @@ REF_2953
 1
 0
 0
-
+REF_2953
 
 22
 /END_TABLE AMCREFR
@@ -5360,7 +5364,7 @@ set term ;/
 ti_ma_wl
 1716
 1
-1
+3
 InsertTrigger
 /*  Insert trigger "%TRIGGER%" for table "%TABLE%"  */\
 set term /;\
@@ -5368,7 +5372,7 @@ create trigger %TRIGGER% for %TABLE%\
 before insert as\
 begin\
     new.lo_id = gen_id(gen_lo_id, 1);\
-    new.lo_stamp = CURRENT_TIMESTAMP;\
+    new.lo_timestamp = CURRENT_TIMESTAMP;\
 \
 end;/\
 set term ;/
@@ -5423,6 +5427,45 @@ GENE    N1
 CHCK    N1
 NUMR    N8
 /BEGIN_DATA AMCVIEW
+3
+3146
+3146
+MA_Liste
+MA_LISTE
+
+
+
+0
+742\
+1\
+747
+select MA_MITARBEITER.*, MA_WA.WA_ID\
+from MA_WA, MA_MITARBEITER\
+where MA_MITARBEITER.MA_ID = MA_WA.MA_ID
+0
+1
+0
+1
+3
+3148
+3148
+WA_Stamp
+WA_STAMP
+
+
+
+0
+1716\
+2\
+1724
+select WL_WAHL_LOKAL.WL_BAU, WL_WAHL_LOKAL.WL_STOCKWERK, WL_WAHL_LOKAL.WL_RAUM, \
+MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID\
+from MA_WL, WL_WAHL_LOKAL\
+where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID
+0
+1
+0
+2
 /END_TABLE AMCVIEW
 
 /BEGIN_TABLE AMCRULE
@@ -5579,10 +5622,6 @@ MS Sans Serif
 Arial
 8
 8
-4
-Courier New
-10
-1
 /END_TABLE AMCFONT
 
 /BEGIN_TABLE AMCPENS
@@ -6318,7 +6357,7 @@ yes
 0
 DataArchitect
 DBOCreaView
-no
+yes
 107
 4
 0
@@ -6787,10 +6826,10 @@ OID     N8
 0
 0
 0
--39421
--271
--27947
-5203
+-39196
+-196
+-27722
+5278
 2
 1
 0
@@ -7299,10 +7338,10 @@ OID     N8
 0
 0
 0
--8108
-15777
-3292
-21251
+-8109
+15776
+3291
+21250
 2
 1
 0
@@ -7322,10 +7361,74 @@ OID     N8
 2
 2945
 3
+2625
+291
+0
+22
+0
+0
+0
+0
+0
+-20383
+-23395
+-6784
+-17422
+2
+4
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+0
+
+
+
+2
+3146
+3
+2636
+291
+0
+23
+0
+0
+0
+0
+0
+4444
+-27371
+26893
+-17498
+2
+4
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+0
+
+
+
+2
+3148
+3
 1490
 290
 0
-22
+24
 0
 1488
 1489
@@ -7357,7 +7460,7 @@ OID     N8
 1538
 290
 0
-23
+25
 0
 1536
 1537
@@ -7378,7 +7481,7 @@ OID     N8
 0
 0
 2
-227fffff60050000227fffff68370000
+927fffffab050000927fffff68370000
 2
 
 
@@ -7389,7 +7492,7 @@ OID     N8
 1557
 290
 0
-24
+26
 0
 1553
 1556
@@ -7421,7 +7524,7 @@ OID     N8
 1560
 290
 0
-25
+27
 0
 1552
 1556
@@ -7453,7 +7556,7 @@ OID     N8
 1646
 290
 0
-26
+28
 0
 1629
 1568
@@ -7485,7 +7588,7 @@ OID     N8
 1652
 290
 0
-27
+29
 0
 1629
 1536
@@ -7506,7 +7609,7 @@ OID     N8
 0
 0
 3
-bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
+bd49ffffdee2ffffbd49ffff110c0000148bffff110c0000
 2
 
 
@@ -7517,7 +7620,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1727
 290
 0
-28
+30
 0
 1720
 1726
@@ -7549,7 +7652,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1935
 290
 0
-29
+31
 0
 1629
 1934
@@ -7581,7 +7684,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1938
 290
 0
-30
+32
 0
 1487
 1934
@@ -7613,7 +7716,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1950
 290
 0
-31
+33
 0
 1487
 1832
@@ -7645,7 +7748,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1957
 290
 0
-32
+34
 0
 1934
 1537
@@ -7677,7 +7780,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1965
 290
 0
-33
+35
 0
 1934
 1500
@@ -7709,7 +7812,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1972
 290
 0
-34
+36
 0
 1934
 1489
@@ -7741,7 +7844,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1975
 290
 0
-35
+37
 0
 1934
 1544
@@ -7773,7 +7876,7 @@ bd49ffffdee2ffffbd49ffffc60b0000338affffc60b0000
 1982
 290
 0
-36
+38
 0
 1629
 1553
@@ -7805,7 +7908,7 @@ c249ffff45d9fffff47d000045d9ffff
 2000
 290
 0
-37
+39
 0
 1629
 1488
@@ -7837,7 +7940,7 @@ c249ffff45d9fffff47d000045d9ffff
 2036
 290
 0
-38
+40
 0
 1629
 2035
@@ -7869,7 +7972,7 @@ c249ffff45d9fffff47d000045d9ffff
 2142
 290
 0
-39
+41
 0
 1629
 2141
@@ -7901,7 +8004,7 @@ c031ffffe7edfffff2a0feffe7edffff
 2253
 290
 0
-40
+42
 0
 1934
 2252
@@ -7933,7 +8036,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 2256
 290
 0
-41
+43
 0
 1488
 2252
@@ -7965,7 +8068,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 2495
 290
 0
-42
+44
 0
 1488
 2494
@@ -7986,7 +8089,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 0
 0
 3
-8d270000db11000042eeffffdb11000042eefffff74b0000
+8d270000db11000041eeffffdb11000041eefffff64b0000
 2
 
 
@@ -7997,7 +8100,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 2498
 290
 0
-43
+45
 0
 1934
 2494
@@ -8018,7 +8121,7 @@ be42ffffaf5b00002bccffffaf5b00002bccffff58080000
 0
 0
 3
-853fffff40610000853ffffff64600003aeefffff6460000
+853fffff40610000853ffffff546000039eefffff5460000
 2
 
 

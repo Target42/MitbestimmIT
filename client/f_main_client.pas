@@ -80,6 +80,8 @@ type
     aC_wa_user: TAction;
     N7: TMenuItem;
     Benutzerverwaltung1: TMenuItem;
+    ac_wa_lokal: TAction;
+    Wahllokal1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -97,6 +99,7 @@ type
     procedure ac_wa_briefExecute(Sender: TObject);
     procedure ApplicationEvents1Message(var Msg: TMsg; var Handled: Boolean);
     procedure aC_wa_userExecute(Sender: TObject);
+    procedure ac_wa_lokalExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -122,7 +125,8 @@ uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
-  f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User;
+  f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
+  f_wahllokal;
 
 {$R *.dfm}
 
@@ -146,7 +150,7 @@ begin
       if TWahlSelectForm.execute then
       begin
         setMenuState(msLoaded);
-        PostMessage( Handle, msgConnected, 0, 0);
+        SendMessage(handle,  msgConnected, 0, 0);
       end
       else
         ac_disconnect.Execute;
@@ -173,16 +177,19 @@ end;
 procedure TMainClientForm.ac_roomsExecute(Sender: TObject);
 begin
   TWahllokalForm.execute;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.ac_wahllisteExecute(Sender: TObject);
 begin
   TWahllistenForm.execute;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);
 begin
   TWaehlerlisteImportForm.ExecuteForm;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.ac_wa_briefExecute(Sender: TObject);
@@ -190,9 +197,18 @@ begin
   TBriefwahlForm.execute;
 end;
 
+procedure TMainClientForm.ac_wa_lokalExecute(Sender: TObject);
+begin
+  if TSelectWahlLokalForm.exec then
+  begin
+    TWahlForm.execute;
+  end;
+end;
+
 procedure TMainClientForm.ac_wa_planExecute(Sender: TObject);
 begin
   TPlanungsform.Execute;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.aC_wa_userExecute(Sender: TObject);
@@ -203,11 +219,13 @@ end;
 procedure TMainClientForm.ac_wa_vorstandExecute(Sender: TObject);
 begin
   TWahlVorstandForm.execute;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.ac_wa_waehlerlisteExecute(Sender: TObject);
 begin
   TWaehlerListeForm.executeform;
+  StatFrame1.UpdateData;
 end;
 
 procedure TMainClientForm.ApplicationEvents1Message(var Msg: TMsg;

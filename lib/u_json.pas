@@ -375,16 +375,22 @@ end;
 function JBool ( obj : TJSONObject; name : string ; default : boolean  ) : boolean;
 var
   v : TJSONBool;
+  val : TJSONValue;
 begin
   Result := default;
 
   if not Assigned(obj) then
     exit;
-  v := obj.Values[ name ] as TJSONBool;
 
-  if Assigned(v) then
-    Result := v.AsBoolean;
+  val := obj.GetValue(name);
+  if Assigned(val) then
+  begin
+    v := val as TJSONBool;
 
+    if Assigned(v) then
+      Result := v.AsBoolean;
+
+  end;
 end;
 
 {*******************************************************************************

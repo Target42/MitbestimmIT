@@ -1,18 +1,19 @@
 object AdminFrame: TAdminFrame
   Left = 0
   Top = 0
-  Width = 496
-  Height = 441
+  Width = 574
+  Height = 444
   Align = alClient
   TabOrder = 0
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 496
+    Width = 574
     Height = 105
     Align = alTop
     Caption = 'Admin-Passwort'
     TabOrder = 0
+    ExplicitWidth = 496
     object LabeledEdit1: TLabeledEdit
       Left = 24
       Top = 40
@@ -41,13 +42,14 @@ object AdminFrame: TAdminFrame
   object GroupBox2: TGroupBox
     Left = 0
     Top = 105
-    Width = 496
+    Width = 574
     Height = 240
     Align = alTop
     Caption = '2-Faktorauthentifizirung'
     TabOrder = 1
+    ExplicitWidth = 496
     object Image1: TImage
-      Left = 232
+      Left = 310
       Top = 17
       Width = 262
       Height = 221
@@ -57,7 +59,7 @@ object AdminFrame: TAdminFrame
       ExplicitLeft = 231
     end
     object Splitter1: TSplitter
-      Left = 229
+      Left = 307
       Top = 17
       Height = 221
       Align = alRight
@@ -68,30 +70,30 @@ object AdminFrame: TAdminFrame
     object Panel1: TPanel
       Left = 2
       Top = 17
-      Width = 227
+      Width = 305
       Height = 221
       Align = alClient
       BevelOuter = bvNone
       ShowCaption = False
       TabOrder = 0
-      ExplicitLeft = 3
-      ExplicitTop = 16
+      ExplicitWidth = 227
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 26
-        Width = 221
+        Width = 299
         Height = 45
         Align = alTop
         Caption = 
           'F'#252'r die 2-Faktorauthentifizierung wird ein Authendificatior, wie' +
           ' z.B. der von Google oder  Microsoft ben'#246'tigt.'
         WordWrap = True
+        ExplicitWidth = 221
       end
       object Label2: TLabel
         Left = 0
         Top = 74
-        Width = 227
+        Width = 305
         Height = 15
         Align = alTop
         Alignment = taCenter
@@ -101,7 +103,7 @@ object AdminFrame: TAdminFrame
       object CodeLab: TLabel
         Left = 0
         Top = 89
-        Width = 227
+        Width = 305
         Height = 30
         Align = alTop
         Alignment = taCenter
@@ -118,12 +120,13 @@ object AdminFrame: TAdminFrame
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 221
+        Width = 299
         Height = 17
         Align = alTop
         Caption = 'Aktivieren'
         TabOrder = 0
         OnClick = CheckBox1Click
+        ExplicitWidth = 221
       end
     end
   end

@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     18.11.2025  21:01                          */
+/*   Created on:     30.11.2025  17:44                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -297,16 +297,33 @@ create table MA_WL
 );
 
 /* ============================================================ */
-/*   Table: WA_WA_WL                                            */
+/*   Table: MA_WA_WL                                            */
 /* ============================================================ */
-create table WA_WA_WL
+create table MA_WA_WL
 (
     WA_ID                           INTEGER                not null,
     WL_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
     WM_STAMP                        TIMESTAMP                      ,
-    constraint PK_WA_WA_WL primary key (WA_ID, WL_ID, MA_ID)
+    constraint PK_MA_WA_WL primary key (WA_ID, WL_ID, MA_ID)
 );
+
+/* ============================================================ */
+/*   View: MA_LISTE                                             */
+/* ============================================================ */
+create view MA_LISTE as
+select MA_MITARBEITER.*, MA_WA.WA_ID
+from MA_WA, MA_MITARBEITER
+where MA_MITARBEITER.MA_ID = MA_WA.MA_ID;
+
+/* ============================================================ */
+/*   View: WA_STAMP                                             */
+/* ============================================================ */
+create view WA_STAMP as
+select WL_WAHL_LOKAL.WL_BAU, WL_WAHL_LOKAL.WL_STOCKWERK, WL_WAHL_LOKAL.WL_RAUM, 
+MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID
+from MA_WL, WL_WAHL_LOKAL
+where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID;
 
 alter table WT_WAHL_LISTE
     add constraint FK_REF_225 foreign key  (WA_ID)
@@ -388,11 +405,11 @@ alter table MA_WL
     add constraint FK_REF_1724 foreign key  (WA_ID, WL_ID)
        references WL_WAHL_LOKAL;
 
-alter table WA_WA_WL
+alter table MA_WA_WL
     add constraint FK_REF_2946 foreign key  (WA_ID, WL_ID)
        references WL_WAHL_LOKAL;
 
-alter table WA_WA_WL
+alter table MA_WA_WL
     add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)
        references MA_WA;
 
@@ -432,6 +449,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appuser;;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;
+
+grant select on ma_liste TO appuser;
+grant select on wa_stamp TO appuser;
 
 GRANT USAGE ON GENERATOR  gen_ma_id TO ROLE appuser;
 GRANT USAGE ON GENERATOR  gen_wl_id TO ROLE appuser;

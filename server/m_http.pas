@@ -126,8 +126,14 @@ begin
     else
     begin
       AResponseInfo.ContentText := 'Nix da !';
+      CodeSite.SendError('Get-Fehler : %s', [ARequestInfo.Document]);
+      CodeSite.SendError('Datei : %s', [filename]);
     end;
   end
+  else
+  begin
+    CodeSite.SendError('Get-Fehler : %s', [ARequestInfo.Document]);
+  end;
 end;
 
 procedure THttpMod.PageProducer1HTMLTag(Sender: TObject; Tag: TTag;
@@ -146,7 +152,7 @@ begin
   if Glob.PortClientHttp = 0 then
   begin
     Result := true;
-    CodeSite.Send('Kein http-Port gesetzt');
+    CodeSite.SendError('Kein http-Port gesetzt');
     CodeSite.ExitMethod('start');
     exit;
   end;

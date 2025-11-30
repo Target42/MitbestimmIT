@@ -18,6 +18,7 @@ object WahlverfahrenFrame: TWahlverfahrenFrame
       'Vereinfachtes Verfahren')
     TabOrder = 0
     OnClick = RadioGroup1Click
+    ExplicitTop = -6
   end
   object RichEdit1: TRichEdit
     Left = 0
