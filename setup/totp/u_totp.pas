@@ -46,10 +46,14 @@ end;
 function GenerateBase32Secret(Length: Integer): string;
 var
   i: Integer;
+  len : integer;
 begin
   Result := '';
+  len := System.Length(Base32Chars) + 1;
   for i := 1 to Length do
-    Result := Result + Base32Chars[Random(sizeof(Base32Chars)) + 1];
+  begin
+    Result := Result + Base32Chars[Random(len)];
+  end;
 end;
 
 function SecondsRemaining(TimeStep: Integer): Integer;
