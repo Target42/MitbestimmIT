@@ -2,7 +2,7 @@ object WaehlerListeForm: TWaehlerListeForm
   Left = 0
   Top = 0
   Caption = 'W'#228'hlerliste'
-  ClientHeight = 441
+  ClientHeight = 557
   ClientWidth = 624
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,7 +15,7 @@ object WaehlerListeForm: TWaehlerListeForm
   TextHeight = 15
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 381
+    Top = 497
     Width = 624
     Height = 60
     Align = alBottom
@@ -36,6 +36,8 @@ object WaehlerListeForm: TWaehlerListeForm
       end
       inherited OKBtn: TBitBtn
         Left = 520
+        Default = False
+        Kind = bkCustom
         ExplicitLeft = 520
       end
     end
@@ -44,7 +46,7 @@ object WaehlerListeForm: TWaehlerListeForm
     Left = 0
     Top = 0
     Width = 624
-    Height = 381
+    Height = 408
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -90,6 +92,40 @@ object WaehlerListeForm: TWaehlerListeForm
         Width = 120
         Visible = True
       end>
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 408
+    Width = 624
+    Height = 89
+    Align = alBottom
+    Caption = 'Suchern'
+    TabOrder = 2
+    ExplicitTop = 412
+    object LabeledEdit1: TLabeledEdit
+      Left = 16
+      Top = 40
+      Width = 121
+      Height = 23
+      EditLabel.Width = 35
+      EditLabel.Height = 15
+      EditLabel.Caption = 'PersNr'
+      TabOrder = 0
+      Text = ''
+      OnKeyPress = LabeledEdit1KeyPress
+    end
+    object LabeledEdit2: TLabeledEdit
+      Left = 160
+      Top = 40
+      Width = 121
+      Height = 23
+      EditLabel.Width = 32
+      EditLabel.Height = 15
+      EditLabel.Caption = 'Name'
+      TabOrder = 1
+      Text = ''
+      OnKeyPress = LabeledEdit2KeyPress
+    end
   end
   object DataSource1: TDataSource
     DataSet = GM.MAList
