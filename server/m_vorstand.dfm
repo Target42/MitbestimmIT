@@ -251,10 +251,11 @@ object VortandMod: TVortandMod
   object AddVorstandQry: TFDQuery
     Connection = DBMod.FDConnection1
     SQL.Strings = (
-      'INSERT INTO WV_WAHL_VORSTAND (WA_ID, MA_ID)'
+      'INSERT INTO WV_WAHL_VORSTAND (WA_ID, MA_ID, WV_CHEF)'
       'VALUES ('
       '    :WA_ID, '
-      '    :MA_ID'
+      '    :MA_ID,'
+      '    '#39'F'#39
       ');'
       '')
     Left = 448

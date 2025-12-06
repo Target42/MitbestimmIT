@@ -54,7 +54,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, u_json, System.Variants, m_log;
+  m_db, u_json, System.Variants, m_log, u_pwd, u_glob, u_totp;
 
 {$R *.dfm}
 
@@ -71,6 +71,13 @@ begin
     begin
       MAPWDTab.Append;
       MAPWDTab.FieldByName('MA_ID').AsInteger := person.ID;
+      if person.Login <>'' then
+        MAPWDTab.FieldByName('MW_LOGIN').AsString := person.Login
+      else
+        MAPWDTab.FieldByName('MW_LOGIN').AsString := person.PersNr;
+
+      MAPWDTab.FieldByName('MW_PWD').AsString := CalcPwdHash( person.PersNr, Glob.ServerSecret );
+      MAPWDTab.FieldByName('MW_SECRET').AsString := GenerateBase32Secret;
     end
     else
     begin
