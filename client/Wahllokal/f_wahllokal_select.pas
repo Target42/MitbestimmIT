@@ -67,6 +67,11 @@ begin
   FLoggedIN := false;
   ClientDataSet1.Open;
   BaseFrame1.OKBtn.Enabled := not ClientDataSet1.IsEmpty;
+
+  if ClientDataSet1.IsEmpty then
+  begin
+    ShowMessage('Du bist in einem Wahllokal eingeteilt!');
+  end;
 end;
 
 end.

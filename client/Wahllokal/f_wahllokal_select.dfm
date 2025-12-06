@@ -83,6 +83,7 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
     end
     inherited Panel1: TPanel
       Width = 833
+      StyleElements = [seFont, seClient, seBorder]
       ExplicitWidth = 833
       inherited OKBtn: TBitBtn
         Left = 729
