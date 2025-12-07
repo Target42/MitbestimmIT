@@ -19,6 +19,7 @@ object WahlForm: TWahlForm
     Width = 1337
     Height = 19
     Panels = <>
+    SimplePanel = True
   end
   object DBGrid1: TDBGrid
     Left = 0
@@ -112,11 +113,20 @@ object WahlForm: TWahlForm
     object BitBtn1: TBitBtn
       Left = 24
       Top = 40
-      Width = 75
+      Width = 217
       Height = 25
-      Caption = 'W'#228'hlen'
+      Caption = 'Wahlunterlagen aush'#228'ndigen'
       TabOrder = 0
       OnClick = BitBtn1Click
+    end
+    object BitBtn2: TBitBtn
+      Left = 280
+      Top = 40
+      Width = 177
+      Height = 25
+      Caption = 'Schriftf'#252'hrer wechseln'
+      TabOrder = 1
+      OnClick = BitBtn2Click
     end
   end
   object DSProviderConnection1: TDSProviderConnection

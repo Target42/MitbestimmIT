@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_wahlliste, Vcl.StdCtrls, Vcl.Mask,
   Vcl.ExtCtrls, m_glob, Vcl.Grids, fr_base, Vcl.Menus, u_stub, Vcl.ComCtrls,
-  u_json, Vcl.Buttons;
+  u_json, Vcl.Buttons, System.Actions, Vcl.ActnList;
 
 type
   TWahllistenPersonenForm = class(TForm)
@@ -17,13 +17,17 @@ type
     SG: TStringGrid;
     PopupMenu1: TPopupMenu;
     PopupMenu11: TMenuItem;
+    GroupBox2: TGroupBox;
+    ActionList1: TActionList;
+    ac_paste: TAction;
+    BitBtn1: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure SGSelectCell(Sender: TObject; ACol, ARow: LongInt;
       var CanSelect: Boolean);
     procedure SGKeyPress(Sender: TObject; var Key: Char);
-    procedure PopupMenu11Click(Sender: TObject);
     procedure SGDrawCell(Sender: TObject; ACol, ARow: LongInt; Rect: TRect;
       State: TGridDrawState);
+    procedure ac_pasteExecute(Sender: TObject);
   private
     const
     colNr         = 0;
@@ -58,6 +62,61 @@ uses
 {$R *.dfm}
 
 { TWahllistenPersonenForm }
+
+procedure TWahllistenPersonenForm.ac_pasteExecute(Sender: TObject);
+var
+  list : TSTringList;
+  lines : TStringList;
+  i : integer;
+  inx : integer;
+  p   : TWahllistePerson;
+begin
+  lines := TStringList.Create;
+  lines.Text := Clipboard.AsText;;
+
+  list := TStringList.Create;
+  list.StrictDelimiter := true;
+  list.Delimiter := ',';
+
+  if Sg.Col = colPersNr then
+  begin
+    for i := 0 to pred(lines.Count) do
+    begin
+      list.DelimitedText := lines[i];
+      if list.Count > 0 then
+      begin
+        p := Add(list[0]);
+        if list.Count >= 7 then
+          p.Job := list[colJob];
+      end;
+    end;
+  end
+  else if Sg.Col = colJob then
+  begin
+    if SG.Row < 1 then
+      SG.Row := 1;
+
+    inx := SG.Row -1;
+    // jobs einfügen
+    for i := 0 to pred(lines.Count) do
+    begin
+      list.DelimitedText := lines[i];
+      if list.Count > 0 then
+      begin
+        if inx < m_liste.Personen.Count then
+        begin
+          p := m_liste.Personen[inx];
+          p.Job := list[0];
+          Sg.Cells[colJob,inx + 1] := list[0];
+          inc(inx);
+        end;
+      end;
+    end;
+  end;
+
+  list.Free;
+  lines.Free;
+end;
 
 function TWahllistenPersonenForm.Add(PersNr: string) : TWahllistePerson;
 var
@@ -142,61 +201,6 @@ begin
   end;
 end;
 
-procedure TWahllistenPersonenForm.PopupMenu11Click(Sender: TObject);
-var
-  list : TSTringList;
-  lines : TStringList;
-  i : integer;
-  inx : integer;
-  p   : TWahllistePerson;
-begin
-  lines := TStringList.Create;
-  lines.Text := Clipboard.AsText;;
-
-  list := TStringList.Create;
-  list.StrictDelimiter := true;
-  list.Delimiter := ',';
-
-  if Sg.Col = colPersNr then
-  begin
-    for i := 0 to pred(lines.Count) do
-    begin
-      list.DelimitedText := lines[i];
-      if list.Count > 0 then
-      begin
-        p := Add(list[0]);
-        if list.Count >= 7 then
-          p.Job := list[colJob];
-      end;
-    end;
-  end
-  else if Sg.Col = colJob then
-  begin
-    if SG.Row < 1 then
-      SG.Row := 1;
-
-    inx := SG.Row -1;
-    // jobs einfügen
-    for i := 0 to pred(lines.Count) do
-    begin
-      list.DelimitedText := lines[i];
-      if list.Count > 0 then
-      begin
-        if inx < m_liste.Personen.Count then
-        begin
-          p := m_liste.Personen[inx];
-          p.Job := list[0];
-          Sg.Cells[colJob,inx + 1] := list[0];
-          inc(inx);
-        end;
-      end;
-    end;
-  end;
-
-  list.Free;
-  lines.Free;
-end;
-
 procedure TWahllistenPersonenForm.SetWahlliste(const Value: TWahlliste);
 var
   p : TWahllistePerson;
@@ -233,6 +237,9 @@ begin
 
   if (Acol = 0) or ( ARow = 0) then
     Grid.Canvas.Brush.Color := clBtnFace;
+  if (ARow > 0) and ( ( ACol >= 2 ) and (ACol <= 5) ) then
+    Grid.Canvas.Brush.Color := TColor(RGB(250, 250, 250));
+
 
   Grid.Canvas.FillRect(Rect);
 

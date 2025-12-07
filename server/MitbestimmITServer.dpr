@@ -65,7 +65,8 @@ uses
   LogThread in 'LogThread.pas',
   u_debug in 'u_debug.pas',
   m_wahllokal in 'm_wahllokal.pas' {WahlLokalMod: TDSServerModule},
-  m_http in 'm_http.pas' {HttpMod: TDataModule};
+  m_http in 'm_http.pas' {HttpMod: TDataModule},
+  m_pwd in 'm_pwd.pas' {PwdCheckMod: TDataModule};
 
 {$R *.RES}
 

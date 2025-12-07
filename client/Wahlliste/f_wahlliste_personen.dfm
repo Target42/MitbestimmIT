@@ -2,7 +2,7 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   Left = 0
   Top = 0
   Caption = 'Mitglieder der Wahlliste'
-  ClientHeight = 516
+  ClientHeight = 598
   ClientWidth = 985
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,7 +21,6 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     Align = alTop
     Caption = 'Wahlliste'
     TabOrder = 0
-    ExplicitWidth = 624
     object LabeledEdit1: TLabeledEdit
       Left = 11
       Top = 32
@@ -49,25 +48,25 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
   end
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 456
+    Top = 538
     Width = 985
     Height = 60
     Align = alBottom
     AutoSize = True
     TabOrder = 1
-    ExplicitTop = 381
-    ExplicitWidth = 624
+    ExplicitTop = 456
+    ExplicitWidth = 985
     inherited StatusBar1: TStatusBar
       Width = 985
-      ExplicitWidth = 986
+      ExplicitWidth = 985
     end
     inherited Panel1: TPanel
       Width = 985
       StyleElements = [seFont, seClient, seBorder]
-      ExplicitWidth = 624
+      ExplicitWidth = 985
       inherited OKBtn: TBitBtn
         Left = 881
-        ExplicitLeft = 520
+        ExplicitLeft = 881
       end
     end
   end
@@ -75,7 +74,7 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     Left = 0
     Top = 73
     Width = 985
-    Height = 383
+    Height = 391
     Align = alClient
     DefaultDrawing = False
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goEditing, goFixedRowDefAlign]
@@ -84,15 +83,42 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     OnDrawCell = SGDrawCell
     OnKeyPress = SGKeyPress
     OnSelectCell = SGSelectCell
-    ExplicitTop = 77
+    ExplicitLeft = -8
+    ExplicitTop = 67
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 464
+    Width = 985
+    Height = 74
+    Align = alBottom
+    Caption = 'Aktionen'
+    TabOrder = 3
+    ExplicitTop = 468
+    object BitBtn1: TBitBtn
+      Left = 16
+      Top = 32
+      Width = 89
+      Height = 25
+      Action = ac_paste
+      Caption = 'Einf'#252'gen'
+      TabOrder = 0
+    end
   end
   object PopupMenu1: TPopupMenu
     Left = 200
     Top = 120
     object PopupMenu11: TMenuItem
+      Action = ac_paste
+    end
+  end
+  object ActionList1: TActionList
+    Left = 608
+    Top = 176
+    object ac_paste: TAction
       Caption = 'Einf'#252'gen'
       ShortCut = 16470
-      OnClick = PopupMenu11Click
+      OnExecute = ac_pasteExecute
     end
   end
 end

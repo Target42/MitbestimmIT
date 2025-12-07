@@ -150,7 +150,7 @@ begin
       if TWahlSelectForm.execute then
       begin
         setMenuState(msLoaded);
-        SendMessage(handle,  msgConnected, 0, 0);
+        PostMessage(handle,  msgConnected, 0, 0);
       end
       else
         ac_disconnect.Execute;

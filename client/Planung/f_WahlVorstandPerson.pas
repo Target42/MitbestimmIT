@@ -90,7 +90,10 @@ begin
   LabeledEdit2.Text := m_person.Name;
   LabeledEdit3.Text := m_person.Vorname;
   LabeledEdit4.Text := m_person.eMail;
-  LabeledEdit5.Text := m_person.Login;
+  if m_person.Login <> '' then
+    LabeledEdit5.Text := m_person.Login
+  else
+    LabeledEdit5.Text := m_person.PersNr;
   LabeledEdit6.Text := m_person.GeschlechtStr;
   ComboBox1.ItemIndex := ComboBox1.Items.IndexOf(TWahlvorstandsRolleToString(m_person.Rolle));
 end;

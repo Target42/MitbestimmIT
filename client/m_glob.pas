@@ -87,7 +87,6 @@ type
     FWahlName: string;
     FSimulation: boolean;
 
-
     procedure setHostAddress( value : string);
     procedure setUser( value : string);
   public

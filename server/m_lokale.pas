@@ -98,6 +98,10 @@ function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;
 var
   id : integer;
   persnr : string;
+  function isEmpty( fieldname : string ) : boolean;
+  begin
+    result := (MAPwdTab.FieldByName(fieldname).IsNull ) or (MAPwdTab.FieldByName(fieldname).AsString = '');
+  end;
 begin
   id := JInt( data, 'maid');
   persnr := JString( data, 'persnr');
@@ -120,11 +124,17 @@ begin
     MAPwdTab.Edit;
   end;
 
-  if (MAPwdTab.FieldByName('MW_PwD').IsNull ) or (MAPwdTab.FieldByName('MW_PwD').AsString = '') then
+  if isEmpty('MW_LOGIN') then
+  begin
+    MAPwdTab.FieldByName('MW_LOGIN').AsString := persnr;
+  end;
+
+  if isEmpty('MW_PwD') then
   begin
     MAPwdTab.FieldByName('MW_PwD').AsString := CalcPwdHash(persnr, Glob.ServerSecret);
   end;
-  if (MAPwdTab.FieldByName('MW_SECRET').IsNull ) or (MAPwdTab.FieldByName('MW_SECRET').AsString = '') then
+
+  if isEmpty('MW_SECRET') then
   begin
     MAPwdTab.FieldByName('MW_SECRET').AsString := GenerateBase32Secret;
   end;

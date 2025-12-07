@@ -36,10 +36,13 @@ type
     MAListeWL_TIMESTAMP: TSQLTimeStampField;
     WAUpdate: TFDQuery;
     WAUpdateQry: TDataSetProvider;
+    Helfer: TFDQuery;
+    HelferQry: TDataSetProvider;
     procedure WahllokaleBeforeOpen(DataSet: TDataSet);
     procedure FDQuery1BeforeOpen(DataSet: TDataSet);
     procedure MAListeBeforeOpen(DataSet: TDataSet);
     procedure WAUpdateBeforeOpen(DataSet: TDataSet);
+    procedure HelferBeforeOpen(DataSet: TDataSet);
   private
     function findUser( wa_id, ma_id, wl_id : integer ) : Boolean;
   public
@@ -47,6 +50,9 @@ type
     function ende( data : TJSONObject ) : TJSONObject;
     function wahl( data : TJSONObject ) : TJSONObject;
     function invalid(data : TJSONObject ) : TJSONObject;
+
+    function wechsel(data : TJSONObject ) : TJSONObject;
+    function getHelfer : TJSONObject;
   end;
 
 implementation
@@ -54,7 +60,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, DSSession;
+  u_json, DSSession, u_helper, u_pwd, u_glob, m_pwd;
 
 {$R *.dfm}
 
@@ -89,6 +95,50 @@ begin
   FindUserQry.Open;
   result := not FindUserQry.IsEmpty;
   FindUserQry.Close;
+end;
+
+function TWahlLokalMod.getHelfer: TJSONObject;
+var
+  wl_id : integer;
+  ma_id : integer;
+  session : TDSSession;
+begin
+  Result := TJSONObject.Create;
+  session := TDSSessionManager.GetThreadSession;
+
+  if session.HasData('helferid') then
+  begin
+    ma_id := StrToIntDef(session.GetData('helferid'), -1);
+
+    if ma_id <> -1 then
+    begin
+      Helfer.Open;
+      JResult( Result, false, 'Kein Helfer gefunden!');
+      while not Helfer.Eof do
+      begin
+        if Helfer.FieldByName('MA_ID').AsInteger = ma_id then
+        begin
+          JReplace( result, 'name', Helfer.FieldByName('ma_name').AsString);
+          JReplace( result, 'vorname', Helfer.FieldByName('ma_vorname').AsString);
+          JReplace( result, 'abteilung', Helfer.FieldByName('ma_abteilung').AsString);
+          JResult( Result, true, 'Helfer gefunden!');
+          break;
+        end;
+
+        Helfer.Next;
+      end;
+      Helfer.Close;
+    end
+    else
+      JResult( Result, false, 'Kein Helfer gefunden!');
+  end
+  else
+    JResult( Result, false, 'Es ist niemand angemeldet');
+end;
+
+procedure TWahlLokalMod.HelferBeforeOpen(DataSet: TDataSet);
+begin
+  Helfer.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 function TWahlLokalMod.invalid(data: TJSONObject): TJSONObject;
@@ -238,6 +288,58 @@ end;
 procedure TWahlLokalMod.WAUpdateBeforeOpen(DataSet: TDataSet);
 begin
   WAUpdate.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+end;
+
+function TWahlLokalMod.wechsel(data: TJSONObject): TJSONObject;
+var
+  wl_id : integer;
+  ma_id : integer;
+  ok    : boolean;
+  pwd   : string;
+  oldpwd : string;
+  session : TDSSession;
+begin
+  ok := false;
+  Result := TJSONObject.Create;
+  session := TDSSessionManager.GetThreadSession;
+
+  wl_id  := -1;
+  ma_id  := JInt( data,    'maid', -1);
+  pwd    := JString( data, 'pwd');
+  oldpwd := JString( data, 'oldpwd');
+
+  if session.HasData('lokalid') then
+  begin
+    wl_id := StrToIntDef(session.getData('lokalid'), -1);
+  end;
+
+  if wl_id <> -1 then
+  begin
+    CheckUserQry.ParamByName('wa_id').AsInteger := DBMod.WahlID;
+    CheckUserQry.ParamByName('ma_id').AsInteger := ma_id;
+    CheckUserQry.ParamByName('WL_ID').AsInteger := wl_id;
+
+    CheckUserQry.Open;
+    ok := CheckUserQry.RecordCount = 1;
+    CheckUserQry.Close;
+
+      if ok then
+      begin
+        case TPwdCheckMod.checkUserMod(ma_id, pwd) of
+          TPwdCheckMod.TResultTyp.rtUnknown:
+          begin
+            JResult(result, ok, 'Irgendwas ist falsch !!');
+            session.putData('helferid', intToStr(ma_id));
+          end;
+          TPwdCheckMod.TResultTyp.rtNoUser:       JResult(result, ok, 'Der User isnt ubekannt!');
+          TPwdCheckMod.TResultTyp.rtWrongPwd:     JResult(result, ok, 'Das neue Passwort ist falsch!');
+          TPwdCheckMod.TResultTyp.rtOldPwdWrong:  JResult(result, ok, 'Der Passwort des alten Besitzers ist falsch!');
+          TPwdCheckMod.TResultTyp.rtOk:           JResult(result, ok, 'Der Wahlhelfer wurde gewechselt!');
+        end;
+    end;
+  end
+  else
+    JResult(result, ok, 'Kein passendes Wahllokal gefunden!');
 end;
 
 end.

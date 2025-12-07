@@ -38,10 +38,14 @@ type
     MaListQryWL_TIMESTAMP: TSQLTimeStampField;
     FDStanStorageXMLLink1: TFDStanStorageXMLLink;
     ClientDataSet1: TClientDataSet;
+    BitBtn2: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
   private
+    ma_id : integer;
     procedure UpdateList;
+    procedure updateHelfer;
   public
     class procedure execute;
   end;
@@ -52,7 +56,7 @@ var
 implementation
 
 uses
-  System.JSON, system.UITypes;
+  System.JSON, system.UITypes, f_helfer_wechsel;
 
 {$R *.dfm}
 
@@ -102,6 +106,14 @@ begin
 
 end;
 
+procedure TWahlForm.BitBtn2Click(Sender: TObject);
+begin
+  if THelferWechselForm.execute then
+  begin
+    updateHelfer
+  end;
+end;
+
 class procedure TWahlForm.execute;
 begin
   Application.CreateForm(TWahlForm, WahlForm);
@@ -121,8 +133,34 @@ begin
   MAList.FieldByName('wl_raum').ReadOnly := false;
   MAList.First;
 
-  UpdateList
+  UpdateList;
 //  MAList.SaveToFile('data.xml', sfXML);
+  updateHelfer;
+end;
+
+procedure TWahlForm.updateHelfer;
+var
+  client : TWahlLokalModClient;
+  res : TJSONObject;
+begin
+  client := TWahlLokalModClient.Create( GM.SQLConnection1.DBXConnection);
+
+  res := client.getHelfer;
+
+  if not JBool(res, 'result') then
+    ShowMessage(JString(res, 'text'))
+  else
+  begin
+    StatusBar1.SimpleText := format('%s, %s (%s)',
+    [
+      JString( res, 'name'),
+      JString( res, 'vorname'),
+      JString( res, 'abteilung')
+    ]
+    );
+  end;
+
+  client.Free;
 end;
 
 procedure TWahlForm.UpdateList;

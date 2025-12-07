@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 24.11.2025 21:14:15
+// 02.12.2025 21:09:58
 //
 
 unit u_stub;
@@ -194,20 +194,30 @@ type
   private
     FWahllokaleBeforeOpenCommand: TDBXCommand;
     FFDQuery1BeforeOpenCommand: TDBXCommand;
+    FMAListeBeforeOpenCommand: TDBXCommand;
+    FWAUpdateBeforeOpenCommand: TDBXCommand;
+    FHelferBeforeOpenCommand: TDBXCommand;
     FstartCommand: TDBXCommand;
     FendeCommand: TDBXCommand;
     FwahlCommand: TDBXCommand;
     FinvalidCommand: TDBXCommand;
+    FwechselCommand: TDBXCommand;
+    FgetHelferCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     procedure WahllokaleBeforeOpen(DataSet: TDataSet);
     procedure FDQuery1BeforeOpen(DataSet: TDataSet);
+    procedure MAListeBeforeOpen(DataSet: TDataSet);
+    procedure WAUpdateBeforeOpen(DataSet: TDataSet);
+    procedure HelferBeforeOpen(DataSet: TDataSet);
     function start(data: TJSONObject): TJSONObject;
     function ende(data: TJSONObject): TJSONObject;
     function wahl(data: TJSONObject): TJSONObject;
     function invalid(data: TJSONObject): TJSONObject;
+    function wechsel(data: TJSONObject): TJSONObject;
+    function getHelfer: TJSONObject;
   end;
 
 implementation
@@ -1199,6 +1209,45 @@ begin
   FFDQuery1BeforeOpenCommand.ExecuteUpdate;
 end;
 
+procedure TWahlLokalModClient.MAListeBeforeOpen(DataSet: TDataSet);
+begin
+  if FMAListeBeforeOpenCommand = nil then
+  begin
+    FMAListeBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMAListeBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMAListeBeforeOpenCommand.Text := 'TWahlLokalMod.MAListeBeforeOpen';
+    FMAListeBeforeOpenCommand.Prepare;
+  end;
+  FMAListeBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMAListeBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TWahlLokalModClient.WAUpdateBeforeOpen(DataSet: TDataSet);
+begin
+  if FWAUpdateBeforeOpenCommand = nil then
+  begin
+    FWAUpdateBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FWAUpdateBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWAUpdateBeforeOpenCommand.Text := 'TWahlLokalMod.WAUpdateBeforeOpen';
+    FWAUpdateBeforeOpenCommand.Prepare;
+  end;
+  FWAUpdateBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FWAUpdateBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TWahlLokalModClient.HelferBeforeOpen(DataSet: TDataSet);
+begin
+  if FHelferBeforeOpenCommand = nil then
+  begin
+    FHelferBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FHelferBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FHelferBeforeOpenCommand.Text := 'TWahlLokalMod.HelferBeforeOpen';
+    FHelferBeforeOpenCommand.Prepare;
+  end;
+  FHelferBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FHelferBeforeOpenCommand.ExecuteUpdate;
+end;
+
 function TWahlLokalModClient.start(data: TJSONObject): TJSONObject;
 begin
   if FstartCommand = nil then
@@ -1255,6 +1304,33 @@ begin
   Result := TJSONObject(FinvalidCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TWahlLokalModClient.wechsel(data: TJSONObject): TJSONObject;
+begin
+  if FwechselCommand = nil then
+  begin
+    FwechselCommand := FDBXConnection.CreateCommand;
+    FwechselCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FwechselCommand.Text := 'TWahlLokalMod.wechsel';
+    FwechselCommand.Prepare;
+  end;
+  FwechselCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FwechselCommand.ExecuteUpdate;
+  Result := TJSONObject(FwechselCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TWahlLokalModClient.getHelfer: TJSONObject;
+begin
+  if FgetHelferCommand = nil then
+  begin
+    FgetHelferCommand := FDBXConnection.CreateCommand;
+    FgetHelferCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetHelferCommand.Text := 'TWahlLokalMod.getHelfer';
+    FgetHelferCommand.Prepare;
+  end;
+  FgetHelferCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetHelferCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
 constructor TWahlLokalModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -1269,10 +1345,15 @@ destructor TWahlLokalModClient.Destroy;
 begin
   FWahllokaleBeforeOpenCommand.Free;
   FFDQuery1BeforeOpenCommand.Free;
+  FMAListeBeforeOpenCommand.Free;
+  FWAUpdateBeforeOpenCommand.Free;
+  FHelferBeforeOpenCommand.Free;
   FstartCommand.Free;
   FendeCommand.Free;
   FwahlCommand.Free;
   FinvalidCommand.Free;
+  FwechselCommand.Free;
+  FgetHelferCommand.Free;
   inherited;
 end;
 

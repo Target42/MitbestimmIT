@@ -192,6 +192,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <Form>HttpMod</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="m_pwd.pas">
+            <Form>PwdCheckMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

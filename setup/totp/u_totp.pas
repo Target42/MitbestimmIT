@@ -49,17 +49,16 @@ var
   len : integer;
 begin
   Result := '';
-  len := System.Length(Base32Chars) + 1;
+  len := System.Length(Base32Chars);
   for i := 1 to Length do
   begin
-    Result := Result + Base32Chars[Random(len)];
+    Result := Result + Base32Chars[Random(len)+1];
   end;
 end;
 
 function SecondsRemaining(TimeStep: Integer): Integer;
-
 begin
- Result := TimeStep - ((DateTimeToUnix(TDateTime.NowUTC) + TimeDelta) mod TimeStep);
+   Result := TimeStep - ((DateTimeToUnix(TDateTime.NowUTC) + TimeDelta) mod TimeStep);
 end;
 
 function GenerateTOTP(const Base32Secret: string; TimeStep: Integer; Digits: Integer; TimeOffset: Integer): string;

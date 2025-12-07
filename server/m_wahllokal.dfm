@@ -315,4 +315,33 @@ object WahlLokalMod: TWahlLokalMod
     Left = 208
     Top = 264
   end
+  object Helfer: TFDQuery
+    BeforeOpen = HelferBeforeOpen
+    Connection = DBMod.FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      'SELECT '
+      '  b.*, a.WH_ROLLE'
+      'FROM '
+      '    WH_WAHL_HELFER a,'
+      '    MA_MITARBEITER b'
+      'where'
+      '  a.MA_ID = b.MA_ID'
+      'and'
+      '  a.WA_ID = :wa_id')
+    Left = 40
+    Top = 208
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object HelferQry: TDataSetProvider
+    DataSet = Helfer
+    Left = 48
+    Top = 272
+  end
 end

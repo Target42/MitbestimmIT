@@ -111,6 +111,30 @@ object MainClientForm: TMainClientForm
         Width = 317
         ExplicitTop = 180
         ExplicitWidth = 317
+        inherited Label1: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Gremium: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label2: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Freistellungen: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label3: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Minderheit: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label4: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited MinderheitnSitze: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
       end
       inherited GroupBox3: TGroupBox
         Width = 317

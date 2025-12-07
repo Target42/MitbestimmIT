@@ -59,7 +59,8 @@ uses
   f_wahllokal_select in 'Wahllokal\f_wahllokal_select.pas' {SelectWahlLokalForm},
   fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  f_helfer_wechsel in 'Wahllokal\f_helfer_wechsel.pas' {HelferWechselForm};
 
 {$R *.res}
 

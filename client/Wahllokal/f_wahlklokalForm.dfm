@@ -240,7 +240,6 @@ object WahllokalForm: TWahllokalForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TLokaleMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 48
     Top = 48
