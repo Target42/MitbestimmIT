@@ -68,7 +68,10 @@ begin
 
   ShowResult( res, true );
   if JBool( res, 'result') then
-    close;
+  begin
+    ModalResult := mrOk;
+  end;
+  client.Free;
 end;
 
 procedure THelferWechselForm.ClientDataSet1MA_GENDERGetText(Sender: TField;

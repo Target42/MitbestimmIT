@@ -52,18 +52,21 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
         Expanded = False
         FieldName = 'WL_START'
         Title.Caption = 'Start'
+        Width = 110
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'WL_ENDE'
         Title.Caption = 'Ende'
+        Width = 110
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'WH_ROLLE'
         Title.Caption = 'Rolle'
+        Width = 64
         Visible = True
       end>
   end
@@ -94,6 +97,7 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlLokalMod'
+    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 104
     Top = 112
@@ -105,6 +109,42 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
     RemoteServer = DSProviderConnection1
     Left = 232
     Top = 120
+    object ClientDataSet1WA_ID: TIntegerField
+      FieldName = 'WA_ID'
+      Required = True
+    end
+    object ClientDataSet1WL_ID: TIntegerField
+      FieldName = 'WL_ID'
+      Required = True
+    end
+    object ClientDataSet1WL_BAU: TStringField
+      FieldName = 'WL_BAU'
+      Size = 100
+    end
+    object ClientDataSet1WL_STOCKWERK: TStringField
+      FieldName = 'WL_STOCKWERK'
+      Size = 10
+    end
+    object ClientDataSet1WL_RAUM: TStringField
+      FieldName = 'WL_RAUM'
+      Size = 10
+    end
+    object ClientDataSet1WL_START: TSQLTimeStampField
+      FieldName = 'WL_START'
+      DisplayFormat = 'dd.mm.yy hh:MM'
+    end
+    object ClientDataSet1WL_ENDE: TSQLTimeStampField
+      FieldName = 'WL_ENDE'
+    end
+    object ClientDataSet1MA_ID: TIntegerField
+      FieldName = 'MA_ID'
+      ReadOnly = True
+    end
+    object ClientDataSet1WH_ROLLE: TStringField
+      FieldName = 'WH_ROLLE'
+      ReadOnly = True
+      Size = 100
+    end
   end
   object DataSource1: TDataSource
     DataSet = ClientDataSet1

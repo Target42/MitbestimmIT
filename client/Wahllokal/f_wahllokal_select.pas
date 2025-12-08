@@ -14,6 +14,15 @@ type
     DSProviderConnection1: TDSProviderConnection;
     ClientDataSet1: TClientDataSet;
     DataSource1: TDataSource;
+    ClientDataSet1WA_ID: TIntegerField;
+    ClientDataSet1WL_ID: TIntegerField;
+    ClientDataSet1WL_BAU: TStringField;
+    ClientDataSet1WL_STOCKWERK: TStringField;
+    ClientDataSet1WL_RAUM: TStringField;
+    ClientDataSet1WL_START: TSQLTimeStampField;
+    ClientDataSet1WL_ENDE: TSQLTimeStampField;
+    ClientDataSet1MA_ID: TIntegerField;
+    ClientDataSet1WH_ROLLE: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure BaseFrame1OKBtnClick(Sender: TObject);
   private

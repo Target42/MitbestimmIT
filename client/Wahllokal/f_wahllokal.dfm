@@ -12,6 +12,7 @@ object WahlForm: TWahlForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
@@ -131,7 +132,6 @@ object WahlForm: TWahlForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlLokalMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 56
     Top = 40

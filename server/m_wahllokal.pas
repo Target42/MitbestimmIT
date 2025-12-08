@@ -313,6 +313,7 @@ begin
     wl_id := StrToIntDef(session.getData('lokalid'), -1);
   end;
 
+
   if wl_id <> -1 then
   begin
     CheckUserQry.ParamByName('wa_id').AsInteger := DBMod.WahlID;
@@ -334,7 +335,11 @@ begin
           TPwdCheckMod.TResultTyp.rtNoUser:       JResult(result, ok, 'Der User isnt ubekannt!');
           TPwdCheckMod.TResultTyp.rtWrongPwd:     JResult(result, ok, 'Das neue Passwort ist falsch!');
           TPwdCheckMod.TResultTyp.rtOldPwdWrong:  JResult(result, ok, 'Der Passwort des alten Besitzers ist falsch!');
-          TPwdCheckMod.TResultTyp.rtOk:           JResult(result, ok, 'Der Wahlhelfer wurde gewechselt!');
+          TPwdCheckMod.TResultTyp.rtOk:
+          begin
+            JResult(result, ok, 'Der Wahlhelfer wurde gewechselt!');
+            session.PutData('helferid', IntToSTr(ma_id));
+          end;
         end;
     end;
   end

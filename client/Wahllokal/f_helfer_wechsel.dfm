@@ -21,7 +21,6 @@ object HelferWechselForm: THelferWechselForm
     Align = alClient
     Caption = 'Helfer'
     TabOrder = 0
-    ExplicitHeight = 276
     object DBGrid1: TDBGrid
       Left = 2
       Top = 17
@@ -87,7 +86,6 @@ object HelferWechselForm: THelferWechselForm
     Align = alBottom
     Caption = 'Passwort'
     TabOrder = 1
-    ExplicitTop = 340
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 40
@@ -128,9 +126,6 @@ object HelferWechselForm: THelferWechselForm
     Width = 740
     Height = 19
     Panels = <>
-    ExplicitLeft = 192
-    ExplicitTop = 464
-    ExplicitWidth = 0
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlLokalMod'

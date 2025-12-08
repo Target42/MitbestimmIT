@@ -42,6 +42,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     ma_id : integer;
     procedure UpdateList;
@@ -138,10 +139,24 @@ begin
   updateHelfer;
 end;
 
+procedure TWahlForm.FormDestroy(Sender: TObject);
+var
+  client : TWahlLokalModClient;
+  data: TJSONObject;
+begin
+  data := TJSONObject.Create;
+
+  client := TWahlLokalModClient.Create( GM.SQLConnection1.DBXConnection);
+  client.ende(data);
+  client.Free;
+
+end;
+
 procedure TWahlForm.updateHelfer;
 var
   client : TWahlLokalModClient;
   res : TJSONObject;
+
 begin
   client := TWahlLokalModClient.Create( GM.SQLConnection1.DBXConnection);
 
