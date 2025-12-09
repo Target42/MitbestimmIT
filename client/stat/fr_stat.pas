@@ -32,8 +32,17 @@ type
     Splitter4: TSplitter;
     GroupBox5: TGroupBox;
     Wahlphasen: TListView;
+    Briefwahl: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label5: TLabel;
+    BriefLab: TLabel;
+    SendLab: TLabel;
+    ErhaltenLab: TLabel;
+    Stimzettel: TLabel;
   private
     procedure updateMAData( data : TJSONObject );
+    procedure updateBriefWahl( data : TJSONObject );
     procedure UpdateWahllisten( arr : TJSONArray);
     procedure UpdateWahllokale( arr : TJSONArray);
     procedure UpdateWahlphasen( arr : TJSONArray);
@@ -49,6 +58,13 @@ uses u_stub, u_json, m_glob;
 
 { TStatFrame }
 
+procedure TStatFrame.updateBriefWahl(data: TJSONObject);
+begin
+  BriefLab.Caption   := IntToStr(  JInt( data, 'antrag'));
+  SendLab.Caption     := IntToStr( JInt( data, 'versendet'));
+  ErhaltenLab.Caption := IntToStr( JInt( data, 'empfangen'));
+end;
+
 procedure TStatFrame.UpdateData;
 var
   client : TStadModClient;
@@ -60,10 +76,13 @@ begin
   if Assigned(data) then
   begin
     updateMAData(JObject(data, 'ma'));
+    updateBriefWahl(JObject(data, 'brief'));
+
     UpdateWahllisten(JArray( data, 'listen'));
     UpdateWahllokale(JArray( data, 'lokale'));
     UpdateWahlphasen(JArray( data, 'wahl'));
   end;
+
 
   client.Free;
 end;
@@ -82,6 +101,7 @@ begin
   Freistellungen.Caption := IntToStr(JInt( data, 'freistellungen' ));
   MinderheitnSitze.Caption := IntToStr(JInt( data, 'minmin' ));
   Minderheit.Caption := JString( data, 'minderheit');
+  Stimzettel.Caption := IntToStr( JInt( data, 'stimmen'));
 end;
 
 procedure TStatFrame.UpdateWahllisten(arr: TJSONArray);

@@ -59,10 +59,6 @@ object StatFrame: TStatFrame
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 32
-      ExplicitTop = 40
-      ExplicitWidth = 400
-      ExplicitHeight = 250
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 13
       object Series1: THorizBarSeries
@@ -90,7 +86,7 @@ object StatFrame: TStatFrame
     Align = alTop
     Caption = 'Gremium'
     TabOrder = 1
-    ExplicitTop = 177
+    ExplicitTop = 181
     object Label1: TLabel
       Left = 16
       Top = 24
@@ -105,7 +101,7 @@ object StatFrame: TStatFrame
       ParentFont = False
     end
     object Gremium: TLabel
-      Left = 188
+      Left = 126
       Top = 24
       Width = 6
       Height = 15
@@ -125,7 +121,7 @@ object StatFrame: TStatFrame
       ParentFont = False
     end
     object Freistellungen: TLabel
-      Left = 187
+      Left = 126
       Top = 45
       Width = 6
       Height = 15
@@ -134,9 +130,9 @@ object StatFrame: TStatFrame
     object Label3: TLabel
       Left = 16
       Top = 66
-      Width = 165
+      Width = 104
       Height = 15
-      Caption = 'Geschlecht in der Minderheit:'
+      Caption = 'Geschlecht i. d. M.:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -145,7 +141,7 @@ object StatFrame: TStatFrame
       ParentFont = False
     end
     object Minderheit: TLabel
-      Left = 187
+      Left = 126
       Top = 66
       Width = 32
       Height = 15
@@ -165,7 +161,87 @@ object StatFrame: TStatFrame
       ParentFont = False
     end
     object MinderheitnSitze: TLabel
-      Left = 187
+      Left = 126
+      Top = 87
+      Width = 6
+      Height = 15
+      Caption = '0'
+    end
+    object Briefwahl: TLabel
+      Left = 176
+      Top = 24
+      Width = 103
+      Height = 15
+      Caption = 'Briefwahlantr'#228'ge :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 176
+      Top = 45
+      Width = 129
+      Height = 15
+      Caption = 'Unterlagen versendet :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 176
+      Top = 66
+      Width = 119
+      Height = 15
+      Caption = 'Unterlagen erhalten :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 176
+      Top = 88
+      Width = 146
+      Height = 15
+      Caption = 'Stimmzettel ausgegeben :'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object BriefLab: TLabel
+      Left = 328
+      Top = 24
+      Width = 6
+      Height = 15
+      Caption = '0'
+    end
+    object SendLab: TLabel
+      Left = 328
+      Top = 45
+      Width = 6
+      Height = 15
+      Caption = '0'
+    end
+    object ErhaltenLab: TLabel
+      Left = 328
+      Top = 66
+      Width = 6
+      Height = 15
+      Caption = '0'
+    end
+    object Stimzettel: TLabel
+      Left = 328
       Top = 87
       Width = 6
       Height = 15
@@ -180,9 +256,6 @@ object StatFrame: TStatFrame
     Align = alTop
     Caption = 'Wahllisten'
     TabOrder = 2
-    ExplicitLeft = 56
-    ExplicitTop = 312
-    ExplicitWidth = 185
     object Wahllisten: TListView
       Left = 2
       Top = 17
@@ -204,8 +277,6 @@ object StatFrame: TStatFrame
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 1
-      ExplicitTop = 13
     end
   end
   object GroupBox4: TGroupBox
@@ -216,9 +287,6 @@ object StatFrame: TStatFrame
     Align = alTop
     Caption = 'Wahllokale'
     TabOrder = 3
-    ExplicitLeft = 72
-    ExplicitTop = 424
-    ExplicitWidth = 185
     object Wahllokale: TListView
       Left = 2
       Top = 17
@@ -244,7 +312,6 @@ object StatFrame: TStatFrame
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitTop = 16
     end
   end
   object GroupBox5: TGroupBox
@@ -255,10 +322,6 @@ object StatFrame: TStatFrame
     Align = alClient
     Caption = 'Wahlphasen'
     TabOrder = 4
-    ExplicitLeft = 56
-    ExplicitTop = 568
-    ExplicitWidth = 185
-    ExplicitHeight = 105
     object Wahlphasen: TListView
       Left = 2
       Top = 17

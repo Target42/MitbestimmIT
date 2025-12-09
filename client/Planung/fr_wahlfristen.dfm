@@ -25,6 +25,7 @@ object WahlfristenFrame: TWahlfristenFrame
     Legend.Visible = False
     Title.Text.Strings = (
       'Wahlablauf')
+    BottomAxis.LabelsAngle = 45
     BottomAxis.Title.Angle = 45
     View3D = False
     Align = alClient

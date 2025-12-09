@@ -153,25 +153,25 @@ end;
 procedure TWahlfristenFrame.updateItem(item: TListItem; phase: PTWahlPhase);
 begin
   item.Data       := phase;
-  item.Caption    := intToStr(phase^.nr);
+  item.Caption    := intToStr(phase^.nr + 1);
 
   item.SubItems.Clear;
   item.SubItems.Add(phase^.titel);
   if (phase^.typ = dtTag) then
   begin
-    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.start, m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yy', phase^.start, m_fmt));
   end
   else
   if (phase^.typ = dtZeitraum) then
   begin
-    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.start,m_fmt));
-    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy', phase^.ende, m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yy', phase^.start,m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yy', phase^.ende, m_fmt));
   end
   else
   if (phase^.typ = dtZeitpunkte) then
   begin
-    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy hh:mm', phase^.start,m_fmt));
-    item.SubItems.Add(FormatDateTime('ddd dd.MM.yyyy hh:mm', phase^.ende, m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yy hh:mm', phase^.start,m_fmt));
+    item.SubItems.Add(FormatDateTime('ddd dd.MM.yy hh:mm', phase^.ende, m_fmt));
   end;
 
 end;

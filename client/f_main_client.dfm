@@ -36,7 +36,7 @@ object MainClientForm: TMainClientForm
     ExplicitWidth = 68
   end
   object Splitter1: TSplitter
-    Left = 321
+    Left = 353
     Top = 32
     Height = 680
     Visible = False
@@ -63,7 +63,7 @@ object MainClientForm: TMainClientForm
   object StatBox: TGroupBox
     Left = 0
     Top = 32
-    Width = 321
+    Width = 353
     Height = 680
     Align = alLeft
     Caption = 'Daten'
@@ -72,7 +72,7 @@ object MainClientForm: TMainClientForm
     inline StatFrame1: TStatFrame
       Left = 2
       Top = 17
-      Width = 317
+      Width = 349
       Height = 661
       Align = alClient
       TabOrder = 0
@@ -81,34 +81,31 @@ object MainClientForm: TMainClientForm
       ExplicitWidth = 317
       ExplicitHeight = 661
       inherited Splitter1: TSplitter
-        Width = 317
+        Width = 349
         ExplicitWidth = 317
       end
       inherited Splitter2: TSplitter
-        Width = 317
+        Width = 349
         ExplicitWidth = 317
       end
       inherited Splitter3: TSplitter
-        Width = 317
+        Width = 349
         ExplicitWidth = 317
       end
       inherited Splitter4: TSplitter
-        Width = 317
+        Width = 349
         ExplicitWidth = 317
       end
       inherited GroupBox1: TGroupBox
-        Width = 317
+        Width = 349
         ExplicitWidth = 317
         inherited Chart1: TChart
-          Width = 313
-          ExplicitLeft = 2
-          ExplicitTop = 17
+          Width = 345
           ExplicitWidth = 313
-          ExplicitHeight = 158
         end
       end
       inherited GroupBox2: TGroupBox
-        Width = 317
+        Width = 349
         ExplicitTop = 180
         ExplicitWidth = 317
         inherited Label1: TLabel
@@ -135,40 +132,68 @@ object MainClientForm: TMainClientForm
         inherited MinderheitnSitze: TLabel
           StyleElements = [seFont, seClient, seBorder]
         end
+        inherited Briefwahl: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label6: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label7: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Label5: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited BriefLab: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited SendLab: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited ErhaltenLab: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
+        inherited Stimzettel: TLabel
+          StyleElements = [seFont, seClient, seBorder]
+        end
       end
       inherited GroupBox3: TGroupBox
-        Width = 317
-        ExplicitLeft = 0
-        ExplicitTop = 303
+        Width = 349
         ExplicitWidth = 317
         inherited Wahllisten: TListView
-          Width = 313
-          ExplicitLeft = 2
-          ExplicitTop = 17
+          Width = 345
           ExplicitWidth = 313
         end
       end
       inherited GroupBox4: TGroupBox
-        Width = 317
-        ExplicitLeft = 0
-        ExplicitTop = 411
+        Width = 349
         ExplicitWidth = 317
         inherited Wahllokale: TListView
-          Width = 313
-          ExplicitTop = 17
+          Width = 345
           ExplicitWidth = 313
         end
       end
       inherited GroupBox5: TGroupBox
-        Width = 317
+        Width = 349
         Height = 142
-        ExplicitLeft = 0
-        ExplicitTop = 519
         ExplicitWidth = 317
         ExplicitHeight = 142
         inherited Wahlphasen: TListView
-          Width = 313
+          Width = 345
           Height = 123
+          Columns = <
+            item
+              Caption = 'Phase'
+              Width = 150
+            end
+            item
+              Caption = 'Start'
+              Width = 75
+            end
+            item
+              Caption = 'Ende'
+              Width = 75
+            end>
           ExplicitWidth = 313
           ExplicitHeight = 123
         end
@@ -176,7 +201,7 @@ object MainClientForm: TMainClientForm
     end
   end
   object MainMenu1: TMainMenu
-    Left = 496
+    Left = 568
     Top = 56
     object Programm1: TMenuItem
       Caption = 'Programm'
@@ -264,7 +289,7 @@ object MainClientForm: TMainClientForm
     end
   end
   object ActionList1: TActionList
-    Left = 376
+    Left = 448
     Top = 48
     object FileExit1: TFileExit
       Category = 'Datei'

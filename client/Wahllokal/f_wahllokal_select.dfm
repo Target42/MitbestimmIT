@@ -66,7 +66,6 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
         Expanded = False
         FieldName = 'WH_ROLLE'
         Title.Caption = 'Rolle'
-        Width = 64
         Visible = True
       end>
   end
@@ -97,7 +96,6 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlLokalMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 104
     Top = 112
@@ -135,6 +133,7 @@ object SelectWahlLokalForm: TSelectWahlLokalForm
     end
     object ClientDataSet1WL_ENDE: TSQLTimeStampField
       FieldName = 'WL_ENDE'
+      DisplayFormat = 'dd.mm.yy hh:MM'
     end
     object ClientDataSet1MA_ID: TIntegerField
       FieldName = 'MA_ID'

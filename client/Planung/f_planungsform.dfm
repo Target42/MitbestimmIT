@@ -1,7 +1,7 @@
 object Planungsform: TPlanungsform
   Left = 0
   Top = 0
-  ActiveControl = WahlfristenFrame1.Chart1
+  ActiveControl = WahlverfahrenFrame1.RichEdit1
   Caption = 'Wahlplanung'
   ClientHeight = 573
   ClientWidth = 756
@@ -27,7 +27,7 @@ object Planungsform: TPlanungsform
     Top = 0
     Width = 756
     Height = 554
-    ActivePage = JvWizardInteriorPage1
+    ActivePage = JvWizardWelcomePage1
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -88,6 +88,7 @@ object Planungsform: TPlanungsform
         ExplicitHeight = 442
         inherited RadioGroup1: TRadioGroup
           Width = 592
+          ExplicitTop = 0
           ExplicitWidth = 592
         end
         inherited RichEdit1: TRichEdit
@@ -146,6 +147,7 @@ object Planungsform: TPlanungsform
           ExplicitWidth = 756
           inherited LV: TListView
             Width = 752
+            ExplicitTop = 19
             ExplicitWidth = 752
           end
           inherited Panel1: TPanel

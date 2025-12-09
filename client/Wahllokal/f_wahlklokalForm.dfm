@@ -225,7 +225,7 @@ object WahllokalForm: TWahllokalForm
         item
           Expanded = False
           FieldName = 'WH_ROLLE'
-          Title.Caption = 'Bemerkung'
+          Title.Caption = 'Rolle'
           Width = 100
           Visible = True
         end>
@@ -240,6 +240,7 @@ object WahllokalForm: TWahllokalForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TLokaleMod'
+    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 48
     Top = 48
@@ -333,7 +334,7 @@ object WahllokalForm: TWahllokalForm
     Left = 304
     Top = 268
     object Bemerkungbearbeiten1: TMenuItem
-      Caption = 'Bemerkung bearbeiten'
+      Caption = 'Rolle bearbeiten'
       OnClick = Bemerkungbearbeiten1Click
     end
   end

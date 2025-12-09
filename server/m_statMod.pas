@@ -17,11 +17,14 @@ type
     ListenQry: TFDQuery;
     LokaleQry: TFDQuery;
     WahlQry: TFDQuery;
+    BriefQry: TFDQuery;
+    StimmenQry: TFDQuery;
   private
     function getMAData : TJSONObject;
     function getWahlListen : TJSONArray;
     function getLokale : TJSONArray;
     function getWahl : TJSONArray;
+    function getBriefWahl : TJSONObject;
   public
     function getStats : TJSONObject;
   end;
@@ -30,11 +33,27 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses m_db, u_BER_Berechnungen, u_json;
+uses
+  m_db, u_BER_Berechnungen, u_json, CodeSiteLogging;
 
 {$R *.dfm}
 
 { TStadMod }
+
+function TStadMod.getBriefWahl: TJSONObject;
+begin
+  Result := TJSONObject.Create;
+
+  BriefQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  BriefQry.Open;
+
+  JReplace( result, 'antrag', BriefQry.FieldByName('ANTRAG_COUNT').AsInteger);
+  JReplace( result, 'versendet', BriefQry.FieldByName('VERSENDET_COUNT').AsInteger);
+  JReplace( result, 'empfangen', BriefQry.FieldByName('EMPFANGEN_COUNT').AsInteger);
+
+  BriefQry.Close;
+
+end;
 
 function TStadMod.getLokale: TJSONArray;
 var
@@ -95,16 +114,26 @@ begin
   else
     JReplace( result, 'minderheit', 'Frauen');
 
+  StimmenQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  StimmenQry.Open;
+  JReplace( result, 'stimmen', StimmenQry.FieldByName('count').AsInteger);
+  StimmenQry.Close;
 end;
 
 function TStadMod.getStats: TJSONObject;
 begin
+  CodeSite.EnterMethod(self, 'getStats');
   Result := TJSONObject.Create;
 
   JReplace( Result, 'ma',     getMAData);
   JReplace( Result, 'listen', getWahlListen);
   JReplace( result, 'lokale', getLokale);
   JReplace( result, 'wahl',   getWahl );
+  JReplace( result, 'brief',  getBriefWahl);
+
+  CodeSite.Send('result', formatJSON(Result));
+
+  CodeSite.ExitMethod(self, 'getStats');
 end;
 
 function TStadMod.getWahl: TJSONArray;

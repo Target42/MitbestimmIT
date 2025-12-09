@@ -94,4 +94,47 @@ object StadMod: TStadMod
         Value = Null
       end>
   end
+  object BriefQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT'
+      
+        '    SUM(CASE WHEN r.BW_ANTRAG IS NOT NULL THEN 1 ELSE 0 END) AS ' +
+        'ANTRAG_COUNT,'
+      
+        '    SUM(CASE WHEN r.BW_VERSENDET IS NOT NULL THEN 1 ELSE 0 END) ' +
+        'AS VERSENDET_COUNT,'
+      
+        '    SUM(CASE WHEN r.BW_EMPFANGEN IS NOT NULL THEN 1 ELSE 0 END) ' +
+        'AS EMPFANGEN_COUNT'
+      'FROM BW_BRIEF_WAHL r'
+      'where'
+      '  r.wa_id = :wa_id')
+    Left = 344
+    Top = 80
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object StimmenQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT count(r.WA_ID)'
+      'FROM MA_WL r'
+      'where'
+      '  wa_id = :wa_id')
+    Left = 344
+    Top = 160
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end
