@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     07.12.2025  21:09                          */
+/*   Created on:     10.12.2025  19:21                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -78,6 +78,7 @@ create table WA_WAHL
     WA_ACTIVE                       CHAR(1)                        ,
     WA_DATA                         BLOB                           ,
     WA_TYP                          INTEGER                        ,
+    WA_PIC_NAME                     VARCHAR(150)                   ,
     constraint PK_WA_WAHL primary key (WA_ID)
 );
 

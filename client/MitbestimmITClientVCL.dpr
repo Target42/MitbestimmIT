@@ -60,7 +60,9 @@ uses
   fr_base in '..\lib\fr_base.pas' {BaseFrame: TFrame},
   Vcl.Themes,
   Vcl.Styles,
-  f_helfer_wechsel in 'Wahllokal\f_helfer_wechsel.pas' {HelferWechselForm};
+  f_helfer_wechsel in 'Wahllokal\f_helfer_wechsel.pas' {HelferWechselForm},
+  u_imageinfo in '..\lib\u_imageinfo.pas',
+  f_logo in 'Admin\f_logo.pas' {LogoForm};
 
 {$R *.res}
 
@@ -82,5 +84,6 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
+
   Application.Run;
 end.

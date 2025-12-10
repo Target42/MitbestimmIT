@@ -7,6 +7,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
   Width = 1026
   object DSServer1: TDSServer
     OnConnect = DSServer1Connect
+    AutoStart = False
     Left = 72
     Top = 25
   end

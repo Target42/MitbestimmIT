@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     07.12.2025  21:09                          ' +
+            '/*   Created on:     10.12.2025  19:21                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -179,6 +179,9 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WA_TYP                          INTEGER                     ' +
+            '   ,'
+          
+            '    WA_PIC_NAME                     VARCHAR(150)                ' +
             '   ,'
           '    constraint PK_WA_WAHL primary key (WA_ID)'
           ');'
@@ -962,7 +965,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     07.12.2025  21:09                          ' +
+            '/*   Created on:     10.12.2025  19:21                          ' +
             '*/'
           
             '/* ============================================================ ' +

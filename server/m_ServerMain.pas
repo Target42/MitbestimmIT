@@ -291,15 +291,23 @@ end;
 
 procedure TMitbestimmITSrv.ServiceCreate(Sender: TObject);
 begin
+  CodeSite.EnterMethod(self, 'ServiceCreate');
   Glob.readData;
 
   try
-    DSHTTPService2.CertFiles.KeyFile      := glob.KeyFile;
-    DSHTTPService2.CertFiles.CertFile     := glob.CertFile;
-    DSHTTPService2.CertFiles.RootCertFile := glob.CertFile;
+    if Glob.HttpsActive then
+    begin
+      DSHTTPService2.CertFiles.KeyFile      := glob.KeyFile;
+      DSHTTPService2.CertFiles.CertFile     := glob.CertFile;
+      DSHTTPService2.CertFiles.RootCertFile := glob.CertFile;
+    end;
   except
-
+    on e : exception do
+    begin
+      CodeSite.SendError(e.ToString);
+    end;
   end;
+  CodeSite.ExitMethod(self, 'ServiceCreate');
 
 end;
 
@@ -317,30 +325,59 @@ end;
 
 function TMitbestimmITSrv.startServer: boolean;
 begin
-  CodeSite.EnterMethod('startServer');
+  CodeSite.EnterMethod(self, 'startServer');
 
-  DSHTTPService2.Server := NIL;
-  DSServer1.Start;
-  try
-    DSHTTPService2.Server := DSServer1;
-  except
-    on e : exception do
-    begin
-      Codesite.SendError(e.ToString);
-      DSHTTPService2.Server := NIL;
+  CodeSite.Send('DS-Port', glob.PortDS);
+  DSTCPServerTransport1.Port := glob.PortDS;
+
+
+  CodeSite.Send('http', glob.HttpActive );
+  if glob.HttpActive then
+  begin
+    CodeSite.Send('http-port', glob.PortHttp );
+    DSHTTPService1.HttpPort := glob.PortHttp;
+    DSHTTPService1.Server :=DSServer1;
+  end;
+
+  CodeSite.Send('https', glob.HttpsActive );
+  if Glob.HttpsActive then
+  begin
+    CodeSite.Send('https-port', glob.PortHttps );
+    DSHTTPService2.HttpPort := Glob.PortHttps;
+
+    try
+      DSHTTPService2.Server := DSServer1;
+    except
+      on e : exception do
+      begin
+        Codesite.SendError(e.ToString);
+        DSHTTPService2.Server := NIL;
+      end;
     end;
   end;
 
   DBMod.openDB;
-  THttpMod.startHttp;
+
+
+  CodeSite.Send('download', glob.DnlActive );
+  if glob.DnlActive then
+  begin
+     CodeSite.Send('download-Port', glob.PortClientHttp );
+    THttpMod.startHttp;
+  end;
+
+  DSServer1.Start;
+
   result := DSServer1.Started and DBMod.FDConnection1.Connected;
-  CodeSite.ExitMethod('startServer');
+  CodeSite.ExitMethod(self, 'startServer');
 end;
 
 function TMitbestimmITSrv.stopServer: boolean;
 begin
   DSServer1.Stop;
   DSHTTPService2.Server := NIL;
+  DSHTTPService1.Server := NIL;
+
   DBMod.closeDB;
   THttpMod.stopHttp;
 

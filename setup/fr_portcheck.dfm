@@ -96,6 +96,16 @@ object PortCheckFrame: TPortCheckFrame
       Value = 0
       OnChange = SpinEdit3Change
     end
+    object HttpsActive: TCheckBox
+      Left = 8
+      Top = 24
+      Width = 18
+      Height = 17
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+      OnClick = HttpsActiveClick
+    end
   end
   object GroupBox3: TGroupBox
     Left = 0
@@ -141,6 +151,16 @@ object PortCheckFrame: TPortCheckFrame
       TabOrder = 1
       Value = 0
       OnChange = SpinEdit2Change
+    end
+    object httpActive: TCheckBox
+      Left = 8
+      Top = 24
+      Width = 18
+      Height = 17
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+      OnClick = httpActiveClick
     end
   end
   object GroupBox4: TGroupBox
@@ -188,6 +208,16 @@ object PortCheckFrame: TPortCheckFrame
       Images = ResMod.PngImageList1
       TabOrder = 1
       OnClick = BitBtn1Click
+    end
+    object DnlActive: TCheckBox
+      Left = 3
+      Top = 32
+      Width = 23
+      Height = 17
+      Checked = True
+      State = cbChecked
+      TabOrder = 2
+      OnClick = DnlActiveClick
     end
   end
   object Panel1: TPanel

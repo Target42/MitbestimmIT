@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Datasnap.Provider, u_rollen;
+  FireDAC.Comp.Client, Datasnap.Provider, u_rollen, u_imageinfo;
 
 type
   [TRoleAuth(roWahlVorsitz)]
@@ -42,6 +42,7 @@ type
     WFTabWF_TYP: TIntegerField;
     PhasenQrx: TFDQuery;
     FDTransaction2: TFDTransaction;
+    WAtabWA_PIC_NAME: TStringField;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -55,9 +56,13 @@ type
 
     function saveWahlData( data : TJSONObject ) : TJSONObject;
     function loadWahlData : TJSONObject;
+    function uploadImage(info : TImageInfo) : TJSONObject;
 
     [TRoleAuth(roPublic)]
     function setWahl( id : integer ) : Boolean;
+    [TRoleAuth(roPublic)]
+    function getLogo : TImageInfo;
+
   end;
 
 implementation
@@ -70,6 +75,21 @@ uses
 {$R *.dfm}
 
 { TWahlMod }
+
+function TWahlMod.getLogo: TImageInfo;
+begin
+  Result := TImageInfo.Create;
+  Result.Data := nil;
+  WAtab.Open;
+  if WAtab.Locate('WA_ID', DBMod.WahlID, []) then
+  begin
+    Result.FileName := WAtabWA_PIC_NAME.AsString;
+    result.Data := TMemoryStream.Create;
+    WAtabWA_DATA.SaveToStream(result.Data);
+    Result.Data.Position := 0;
+  end;
+  WAtab.Close;
+end;
 
 function TWahlMod.getWahlData: TJSONObject;
 begin
@@ -188,6 +208,37 @@ begin
     result := true;
   end;
   CheckMAIDQry.Close;
+end;
+
+function TWahlMod.uploadImage(info : TImageInfo): TJSONObject;
+var
+  mem : TMemoryStream;
+  buffer : TBytes;
+  bytesRead : integer;
+begin
+  Result := TJSONObject.Create;
+  WAtab.Open;
+  if WAtab.Locate('WA_ID', DBMod.WahlID, []) then
+  begin
+    SetLength( buffer, 16 * 1024);
+    WAtab.Edit;
+    WAtabWA_PIC_NAME.AsString := info.FileName;
+    mem := TMemoryStream.Create;
+    repeat
+      bytesRead := info.Data.Read(buffer, 16 * 1024);
+      mem.Write(buffer, bytesRead)
+    until bytesRead = 0;
+
+    mem.Position := 0;
+    WAtabWA_DATA.LoadFromStream(mem);
+    WAtab.Post;
+    mem.Free;
+    SetLength( buffer, 0 );
+    JResult( result, true, '');
+  end
+  else
+    JResult( result, false, 'Wahl nicht gefunden!');
+  WAtab.Close;
 end;
 
 procedure TWahlMod.WahlListBeforeOpen(DataSet: TDataSet);

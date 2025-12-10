@@ -82,6 +82,10 @@ type
     Benutzerverwaltung1: TMenuItem;
     ac_wa_lokal: TAction;
     Wahllokal1: TMenuItem;
+    Image1: TImage;
+    N8: TMenuItem;
+    ac_wa_logo: TAction;
+    Logo1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -100,6 +104,7 @@ type
     procedure ApplicationEvents1Message(var Msg: TMsg; var Handled: Boolean);
     procedure aC_wa_userExecute(Sender: TObject);
     procedure ac_wa_lokalExecute(Sender: TObject);
+    procedure ac_wa_logoExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -112,6 +117,8 @@ type
     procedure setPanelText( section : integer; text : string );
 
     procedure showF1;
+
+    procedure loadLogo;
   public
 
   end;
@@ -126,7 +133,7 @@ uses
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
-  f_wahllokal;
+  f_wahllokal, u_stub, u_imageinfo, f_logo;
 
 {$R *.dfm}
 
@@ -150,6 +157,7 @@ begin
       if TWahlSelectForm.execute then
       begin
         setMenuState(msLoaded);
+        loadLogo;
         PostMessage(handle,  msgConnected, 0, 0);
       end
       else
@@ -195,6 +203,11 @@ end;
 procedure TMainClientForm.ac_wa_briefExecute(Sender: TObject);
 begin
   TBriefwahlForm.execute;
+end;
+
+procedure TMainClientForm.ac_wa_logoExecute(Sender: TObject);
+begin
+  TLogoForm.execute;
 end;
 
 procedure TMainClientForm.ac_wa_lokalExecute(Sender: TObject);
@@ -282,6 +295,34 @@ end;
 procedure TMainClientForm.FormDestroy(Sender: TObject);
 begin
   m_helpMap.Free;
+end;
+
+procedure TMainClientForm.loadLogo;
+var
+  client: TWahlModClient;
+  info  : TImageInfo;
+begin
+  client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+
+  info := client.getLogo;
+
+  if not Assigned(info.Data) then
+    image1.Visible := false
+  else
+  begin
+    try
+      image1.Picture.LoadFromStream(info.Data);
+      Image1.Visible := true;
+    except
+     on e : exception do
+     begin
+       Image1.Visible := false;
+     end;
+
+    end;
+    info.Data.Free;
+  end;
+  client.Free;
 end;
 
 procedure TMainClientForm.setMenuState(state: TMenuState);

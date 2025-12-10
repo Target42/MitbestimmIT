@@ -150,6 +150,8 @@ object MainSetupForm: TMainSetupForm
       Caption = 'JvWizardInteriorPage6'
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 624
+      ExplicitHeight = 380
       inline PreFrame1: TPreFrame
         Left = 0
         Top = 70
@@ -158,8 +160,8 @@ object MainSetupForm: TMainSetupForm
         Align = alClient
         TabOrder = 0
         ExplicitTop = 70
-        ExplicitWidth = 754
-        ExplicitHeight = 367
+        ExplicitWidth = 624
+        ExplicitHeight = 310
         inherited RichEdit1: TRichEdit
           Width = 754
           Height = 367
@@ -191,6 +193,8 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage1NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 624
+      ExplicitHeight = 380
       inline FilesFrame1: TFilesFrame
         Left = 0
         Top = 70
@@ -199,35 +203,20 @@ object MainSetupForm: TMainSetupForm
         Align = alClient
         TabOrder = 0
         ExplicitTop = 70
-        ExplicitWidth = 754
-        ExplicitHeight = 367
-        inherited GroupBox1: TGroupBox
-          Width = 754
-          ExplicitWidth = 754
-          DesignSize = (
-            754
-            81)
-          inherited SpeedButton1: TSpeedButton
-            Left = 719
-            ExplicitLeft = 719
-          end
-          inherited Edit1: TEdit
-            Width = 824
-            StyleElements = [seFont, seClient, seBorder]
-            ExplicitWidth = 824
-          end
-        end
+        ExplicitWidth = 624
+        ExplicitHeight = 310
         inherited GroupBox2: TGroupBox
           Width = 754
-          Height = 286
-          ExplicitWidth = 754
-          ExplicitHeight = 286
+          Height = 367
+          ExplicitTop = 0
+          ExplicitWidth = 624
+          ExplicitHeight = 310
           inherited Memo1: TMemo
             Width = 750
-            Height = 267
+            Height = 348
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 750
-            ExplicitHeight = 267
+            ExplicitHeight = 348
           end
         end
       end
@@ -392,7 +381,7 @@ object MainSetupForm: TMainSetupForm
             StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 485
             inherited Label1: TLabel
-              Width = 479
+              Width = 469
               Height = 30
               StyleElements = [seFont, seClient, seBorder]
               ExplicitWidth = 469
@@ -400,13 +389,11 @@ object MainSetupForm: TMainSetupForm
             end
             inherited Label2: TLabel
               Top = 89
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 89
             end
             inherited CodeLab: TLabel
               Top = 59
-              Width = 485
               StyleElements = [seFont, seClient, seBorder]
               ExplicitTop = 59
             end
@@ -440,6 +427,8 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70
@@ -583,7 +572,7 @@ object MainSetupForm: TMainSetupForm
         ExplicitHeight = 367
         inherited GroupBox1: TGroupBox
           Width = 754
-          ExplicitWidth = 754
+          ExplicitWidth = 624
           inherited Label1: TLabel
             StyleElements = [seFont, seClient, seBorder]
           end
@@ -606,8 +595,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 754
           Height = 182
-          ExplicitWidth = 754
-          ExplicitHeight = 182
+          ExplicitWidth = 624
+          ExplicitHeight = 125
           inherited Panel1: TPanel
             Width = 750
             StyleElements = [seFont, seClient, seBorder]
@@ -679,8 +668,8 @@ object MainSetupForm: TMainSetupForm
         inherited GroupBox2: TGroupBox
           Width = 438
           Height = 367
-          ExplicitWidth = 438
-          ExplicitHeight = 367
+          ExplicitWidth = 308
+          ExplicitHeight = 310
           inherited Splitter2: TSplitter
             Top = 180
             Width = 434
@@ -690,8 +679,8 @@ object MainSetupForm: TMainSetupForm
           inherited GroupBox3: TGroupBox
             Top = 183
             Width = 434
-            ExplicitTop = 183
-            ExplicitWidth = 434
+            ExplicitTop = 126
+            ExplicitWidth = 304
             inherited Memo1: TMemo
               Width = 430
               StyleElements = [seFont, seClient, seBorder]

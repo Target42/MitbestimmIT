@@ -33,6 +33,9 @@ type
     Label8: TLabel;
     Panel1: TPanel;
     BitBtn5: TBitBtn;
+    httpActive: TCheckBox;
+    HttpsActive: TCheckBox;
+    DnlActive: TCheckBox;
     procedure BitBtn1Click(Sender: TObject);
     procedure IdTCPServer1Execute(AContext: TIdContext);
     procedure SpinEdit1Change(Sender: TObject);
@@ -40,8 +43,12 @@ type
     procedure SpinEdit2Change(Sender: TObject);
     procedure SpinEdit4Change(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure httpActiveClick(Sender: TObject);
+    procedure HttpsActiveClick(Sender: TObject);
+    procedure DnlActiveClick(Sender: TObject);
   private
     m_ports : array[1..4] of Boolean;
+    procedure ShowDeaktiv( flag : Boolean; lab : TLabel);
   public
     procedure prepare;
     function isOk : boolean;
@@ -61,38 +68,65 @@ var
   s   : string;
   col : Tcolor;
   port : integer;
+  isActive : boolean;
 begin
-  srv := TIdTCPServer.Create;
-
-  srv.OnExecute := IdTCPServer1Execute;
   id  := (Sender as TBitBtn).Tag;
   col := clGreen;
   port := 42;
+  isActive := false;
 
   case id of
-    1 : port := SpinEdit1.Value;
-    2 : port := SpinEdit2.Value;
-    3 : port := SpinEdit3.Value;
-    4 : port := SpinEdit4.Value;
-  end;
-
-  srv.DefaultPort := port;
-
-  try
-    srv.Active := true;
-    ok := true;
-    s := 'Frei';
-    srv.Active := false;
-  except
-    on e : exception do
+    1 :
     begin
-      ok := false;
-      s  := 'Belegt';
-      col := clRed;
+      port := SpinEdit1.Value;
+      isActive := true;
+    end;
+    2 :
+    begin
+      port := SpinEdit2.Value;
+      isActive := httpActive.Checked;
+    end;
+    3 :
+    begin
+      port := SpinEdit3.Value;
+      isActive := HttpsActive.Checked;
+    end;
+    4 :
+    begin
+      port := SpinEdit4.Value;
+      isActive := DnlActive.Checked;
     end;
   end;
-  srv.Active := false;
-  srv.Free;
+
+
+  ok := true;
+  if isActive then
+  begin
+    srv := TIdTCPServer.Create;
+    srv.OnExecute := IdTCPServer1Execute;
+    srv.DefaultPort := port;
+
+    try
+      srv.Active := true;
+      ok := true;
+      s := 'Frei';
+      srv.Active := false;
+    except
+      on e : exception do
+      begin
+        ok := false;
+        s  := 'Belegt';
+        col := clRed;
+      end;
+    end;
+    srv.Active := false;
+    srv.Free;
+  end
+  else
+  begin
+    s := 'Deaktiviert';
+    col := clBlack;
+  end;
 
   case id of
     1 :
@@ -131,6 +165,21 @@ begin
   BitBtn4.Click;
 end;
 
+procedure TPortCheckFrame.DnlActiveClick(Sender: TObject);
+begin
+  ShowDeaktiv( DnlActive.Checked, Label4 );
+end;
+
+procedure TPortCheckFrame.httpActiveClick(Sender: TObject);
+begin
+  ShowDeaktiv( httpActive.Checked, Label2 );
+end;
+
+procedure TPortCheckFrame.HttpsActiveClick(Sender: TObject);
+begin
+  ShowDeaktiv( DnlActive.Checked, Label7 );
+end;
+
 procedure TPortCheckFrame.IdTCPServer1Execute(AContext: TIdContext);
 begin
 //
@@ -165,6 +214,9 @@ begin
 
   list.Free;
 
+  glob.HttpActive     := httpActive.Checked;
+  Glob.HttpsActive    := HttpsActive.Checked;
+  Glob.DnlActive      := DnlActive.Checked;
 
   if Result then
   begin
@@ -172,6 +224,7 @@ begin
     Glob.PortHttp       := SpinEdit2.Value;
     Glob.PortHttps      := SpinEdit3.Value;
     Glob.PortClientHttp := SpinEdit4.Value;
+
     glob.writeData;
   end;
 
@@ -188,6 +241,24 @@ begin
   SpinEdit2.Value := Glob.PortHttp;
   SpinEdit3.Value := Glob.PortHttps;
   SpinEdit4.Value := Glob.PortClientHttp;
+
+  httpActive.Checked := glob.HttpActive;
+  HttpsActive.Checked:= Glob.HttpsActive;
+  DnlActive.Checked  := Glob.DnlActive;
+end;
+
+procedure TPortCheckFrame.ShowDeaktiv(flag: Boolean; lab: TLabel);
+begin
+  if not flag then
+  begin
+    lab.Caption := 'Deaktiviert';
+    lab.Font.Color := clBlack;
+  end
+  else
+  begin
+    lab.Caption := 'Ungetestet';
+    lab.Font.Color := clBlack;
+  end;
 end;
 
 procedure TPortCheckFrame.SpinEdit1Change(Sender: TObject);

@@ -38,7 +38,6 @@ uses
 
 function TPwdCheckMod.checkUser(id : integer; pwd: string): TResultTyp;
 begin
-  Result := rtUnknown;
   PwdQry.ParamByName('MA_ID').AsInteger := id;
   PwdQry.Open;
   if not PwdQry.IsEmpty then

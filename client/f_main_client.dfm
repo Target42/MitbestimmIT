@@ -44,6 +44,18 @@ object MainClientForm: TMainClientForm
     ExplicitTop = 184
     ExplicitHeight = 100
   end
+  object Image1: TImage
+    Left = 356
+    Top = 32
+    Width = 747
+    Height = 680
+    Align = alClient
+    Center = True
+    ExplicitLeft = 600
+    ExplicitTop = 229
+    ExplicitWidth = 105
+    ExplicitHeight = 105
+  end
   object StatusBar1: TStatusBar
     Left = 0
     Top = 712
@@ -78,7 +90,7 @@ object MainClientForm: TMainClientForm
       TabOrder = 0
       ExplicitLeft = 2
       ExplicitTop = 17
-      ExplicitWidth = 317
+      ExplicitWidth = 349
       ExplicitHeight = 661
       inherited Splitter1: TSplitter
         Width = 349
@@ -98,16 +110,16 @@ object MainClientForm: TMainClientForm
       end
       inherited GroupBox1: TGroupBox
         Width = 349
-        ExplicitWidth = 317
+        ExplicitWidth = 349
         inherited Chart1: TChart
           Width = 345
-          ExplicitWidth = 313
+          ExplicitWidth = 345
         end
       end
       inherited GroupBox2: TGroupBox
         Width = 349
         ExplicitTop = 180
-        ExplicitWidth = 317
+        ExplicitWidth = 349
         inherited Label1: TLabel
           StyleElements = [seFont, seClient, seBorder]
         end
@@ -159,24 +171,24 @@ object MainClientForm: TMainClientForm
       end
       inherited GroupBox3: TGroupBox
         Width = 349
-        ExplicitWidth = 317
+        ExplicitWidth = 349
         inherited Wahllisten: TListView
           Width = 345
-          ExplicitWidth = 313
+          ExplicitWidth = 345
         end
       end
       inherited GroupBox4: TGroupBox
         Width = 349
-        ExplicitWidth = 317
+        ExplicitWidth = 349
         inherited Wahllokale: TListView
           Width = 345
-          ExplicitWidth = 313
+          ExplicitWidth = 345
         end
       end
       inherited GroupBox5: TGroupBox
         Width = 349
         Height = 142
-        ExplicitWidth = 317
+        ExplicitWidth = 349
         ExplicitHeight = 142
         inherited Wahlphasen: TListView
           Width = 345
@@ -194,7 +206,7 @@ object MainClientForm: TMainClientForm
               Caption = 'Ende'
               Width = 75
             end>
-          ExplicitWidth = 313
+          ExplicitWidth = 345
           ExplicitHeight = 123
         end
       end
@@ -255,6 +267,12 @@ object MainClientForm: TMainClientForm
       end
       object Benutzerverwaltung1: TMenuItem
         Action = aC_wa_user
+      end
+      object N8: TMenuItem
+        Caption = '-'
+      end
+      object Logo1: TMenuItem
+        Action = ac_wa_logo
       end
     end
     object Wahl2: TMenuItem
@@ -365,6 +383,11 @@ object MainClientForm: TMainClientForm
       Category = 'Wahl'
       Caption = 'Wahllokal'
       OnExecute = ac_wa_lokalExecute
+    end
+    object ac_wa_logo: TAction
+      Category = 'Vorbereitung'
+      Caption = 'Logo'
+      OnExecute = ac_wa_logoExecute
     end
   end
   object Timer1: TTimer

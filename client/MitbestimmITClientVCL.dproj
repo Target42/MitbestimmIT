@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -265,6 +265,11 @@
         </DCCReference>
         <DCCReference Include="Wahllokal\f_helfer_wechsel.pas">
             <Form>HelferWechselForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\u_imageinfo.pas"/>
+        <DCCReference Include="Admin\f_logo.pas">
+            <Form>LogoForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>

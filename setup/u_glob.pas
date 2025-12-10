@@ -40,6 +40,9 @@ type
     FDBPwdCheck: string;
     FEigenes: boolean;
     FServerSecret: string;
+    FHttpActive: boolean;
+    FHttpsActive: boolean;
+    FDnlActive: boolean;
 
     procedure CompressStream;
     procedure DecompressStream;
@@ -85,6 +88,11 @@ type
     property PortHttps: integer read FPortHttps write FPortHttps;
     property PortClientHttp: integer read FPortClientHttp write FPortClientHttp;
 
+    property HttpActive: boolean read FHttpActive write FHttpActive;
+    property HttpsActive: boolean read FHttpsActive write FHttpsActive;
+    property DnlActive: boolean read FDnlActive write FDnlActive;
+
+
     function writeData : boolean;
     function readData : boolean;
 
@@ -129,6 +137,9 @@ begin
   FPortClientHttp := 8000;
   FUserPWD    := GenerateFirebirdPassword;
   FDBPwdCheck := GenerateFirebirdPassword;
+  FHttpActive := true;
+  FHttpsActive:= true;
+  FDnlActive  := true;
 
   FHomeDir  := ExtractFilePath(ParamStr(0));
 
@@ -226,6 +237,10 @@ begin
 
   FPortClientHttp := ini.ReadInteger('ports', 'client',0);
 
+  FHttpActive   := ini.ReadBool('active', 'http',  FHttpActive);
+  FHttpsActive  := ini.ReadBool('active', 'https', FHttpsActive);
+  FDnlActive    := ini.ReadBool('active', 'dnl',   FDnlActive);
+
   FServerSecret   := ini.ReadString('server', 'secret', FServerSecret);
 
   ini.Free;
@@ -296,6 +311,10 @@ begin
   ini.WriteInteger('ports', 'client', FPortClientHttp);
 
   ini.WriteString('server', 'secret', FServerSecret);
+
+  ini.WriteBool('active', 'http',  FHttpActive);
+  ini.WriteBool('active', 'https', FHttpsActive);
+  ini.WriteBool('active', 'dnl',   FDnlActive);
 
   ini.UpdateFile;
   ini.Free;

@@ -60,7 +60,7 @@ implementation
 
 {$R *.dfm}
 
-uses m_res, system.IOUtils;
+uses m_res, system.IOUtils, u_glob, shellApi;
 
 { TServerFrame }
 

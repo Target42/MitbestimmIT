@@ -9,15 +9,8 @@ uses
 
 type
   TFilesFrame = class(TFrame)
-    GroupBox1: TGroupBox;
-    SpeedButton1: TSpeedButton;
-    Edit1: TEdit;
-    ActionList1: TActionList;
-    BrowseForFolder1: TBrowseForFolder;
     GroupBox2: TGroupBox;
     Memo1: TMemo;
-    procedure BrowseForFolder1Accept(Sender: TObject);
-    procedure FrameResize(Sender: TObject);
   private
     procedure log( text : string );
     procedure unzipSSL;
@@ -41,18 +34,12 @@ implementation
 uses
   m_res, System.Zip, u_glob, system.IOUtils, u_helper, system.UITypes;
 
-procedure TFilesFrame.BrowseForFolder1Accept(Sender: TObject);
-begin
-  Edit1.Text := BrowseForFolder1.Folder;
-end;
-
 function TFilesFrame.doCopy: boolean;
 var
   done : Boolean;
 begin
   result := true;
 
-  Glob.HomeDir :=Trim(Edit1.Text);
   Glob.TempDir := TPath.Combine(Glob.HomeDir, 'temp');
 
   done := ForceDirectories(Glob.TempDir);
@@ -115,12 +102,6 @@ begin
 
 end;
 
-procedure TFilesFrame.FrameResize(Sender: TObject);
-begin
-  Edit1.Width := GroupBox1.Width - Edit1.Left - 64;
-  SpeedButton1.Left := Edit1.Left + Edit1.Width + 32;
-end;
-
 procedure TFilesFrame.log(text: string);
 begin
   Memo1.Lines.Add(text);
@@ -129,8 +110,6 @@ end;
 
 procedure TFilesFrame.prepare;
 begin
-  Edit1.Text := Glob.HomeDir;
-
   Memo1.Lines.Clear;
 end;
 

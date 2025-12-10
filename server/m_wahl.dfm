@@ -39,6 +39,11 @@ object WahlMod: TWahlMod
       FieldName = 'WA_TYP'
       Origin = 'WA_TYP'
     end
+    object WAtabWA_PIC_NAME: TStringField
+      FieldName = 'WA_PIC_NAME'
+      Origin = 'WA_PIC_NAME'
+      Size = 150
+    end
   end
   object WahlList: TFDQuery
     BeforeOpen = WahlListBeforeOpen

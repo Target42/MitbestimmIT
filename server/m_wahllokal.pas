@@ -99,7 +99,6 @@ end;
 
 function TWahlLokalMod.getHelfer: TJSONObject;
 var
-  wl_id : integer;
   ma_id : integer;
   session : TDSSession;
 begin

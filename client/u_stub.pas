@@ -1,13 +1,13 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 02.12.2025 21:09:58
+// 09.12.2025 20:38:25
 //
 
 unit u_stub;
 
 interface
 
-uses System.JSON, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, Data.DBXJSONReflect;
+uses System.JSON, Data.DBXCommon, Data.DBXClient, Data.DBXDataSnap, Data.DBXJSON, Datasnap.DSProxy, System.Classes, System.SysUtils, Data.DB, Data.SqlExpr, Data.DBXDBReaders, Data.DBXCDSReaders, u_imageinfo, Data.DBXJSONReflect;
 
 type
   TAdminModClient = class(TDSAdminClient)
@@ -50,7 +50,9 @@ type
     FgetWahlDataCommand: TDBXCommand;
     FsaveWahlDataCommand: TDBXCommand;
     FloadWahlDataCommand: TDBXCommand;
+    FuploadImageCommand: TDBXCommand;
     FsetWahlCommand: TDBXCommand;
+    FgetLogoCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
@@ -61,7 +63,9 @@ type
     function getWahlData: TJSONObject;
     function saveWahlData(data: TJSONObject): TJSONObject;
     function loadWahlData: TJSONObject;
+    function uploadImage(info: TImageInfo): TJSONObject;
     function setWahl(id: Integer): Boolean;
+    function getLogo: TImageInfo;
   end;
 
   TWaehlerModClient = class(TDSAdminClient)
@@ -530,6 +534,32 @@ begin
   Result := TJSONObject(FloadWahlDataCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TWahlModClient.uploadImage(info: TImageInfo): TJSONObject;
+begin
+  if FuploadImageCommand = nil then
+  begin
+    FuploadImageCommand := FDBXConnection.CreateCommand;
+    FuploadImageCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FuploadImageCommand.Text := 'TWahlMod.uploadImage';
+    FuploadImageCommand.Prepare;
+  end;
+  if not Assigned(info) then
+    FuploadImageCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FuploadImageCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FuploadImageCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(info), True);
+      if FInstanceOwner then
+        info.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FuploadImageCommand.ExecuteUpdate;
+  Result := TJSONObject(FuploadImageCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
 function TWahlModClient.setWahl(id: Integer): Boolean;
 begin
   if FsetWahlCommand = nil then
@@ -542,6 +572,31 @@ begin
   FsetWahlCommand.Parameters[0].Value.SetInt32(id);
   FsetWahlCommand.ExecuteUpdate;
   Result := FsetWahlCommand.Parameters[1].Value.GetBoolean;
+end;
+
+function TWahlModClient.getLogo: TImageInfo;
+begin
+  if FgetLogoCommand = nil then
+  begin
+    FgetLogoCommand := FDBXConnection.CreateCommand;
+    FgetLogoCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetLogoCommand.Text := 'TWahlMod.getLogo';
+    FgetLogoCommand.Prepare;
+  end;
+  FgetLogoCommand.ExecuteUpdate;
+  if not FgetLogoCommand.Parameters[0].Value.IsNull then
+  begin
+    FUnMarshal := TDBXClientCommand(FgetLogoCommand.Parameters[0].ConnectionHandler).GetJSONUnMarshaler;
+    try
+      Result := TImageInfo(FUnMarshal.UnMarshal(FgetLogoCommand.Parameters[0].Value.GetJSONValue(True)));
+      if FInstanceOwner then
+        FgetLogoCommand.FreeOnExecute(Result);
+    finally
+      FreeAndNil(FUnMarshal)
+    end
+  end
+  else
+    Result := nil;
 end;
 
 constructor TWahlModClient.Create(ADBXConnection: TDBXConnection);
@@ -562,7 +617,9 @@ begin
   FgetWahlDataCommand.Free;
   FsaveWahlDataCommand.Free;
   FloadWahlDataCommand.Free;
+  FuploadImageCommand.Free;
   FsetWahlCommand.Free;
+  FgetLogoCommand.Free;
   inherited;
 end;
 
