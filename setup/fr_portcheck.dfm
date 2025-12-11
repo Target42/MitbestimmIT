@@ -249,4 +249,123 @@ object PortCheckFrame: TPortCheckFrame
     Left = 456
     Top = 161
   end
+  object PageProducer1: TPageProducer
+    HTMLDoc.Strings = (
+      '# OeffnePortsMulti.ps1'
+      '#'
+      
+        '# Beschreibung: F'#252'gt Regeln f'#252'r eine Liste von TCP-Ports zur Win' +
+        'dows-Firewall hinzu.'
+      '#'
+      
+        '# ANWEISUNG: Dieses Skript MUSS mit Administratorrechten ausgef'#252 +
+        'hrt werden.'
+      ''
+      '# --- KONFIGURATION START ---'
+      '$PortsZumOeffnen = @(<#ports>)'
+      '# Das Standardprotokoll (TCP oder UDP).'
+      '$Protokoll = "TCP" '
+      '# --- KONFIGURATION ENDE ---'
+      ''
+      ''
+      
+        'Write-Host "--- Windows Firewall Konfiguration Start f'#252'r $($Prot' +
+        'okoll) Ports ---" -ForegroundColor Yellow'
+      
+        'Write-Host "Es werden folgende Ports verarbeitet: $($PortsZumOef' +
+        'fnen -join '#39', '#39')" -ForegroundColor Cyan'
+      'Write-Host "---"'
+      ''
+      
+        '# Beginne Schleife: Jeder Port in der Liste wird einzeln verarbe' +
+        'itet.'
+      'foreach ($Port in $PortsZumOeffnen) {'
+      '    '
+      '    # Lokale Variablen f'#252'r die aktuelle Port-Regel'
+      
+        '    $RegelName = "MitbestimmIT Server - Port $($Port) $($Protoko' +
+        'll)"'
+      
+        '    $Beschreibung = "Erlaubt eingehende $($Protokoll)-Verbindung' +
+        'en auf Port $($Port)."'
+      ''
+      
+        '    Write-Host "`n[PORT: $($Port)] Beginne Pr'#252'fung..." -Foregrou' +
+        'ndColor Yellow'
+      '    '
+      '    # 1. '#220'berpr'#252'fen, ob die Regel bereits existiert'
+      
+        '    $BestehendeRegel = Get-NetFirewallRule -DisplayName $RegelNa' +
+        'me -ErrorAction SilentlyContinue'
+      ''
+      '    if ($BestehendeRegel) {'
+      '        '
+      '        # Regel existiert bereits'
+      
+        '        Write-Host "   '#9989' Regel '#39'$($RegelName)'#39' existiert bereits' +
+        '." -ForegroundColor Green'
+      '        '
+      
+        '        # Optional: Regel aktivieren, falls sie deaktiviert wurd' +
+        'e'
+      '        if ($BestehendeRegel.Enabled -eq '#39'False'#39') {'
+      
+        '            Write-Host "   - Status: Deaktiviert. Aktiviere Rege' +
+        'l..." -ForegroundColor Red'
+      
+        '            Set-NetFirewallRule -DisplayName $RegelName -Enabled' +
+        ' True'
+      
+        '            Write-Host "   - Status: Aktiviert." -ForegroundColo' +
+        'r Green'
+      '        }'
+      '        '
+      '    } else {'
+      '        '
+      '        # Regel existiert nicht - Neue Regel hinzuf'#252'gen'
+      
+        '        Write-Host "   '#10060' Regel '#39'$($RegelName)'#39' existiert NICHT. ' +
+        'Erstelle neue Regel..." -ForegroundColor Red'
+      '        '
+      '        try {'
+      '            # Erstellung der neuen Firewall-Regel'
+      '            New-NetFirewallRule `'
+      '                -DisplayName $RegelName `'
+      '                -Description $Beschreibung `'
+      
+        '                -Direction Inbound `       # Eingehende Verbindu' +
+        'ng'
+      '                -Action Allow `           # Erlauben'
+      
+        '                -Protocol $Protokoll `    # Protokoll (TCP oder ' +
+        'UDP)'
+      '                -LocalPort $Port `        # Der lokale Port'
+      
+        '                -Profile Any `            # Anwenden auf alle Pr' +
+        'ofile (Domain, Private, Public)'
+      '                -Enabled True             # Regel aktivieren'
+      ''
+      
+        '            Write-Host "   '#55356#57225' Neue Firewall-Regel erfolgreich er' +
+        'stellt und aktiviert f'#252'r Port $($Port)." -ForegroundColor Green'
+      '        '
+      '        } catch {'
+      
+        '            Write-Error "Ein Fehler ist beim Erstellen der Firew' +
+        'all-Regel aufgetreten f'#252'r Port $($Port): $($_.Exception.Message)' +
+        '"'
+      
+        '            Write-Host "   Stellen Sie sicher, dass das Skript a' +
+        'ls Administrator ausgef'#252'hrt wird." -ForegroundColor Red'
+      '        }'
+      '    }'
+      '}'
+      ''
+      
+        'Write-Host "`n--- Konfiguration abgeschlossen ---" -ForegroundCo' +
+        'lor Yellow')
+    OnHTMLTag = PageProducer1HTMLTag
+    Left = 272
+    Top = 296
+  end
 end

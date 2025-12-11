@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
   Vcl.Samples.Spin, IdBaseComponent, IdComponent, IdCustomTCPServer, IdTCPServer,
-  IdContext, Vcl.ExtCtrls;
+  IdContext, Vcl.ExtCtrls, Web.HTTPApp, Web.HTTPProd;
 
 type
   TPortCheckFrame = class(TFrame)
@@ -36,6 +36,7 @@ type
     httpActive: TCheckBox;
     HttpsActive: TCheckBox;
     DnlActive: TCheckBox;
+    PageProducer1: TPageProducer;
     procedure BitBtn1Click(Sender: TObject);
     procedure IdTCPServer1Execute(AContext: TIdContext);
     procedure SpinEdit1Change(Sender: TObject);
@@ -46,6 +47,8 @@ type
     procedure httpActiveClick(Sender: TObject);
     procedure HttpsActiveClick(Sender: TObject);
     procedure DnlActiveClick(Sender: TObject);
+    procedure PageProducer1HTMLTag(Sender: TObject; Tag: TTag;
+      const TagString: string; TagParams: TStrings; var ReplaceText: string);
   private
     m_ports : array[1..4] of Boolean;
     procedure ShowDeaktiv( flag : Boolean; lab : TLabel);
@@ -58,7 +61,8 @@ implementation
 
 {$R *.dfm}
 
-uses u_glob, System.Generics.Collections, m_res;
+uses
+  u_glob, System.Generics.Collections, m_res, system.IOUtils;
 
 procedure TPortCheckFrame.BitBtn1Click(Sender: TObject);
 var
@@ -200,6 +204,9 @@ var
     end;
 
   end;
+var
+  fname : string;
+  text : TSTringList;
 begin
   Result := true;
 
@@ -226,8 +233,49 @@ begin
     Glob.PortClientHttp := SpinEdit4.Value;
 
     glob.writeData;
+
+    fname := TPath.Combine(Glob.HomeDir, 'OpenPorts.ps1');
+    text := TSTringList.Create;
+    text.Text := PageProducer1.Content;
+    try
+      text.SaveToFile(fname)
+    except
+      on e : exception do
+      begin
+        ShowMessage('Fehler beim Schreiben der Firewallregeln!');
+        result := false;
+      end;
+    end;
+    text.Free;
   end;
 
+end;
+
+procedure TPortCheckFrame.PageProducer1HTMLTag(Sender: TObject; Tag: TTag;
+  const TagString: string; TagParams: TStrings; var ReplaceText: string);
+var
+  list : TSTringList;
+begin
+  if SameText('ports', TagString) then
+  begin
+    list := TStringList.Create;
+    list.Delimiter := ',';
+    list.StrictDelimiter := true;
+
+    list.Add(IntToStr(Glob.PortDS));
+    if Glob.HttpActive then
+      list.Add(IntToStr(Glob.PortHttp));
+
+    if Glob.HttpsActive then
+      list.Add(IntToStr(Glob.PortHttps));
+
+    if Glob.DnlActive then
+      list.Add(IntToStr(Glob.PortClientHttp));
+
+    ReplaceText := list.DelimitedText;
+
+    list.Free;
+  end;
 end;
 
 procedure TPortCheckFrame.prepare;
