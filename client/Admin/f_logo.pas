@@ -27,31 +27,87 @@ type
 var
   LogoForm: TLogoForm;
 
+function DSloadLogo( image : TImage ) : string;
+
 implementation
 
 {$R *.dfm}
 
 uses u_stub, u_imageinfo, m_glob;
 
+function DSloadLogo( image : TImage ) : string;
+var
+  client: TWahlModClient;
+  info: TImageInfo;
+  mem: TMemoryStream;
+begin
+  result := '';
+  client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+
+  try
+    info := client.getLogo;
+  except
+
+  end;
+
+  try
+    result := info.FileName;
+
+    if Length(info.Data) = 0 then
+    begin
+      Image.Picture.Graphic := nil;
+    end
+    else
+    begin
+      mem := TMemoryStream.Create;
+      try
+        mem.Write(info.Data[0], Length(info.Data));
+        mem.Position := 0; // Wichtig: Setze die Position zum Lesen auf den Anfang
+
+        try
+          Image.Picture.LoadFromStream(mem);
+        except
+          on E: Exception do
+          begin
+          end;
+        end;
+      finally
+        mem.Free;
+      end;
+    end;
+  except
+
+  end;
+  client.Free;
+end;
+
 procedure TLogoForm.BaseFrame1OKBtnClick(Sender: TObject);
 var
   info : TImageInfo;
   client : TWahlModClient;
+  mem    : TMemoryStream;
 begin
-  info := TImageInfo.Create;
-  info.FileName := m_filename;
+  Screen.Cursor := crHourGlass;
+  try
+    info := TImageInfo.Create;
+    info.FileName := m_filename;
 
-  info.Data := TMemoryStream.Create;
-  image1.Picture.SaveToStream(info.Data);
-  info.Data.Position := 0;
+    mem := TMemoryStream.Create;
+    image1.Picture.SaveToStream(mem);
+    mem.Position := 0;
 
-  client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+    SetLength(info.Data, mem.Size);
+    if mem.Size > 0 then
+      mem.Read(info.Data[0], mem.Size);
+    mem.Free;
 
-  client.uploadImage(info);
+    client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
 
-  client.Free;
-  info.Data.Free;
-  info.Free;
+    client.uploadImage(info);
+  finally
+    client.Free;
+  end;
+  Screen.Cursor := crDefault;
 end;
 
 procedure TLogoForm.BitBtn1Click(Sender: TObject);
@@ -76,31 +132,8 @@ begin
 end;
 
 procedure TLogoForm.loadLogo;
-var
-  client: TWahlModClient;
-  info  : TImageInfo;
 begin
-  client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-
-  info := client.getLogo;
-
-  m_filename := info.FileName;
-  if not Assigned(info.Data) then
-  begin
-    Image1.Picture.Graphic := nil;
-  end
-  else
-  begin
-    try
-      image1.Picture.LoadFromStream(info.Data);
-    except
-     on e : exception do
-     begin
-     end;
-    end;
-    info.Data.Free;
-  end;
-  client.Free;
+  m_filename := DSloadLogo( Image1 );
 end;
 
 end.

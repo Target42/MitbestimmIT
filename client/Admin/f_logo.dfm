@@ -32,17 +32,20 @@ object LogoForm: TLogoForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitLeft = -16
-    ExplicitTop = 208
+    ExplicitTop = 381
+    ExplicitWidth = 624
     inherited StatusBar1: TStatusBar
       Width = 624
+      ExplicitWidth = 624
     end
     inherited Panel1: TPanel
       Width = 624
       StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 624
       inherited OKBtn: TBitBtn
         Left = 520
         OnClick = BaseFrame1OKBtnClick
+        ExplicitLeft = 520
       end
     end
   end

@@ -77,18 +77,38 @@ uses
 { TWahlMod }
 
 function TWahlMod.getLogo: TImageInfo;
+var
+  mem: TMemoryStream;
 begin
   Result := TImageInfo.Create;
-  Result.Data := nil;
+  Result.FileName := '';
+
+  SetLength(Result.Data, 0);
+
   WAtab.Open;
-  if WAtab.Locate('WA_ID', DBMod.WahlID, []) then
-  begin
-    Result.FileName := WAtabWA_PIC_NAME.AsString;
-    result.Data := TMemoryStream.Create;
-    WAtabWA_DATA.SaveToStream(result.Data);
-    Result.Data.Position := 0;
+  try
+    if WAtab.Locate('WA_ID', DBMod.WahlID, []) then
+    begin
+      Result.FileName := WAtabWA_PIC_NAME.AsString;
+
+      if not WAtabWA_DATA.IsNull then
+      begin
+        mem := TMemoryStream.Create;
+        try
+          WAtabWA_DATA.SaveToStream(mem);
+          mem.Position := 0;
+
+          SetLength(Result.Data, mem.Size);
+          if mem.Size > 0 then
+            mem.Read(Result.Data[0], mem.Size);
+        finally
+          mem.Free;
+        end;
+      end;
+    end;
+  finally
+    WAtab.Close;
   end;
-  WAtab.Close;
 end;
 
 function TWahlMod.getWahlData: TJSONObject;
@@ -212,32 +232,32 @@ end;
 
 function TWahlMod.uploadImage(info : TImageInfo): TJSONObject;
 var
-  mem : TMemoryStream;
-  buffer : TBytes;
-  bytesRead : integer;
+  mem: TMemoryStream;
 begin
   Result := TJSONObject.Create;
   WAtab.Open;
   if WAtab.Locate('WA_ID', DBMod.WahlID, []) then
   begin
-    SetLength( buffer, 16 * 1024);
     WAtab.Edit;
     WAtabWA_PIC_NAME.AsString := info.FileName;
-    mem := TMemoryStream.Create;
-    repeat
-      bytesRead := info.Data.Read(buffer, 16 * 1024);
-      mem.Write(buffer, bytesRead)
-    until bytesRead = 0;
 
-    mem.Position := 0;
-    WAtabWA_DATA.LoadFromStream(mem);
+    // *** TBytes-Array in TMemoryStream laden ***
+    mem := TMemoryStream.Create;
+    try
+      if Length(info.Data) > 0 then
+        mem.Write(info.Data[0], Length(info.Data));
+
+      mem.Position := 0; // Zurück an den Anfang für die Datenbank
+      WAtabWA_DATA.LoadFromStream(mem);
+    finally
+      mem.Free;
+    end;
+
     WAtab.Post;
-    mem.Free;
-    SetLength( buffer, 0 );
-    JResult( result, true, '');
+    JResult(Result, true, '');
   end
   else
-    JResult( result, false, 'Wahl nicht gefunden!');
+    JResult(Result, false, 'Wahl nicht gefunden!');
   WAtab.Close;
 end;
 

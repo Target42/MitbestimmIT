@@ -51,10 +51,9 @@ object MainClientForm: TMainClientForm
     Height = 680
     Align = alClient
     Center = True
-    ExplicitLeft = 600
-    ExplicitTop = 229
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    Proportional = True
+    ExplicitLeft = 357
+    ExplicitTop = 26
   end
   object StatusBar1: TStatusBar
     Left = 0

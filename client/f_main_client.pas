@@ -207,7 +207,8 @@ end;
 
 procedure TMainClientForm.ac_wa_logoExecute(Sender: TObject);
 begin
-  TLogoForm.execute;
+  if TLogoForm.execute then
+    DSloadLogo( Image1);
 end;
 
 procedure TMainClientForm.ac_wa_lokalExecute(Sender: TObject);
@@ -298,31 +299,8 @@ begin
 end;
 
 procedure TMainClientForm.loadLogo;
-var
-  client: TWahlModClient;
-  info  : TImageInfo;
 begin
-  client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-
-  info := client.getLogo;
-
-  if not Assigned(info.Data) then
-    image1.Visible := false
-  else
-  begin
-    try
-      image1.Picture.LoadFromStream(info.Data);
-      Image1.Visible := true;
-    except
-     on e : exception do
-     begin
-       Image1.Visible := false;
-     end;
-
-    end;
-    info.Data.Free;
-  end;
-  client.Free;
+  DSloadLogo( Image1);
 end;
 
 procedure TMainClientForm.setMenuState(state: TMenuState);

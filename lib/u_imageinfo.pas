@@ -9,7 +9,7 @@ type
   TImageInfo = class(TPersistent)
   public
     FileName: string;
-    Data: TStream;
+    Data: TBytes;
   end;
 
 implementation
