@@ -20,7 +20,8 @@ uses
   u_pwd in '..\lib\u_pwd.pas',
   u_helper in '..\lib\u_helper.pas',
   u_json in '..\lib\u_json.pas',
-  u_debug in '..\server\u_debug.pas';
+  u_debug in '..\server\u_debug.pas',
+  u_hostname in '..\lib\u_hostname.pas';
 
 {$R *.res}
 

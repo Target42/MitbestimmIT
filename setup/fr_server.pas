@@ -28,6 +28,7 @@ type
     BitBtn5: TBitBtn;
     Panel2: TPanel;
     BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string;
       AOutputType: TOutputType);
     procedure DosCommand1Terminated(Sender: TObject);
@@ -42,6 +43,7 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure DosCommand2ExecuteError(ASender: TObject; AE: Exception;
       var AHandled: Boolean);
+    procedure BitBtn7Click(Sender: TObject);
   private
     m_list : TStringList;
     m_name : string;
@@ -152,11 +154,24 @@ begin
   updateData;
 end;
 
+procedure TServerFrame.BitBtn7Click(Sender: TObject);
+var
+  url : string;
+begin
+  if not Glob.DnlActive then
+    ShowMessage('Die download-funktion ist deaktiviert.')
+  else
+  begin
+    url := Format('http://localhost:%d/', [glob.PortClientHttp]);
+    ShellExecute(handle, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
+  end;
+
+end;
+
 procedure TServerFrame.DosCommand1NewLine(ASender: TObject;
   const ANewLine: string; AOutputType: TOutputType);
 begin
   m_list.Add(ANewLine);
-
 end;
 
 procedure TServerFrame.DosCommand1Terminated(Sender: TObject);

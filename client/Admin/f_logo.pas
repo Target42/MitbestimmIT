@@ -43,12 +43,7 @@ var
 begin
   result := '';
   client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-
-  try
-    info := client.getLogo;
-  except
-
-  end;
+  info := client.getLogo;
 
   try
     result := info.FileName;

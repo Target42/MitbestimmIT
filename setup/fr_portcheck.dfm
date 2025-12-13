@@ -7,9 +7,9 @@ object PortCheckFrame: TPortCheckFrame
   TabOrder = 0
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 0
+    Top = 57
     Width = 640
-    Height = 73
+    Height = 67
     Align = alTop
     Caption = 'Datasnap-Bin'#228'r'
     TabOrder = 0
@@ -53,9 +53,9 @@ object PortCheckFrame: TPortCheckFrame
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 145
+    Top = 185
     Width = 640
-    Height = 72
+    Height = 56
     Align = alTop
     Caption = 'HTTPS'
     TabOrder = 1
@@ -109,9 +109,9 @@ object PortCheckFrame: TPortCheckFrame
   end
   object GroupBox3: TGroupBox
     Left = 0
-    Top = 73
+    Top = 124
     Width = 640
-    Height = 72
+    Height = 61
     Align = alTop
     Caption = 'HTTP'
     TabOrder = 2
@@ -165,9 +165,9 @@ object PortCheckFrame: TPortCheckFrame
   end
   object GroupBox4: TGroupBox
     Left = 0
-    Top = 217
+    Top = 241
     Width = 640
-    Height = 72
+    Height = 66
     Align = alTop
     Caption = 'Clientdownload'
     TabOrder = 3
@@ -222,7 +222,7 @@ object PortCheckFrame: TPortCheckFrame
   end
   object Panel1: TPanel
     Left = 0
-    Top = 289
+    Top = 307
     Width = 640
     Height = 56
     Align = alTop
@@ -230,9 +230,10 @@ object PortCheckFrame: TPortCheckFrame
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 4
+    ExplicitTop = 303
     object BitBtn5: TBitBtn
       Left = 34
-      Top = 22
+      Top = 14
       Width = 169
       Height = 25
       Caption = 'Alle Ports testen'
@@ -240,6 +241,23 @@ object PortCheckFrame: TPortCheckFrame
       Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn5Click
+    end
+  end
+  object GroupBox5: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 640
+    Height = 57
+    Align = alTop
+    Caption = 'Hostname'
+    TabOrder = 5
+    object Edit1: TEdit
+      Left = 34
+      Top = 24
+      Width = 346
+      Height = 23
+      TabOrder = 0
+      Text = 'Edit1'
     end
   end
   object IdTCPServer1: TIdTCPServer

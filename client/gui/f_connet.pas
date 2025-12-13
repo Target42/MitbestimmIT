@@ -54,12 +54,12 @@ type
   }
   TConnectForm = class(TForm)
     BaseFrame1: TBaseFrame;
-    LabeledEdit1: TLabeledEdit;
     LabeledEdit2: TLabeledEdit;
     LabeledEdit3: TLabeledEdit;
     CheckBox1: TCheckBox;
+    ComboBox1: TComboBox;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
   private
     function GetHost: string;
@@ -168,12 +168,18 @@ end;
 // Parameter:
 //   Sender: Das Objekt, das das Ereignis ausgelöst hat.
 procedure TConnectForm.FormCreate(Sender: TObject);
+var
+  fname : string;
 begin
   LabeledEdit2.Text := GetEnvironmentVariable('USERNAME');
-end;
+  fname := ExtractFilePath(ParamStr(0))+'hosts.txt';
+  if FileExists(fname) then
+  begin
+    ComboBox1.Items.LoadFromFile(fname);
+    if ComboBox1.Items.Count >0 then
+      ComboBox1.ItemIndex := 0;
+  end;
 
-procedure TConnectForm.FormDestroy(Sender: TObject);
-begin
 end;
 
 {
@@ -187,7 +193,7 @@ end;
 }
 function TConnectForm.GetHost: string;
 begin
-  Result := trim( LabeledEdit1.Text);
+  Result := trim( ComboBox1.Text);
 end;
 
 /// <summary>
@@ -236,7 +242,7 @@ end;
 //------------------------------------------------------------------------------
 procedure TConnectForm.SetHost(const Value: string);
 begin
-  LabeledEdit1.Text := value;
+  ComboBox1.Text := value;
 end;
 
 procedure TConnectForm.SetPasswort(const Value: string);

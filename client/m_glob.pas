@@ -200,8 +200,8 @@ begin
   SQLConnection1.Params.Values['DSAuthenticationUser']      := FUser;
   SQLConnection1.Params.Values['DSAuthenticationPassword']  := FPasswort;
 
-       if SameText('ds', FProtokoll) then      setDSProtocol('tcp/ip', 211)
-  else if SameText('http', FProtokoll) then    setDSProtocol('http', 8080)
+       if SameText('ds',    FProtokoll) then   setDSProtocol('tcp/ip', 211)
+  else if SameText('http',  FProtokoll) then   setDSProtocol('http', 8080)
   else if SameText('https', FProtokoll) then   setDSProtocol('https', 8081);
 
   try
@@ -217,10 +217,25 @@ begin
 end;
 
 procedure TGM.DataModuleCreate(Sender: TObject);
+var
+  fname : string;
+  list  : TSTringList;
 begin
+  fname := ExtractFilePath(ParamStr(0))+'hosts.txt';
+  list := TStringList.Create;
+  if FileExists(fname) then
+  begin
+    list.LoadFromFile(fname);
+  end;
+
+  if list.Count >0  then
+    setHostAddress(list[0])
+  else
+    setHostAddress('ds://localhost:211');
+  list.Free;
+
   m_waehlerliste := TWaehlerliste.create;
 
-  setHostAddress('ds://localhost:211');
   FWahlID      := -1;
   FUser        := 'jd0815';
   FPasswort    := '0815';

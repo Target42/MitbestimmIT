@@ -37,6 +37,8 @@ type
     HttpsActive: TCheckBox;
     DnlActive: TCheckBox;
     PageProducer1: TPageProducer;
+    GroupBox5: TGroupBox;
+    Edit1: TEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure IdTCPServer1Execute(AContext: TIdContext);
     procedure SpinEdit1Change(Sender: TObject);
@@ -50,8 +52,11 @@ type
     procedure PageProducer1HTMLTag(Sender: TObject; Tag: TTag;
       const TagString: string; TagParams: TStrings; var ReplaceText: string);
   private
+    m_computerName : string;
     m_ports : array[1..4] of Boolean;
     procedure ShowDeaktiv( flag : Boolean; lab : TLabel);
+    procedure updateLabel;
+    procedure updateZip;
   public
     procedure prepare;
     function isOk : boolean;
@@ -62,7 +67,7 @@ implementation
 {$R *.dfm}
 
 uses
-  u_glob, System.Generics.Collections, m_res, system.IOUtils;
+  u_glob, System.Generics.Collections, m_res, system.IOUtils, u_hostname, System.Zip;
 
 procedure TPortCheckFrame.BitBtn1Click(Sender: TObject);
 var
@@ -234,6 +239,8 @@ begin
 
     glob.writeData;
 
+    updateZip;
+
     fname := TPath.Combine(Glob.HomeDir, 'OpenPorts.ps1');
     text := TSTringList.Create;
     text.Text := PageProducer1.Content;
@@ -282,6 +289,8 @@ procedure TPortCheckFrame.prepare;
 var
   i : integer;
 begin
+  m_computerName := GetFullyQualifiedHostName;
+  edit1.Text := m_computerName;
   for i := low(m_ports) to High(m_ports) do
     m_ports[i] := false;
 
@@ -315,7 +324,7 @@ begin
   Label1.Caption := 'Ungestestet';
   Label1.Font.Color := clWindowText;
 
-  Label4.Caption := format('ds://%s:%d', [GetEnvironmentVariable('COMPUTERNAME'), SpinEdit1.Value]);
+  updateLabel;
 
   if (SpinEdit1 .Value = SpinEdit2.Value) or ( SpinEdit1.Value = SpinEdit3.Value) or ( SpinEdit1.Value = SpinEdit4.Value) then
     ShowMessage('Achtung! Port doppelt belegt!')
@@ -328,7 +337,8 @@ begin
   Label2.Caption := 'Ungestestet';
   Label2.Font.Color := clWindowText;
 
-  Label5.Caption := format('http://%s:%d', [GetEnvironmentVariable('COMPUTERNAME'), SpinEdit2.Value]);
+  updateLabel;
+
   if (SpinEdit2.Value = SpinEdit1.Value) or ( SpinEdit2.Value = SpinEdit3.Value) or ( SpinEdit2.Value = SpinEdit4.Value) then
     ShowMessage('Achtung! Port doppelt belegt!')
 end;
@@ -339,7 +349,8 @@ begin
   Label3.Caption := 'Ungestestet';
   Label3.Font.Color := clWindowText;
 
-  Label6.Caption := format('https://%s:%d', [GetEnvironmentVariable('COMPUTERNAME'), SpinEdit3.Value]);
+  updateLabel;
+
   if (SpinEdit3.Value = SpinEdit1.Value) or ( SpinEdit3.Value = SpinEdit2.Value) or ( SpinEdit3.Value = SpinEdit4.Value) then
     ShowMessage('Achtung! Port doppelt belegt!')
 end;
@@ -350,10 +361,57 @@ begin
   Label7.Caption := 'Ungestestet';
   Label7.Font.Color := clWindowText;
 
-  Label8.Caption := format('http://%s:%d', [GetEnvironmentVariable('COMPUTERNAME'), SpinEdit4.Value]);
+  updateLabel;
+
   if (SpinEdit4.Value = SpinEdit1.Value) or ( SpinEdit4.Value = SpinEdit2.Value) or ( SpinEdit4.Value = SpinEdit3.Value) then
     ShowMessage('Achtung! Port doppelt belegt!')
 
+end;
+
+procedure TPortCheckFrame.updateLabel;
+begin
+  m_computerName := Trim(Edit1.Text);
+
+  Label4.Caption := format('ds://%s:%d', [m_computerName, SpinEdit1.Value]);
+  Label5.Caption := format('http://%s:%d', [m_computerName, SpinEdit2.Value]);
+  Label6.Caption := format('https://%s:%d', [m_computerName, SpinEdit3.Value]);
+  Label8.Caption := format('http://%s:%d', [m_computerName, SpinEdit4.Value]);
+end;
+
+procedure TPortCheckFrame.updateZip;
+var
+  list : TStringList;
+  fname : string;
+  zip   : TZipFile;
+  mem   : TMemoryStream;
+begin
+  fname := TPath.Combine(Glob.HomeDir, 'client\client.zip');
+  if not FileExists(fname) then
+    exit;
+
+  list := TStringList.Create;
+
+  list.Add(format('ds://%s:%d', [m_computerName, SpinEdit1.Value]));
+  if glob.HttpActive then
+    list.Add(format('http://%s:%d', [m_computerName, SpinEdit2.Value]));
+  if glob.HttpsActive then
+    list.Add(format('https://%s:%d', [m_computerName, SpinEdit3.Value]));
+
+  Zip := TZipFile.Create;
+  mem := TMemoryStream.Create;
+  try
+    Zip.Open(fname, zmReadWrite);
+
+    list.SaveToStream(mem);
+    mem.Position := 0;
+
+    zip.Add(mem, 'hosts.txt');
+  finally
+    mem.Free;
+    Zip.Free;
+  end;
+
+  list.Free;
 end;
 
 end.

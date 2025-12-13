@@ -1,10 +1,10 @@
 object ConnectForm: TConnectForm
   Left = 0
   Top = 0
-  ActiveControl = LabeledEdit1
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'Serverwahl'
-  ClientHeight = 251
-  ClientWidth = 255
+  ClientHeight = 245
+  ClientWidth = 238
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,41 +13,37 @@ object ConnectForm: TConnectForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   TextHeight = 15
+  object Label1: TLabel
+    Left = 32
+    Top = 8
+    Width = 32
+    Height = 15
+    Caption = 'Server'
+  end
   inline BaseFrame1: TBaseFrame
     Left = 0
-    Top = 191
-    Width = 255
+    Top = 185
+    Width = 238
     Height = 60
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitTop = 191
-    ExplicitWidth = 255
+    ExplicitTop = 185
+    ExplicitWidth = 238
     inherited StatusBar1: TStatusBar
-      Width = 255
-      ExplicitWidth = 255
+      Width = 238
+      ExplicitWidth = 238
     end
     inherited Panel1: TPanel
-      Width = 255
-      ExplicitWidth = 255
+      Width = 238
+      StyleElements = [seFont, seClient, seBorder]
+      ExplicitWidth = 238
       inherited OKBtn: TBitBtn
-        Left = 151
-        ExplicitLeft = 151
+        Left = 134
+        ExplicitLeft = 134
       end
     end
-  end
-  object LabeledEdit1: TLabeledEdit
-    Left = 32
-    Top = 32
-    Width = 183
-    Height = 23
-    EditLabel.Width = 32
-    EditLabel.Height = 15
-    EditLabel.Caption = 'Server'
-    TabOrder = 1
-    Text = 'ds://localhost:211'
   end
   object LabeledEdit2: TLabeledEdit
     Left = 32
@@ -57,7 +53,7 @@ object ConnectForm: TConnectForm
     EditLabel.Width = 76
     EditLabel.Height = 15
     EditLabel.Caption = 'Benutzername'
-    TabOrder = 2
+    TabOrder = 1
     Text = ''
   end
   object LabeledEdit3: TLabeledEdit
@@ -69,7 +65,7 @@ object ConnectForm: TConnectForm
     EditLabel.Height = 15
     EditLabel.Caption = 'Passwort'
     PasswordChar = '*'
-    TabOrder = 3
+    TabOrder = 2
     Text = 'snoopy'
   end
   object CheckBox1: TCheckBox
@@ -78,7 +74,15 @@ object ConnectForm: TConnectForm
     Width = 97
     Height = 17
     Caption = 'Admin'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = CheckBox1Click
+  end
+  object ComboBox1: TComboBox
+    Left = 32
+    Top = 32
+    Width = 183
+    Height = 23
+    TabOrder = 4
+    Text = 'ComboBox1'
   end
 end

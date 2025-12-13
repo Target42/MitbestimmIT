@@ -165,7 +165,7 @@ object ServerFrame: TServerFrame
         OnClick = BitBtn4Click
       end
       object BitBtn5: TBitBtn
-        Left = 120
+        Left = 32
         Top = 104
         Width = 153
         Height = 25
@@ -173,6 +173,15 @@ object ServerFrame: TServerFrame
         Images = ResMod.PngImageList1
         TabOrder = 4
         OnClick = BitBtn5Click
+      end
+      object BitBtn7: TBitBtn
+        Left = 216
+        Top = 104
+        Width = 153
+        Height = 25
+        Caption = 'Download-Webseite'
+        TabOrder = 5
+        OnClick = BitBtn7Click
       end
     end
   end

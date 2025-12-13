@@ -194,6 +194,7 @@
         <DCCReference Include="..\lib\u_helper.pas"/>
         <DCCReference Include="..\lib\u_json.pas"/>
         <DCCReference Include="..\server\u_debug.pas"/>
+        <DCCReference Include="..\lib\u_hostname.pas"/>
         <RcItem Include="Data\ssl.zip">
             <ContainerId>ResourceItem</ContainerId>
             <ResourceType>RCDATA</ResourceType>
@@ -271,6 +272,12 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
+                <DeployFile LocalName="..\pictures\logo.png" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\pictures\logo.png" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -368,6 +375,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="Data\fb_client.zip" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Data\index.html" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

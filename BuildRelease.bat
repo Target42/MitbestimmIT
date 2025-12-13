@@ -1,4 +1,4 @@
-cd d:\git_d12\MitbestimmIT
+cd d:\git_d12\MitbestimmIT\
 
 call rsvars.bat
 
@@ -20,3 +20,11 @@ del setup\Data\Client.zip
 "C:\Program Files\7-Zip\7z.exe" a -tzip setup\Data\Client.zip  testdaten
 
 msbuild setup\ServerSetup.dproj /t:Build /p:Configuration=Release /p:Platform=Win32
+
+
+copy "D:\DelphiBin\MitbestimmIT\Setup\ServerSetup.exe" "C:\Users\steph\Nextcloud\MitbestimmIT\" /Y
+copy "D:\DelphiBin\MitbestimmIT\Server\MitbestimmITServer.exe" "C:\Users\steph\Nextcloud\MitbestimmIT\" /Y
+copy "D:\DelphiBin\MitbestimmIT\Server\MitbestimmITServer.service.exe" "C:\Users\steph\Nextcloud\MitbestimmIT\" /Y
+copy "D:\DelphiBin\MitbestimmIT\Client\MitbestimmITClientVCL.exe" "C:\Users\steph\Nextcloud\MitbestimmIT\" /Y
+
+copy d:\git_d12\MitbestimmIT\setup\Data\Client.zip "C:\Users\steph\Nextcloud\MitbestimmIT\" /Y
