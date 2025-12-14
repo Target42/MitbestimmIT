@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 09.12.2025 20:38:25
+// 14.12.2025 12:10:04
 //
 
 unit u_stub;
@@ -49,10 +49,12 @@ type
     FWahlListWA_ACTIVEGetTextCommand: TDBXCommand;
     FgetWahlDataCommand: TDBXCommand;
     FsaveWahlDataCommand: TDBXCommand;
+    FupdateWahlDataCommand: TDBXCommand;
     FloadWahlDataCommand: TDBXCommand;
     FuploadImageCommand: TDBXCommand;
     FsetWahlCommand: TDBXCommand;
     FgetLogoCommand: TDBXCommand;
+    FhasWahlCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
@@ -62,10 +64,12 @@ type
     procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     function getWahlData: TJSONObject;
     function saveWahlData(data: TJSONObject): TJSONObject;
+    function updateWahlData(data: TJSONObject): TJSONObject;
     function loadWahlData: TJSONObject;
     function uploadImage(info: TImageInfo): TJSONObject;
     function setWahl(id: Integer): Boolean;
     function getLogo: TImageInfo;
+    function hasWahl: Boolean;
   end;
 
   TWaehlerModClient = class(TDSAdminClient)
@@ -521,6 +525,20 @@ begin
   Result := TJSONObject(FsaveWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TWahlModClient.updateWahlData(data: TJSONObject): TJSONObject;
+begin
+  if FupdateWahlDataCommand = nil then
+  begin
+    FupdateWahlDataCommand := FDBXConnection.CreateCommand;
+    FupdateWahlDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FupdateWahlDataCommand.Text := 'TWahlMod.updateWahlData';
+    FupdateWahlDataCommand.Prepare;
+  end;
+  FupdateWahlDataCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FupdateWahlDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FupdateWahlDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
 function TWahlModClient.loadWahlData: TJSONObject;
 begin
   if FloadWahlDataCommand = nil then
@@ -599,6 +617,19 @@ begin
     Result := nil;
 end;
 
+function TWahlModClient.hasWahl: Boolean;
+begin
+  if FhasWahlCommand = nil then
+  begin
+    FhasWahlCommand := FDBXConnection.CreateCommand;
+    FhasWahlCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FhasWahlCommand.Text := 'TWahlMod.hasWahl';
+    FhasWahlCommand.Prepare;
+  end;
+  FhasWahlCommand.ExecuteUpdate;
+  Result := FhasWahlCommand.Parameters[0].Value.GetBoolean;
+end;
+
 constructor TWahlModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -616,10 +647,12 @@ begin
   FWahlListWA_ACTIVEGetTextCommand.Free;
   FgetWahlDataCommand.Free;
   FsaveWahlDataCommand.Free;
+  FupdateWahlDataCommand.Free;
   FloadWahlDataCommand.Free;
   FuploadImageCommand.Free;
   FsetWahlCommand.Free;
   FgetLogoCommand.Free;
+  FhasWahlCommand.Free;
   inherited;
 end;
 

@@ -39,7 +39,6 @@ uses
   u_helper in '..\lib\u_helper.pas',
   fr_wahlverfahren in 'Planung\fr_wahlverfahren.pas' {WahlverfahrenFrame: TFrame},
   f_waehlerliste in 'wähler\f_waehlerliste.pas' {WaehlerListeForm},
-  fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
   f_wahl_phase in 'Planung\f_wahl_phase.pas' {WahlPhaseForm},
   f_wahldate in 'Planung\f_wahldate.pas' {WahlDateform},
   f_wahl_select in 'gui\f_wahl_select.pas' {WahlSelectForm},
@@ -62,7 +61,9 @@ uses
   Vcl.Styles,
   f_helfer_wechsel in 'Wahllokal\f_helfer_wechsel.pas' {HelferWechselForm},
   u_imageinfo in '..\lib\u_imageinfo.pas',
-  f_logo in 'Admin\f_logo.pas' {LogoForm};
+  f_logo in 'Admin\f_logo.pas' {LogoForm},
+  f_planedit in 'Planung\f_planedit.pas' {PlanEditoForm},
+  fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame};
 
 {$R *.res}
 
@@ -84,6 +85,5 @@ begin
   Application.CreateForm(TResMod, ResMod);
   Application.CreateForm(TGM, GM);
   Application.CreateForm(TMainClientForm, MainClientForm);
-
   Application.Run;
 end.

@@ -43,6 +43,8 @@ type
     PhasenQrx: TFDQuery;
     FDTransaction2: TFDTransaction;
     WAtabWA_PIC_NAME: TStringField;
+    FristenCount: TFDQuery;
+    UpdateFristQry: TFDQuery;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -55,6 +57,7 @@ type
     function getWahlData : TJSONObject;
 
     function saveWahlData( data : TJSONObject ) : TJSONObject;
+    function updateWahlData( data : TJSONObject ) : TJSONObject;
     function loadWahlData : TJSONObject;
     function uploadImage(info : TImageInfo) : TJSONObject;
 
@@ -62,6 +65,8 @@ type
     function setWahl( id : integer ) : Boolean;
     [TRoleAuth(roPublic)]
     function getLogo : TImageInfo;
+
+    function hasWahl : boolean;
 
   end;
 
@@ -123,6 +128,14 @@ begin
     JReplace(result, 'simulation', WahlDataQry.FieldByName('WA_SIMU').AsBoolean);
   end;
   WahlDataQry.Close;
+end;
+
+function TWahlMod.hasWahl: boolean;
+begin
+  FristenCount.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  FristenCount.Open;
+  Result := FristenCount.FieldByName('count').AsInteger > 0;
+  FristenCount.Close;
 end;
 
 function TWahlMod.loadWahlData: TJSONObject;
@@ -228,6 +241,37 @@ begin
     result := true;
   end;
   CheckMAIDQry.Close;
+end;
+
+function TWahlMod.updateWahlData(data: TJSONObject): TJSONObject;
+var
+  arr : TJSONArray;
+  i   : integer;
+  row : TJSONObject;
+begin
+  Result := TJSONObject.Create;
+
+  FDTransaction1.StartTransaction;
+  UpdateFristQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+
+  arr := JArray( data, 'phasen');
+  if arr.Count > 0 then
+  begin
+
+    for i := 0 to pred(arr.Count) do
+    begin
+      row := getRow(arr, i);
+      UpdateFristQry.ParamByName('WF_ID').AsInteger := i + 1;
+
+      UpdateFristQry.ParamByName('WF_START').AsTime := JDouble( row, 'start');
+      UpdateFristQry.ParamByName('WF_ENDE').AsTime := JDouble( row, 'start');
+      UpdateFristQry.ExecSQL;
+
+    end;
+  end;
+  if FDTransaction1.Active then
+    FDTransaction1.Commit;
+  Savelog(true, 'Wahl: save', formatJSON(data));
 end;
 
 function TWahlMod.uploadImage(info : TImageInfo): TJSONObject;

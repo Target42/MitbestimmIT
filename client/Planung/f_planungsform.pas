@@ -56,15 +56,33 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, System.JSON;
+uses
+  m_glob, System.JSON, f_planedit;
 
 { TPlanungsform }
 
 class procedure TPlanungsform.Execute;
+var
+  client : TWahlModClient;
+  editMode : boolean;
 begin
-  Application.CreateForm(TPlanungsform, Planungsform);
-  Planungsform.ShowModal;
-  Planungsform.Free;
+  client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+  editMode := client.hasWahl;
+  client.Free;
+
+  if not editMode then
+  begin
+    Application.CreateForm(TPlanungsform, Planungsform);
+    Planungsform.ShowModal;
+    Planungsform.Free;
+  end
+  else
+  begin
+    Application.CreateForm(TPlanEditoForm, PlanEditoForm);
+    PlanEditoForm.ShowModal;
+    PlanEditoForm.Free;
+  end;
+
 end;
 
 procedure TPlanungsform.FormCreate(Sender: TObject);

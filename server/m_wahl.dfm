@@ -270,4 +270,62 @@ object WahlMod: TWahlMod
     Left = 488
     Top = 328
   end
+  object FristenCount: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'SELECT count(a.WA_ID)'
+      'FROM WF_FRISTEN a '
+      'WHERE'
+      '    a.WA_ID = :wa_id'
+      '')
+    Left = 288
+    Top = 384
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object UpdateFristQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'UPDATE WF_FRISTEN a'
+      'SET '
+      '    a.WF_START = :WF_START, '
+      '    a.WF_ENDE = :WF_ENDE'
+      'WHERE'
+      '    a.WA_ID = :wa_id '
+      'AND '
+      '    a.WF_ID = :wf_id'
+      '')
+    Left = 424
+    Top = 416
+    ParamData = <
+      item
+        Name = 'WF_START'
+        DataType = ftDateTime
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WF_ENDE'
+        DataType = ftDateTime
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WF_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end

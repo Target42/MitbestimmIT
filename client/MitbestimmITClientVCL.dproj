@@ -211,10 +211,6 @@
         <DCCReference Include="wähler\f_waehlerliste.pas">
             <Form>WaehlerListeForm</Form>
         </DCCReference>
-        <DCCReference Include="Planung\fr_wahlfristen.pas">
-            <Form>WahlfristenFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="Planung\f_wahl_phase.pas">
             <Form>WahlPhaseForm</Form>
         </DCCReference>
@@ -271,6 +267,15 @@
         <DCCReference Include="Admin\f_logo.pas">
             <Form>LogoForm</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Planung\f_planedit.pas">
+            <Form>PlanEditoForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Planung\fr_wahlfristen.pas">
+            <Form>WahlfristenFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
         </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
