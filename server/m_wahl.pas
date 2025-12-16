@@ -45,6 +45,8 @@ type
     WAtabWA_PIC_NAME: TStringField;
     FristenCount: TFDQuery;
     UpdateFristQry: TFDQuery;
+    WFTabWF_ACTIVE: TStringField;
+    WFTabWF_PHASE: TStringField;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -161,11 +163,13 @@ begin
     while not PhasenQrx.Eof do
     begin
       row := TJSONObject.Create;
-      JReplace( row, 'nr',    PhasenQrx.FieldByName('WF_ID').AsInteger -1);
-      JReplace( row, 'titel', PhasenQrx.FieldByName('WF_TITEL').AsString );
+      JReplace(       row, 'nr',    PhasenQrx.FieldByName('WF_ID').AsInteger -1);
+      JReplace(       row, 'titel', PhasenQrx.FieldByName('WF_TITEL').AsString );
       JReplaceDouble( row, 'start', PhasenQrx.FieldByName('WF_START').AsDateTime);
-      JReplaceDouble( row, 'ende', PhasenQrx.FieldByName('WF_ENDE').AsDateTime);
-      JReplace( row, 'typ', PhasenQrx.FieldByName('WF_TYP').AsInteger);
+      JReplaceDouble( row, 'ende',  PhasenQrx.FieldByName('WF_ENDE').AsDateTime);
+      JReplace(       row, 'typ',   PhasenQrx.FieldByName('WF_TYP').AsInteger);
+      JReplace(       row, 'active',(PhasenQrx.FieldByName('WF_ACTIVE').AsString = 'T') );
+      JReplace(       row, 'phase', PhasenQrx.FieldByName('WF_PHASE').AsString );
       arr.Add(row);
       PhasenQrx.Next;
     end;
@@ -206,6 +210,11 @@ begin
       WFTabWF_START.AsDateTime := JDouble( row, 'start');
       WFTabWF_ENDE.AsDateTime  := JDouble( row, 'ende');
       WFTabWF_TYP.AsInteger    := JInt( row, 'typ');
+      if JBool( row, 'active') then
+        WFTabWF_ACTIVE.AsString := 'T'
+      else
+        WFTabWF_ACTIVE.AsString := 'F';
+      WFTabWF_PHASE.AsString    := JString( row, 'phase');
       WFTab.Post;
     end;
   end;
@@ -263,8 +272,8 @@ begin
       row := getRow(arr, i);
       UpdateFristQry.ParamByName('WF_ID').AsInteger := i + 1;
 
-      UpdateFristQry.ParamByName('WF_START').AsTime := JDouble( row, 'start');
-      UpdateFristQry.ParamByName('WF_ENDE').AsTime := JDouble( row, 'start');
+      UpdateFristQry.ParamByName('WF_START').AsDateTime := JDouble( row, 'start');
+      UpdateFristQry.ParamByName('WF_ENDE').AsDateTime := JDouble( row, 'ende');
       UpdateFristQry.ExecSQL;
 
     end;

@@ -157,7 +157,7 @@ commit;
 
 
 1753814221
-1765308508
+1765911733
 0
 0
 4
@@ -2947,7 +2947,7 @@ VARCHAR(150)
 1
 0
 0
-
+WA_PIC_NAME
 
 7
 3
@@ -3630,6 +3630,74 @@ INTEGER
 WF_DELTA
 
 6
+3
+3286
+3286
+WF_ACTIVE
+WF_ACTIVE
+
+
+
+1017
+0
+CHAR(1)
+1
+0
+0
+
+
+
+
+F
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WF_ACTIVE
+
+7
+3
+3403
+3403
+WF_PHASE
+WF_PHASE
+
+
+
+1017
+0
+VARCHAR(5)
+5
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+
+
+8
 3
 1259
 1259
@@ -7244,10 +7312,10 @@ OID     N8
 0
 0
 0
--72728
--31250
--60954
--23826
+-72846
+-32231
+-60847
+-22857
 2
 1
 0
@@ -7995,7 +8063,7 @@ ca32ffff8aebffffca32ffffeb5e0000
 0
 0
 3
-dc32ffff9be0ffff2c00ffff9be0ffff2c00ffff8b93ffff
+dc32ffff9be0ffff4100ffff9be0ffff4100ffff4a93ffff
 2
 
 

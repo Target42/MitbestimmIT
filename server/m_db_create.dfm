@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     10.12.2025  19:21                          ' +
+            '/*   Created on:     16.12.2025  20:49                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -605,6 +605,13 @@ object CreateDBMode: TCreateDBMode
           
             '    WF_TYP                          INTEGER                     ' +
             '   ,'
+          
+            '    WF_ACTIVE                       CHAR(1)                     ' +
+            '   '
+          '        default '#39'F'#39','
+          
+            '    WF_PHASE                        VARCHAR(5)                  ' +
+            '   ,'
           '    constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)'
           ');'
           ''
@@ -965,7 +972,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     10.12.2025  19:21                          ' +
+            '/*   Created on:     16.12.2025  20:50                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -1123,6 +1130,7 @@ object CreateDBMode: TCreateDBMode
           ''
           'end;/'
           'set term ;/'
+          ''
           '')
       end>
     Connection = FDConnection1

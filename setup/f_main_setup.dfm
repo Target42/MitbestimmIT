@@ -2,7 +2,7 @@ object MainSetupForm: TMainSetupForm
   Left = 0
   Top = 0
   HelpContext = 42
-  ActiveControl = CheckBox1
+  ActiveControl = AdminFrame1.LabeledEdit1
   Caption = 'MitbestimmIT-Server-Setup'
   ClientHeight = 498
   ClientWidth = 754
@@ -29,7 +29,7 @@ object MainSetupForm: TMainSetupForm
     Top = 0
     Width = 754
     Height = 479
-    ActivePage = JvWizardWelcomePage1
+    ActivePage = JvWizardInteriorPage2
     ButtonBarHeight = 42
     ButtonStart.Caption = 'To &Start Page'
     ButtonStart.NumGlyphs = 1
@@ -342,13 +342,6 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage2NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
-      object Label1: TLabel
-        Left = 168
-        Top = 280
-        Width = 34
-        Height = 15
-        Caption = 'Label1'
-      end
       inline AdminFrame1: TAdminFrame
         Left = 0
         Top = 70
@@ -433,8 +426,6 @@ object MainSetupForm: TMainSetupForm
       OnNextButtonClick = JvWizardInteriorPage3NextButtonClick
       OnCancelButtonClick = JvWizardWelcomePage1CancelButtonClick
       OnHelpButtonClick = JvWizardWelcomePage1HelpButtonClick
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       inline DatabaseFrame1: TDatabaseFrame
         Left = 0
         Top = 70

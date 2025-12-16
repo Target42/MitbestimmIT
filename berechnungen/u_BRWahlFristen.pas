@@ -23,6 +23,16 @@ interface
 uses
   SysUtils, DateUtils, System.JSON, System.Generics.Collections;
 
+const
+  WWV = 'WWV';
+  EWL = 'EWL';
+  EWV = 'EWV';
+  WTG = 'WTG';
+  SAZ = 'SAZ';
+  BWE = 'BWE';
+  EAF = 'EAF';
+
+
 type
   TWahlVerfahren = (wvAllgemein = 0, wvVereinfacht = 1);
   TDatumTyp      = (dtKeines = 0, dtTag = 1, dtZeitraum = 2, dtZeitpunkte = 3);
@@ -34,6 +44,8 @@ type
     start     : TDateTime;
     ende      : TDateTime;
     typ       : TDatumTyp;
+    active    : boolean;
+    pid       : string;
 
     function toJson : TJSONObject;
     procedure fromJson( data : TJSONObject );
@@ -71,11 +83,13 @@ uses
 function TWahlPhase.toJson : TJSONObject;
 begin
   Result := TJSONObject.Create;
-  JReplace(result, 'nr', nr);
-  JReplace(result, 'titel',titel);
-  JReplaceDouble(result, 'start',start);
-  JReplaceDouble(result, 'ende',ende);
-  JReplace( result, 'typ', integer(typ));
+  JReplace(result,        'nr',     nr);
+  JReplace(result,        'titel',  titel);
+  JReplaceDouble(result,  'start',  start);
+  JReplaceDouble(result,  'ende',   ende);
+  JReplace( result,       'typ',    integer(typ));
+  JReplace( result,       'active', active );
+  JReplace( result,       'phase',  pid );
 
 end;
 procedure TWahlPhase.fromJson( data : TJSONObject );
@@ -85,6 +99,8 @@ begin
   start := JDouble(data, 'start');
   ende  := JDouble( data, 'ende');
   typ   := TDatumTyp(JInt( data, 'typ'));
+  active:= JBool( data, 'active');
+  pid   := JString(data, 'phase');
 end;
 
 function WahlphasenToJson( var list : TWahlPhasenListe ) : TJSONObject;
@@ -170,8 +186,8 @@ begin
   list[6]^.Ende  := IncDay(da, -7);
 
   // Stimmabgabe (Wahltag/e)'                      , dtZeitpunkte));
-  list[7]^.start := da  + EncodeTime( 8, 0, 0, 0);
-  list[7]^.Ende:= da  + EncodeTime( 16, 0, 0, 0);
+  list[7]^.start := da  + EncodeTime( 8,  0, 0, 0);
+  list[7]^.Ende:= da    + EncodeTime( 16, 0, 0, 0);
   // Stimmauszählung'                              , dtTag));
   list[8]^.start := da;
   // Bekanntgabe des Wahlergebnisses'              , dtTag));
@@ -195,7 +211,7 @@ begin
   list.Clear;
 end;
 
-function FillPhase( nr : integer; title : string; typ : TDatumTyp) :  PTWahlPhase;
+function FillPhase( nr : integer; title : string; typ : TDatumTyp; active:boolean ; pid : string ) :  PTWahlPhase;
 begin
   new(result);
   Result^.nr        := nr;
@@ -203,6 +219,8 @@ begin
   Result^.typ       := typ;
   Result^.start     := 0.0;
   Result^.ende      := 0.0;
+  Result^.active    := active;
+  Result^.pid       := pid;
 end;
 
 function createNornmal : TWahlPhasenListe;
@@ -212,17 +230,17 @@ begin
   fmt := TFormatSettings.Create('de-DE');
 
   Result := TList<PTWahlPhase>.create();
-  Result.add(FillPhase( 1, 'Bestellung/Wahl des Wahlvorstands'            , dtTag));
-  Result.add(FillPhase( 2, 'Erstellung der Wählerliste'                   , dtTag));
-  Result.add(FillPhase( 3, 'Erlass und Aushang des Wahlausschreibens'     , dtTag));
-  Result.add(FillPhase( 4, 'Einspruchsfrist gegen Wählerliste'            , dtZeitraum));
-  Result.add(FillPhase( 5, 'Einreichung der Wahlvorschläge'               , dtZeitraum));
-  Result.add(FillPhase( 6, 'Prüfung und Zulassung der Wahlvorschläge'     , dtTag));
-  Result.add(FillPhase( 7, 'Vorbereitung der Wahl'                        , dtZeitraum));
-  Result.add(FillPhase( 8, 'Stimmabgabe (Wahltag/e)'                      , dtZeitpunkte));
-  Result.add(FillPhase( 9, 'Stimmauszählung'                              , dtTag));
-  Result.add(FillPhase(10, 'Bekanntgabe des Wahlergebnisses'              , dtTag));
-  Result.add(FillPhase(11, 'Ende der Anfechtungsfrist'                    , dtZeitraum));
+  Result.add(FillPhase( 1, 'Bestellung/Wahl des Wahlvorstands'            , dtTag         , true,   WWV));
+  Result.add(FillPhase( 2, 'Erstellung der Wählerliste'                   , dtTag         , true,   EWL));
+  Result.add(FillPhase( 3, 'Erlass und Aushang des Wahlausschreibens'     , dtTag         , false,  ''));
+  Result.add(FillPhase( 4, 'Einspruchsfrist gegen Wählerliste'            , dtZeitraum    , false,  ''));
+  Result.add(FillPhase( 5, 'Einreichung der Wahlvorschläge'               , dtZeitraum    , false,  EWV));
+  Result.add(FillPhase( 6, 'Prüfung und Zulassung der Wahlvorschläge'     , dtTag         , false,  ''));
+  Result.add(FillPhase( 7, 'Vorbereitung der Wahl'                        , dtZeitraum    , false,  ''));
+  Result.add(FillPhase( 8, 'Stimmabgabe (Wahltag/e)'                      , dtZeitpunkte  , false,  WTG));
+  Result.add(FillPhase( 9, 'Stimmauszählung'                              , dtTag         , false,  SAZ));
+  Result.add(FillPhase(10, 'Bekanntgabe des Wahlergebnisses'              , dtTag         , false,  BWE));
+  Result.add(FillPhase(11, 'Ende der Anfechtungsfrist'                    , dtZeitraum    , false,  EAF));
 
   AutoFillNormal( EncodeDate(2026, 5, 15), Result );
 end;
@@ -230,14 +248,14 @@ end;
 function createEinfach : TWahlPhasenListe;
 begin
   Result := TList<PTWahlPhase>.create();
-  Result.add(FillPhase( 1, 'Bestellung oder Wahl des Wahlvorstands'       , dtTag));
-  Result.add(FillPhase( 2, 'Einladung zur 1. Wahlversammlung'             , dtTag));
-  Result.add(FillPhase( 3, 'Wahlversammlung'                              , dtZeitpunkte));
-  Result.add(FillPhase( 4, 'Einreichungsfrist für Wahlvorschläge'         , dtZeitraum));
-  Result.add(FillPhase( 5, 'Wahlversammlung (eigentliche Wahl)'           , dtZeitpunkte));
-  Result.add(FillPhase( 6, 'Stimmauszählung'                              , dtTag));
-  Result.add(FillPhase( 7, 'Bekanntgabe des Wahlergebnisses'              , dtTag));
-  Result.add(FillPhase( 8, 'Ende der Anfechtungsfrist'                    , dtZeitraum));
+  Result.add(FillPhase( 1, 'Bestellung oder Wahl des Wahlvorstands'       , dtTag         , true,   WWV));
+  Result.add(FillPhase( 2, 'Einladung zur 1. Wahlversammlung'             , dtTag         , false,  ''));
+  Result.add(FillPhase( 3, 'Wahlversammlung'                              , dtZeitpunkte  , false,  EWL));
+  Result.add(FillPhase( 4, 'Einreichungsfrist für Wahlvorschläge'         , dtZeitraum    , false,  EWV));
+  Result.add(FillPhase( 5, 'Wahlversammlung'                              , dtZeitpunkte  , false,  WTG));
+  Result.add(FillPhase( 6, 'Stimmauszählung'                              , dtTag         , false,  SAZ));
+  Result.add(FillPhase( 7, 'Bekanntgabe des Wahlergebnisses'              , dtTag         , false,  BWE));
+  Result.add(FillPhase( 8, 'Ende der Anfechtungsfrist'                    , dtZeitraum    , false,  EAF));
 
   AutoFillEinfach(EncodeDate(2026, 5, 15), Result );
 end;

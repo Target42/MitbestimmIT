@@ -28,7 +28,6 @@ type
     DatabaseFrame1: TDatabaseFrame;
     JvWizardInteriorPage4: TJvWizardInteriorPage;
     ZertifikatFrame1: TZertifikatFrame;
-    Label1: TLabel;
     FilesFrame1: TFilesFrame;
     PngImageList1: TPngImageList;
     JvWizardInteriorPage5: TJvWizardInteriorPage;

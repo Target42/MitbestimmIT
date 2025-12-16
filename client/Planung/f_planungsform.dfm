@@ -94,7 +94,6 @@ object Planungsform: TPlanungsform
         inherited RichEdit1: TRichEdit
           Width = 592
           Height = 385
-          StyleElements = [seFont, seClient, seBorder]
           ExplicitWidth = 592
           ExplicitHeight = 385
         end
@@ -152,7 +151,6 @@ object Planungsform: TPlanungsform
           end
           inherited Panel1: TPanel
             Width = 752
-            StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 752
           end
         end

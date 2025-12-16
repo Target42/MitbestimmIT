@@ -246,6 +246,17 @@ object WahlMod: TWahlMod
       FieldName = 'WF_TYP'
       Origin = 'WF_TYP'
     end
+    object WFTabWF_ACTIVE: TStringField
+      FieldName = 'WF_ACTIVE'
+      Origin = 'WF_ACTIVE'
+      FixedChar = True
+      Size = 1
+    end
+    object WFTabWF_PHASE: TStringField
+      FieldName = 'WF_PHASE'
+      Origin = 'WF_PHASE'
+      Size = 5
+    end
   end
   object PhasenQrx: TFDQuery
     Connection = DBMod.FDConnection1

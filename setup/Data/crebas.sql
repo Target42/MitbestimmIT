@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     10.12.2025  19:21                          */
+/*   Created on:     16.12.2025  20:49                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -267,6 +267,9 @@ create table WF_FRISTEN
     WF_START                        TIMESTAMP                      ,
     WF_ENDE                         TIMESTAMP                      ,
     WF_TYP                          INTEGER                        ,
+    WF_ACTIVE                       CHAR(1)                        
+        default 'F',
+    WF_PHASE                        VARCHAR(5)                     ,
     constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)
 );
 
