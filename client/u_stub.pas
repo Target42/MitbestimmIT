@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 14.12.2025 12:10:04
+// 17.12.2025 20:36:55
 //
 
 unit u_stub;
@@ -226,6 +226,16 @@ type
     function invalid(data: TJSONObject): TJSONObject;
     function wechsel(data: TJSONObject): TJSONObject;
     function getHelfer: TJSONObject;
+  end;
+
+  TGlobModClient = class(TDSAdminClient)
+  private
+    FisPhaseActiveCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function isPhaseActive(phase: string): Boolean;
   end;
 
 implementation
@@ -1444,6 +1454,36 @@ begin
   FinvalidCommand.Free;
   FwechselCommand.Free;
   FgetHelferCommand.Free;
+  inherited;
+end;
+
+function TGlobModClient.isPhaseActive(phase: string): Boolean;
+begin
+  if FisPhaseActiveCommand = nil then
+  begin
+    FisPhaseActiveCommand := FDBXConnection.CreateCommand;
+    FisPhaseActiveCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FisPhaseActiveCommand.Text := 'TGlobMod.isPhaseActive';
+    FisPhaseActiveCommand.Prepare;
+  end;
+  FisPhaseActiveCommand.Parameters[0].Value.SetWideString(phase);
+  FisPhaseActiveCommand.ExecuteUpdate;
+  Result := FisPhaseActiveCommand.Parameters[1].Value.GetBoolean;
+end;
+
+constructor TGlobModClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TGlobModClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TGlobModClient.Destroy;
+begin
+  FisPhaseActiveCommand.Free;
   inherited;
 end;
 

@@ -339,4 +339,26 @@ object WahlMod: TWahlMod
         Value = Null
       end>
   end
+  object SimQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    Transaction = FDTransaction2
+    SQL.Strings = (
+      'SELECT '
+      '  *'
+      'FROM '
+      '  WA_WAHL '
+      'where'
+      '  WA_ID = :wa_id'
+      'and'
+      '  WA_SIMU = '#39'T'#39)
+    Left = 464
+    Top = 176
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end

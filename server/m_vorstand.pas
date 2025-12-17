@@ -54,7 +54,8 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, u_json, System.Variants, m_log, u_pwd, u_glob, u_totp;
+  m_db, u_json, System.Variants, m_log, u_pwd, u_glob, u_totp, u_BRWahlFristen,
+  m_phase;
 
 {$R *.dfm}
 
@@ -62,6 +63,13 @@ function TVortandMod.add(data: TJSONObject): TJSONObject;
 var
   person : IWahlvorstandPerson;
 begin
+  if not TPhasenMod.phaseActive(WWV) then
+  begin
+    result := TJSONObject.Create;
+    JResult( result, false, 'Es können keinen Änderungen mehr an dem Wahlvorstand vorgenommen werden!');
+    exit;
+  end;
+
   person := createWahlvorstandPerson;
   person.fromJSON(data);
 
@@ -127,6 +135,12 @@ var
   id : integer;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(WWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an dem Wahlvorstand vorgenommen werden!');
+    exit;
+  end;
+
   id     := JInt( data, 'id');
 
   DelQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
@@ -226,6 +240,12 @@ var
   person   : IWahlvorstandPerson;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(WWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an dem Wahlvorstand vorgenommen werden!');
+    exit;
+  end;
+
   person := createWahlvorstandPerson;
   person.fromJSON(data);
   // update :-)

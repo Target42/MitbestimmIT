@@ -57,7 +57,7 @@ var
 implementation
 
 uses
-  u_stub, System.JSON, f_wahlliste_name, f_wahlliste_personen;
+  u_stub, System.JSON, f_wahlliste_name, f_wahlliste_personen, u_BRWahlFristen;
 {$R *.dfm}
 
 { TWahllistenForm }
@@ -192,8 +192,17 @@ end;
 
 procedure TWahllistenForm.FormCreate(Sender: TObject);
 begin
-  ListenQry.Open;
   MAQry.Open;
+  ListenQry.Open;
+
+
+  if not GM.isPhaseActive(EWV) then
+  begin
+    btnAdd.Enabled  := false;
+    btnEdit.Enabled   := false;
+    btnDelete.Enabled := false;
+    BitBtn1.Enabled   := false;
+  end;
 end;
 
 procedure TWahllistenForm.MAQryMA_GENDERGetText(Sender: TField;

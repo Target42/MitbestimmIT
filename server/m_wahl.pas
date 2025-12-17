@@ -47,6 +47,7 @@ type
     UpdateFristQry: TFDQuery;
     WFTabWF_ACTIVE: TStringField;
     WFTabWF_PHASE: TStringField;
+    SimQry: TFDQuery;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
@@ -246,6 +247,13 @@ begin
 
     Savelog( true, 'wahl', formatJSON(data));
     data.Free;
+
+    // setzen der Simulation
+    SimQry.ParamByName('WA_ID').AsInteger := id;
+    SimQry.Open;
+    if not SimQry.IsEmpty then
+      session.PutData('Simulation', 'true');
+    SimQry.Close;
 
     result := true;
   end;

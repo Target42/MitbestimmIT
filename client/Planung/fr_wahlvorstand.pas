@@ -173,7 +173,15 @@ begin
     grp.GroupID := i+1;
     m_map.Add(grp.Header, grp.GroupID);
   end;
-  list.Free
+  list.Free;
+
+  if not GM.isPhaseActive(WWV) then
+  begin
+    btnAdd.Enabled    := false;
+    btnEdit.Enabled   := false;
+    btnDelete.Enabled := false;
+  end;
+
 end;
 
 procedure TWahlVorstandFrame.LVDblClick(Sender: TObject);

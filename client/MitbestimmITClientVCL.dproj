@@ -190,9 +190,6 @@
             <Form>ConnectForm</Form>
         </DCCReference>
         <DCCReference Include="..\WählerListe\u_Waehlerliste.pas"/>
-        <DCCReference Include="Simulation\f_simulation_load.pas">
-            <Form>SimulationLoadForm</Form>
-        </DCCReference>
         <DCCReference Include="..\WählerListe\u_wahlerlisteVergleich.pas"/>
         <DCCReference Include="..\WählerListe\i_waehlerliste.pas"/>
         <DCCReference Include="Planung\f_WahlvorStand.pas">

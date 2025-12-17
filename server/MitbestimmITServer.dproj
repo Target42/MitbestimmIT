@@ -198,6 +198,16 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_imageinfo.pas"/>
+        <DCCReference Include="m_phase.pas">
+            <Form>PhasenMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="m_glob.pas">
+            <Form>GlobMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

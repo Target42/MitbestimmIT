@@ -29,7 +29,6 @@ uses
   u_ComandOptions in 'cli\u_ComandOptions.pas',
   f_connet in 'gui\f_connet.pas' {ConnectForm},
   u_Waehlerliste in '..\WählerListe\u_Waehlerliste.pas',
-  f_simulation_load in 'Simulation\f_simulation_load.pas' {SimulationLoadForm},
   u_wahlerlisteVergleich in '..\WählerListe\u_wahlerlisteVergleich.pas',
   i_waehlerliste in '..\WählerListe\i_waehlerliste.pas',
   f_WahlvorStand in 'Planung\f_WahlvorStand.pas' {WahlVorstandForm},

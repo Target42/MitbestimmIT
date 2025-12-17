@@ -50,6 +50,7 @@ type
     DsStat: TDSServerClass;
     DSUser: TDSServerClass;
     DSWahlLokal: TDSServerClass;
+    DSGlob: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -83,6 +84,8 @@ type
     procedure DSServer1Connect(DSConnectEventObject: TDSConnectEventObject);
     procedure DSWahlLokalGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSGlobGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -112,7 +115,7 @@ uses
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
   m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod, m_user, Data.DBXTransport,
-  m_log, u_debug, m_wahllokal, m_http;
+  m_log, u_debug, m_wahllokal, m_http, m_glob;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -187,6 +190,12 @@ procedure TMitbestimmITSrv.DSCertFiles1GetPEMFileSBPasskey(ASender: TObject; APa
 begin
   if APasskey <> nil then
     APasskey.Append('Wahl');
+end;
+
+procedure TMitbestimmITSrv.DSGlobGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_glob.TGlobMod;
 end;
 
 procedure TMitbestimmITSrv.DSLoginGetClass(DSServerClass: TDSServerClass;

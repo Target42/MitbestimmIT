@@ -67,7 +67,9 @@ uses
   m_wahllokal in 'm_wahllokal.pas' {WahlLokalMod: TDSServerModule},
   m_http in 'm_http.pas' {HttpMod: TDataModule},
   m_pwd in 'm_pwd.pas' {PwdCheckMod: TDataModule},
-  u_imageinfo in '..\lib\u_imageinfo.pas';
+  u_imageinfo in '..\lib\u_imageinfo.pas',
+  m_phase in 'm_phase.pas' {PhasenMod: TDataModule},
+  m_glob in 'm_glob.pas' {GlobMod: TDSServerModule};
 
 {$R *.RES}
 

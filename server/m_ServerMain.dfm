@@ -145,6 +145,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSVorstand: TDSServerClass
     OnGetClass = DSVorstandGetClass
     Server = DSServer1
+    LifeCycle = 'Invocation'
     Left = 784
     Top = 16
   end
@@ -175,6 +176,7 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSBriefwahl: TDSServerClass
     OnGetClass = DSBriefwahlGetClass
     Server = DSServer1
+    LifeCycle = 'Invocation'
     Left = 384
     Top = 88
   end
@@ -188,13 +190,21 @@ object MitbestimmITSrv: TMitbestimmITSrv
   object DSUser: TDSServerClass
     OnGetClass = DSUserGetClass
     Server = DSServer1
+    LifeCycle = 'Invocation'
     Left = 552
     Top = 88
   end
   object DSWahlLokal: TDSServerClass
     OnGetClass = DSWahlLokalGetClass
     Server = DSServer1
+    LifeCycle = 'Invocation'
     Left = 624
     Top = 88
+  end
+  object DSGlob: TDSServerClass
+    OnGetClass = DSGlobGetClass
+    Server = DSServer1
+    Left = 496
+    Top = 216
   end
 end

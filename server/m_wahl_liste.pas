@@ -41,7 +41,7 @@ type
 implementation
 
 uses
-  u_wahlliste, u_json, System.Variants;
+  u_wahlliste, u_json, System.Variants, m_phase, u_BRWahlFristen;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -56,6 +56,12 @@ var
   waid : integer;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
+
   wl := TWahlliste.create;
   wl.fromJson(data);
 
@@ -101,6 +107,11 @@ var
   id : integer;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
 
   id := DBMod.WahlID;
   wl := TWahlliste.create;
@@ -134,6 +145,12 @@ var
   wl : TWahlliste;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
+
   wl := TWahlliste.create;
   wl.fromJson(data);
 
@@ -164,6 +181,11 @@ var
   p  : TWahllistePerson;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
 
   wl := TWahlliste.create;
   wl.fromJson(data);
@@ -187,6 +209,11 @@ var
   wl : TWahlliste;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
 
   wl := TWahlliste.create;
   wl.fromJson(data);
@@ -214,6 +241,12 @@ var
   waid : integer;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
+
   wl := TWahlliste.create;
   wl.fromJson(data);
 

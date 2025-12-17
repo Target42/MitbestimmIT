@@ -28,8 +28,6 @@ object WahllistenForm: TWahllistenForm
     Width = 873
     Height = 19
     Panels = <>
-    ExplicitTop = 422
-    ExplicitWidth = 640
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -39,7 +37,6 @@ object WahllistenForm: TWahllistenForm
     Align = alTop
     Caption = 'Wahllisten'
     TabOrder = 1
-    ExplicitWidth = 640
     object DBGrid1: TDBGrid
       Left = 2
       Top = 17
@@ -80,7 +77,6 @@ object WahllistenForm: TWahllistenForm
       Caption = 'Panel1'
       ShowCaption = False
       TabOrder = 1
-      ExplicitWidth = 636
       DesignSize = (
         869
         41)
@@ -117,7 +113,6 @@ object WahllistenForm: TWahllistenForm
         Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = btnDeleteClick
-        ExplicitLeft = 545
       end
     end
   end
@@ -129,8 +124,6 @@ object WahllistenForm: TWahllistenForm
     Align = alClient
     Caption = 'Mitglieder'
     TabOrder = 2
-    ExplicitWidth = 640
-    ExplicitHeight = 218
     object DBGrid2: TDBGrid
       Left = 2
       Top = 17
@@ -212,8 +205,6 @@ object WahllistenForm: TWahllistenForm
       Caption = 'Panel2'
       ShowCaption = False
       TabOrder = 1
-      ExplicitTop = 175
-      ExplicitWidth = 636
       object BitBtn1: TBitBtn
         Left = 14
         Top = 10
@@ -229,6 +220,7 @@ object WahllistenForm: TWahllistenForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlListeMod'
+    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 64
     Top = 48

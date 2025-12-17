@@ -116,6 +116,7 @@ type
     procedure GenderText(Sender: TField; var Text: string;
       DisplayText: Boolean);
 
+    function isPhaseActive( phase : string ) : Boolean;
   end;
 
 var
@@ -125,7 +126,7 @@ implementation
 
 uses
   System.RegularExpressions, Vcl.Dialogs, system.IOUtils, Vcl.Forms,
-  Winapi.Windows, u_msgID;
+  Winapi.Windows, u_msgID, u_stub;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -262,6 +263,15 @@ begin
   else
     Text := 'männlich';
 
+end;
+
+function TGM.isPhaseActive(phase: string): Boolean;
+var
+  client : TGlobModClient;
+begin
+  client := TGlobModClient.Create(SQLConnection1.DBXConnection);
+  Result := client.isPhaseActive(phase);
+  client.Free;
 end;
 
 procedure TGM.MAListMA_GENDERGetText(Sender: TField; var Text: string;

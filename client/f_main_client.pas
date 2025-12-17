@@ -131,7 +131,7 @@ implementation
 uses
   f_info, f_planungsform, f_waehlerliste_import, f_wahlklokalForm,
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
-  f_simulation_load, f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
+  f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
   f_wahllokal, u_stub, u_imageinfo, f_logo;
 
