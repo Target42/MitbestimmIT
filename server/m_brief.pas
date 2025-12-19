@@ -37,7 +37,8 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_briefwahl, u_json, System.Variants;
+  u_briefwahl, u_json, System.Variants, m_phase, u_BER_Berechnungen,
+  u_BRWahlFristen;
 
 {$R *.dfm}
 
@@ -133,6 +134,12 @@ var
   text : string;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(BBW) then
+  begin
+    JResult( result, false, 'Die Briefwahl ist nicht aktiv!');
+    exit;
+  end;
+
   b := TBriefwahl.create;
   b.fromJson(data);
   maid := b.MA_ID;
@@ -162,6 +169,7 @@ end;
 function TBriefWahlMod.setInvalid(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
+  JResult( result, false, 'Das ist noch nicht implementiert!');
 end;
 
 end.

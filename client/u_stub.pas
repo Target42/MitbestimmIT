@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 17.12.2025 20:36:55
+// 19.12.2025 17:37:57
 //
 
 unit u_stub;
@@ -47,6 +47,7 @@ type
     FWahlListBeforeOpenCommand: TDBXCommand;
     FWahlListWA_SIMUGetTextCommand: TDBXCommand;
     FWahlListWA_ACTIVEGetTextCommand: TDBXCommand;
+    FWahlPhasenBeforeOpenCommand: TDBXCommand;
     FgetWahlDataCommand: TDBXCommand;
     FsaveWahlDataCommand: TDBXCommand;
     FupdateWahlDataCommand: TDBXCommand;
@@ -55,6 +56,7 @@ type
     FsetWahlCommand: TDBXCommand;
     FgetLogoCommand: TDBXCommand;
     FhasWahlCommand: TDBXCommand;
+    FphasenStatusCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
@@ -62,6 +64,7 @@ type
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string; DisplayText: Boolean);
+    procedure WahlPhasenBeforeOpen(DataSet: TDataSet);
     function getWahlData: TJSONObject;
     function saveWahlData(data: TJSONObject): TJSONObject;
     function updateWahlData(data: TJSONObject): TJSONObject;
@@ -70,6 +73,7 @@ type
     function setWahl(id: Integer): Boolean;
     function getLogo: TImageInfo;
     function hasWahl: Boolean;
+    function phasenStatus(data: TJSONObject): TJSONObject;
   end;
 
   TWaehlerModClient = class(TDSAdminClient)
@@ -508,6 +512,19 @@ begin
   Text := FWahlListWA_ACTIVEGetTextCommand.Parameters[1].Value.GetWideString;
 end;
 
+procedure TWahlModClient.WahlPhasenBeforeOpen(DataSet: TDataSet);
+begin
+  if FWahlPhasenBeforeOpenCommand = nil then
+  begin
+    FWahlPhasenBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FWahlPhasenBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FWahlPhasenBeforeOpenCommand.Text := 'TWahlMod.WahlPhasenBeforeOpen';
+    FWahlPhasenBeforeOpenCommand.Prepare;
+  end;
+  FWahlPhasenBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FWahlPhasenBeforeOpenCommand.ExecuteUpdate;
+end;
+
 function TWahlModClient.getWahlData: TJSONObject;
 begin
   if FgetWahlDataCommand = nil then
@@ -640,6 +657,20 @@ begin
   Result := FhasWahlCommand.Parameters[0].Value.GetBoolean;
 end;
 
+function TWahlModClient.phasenStatus(data: TJSONObject): TJSONObject;
+begin
+  if FphasenStatusCommand = nil then
+  begin
+    FphasenStatusCommand := FDBXConnection.CreateCommand;
+    FphasenStatusCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FphasenStatusCommand.Text := 'TWahlMod.phasenStatus';
+    FphasenStatusCommand.Prepare;
+  end;
+  FphasenStatusCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FphasenStatusCommand.ExecuteUpdate;
+  Result := TJSONObject(FphasenStatusCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
 constructor TWahlModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -655,6 +686,7 @@ begin
   FWahlListBeforeOpenCommand.Free;
   FWahlListWA_SIMUGetTextCommand.Free;
   FWahlListWA_ACTIVEGetTextCommand.Free;
+  FWahlPhasenBeforeOpenCommand.Free;
   FgetWahlDataCommand.Free;
   FsaveWahlDataCommand.Free;
   FupdateWahlDataCommand.Free;
@@ -663,6 +695,7 @@ begin
   FsetWahlCommand.Free;
   FgetLogoCommand.Free;
   FhasWahlCommand.Free;
+  FphasenStatusCommand.Free;
   inherited;
 end;
 

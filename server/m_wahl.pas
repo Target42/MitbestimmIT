@@ -48,11 +48,15 @@ type
     WFTabWF_ACTIVE: TStringField;
     WFTabWF_PHASE: TStringField;
     SimQry: TFDQuery;
+    WahlPhasen: TFDQuery;
+    WahlPhasenQry: TDataSetProvider;
+    UpdateStatusQry: TFDQuery;
     procedure WahlListBeforeOpen(DataSet: TDataSet);
     procedure WahlListWA_SIMUGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure WahlListWA_ACTIVEGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure WahlPhasenBeforeOpen(DataSet: TDataSet);
   private
     { Private-Deklarationen }
   public
@@ -62,6 +66,8 @@ type
     function saveWahlData( data : TJSONObject ) : TJSONObject;
     function updateWahlData( data : TJSONObject ) : TJSONObject;
     function loadWahlData : TJSONObject;
+
+    [TRoleAuth(roWahlVorstand)]
     function uploadImage(info : TImageInfo) : TJSONObject;
 
     [TRoleAuth(roPublic)]
@@ -69,8 +75,11 @@ type
     [TRoleAuth(roPublic)]
     function getLogo : TImageInfo;
 
+    [TRoleAuth(roPublic)]
     function hasWahl : boolean;
 
+
+    function phasenStatus( data : TJSONObject ) : TJSONObject;
   end;
 
 implementation
@@ -178,6 +187,28 @@ begin
     JReplace(result, 'phasen', arr);
   end;
   WahlDataQry.Close;
+end;
+
+function TWahlMod.phasenStatus(data: TJSONObject): TJSONObject;
+var
+  nr : integer;
+  status : Boolean;
+begin
+  Result := TJSONObject.Create;
+
+  nr     := JInt( data, 'nr');
+  status := JBool( data, 'status');
+
+  UpdateStatusQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  UpdateStatusQry.ParamByName('WF_ID').AsInteger := nr;
+  UpdateStatusQry.ParamByName('WF_ACTIVE').AsBoolean := status;
+  UpdateStatusQry.ExecSQL;
+
+  if UpdateStatusQry.RowsAffected = 1 then
+    JResult( result, true, 'Die Pahse wurde aktiviert.')
+  else
+    JResult( result, false, 'Die Phase wurde nicht gefunden.');
+
 end;
 
 function TWahlMod.saveWahlData(data: TJSONObject): TJSONObject;
@@ -343,6 +374,11 @@ begin
     Text := 'Ja'
   else
     Text := 'Nein';
+end;
+
+procedure TWahlMod.WahlPhasenBeforeOpen(DataSet: TDataSet);
+begin
+  WahlPhasen.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 end.

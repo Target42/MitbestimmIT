@@ -69,7 +69,7 @@ implementation
 
 {$R *.dfm}
 
-uses m_res, u_briefwahl, System.JSON, u_stub, u_json, u_helper;
+uses m_res, u_briefwahl, System.JSON, u_stub, u_json, u_helper, u_BRWahlFristen;
 
 procedure TBriefwahlForm.ac_receivedExecute(Sender: TObject);
 var
@@ -188,6 +188,12 @@ end;
 
 class procedure TBriefwahlForm.execute;
 begin
+  if not GM.isPhaseActive(BBW) then
+  begin
+    ShowMessage('Die Briefwahl ist nicht aktiv.');
+    exit;
+  end;
+
   Application.CreateForm(TBriefwahlForm, BriefwahlForm);
   BriefwahlForm.ShowModal;
   BriefwahlForm.Free;

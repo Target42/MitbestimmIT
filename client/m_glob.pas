@@ -115,6 +115,8 @@ type
     function cleanPersNr( persNr : string ) : string;
     procedure GenderText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure FlagText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
 
     function isPhaseActive( phase : string ) : Boolean;
   end;
@@ -252,6 +254,15 @@ procedure TGM.disconnect;
 begin
   if SQLConnection1.Connected then
     SQLConnection1.Close;
+
+end;
+
+procedure TGM.FlagText(Sender: TField; var Text: string; DisplayText: Boolean);
+begin
+  if Sender.AsString = 'T' then
+    Text := 'Ja'
+  else
+    Text := 'Nein';
 
 end;
 

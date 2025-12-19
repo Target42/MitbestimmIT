@@ -234,6 +234,9 @@ object MainClientForm: TMainClientForm
       object Planen1: TMenuItem
         Action = ac_wa_plan
       end
+      object Wahlphasenverwalten1: TMenuItem
+        Action = ac_wa_activate
+      end
       object N2: TMenuItem
         Caption = '-'
       end
@@ -387,6 +390,11 @@ object MainClientForm: TMainClientForm
       Category = 'Vorbereitung'
       Caption = 'Logo'
       OnExecute = ac_wa_logoExecute
+    end
+    object ac_wa_activate: TAction
+      Category = 'Vorbereitung'
+      Caption = 'Wahlphasen verwalten'
+      OnExecute = ac_wa_activateExecute
     end
   end
   object Timer1: TTimer

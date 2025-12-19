@@ -31,6 +31,8 @@ const
   SAZ = 'SAZ';
   BWE = 'BWE';
   EAF = 'EAF';
+  AWV = 'AWV';
+  BBW = 'BBW';
 
 
 type
@@ -162,6 +164,15 @@ begin
   list[1]^.start := IncWeek( list[2]^.start, -1 );
   // Bestellung oder Wahl des Wahlvorstands'       , dtTag
   list[0]^.start := IncWeek( list[1]^.start, -1 );
+
+  // Aktualisierung Wählerverzeichnis'                    , dtZeitraum));
+  list[8]^.start := list[1]^.start;
+  list[8]^.ende  := list[4]^.Ende;
+
+  // Beantragung Briefwahl'                    , dtZeitraum));
+  list[9]^.start := list[1]^.start;
+  list[9]^.ende  := IncDay(list[4]^.Ende, -4);
+
 end;
 
 procedure AutoFillNormal( da : TDate; var list : TWahlPhasenListe );
@@ -196,6 +207,15 @@ begin
   // Ende der Anfechtungsfrist'                    , dtZeitraum));
   list[10]^.start := da;
   list[10]^.ende  := IncDay(da, 14);
+
+  // Aktualisierung Wählerverzeichnis'                    , dtZeitraum));
+  list[11]^.start := list[1]^.start;
+  list[11]^.ende  := list[7]^.Ende;
+
+  // Beantragung Briefwahl'                    , dtZeitraum));
+  list[12]^.start := list[1]^.start;
+  list[12]^.ende  := IncDay(list[7]^.Ende, -7);
+
 end;
 
 procedure releaseWahlPhasen( list : TWahlPhasenListe );
@@ -241,6 +261,8 @@ begin
   Result.add(FillPhase( 9, 'Stimmauszählung'                              , dtTag         , false,  SAZ));
   Result.add(FillPhase(10, 'Bekanntgabe des Wahlergebnisses'              , dtTag         , false,  BWE));
   Result.add(FillPhase(11, 'Ende der Anfechtungsfrist'                    , dtZeitraum    , false,  EAF));
+  Result.add(FillPhase(12, 'Aktualisierung Wählerverzeichnis'             , dtZeitraum    , false,  AWV));
+  Result.add(FillPhase(13, 'Beantragung Briefwahl'                        , dtZeitraum    , false,  BBW));
 
   AutoFillNormal( EncodeDate(2026, 5, 15), Result );
 end;
@@ -256,6 +278,8 @@ begin
   Result.add(FillPhase( 6, 'Stimmauszählung'                              , dtTag         , false,  SAZ));
   Result.add(FillPhase( 7, 'Bekanntgabe des Wahlergebnisses'              , dtTag         , false,  BWE));
   Result.add(FillPhase( 8, 'Ende der Anfechtungsfrist'                    , dtZeitraum    , false,  EAF));
+  Result.add(FillPhase( 9, 'Aktualisierung Wählerverzeichnis'             , dtZeitraum    , false,  AWV));
+  Result.add(FillPhase(10, 'Beantragung Briefwahl'                        , dtZeitraum    , false,  BBW));
 
   AutoFillEinfach(EncodeDate(2026, 5, 15), Result );
 end;

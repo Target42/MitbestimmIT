@@ -62,7 +62,8 @@ uses
   u_imageinfo in '..\lib\u_imageinfo.pas',
   f_logo in 'Admin\f_logo.pas' {LogoForm},
   f_planedit in 'Planung\f_planedit.pas' {PlanEditoForm},
-  fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame};
+  fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
+  f_wahl_phasen_set in 'Wahl\f_wahl_phasen_set.pas' {WahlPhasenSEtForm};
 
 {$R *.res}
 

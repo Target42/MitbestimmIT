@@ -1,6 +1,6 @@
 object WahlMod: TWahlMod
   Height = 480
-  Width = 640
+  Width = 732
   object WAtab: TFDTable
     IndexFieldNames = 'WA_ID'
     Connection = DBMod.FDConnection1
@@ -206,8 +206,8 @@ object WahlMod: TWahlMod
   object FDTransaction1: TFDTransaction
     Options.AutoStart = False
     Connection = DBMod.FDConnection1
-    Left = 24
-    Top = 288
+    Left = 40
+    Top = 272
   end
   object WFTab: TFDTable
     IndexFieldNames = 'WA_ID;WF_ID'
@@ -311,8 +311,8 @@ object WahlMod: TWahlMod
       'AND '
       '    a.WF_ID = :wf_id'
       '')
-    Left = 424
-    Top = 416
+    Left = 488
+    Top = 392
     ParamData = <
       item
         Name = 'WF_START'
@@ -356,6 +356,67 @@ object WahlMod: TWahlMod
     ParamData = <
       item
         Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object WahlPhasen: TFDQuery
+    BeforeOpen = WahlPhasenBeforeOpen
+    Connection = DBMod.FDConnection1
+    Transaction = DBMod.FDTransaction1
+    SQL.Strings = (
+      'SELECT '
+      '    *    '
+      'FROM '
+      '    WF_FRISTEN r'
+      'where'
+      '  r.WA_ID = :wa_id'
+      'and '
+      '    r.WF_PHASE <> '#39#39)
+    Left = 600
+    Top = 152
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object WahlPhasenQry: TDataSetProvider
+    DataSet = WahlPhasen
+    Left = 608
+    Top = 232
+  end
+  object UpdateStatusQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    Transaction = DBMod.FDTransaction1
+    SQL.Strings = (
+      'UPDATE WF_FRISTEN a'
+      'SET '
+      '    a.WF_ACTIVE = :WF_ACTIVE'
+      'WHERE'
+      '    a.WA_ID = :wa_id AND '
+      '    a.WF_ID = :wf_id'
+      '')
+    Left = 656
+    Top = 344
+    ParamData = <
+      item
+        Name = 'WF_ACTIVE'
+        DataType = ftBoolean
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WF_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null

@@ -86,6 +86,8 @@ type
     N8: TMenuItem;
     ac_wa_logo: TAction;
     Logo1: TMenuItem;
+    ac_wa_activate: TAction;
+    Wahlphasenverwalten1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -105,6 +107,7 @@ type
     procedure aC_wa_userExecute(Sender: TObject);
     procedure ac_wa_lokalExecute(Sender: TObject);
     procedure ac_wa_logoExecute(Sender: TObject);
+    procedure ac_wa_activateExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -133,7 +136,7 @@ uses
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
-  f_wahllokal, u_stub, u_imageinfo, f_logo;
+  f_wahllokal, u_stub, u_imageinfo, f_logo, f_wahl_phasen_set;
 
 {$R *.dfm}
 
@@ -192,6 +195,11 @@ procedure TMainClientForm.ac_wahllisteExecute(Sender: TObject);
 begin
   TWahllistenForm.execute;
   StatFrame1.UpdateData;
+end;
+
+procedure TMainClientForm.ac_wa_activateExecute(Sender: TObject);
+begin
+  TWahlPhasenSEtForm.execute;
 end;
 
 procedure TMainClientForm.ac_wa_berechtigteExecute(Sender: TObject);

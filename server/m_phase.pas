@@ -6,11 +6,11 @@ uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client,
-  Data.DB, FireDAC.Comp.DataSet;
+  Data.DB, FireDAC.Comp.DataSet, Datasnap.Provider;
 
 type
   TPhasenMod = class(TDataModule)
-    PhasenQry: TFDQuery;
+    Phasen: TFDQuery;
     FDTransaction1: TFDTransaction;
   private
     { Private-Deklarationen }
@@ -33,12 +33,11 @@ uses m_db, Vcl.SvcMgr, DSSession;
 
 function TPhasenMod.checkPhase(phase: string): Boolean;
 begin
-  PhasenQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
-  PhasenQry.ParamByName('PHASE').AsString  := phase;
-  PhasenQry.Open;
-  Result := not PhasenQry.IsEmpty;
-  PhasenQry.Close;
-
+  Phasen.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+  Phasen.ParamByName('PHASE').AsString  := phase;
+  Phasen.Open;
+  Result := not Phasen.IsEmpty;
+  Phasen.Close;
 end;
 
 class function TPhasenMod.phaseActive(phase: string): Boolean;

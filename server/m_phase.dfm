@@ -1,7 +1,7 @@
 object PhasenMod: TPhasenMod
   Height = 480
   Width = 640
-  object PhasenQry: TFDQuery
+  object Phasen: TFDQuery
     Connection = DBMod.FDConnection1
     Transaction = FDTransaction1
     SQL.Strings = (
@@ -13,8 +13,8 @@ object PhasenMod: TPhasenMod
       '  WF_Active = '#39'T'#39
       'and'
       '  WF_PHASE = :phase')
-    Left = 232
-    Top = 144
+    Left = 120
+    Top = 64
     ParamData = <
       item
         Name = 'WA_ID'
