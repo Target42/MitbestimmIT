@@ -88,6 +88,8 @@ type
     Logo1: TMenuItem;
     ac_wa_activate: TAction;
     Wahlphasenverwalten1: TMenuItem;
+    ac_aus_start: TAction;
+    ac_aus_do: TAction;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);

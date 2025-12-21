@@ -75,6 +75,8 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Style = []
       EnabledButtons = [bkNext, bkCancel]
       Caption = 'JvWizardWelcomePage1'
+      ExplicitWidth = 624
+      ExplicitHeight = 380
       inline WahlverfahrenFrame1: TWahlverfahrenFrame
         Left = 164
         Top = 70
@@ -84,8 +86,8 @@ object Planungsform: TPlanungsform
         TabOrder = 0
         ExplicitLeft = 164
         ExplicitTop = 70
-        ExplicitWidth = 592
-        ExplicitHeight = 442
+        ExplicitWidth = 460
+        ExplicitHeight = 310
         inherited RadioGroup1: TRadioGroup
           Width = 592
           ExplicitTop = 0
@@ -94,6 +96,7 @@ object Planungsform: TPlanungsform
         inherited RichEdit1: TRichEdit
           Width = 592
           Height = 385
+          StyleElements = [seFont, seClient, seBorder]
           ExplicitWidth = 592
           ExplicitHeight = 385
         end
@@ -151,6 +154,7 @@ object Planungsform: TPlanungsform
           end
           inherited Panel1: TPanel
             Width = 752
+            StyleElements = [seFont, seClient, seBorder]
             ExplicitWidth = 752
           end
         end

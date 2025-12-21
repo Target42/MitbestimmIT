@@ -94,7 +94,6 @@ begin
     end
     else
       Text := 'Die Unterlagen wurden schon empfangen';
-
   end
   else
     text := 'Es wurde noch keine Briefwahl beantragt!';

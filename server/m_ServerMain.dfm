@@ -207,4 +207,11 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 496
     Top = 216
   end
+  object DSAuswertung: TDSServerClass
+    OnGetClass = DSAuswertungGetClass
+    Server = DSServer1
+    LifeCycle = 'Invocation'
+    Left = 720
+    Top = 88
+  end
 end

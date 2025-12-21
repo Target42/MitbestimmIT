@@ -278,6 +278,10 @@
             <Form>WahlPhasenSEtForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Auszählung\f_auswertung.pas">
+            <Form>AuswertungForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

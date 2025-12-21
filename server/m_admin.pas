@@ -44,6 +44,7 @@ type
     PwdTabMW_SECRET: TStringField;
     PwdTabMW_LOGIN: TStringField;
     AddWAQry: TFDQuery;
+    Phasen: TFDQuery;
     procedure DSServerModuleCreate(Sender: TObject);
   private
     function connectDB : boolean;
@@ -174,6 +175,40 @@ var
     end;
   end;
 
+  procedure createPhasen(waid : integer ) ;
+  type
+    // 1. Definition der Struktur (Record)
+    TPhasenEintrag = record
+      Nr: Integer;
+      Titel: string;
+      Phase: string;
+      Aktiv: Boolean;
+    end;
+
+  const
+    // 2. Erstellung der konstanten Tabelle (Array of Record)
+    PHASEN_TABELLE: array[0..5] of TPhasenEintrag = (
+      (Nr: 1; Titel: 'Wahlvorstand bearbeiten';   Phase: 'WWV'; Aktiv: True),
+      (Nr: 2; Titel: 'Wahllisten bearbeiten';     Phase: 'EWV'; Aktiv: false),
+      (Nr: 3; Titel: 'Auszählung';                Phase: 'SAZ'; Aktiv: False),
+      (Nr: 4; Titel: 'Wählerliste bearbeiten';    Phase: 'AWV'; Aktiv: False),
+      (Nr: 5; Titel: 'Briefwahl';                 Phase: 'BBW'; Aktiv: false),
+      (Nr: 6; Titel: 'Wahlplanung bearbeiten';    Phase: 'WPE'; Aktiv: True)
+    );
+  var
+    i : integer;
+  begin
+    for i := low(PHASEN_TABELLE) to High(PHASEN_TABELLE) do
+    begin
+      Phasen.ParamByName('wa_id').AsInteger     := waid;
+      Phasen.ParamByName('wp_id').AsInteger     := PHASEN_TABELLE[i].Nr;
+      Phasen.ParamByName('wp_title').AsString   := PHASEN_TABELLE[i].Titel;
+      Phasen.ParamByName('wp_phase').AsString   := PHASEN_TABELLE[i].Phase;
+      Phasen.ParamByName('wp_active').AsBoolean := PHASEN_TABELLE[i].Aktiv;
+      Phasen.ExecSQL;
+    end;
+  end;
+
 
 var
   waid : integer;
@@ -198,13 +233,15 @@ begin
   try
     waid := addWahl(False);
     maid := addMA;
+
     addPwd(maid);
     addWV( waid, maid);
-
+    createPhasen(waid);
     if simu then
     begin
       waid := addWahl(true);
       addWV( waid, maid);
+      createPhasen(waid);
     end;
     JResult( result, true, Format('Die Wahl "%s" wurde angelegt!', [JString(wahl, 'name')]));
   except
@@ -212,7 +249,6 @@ begin
     begin
       JResult( result, false, format('Fehler:%s%s', [sLineBreak, e.ToString]));
     end;
-
   end;
   NewWahlTab.close;
   WVTab.close;

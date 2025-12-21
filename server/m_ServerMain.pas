@@ -51,6 +51,7 @@ type
     DSUser: TDSServerClass;
     DSWahlLokal: TDSServerClass;
     DSGlob: TDSServerClass;
+    DSAuswertung: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -86,6 +87,8 @@ type
       var PersistentClass: TPersistentClass);
     procedure DSGlobGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSAuswertungGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -115,13 +118,19 @@ uses
   system.Hash, DSSession,
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
   m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod, m_user, Data.DBXTransport,
-  m_log, u_debug, m_wahllokal, m_http, m_glob;
+  m_log, u_debug, m_wahllokal, m_http, m_glob, m_auswertung;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
   var PersistentClass: TPersistentClass);
 begin
   PersistentClass :=  m_admin.TAdminMod;
+end;
+
+procedure TMitbestimmITSrv.DSAuswertungGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_auswertung.TAuswertungsmod;
 end;
 
 procedure TMitbestimmITSrv.DSAuthenticationManager1UserAuthenticate(

@@ -6,13 +6,13 @@ object PhasenMod: TPhasenMod
     Transaction = FDTransaction1
     SQL.Strings = (
       'SELECT *'
-      'FROM WF_FRISTEN r'
+      'FROM WP_WAHLPHASE r'
       'where'
       '  wa_id = :wa_id'
       'and'
-      '  WF_Active = '#39'T'#39
+      '  WP_ACTIVE = '#39'T'#39
       'and'
-      '  WF_PHASE = :phase')
+      '  WP_PHASE = :phase')
     Left = 120
     Top = 64
     ParamData = <

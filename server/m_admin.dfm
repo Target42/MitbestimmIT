@@ -224,4 +224,53 @@ object AdminMod: TAdminMod
         Value = Null
       end>
   end
+  object Phasen: TFDQuery
+    Connection = FDConnection1
+    Transaction = FDTransaction1
+    SQL.Strings = (
+      
+        'INSERT INTO WP_WAHLPHASE (WA_ID, WP_ID, WP_TITLE, WP_ACTIVE, WP_' +
+        'PHASE)'
+      'VALUES ('
+      '    :WA_ID, '
+      '    :WP_ID, '
+      '    :WP_TITLE, '
+      '    :WP_ACTIVE, '
+      '    :WP_PHASE'
+      ');'
+      '')
+    Left = 360
+    Top = 360
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WP_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WP_TITLE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WP_ACTIVE'
+        DataType = ftBoolean
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WP_PHASE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end

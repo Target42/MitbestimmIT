@@ -45,8 +45,6 @@ type
     WAtabWA_PIC_NAME: TStringField;
     FristenCount: TFDQuery;
     UpdateFristQry: TFDQuery;
-    WFTabWF_ACTIVE: TStringField;
-    WFTabWF_PHASE: TStringField;
     SimQry: TFDQuery;
     WahlPhasen: TFDQuery;
     WahlPhasenQry: TDataSetProvider;
@@ -87,7 +85,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, DSSession, u_json, m_log;
+  m_db, DSSession, u_json, m_log, m_phase, u_BRWahlFristen;
 
 {$R *.dfm}
 
@@ -200,12 +198,12 @@ begin
   status := JBool( data, 'status');
 
   UpdateStatusQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
-  UpdateStatusQry.ParamByName('WF_ID').AsInteger := nr;
-  UpdateStatusQry.ParamByName('WF_ACTIVE').AsBoolean := status;
+  UpdateStatusQry.ParamByName('WP_ID').AsInteger := nr;
+  UpdateStatusQry.ParamByName('WP_ACTIVE').AsBoolean := status;
   UpdateStatusQry.ExecSQL;
 
   if UpdateStatusQry.RowsAffected = 1 then
-    JResult( result, true, 'Die Pahse wurde aktiviert.')
+    JResult( result, true, 'Die Phase wurde aktiviert.')
   else
     JResult( result, false, 'Die Phase wurde nicht gefunden.');
 
@@ -219,6 +217,11 @@ var
   wa_id : integer;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(WPE) then
+  begin
+    JResult( result, false, 'Die Palnungsphase ist nicht aktiv!');
+    exit;
+  end;
   wa_id  := DBMod.WahlID;
   FDTransaction1.StartTransaction;
 
@@ -242,11 +245,6 @@ begin
       WFTabWF_START.AsDateTime := JDouble( row, 'start');
       WFTabWF_ENDE.AsDateTime  := JDouble( row, 'ende');
       WFTabWF_TYP.AsInteger    := JInt( row, 'typ');
-      if JBool( row, 'active') then
-        WFTabWF_ACTIVE.AsString := 'T'
-      else
-        WFTabWF_ACTIVE.AsString := 'F';
-      WFTabWF_PHASE.AsString    := JString( row, 'phase');
       WFTab.Post;
     end;
   end;
@@ -298,6 +296,11 @@ var
   row : TJSONObject;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(WPE) then
+  begin
+    JResult( result, false, 'Die planungsphase ist nicht aktiv!');
+    exit;
+  end;
 
   FDTransaction1.StartTransaction;
   UpdateFristQry.ParamByName('WA_ID').AsInteger := DBMod.WahlID;

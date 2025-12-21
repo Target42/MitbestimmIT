@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     16.12.2025  20:49                          ' +
+            '/*   Created on:     21.12.2025  15:44                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -127,29 +127,6 @@ object CreateDBMode: TCreateDBMode
           
             'create ASC index MA_MITARBEITER_NAME on MA_MITARBEITER (MA_NAME,' +
             ' MA_VORNAME, MA_ABTEILUNG);'
-          ''
-          
-            '/* ============================================================ ' +
-            '*/'
-          
-            '/*   Table: SZ_STIMMZETTEL                                      ' +
-            '*/'
-          
-            '/* ============================================================ ' +
-            '*/'
-          'create table SZ_STIMMZETTEL'
-          '('
-          
-            '    SZ_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    SZ_NR                           VARCHAR(20)                 ' +
-            '   ,'
-          
-            '    SZ_GULTIG                       CHAR(1)                     ' +
-            '   ,'
-          '    constraint PK_SZ_STIMMZETTEL primary key (SZ_ID)'
-          ');'
           ''
           
             '/* ============================================================ ' +
@@ -339,6 +316,47 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
+            '/*   Table: WD_WAHLDATEN                                        ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table WD_WAHLDATEN'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WB_BRIEF                        INTEGER                     ' +
+            '   ,'
+          
+            '    WD_WAEHLER                      INTEGER                     ' +
+            '   ,'
+          
+            '    WD_DOPPELT                      INTEGER                     ' +
+            '   ,'
+          
+            '    WD_SUMME                        INTEGER                     ' +
+            '   ,'
+          
+            '    WD_KORREKTUR                    INTEGER                     ' +
+            '   ,'
+          
+            '    WD_ZETTEL                       INTEGER                     ' +
+            '   ,'
+          
+            '    WD_INVALID                      INTEGER                     ' +
+            '   ,'
+          
+            '    WD_REM                          BLOB                        ' +
+            '   ,'
+          '    constraint PK_WD_WAHLDATEN primary key (WA_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
             '/*   Table: WH_WAHL_HELFER                                      ' +
             '*/'
           
@@ -464,6 +482,32 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
+            '/*   Table: SZ_INVALID                                          ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table SZ_INVALID'
+          '('
+          
+            '    SZ_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WA_ID                           INTEGER                     ' +
+            '   ,'
+          
+            '    SZ_NR                           VARCHAR(20)                 ' +
+            '   ,'
+          
+            '    SZ_GRUND                        BLOB                        ' +
+            '   ,'
+          '    constraint PK_SZ_INVALID primary key (SZ_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
             '/*   Table: AW_SZ                                               ' +
             '*/'
           
@@ -475,9 +519,6 @@ object CreateDBMode: TCreateDBMode
             '    AW_ID                           INTEGER                not n' +
             'ull,'
           
-            '    SZ_ID                           INTEGER                not n' +
-            'ull,'
-          
             '    WA_ID                           INTEGER                     ' +
             '   ,'
           
@@ -486,7 +527,10 @@ object CreateDBMode: TCreateDBMode
           
             '    AW_SZ_DATA                      BLOB                        ' +
             '   ,'
-          '    constraint PK_AW_SZ primary key (AW_ID, SZ_ID)'
+          
+            '    SZ_NR                           VARCHAR(20)                 ' +
+            '   ,'
+          '    constraint PK_AW_SZ primary key (AW_ID)'
           ');'
           ''
           
@@ -573,6 +617,9 @@ object CreateDBMode: TCreateDBMode
           
             '    MW_LOGIN                        VARCHAR(20)                 ' +
             '   ,'
+          
+            '    MW_MAIL_SEND                    CHAR(1)                     ' +
+            '   ,'
           '    constraint PK_MA_PWD primary key (MA_ID)'
           ');'
           ''
@@ -604,13 +651,6 @@ object CreateDBMode: TCreateDBMode
             '   ,'
           
             '    WF_TYP                          INTEGER                     ' +
-            '   ,'
-          
-            '    WF_ACTIVE                       CHAR(1)                     ' +
-            '   '
-          '        default '#39'F'#39','
-          
-            '    WF_PHASE                        VARCHAR(5)                  ' +
             '   ,'
           '    constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)'
           ');'
@@ -706,6 +746,35 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
+            '/*   Table: WP_WAHLPHASE                                        ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table WP_WAHLPHASE'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WP_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WP_TITLE                        VARCHAR(100)                ' +
+            '   ,'
+          
+            '    WP_ACTIVE                       CHAR(1)                     ' +
+            '   ,'
+          
+            '    WP_PHASE                        VARCHAR(5)                  ' +
+            '   ,'
+          '    constraint PK_WP_WAHLPHASE primary key (WA_ID, WP_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
             '/*   View: MA_LISTE                                             ' +
             '*/'
           
@@ -753,6 +822,10 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_796 foreign key  (WA_ID)'
           '       references WA_WAHL;'
           ''
+          'alter table WD_WAHLDATEN'
+          '    add constraint FK_REF_3521 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
           'alter table WH_WAHL_HELFER'
           '    add constraint FK_REF_20 foreign key  (WA_ID, WL_ID)'
           '       references WL_WAHL_LOKAL;'
@@ -777,13 +850,13 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_779 foreign key  (WA_ID, MA_ID)'
           '       references MA_WA;'
           ''
+          'alter table SZ_INVALID'
+          '    add constraint FK_REF_3534 foreign key  (WA_ID)'
+          '       references WD_WAHLDATEN;'
+          ''
           'alter table AW_SZ'
           '    add constraint FK_REF_96 foreign key  (WA_ID, AW_ID)'
           '       references AW_AUSWERTUNG;'
-          ''
-          'alter table AW_SZ'
-          '    add constraint FK_REF_100 foreign key  (SZ_ID)'
-          '       references SZ_STIMMZETTEL;'
           ''
           'alter table LG_LOG'
           '    add constraint FK_REF_217 foreign key  (WA_ID)'
@@ -820,6 +893,10 @@ object CreateDBMode: TCreateDBMode
           'alter table MA_WA_WL'
           '    add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)'
           '       references MA_WA;'
+          ''
+          'alter table WP_WAHLPHASE'
+          '    add constraint FK_REF_3742 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
           ''
           'set generator gen_ma_id to 100;'
           ''
@@ -862,9 +939,7 @@ object CreateDBMode: TCreateDBMode
           
             'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuse' +
             'r;'
-          
-            'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuse' +
-            'r;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_INVALID TO appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;'
           
             'GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuse' +
@@ -886,6 +961,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WP_WAHLPHASE to appuser;'
           ''
           'grant select on ma_liste TO appuser;'
           'grant select on wa_stamp TO appuser;'
@@ -926,6 +1002,7 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appadmin;'
+          'GRANT INSERT ON WP_WAHLPHASE to appadmin;'
           ''
           'GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;'
           'GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;'
@@ -972,7 +1049,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     16.12.2025  20:50                          ' +
+            '/*   Created on:     21.12.2025  14:35                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -1088,10 +1165,10 @@ object CreateDBMode: TCreateDBMode
           'set term ;/'
           ''
           
-            '/*  Insert trigger "ti_sz_stimmzettel" for table "SZ_STIMMZETTEL' +
-            '"  */'
+            '/*  Insert trigger "ti_sz_stimmzettel" for table "SZ_INVALID"  *' +
+            '/'
           'set term /;'
-          'create trigger ti_sz_stimmzettel for SZ_STIMMZETTEL'
+          'create trigger ti_sz_stimmzettel for SZ_INVALID'
           'before insert as'
           'begin'
           '    new.sz_id = gen_id(gen_sz_id, 1);'
@@ -1130,7 +1207,6 @@ object CreateDBMode: TCreateDBMode
           ''
           'end;/'
           'set term ;/'
-          ''
           '')
       end>
     Connection = FDConnection1

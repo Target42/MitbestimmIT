@@ -246,17 +246,6 @@ object WahlMod: TWahlMod
       FieldName = 'WF_TYP'
       Origin = 'WF_TYP'
     end
-    object WFTabWF_ACTIVE: TStringField
-      FieldName = 'WF_ACTIVE'
-      Origin = 'WF_ACTIVE'
-      FixedChar = True
-      Size = 1
-    end
-    object WFTabWF_PHASE: TStringField
-      FieldName = 'WF_PHASE'
-      Origin = 'WF_PHASE'
-      Size = 5
-    end
   end
   object PhasenQrx: TFDQuery
     Connection = DBMod.FDConnection1
@@ -369,11 +358,10 @@ object WahlMod: TWahlMod
       'SELECT '
       '    *    '
       'FROM '
-      '    WF_FRISTEN r'
+      '    WP_WAHLPHASE '
       'where'
-      '  r.WA_ID = :wa_id'
-      'and '
-      '    r.WF_PHASE <> '#39#39)
+      '  WA_ID = :wa_id'
+      '')
     Left = 600
     Top = 152
     ParamData = <
@@ -393,18 +381,18 @@ object WahlMod: TWahlMod
     Connection = DBMod.FDConnection1
     Transaction = DBMod.FDTransaction1
     SQL.Strings = (
-      'UPDATE WF_FRISTEN a'
+      'UPDATE WP_WAHLPHASE a'
       'SET '
-      '    a.WF_ACTIVE = :WF_ACTIVE'
+      '    a.WP_ACTIVE = :WP_ACTIVE'
       'WHERE'
       '    a.WA_ID = :wa_id AND '
-      '    a.WF_ID = :wf_id'
+      '    a.WP_ID = :WP_ID'
       '')
     Left = 656
     Top = 344
     ParamData = <
       item
-        Name = 'WF_ACTIVE'
+        Name = 'WP_ACTIVE'
         DataType = ftBoolean
         ParamType = ptInput
         Value = Null
@@ -416,7 +404,7 @@ object WahlMod: TWahlMod
         Value = Null
       end
       item
-        Name = 'WF_ID'
+        Name = 'WP_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null

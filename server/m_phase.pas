@@ -25,7 +25,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses m_db, Vcl.SvcMgr, DSSession;
+uses m_db, Vcl.SvcMgr, DSSession, u_BRWahlFristen;
 
 {$R *.dfm}
 

@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     16.12.2025  20:49                          */
+/*   Created on:     21.12.2025  15:44                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -55,17 +55,6 @@ create unique ASC index MA_MITARBEITER_PERSNR on MA_MITARBEITER (MA_PERSNR);
 /*   Index: MA_MITARBEITER_NAME                                 */
 /* ============================================================ */
 create ASC index MA_MITARBEITER_NAME on MA_MITARBEITER (MA_NAME, MA_VORNAME, MA_ABTEILUNG);
-
-/* ============================================================ */
-/*   Table: SZ_STIMMZETTEL                                      */
-/* ============================================================ */
-create table SZ_STIMMZETTEL
-(
-    SZ_ID                           INTEGER                not null,
-    SZ_NR                           VARCHAR(20)                    ,
-    SZ_GULTIG                       CHAR(1)                        ,
-    constraint PK_SZ_STIMMZETTEL primary key (SZ_ID)
-);
 
 /* ============================================================ */
 /*   Table: WA_WAHL                                             */
@@ -150,6 +139,23 @@ create table WL_WAHL_LOKAL
 );
 
 /* ============================================================ */
+/*   Table: WD_WAHLDATEN                                        */
+/* ============================================================ */
+create table WD_WAHLDATEN
+(
+    WA_ID                           INTEGER                not null,
+    WB_BRIEF                        INTEGER                        ,
+    WD_WAEHLER                      INTEGER                        ,
+    WD_DOPPELT                      INTEGER                        ,
+    WD_SUMME                        INTEGER                        ,
+    WD_KORREKTUR                    INTEGER                        ,
+    WD_ZETTEL                       INTEGER                        ,
+    WD_INVALID                      INTEGER                        ,
+    WD_REM                          BLOB                           ,
+    constraint PK_WD_WAHLDATEN primary key (WA_ID)
+);
+
+/* ============================================================ */
 /*   Table: WH_WAHL_HELFER                                      */
 /* ============================================================ */
 create table WH_WAHL_HELFER
@@ -205,16 +211,28 @@ create table BW_BRIEF_WAHL
 );
 
 /* ============================================================ */
+/*   Table: SZ_INVALID                                          */
+/* ============================================================ */
+create table SZ_INVALID
+(
+    SZ_ID                           INTEGER                not null,
+    WA_ID                           INTEGER                        ,
+    SZ_NR                           VARCHAR(20)                    ,
+    SZ_GRUND                        BLOB                           ,
+    constraint PK_SZ_INVALID primary key (SZ_ID)
+);
+
+/* ============================================================ */
 /*   Table: AW_SZ                                               */
 /* ============================================================ */
 create table AW_SZ
 (
     AW_ID                           INTEGER                not null,
-    SZ_ID                           INTEGER                not null,
     WA_ID                           INTEGER                        ,
     AW_SZ_STAMP                     TIMESTAMP                      ,
     AW_SZ_DATA                      BLOB                           ,
-    constraint PK_AW_SZ primary key (AW_ID, SZ_ID)
+    SZ_NR                           VARCHAR(20)                    ,
+    constraint PK_AW_SZ primary key (AW_ID)
 );
 
 /* ============================================================ */
@@ -253,6 +271,7 @@ create table MA_PWD
     MW_ROLLE                        VARCHAR(100)                   ,
     MW_SECRET                       VARCHAR(32)                    ,
     MW_LOGIN                        VARCHAR(20)                    ,
+    MW_MAIL_SEND                    CHAR(1)                        ,
     constraint PK_MA_PWD primary key (MA_ID)
 );
 
@@ -267,9 +286,6 @@ create table WF_FRISTEN
     WF_START                        TIMESTAMP                      ,
     WF_ENDE                         TIMESTAMP                      ,
     WF_TYP                          INTEGER                        ,
-    WF_ACTIVE                       CHAR(1)                        
-        default 'F',
-    WF_PHASE                        VARCHAR(5)                     ,
     constraint PK_WF_FRISTEN primary key (WA_ID, WF_ID)
 );
 
@@ -313,6 +329,19 @@ create table MA_WA_WL
 );
 
 /* ============================================================ */
+/*   Table: WP_WAHLPHASE                                        */
+/* ============================================================ */
+create table WP_WAHLPHASE
+(
+    WA_ID                           INTEGER                not null,
+    WP_ID                           INTEGER                not null,
+    WP_TITLE                        VARCHAR(100)                   ,
+    WP_ACTIVE                       CHAR(1)                        ,
+    WP_PHASE                        VARCHAR(5)                     ,
+    constraint PK_WP_WAHLPHASE primary key (WA_ID, WP_ID)
+);
+
+/* ============================================================ */
 /*   View: MA_LISTE                                             */
 /* ============================================================ */
 create view MA_LISTE as
@@ -349,6 +378,10 @@ alter table WL_WAHL_LOKAL
     add constraint FK_REF_796 foreign key  (WA_ID)
        references WA_WAHL;
 
+alter table WD_WAHLDATEN
+    add constraint FK_REF_3521 foreign key  (WA_ID)
+       references WA_WAHL;
+
 alter table WH_WAHL_HELFER
     add constraint FK_REF_20 foreign key  (WA_ID, WL_ID)
        references WL_WAHL_LOKAL;
@@ -373,13 +406,13 @@ alter table BW_BRIEF_WAHL
     add constraint FK_REF_779 foreign key  (WA_ID, MA_ID)
        references MA_WA;
 
+alter table SZ_INVALID
+    add constraint FK_REF_3534 foreign key  (WA_ID)
+       references WD_WAHLDATEN;
+
 alter table AW_SZ
     add constraint FK_REF_96 foreign key  (WA_ID, AW_ID)
        references AW_AUSWERTUNG;
-
-alter table AW_SZ
-    add constraint FK_REF_100 foreign key  (SZ_ID)
-       references SZ_STIMMZETTEL;
 
 alter table LG_LOG
     add constraint FK_REF_217 foreign key  (WA_ID)
@@ -417,6 +450,10 @@ alter table MA_WA_WL
     add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)
        references MA_WA;
 
+alter table WP_WAHLPHASE
+    add constraint FK_REF_3742 foreign key  (WA_ID)
+       references WA_WAHL;
+
 set generator gen_ma_id to 100;
 
 commit;
@@ -440,7 +477,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON AW_SZ TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON BW_BRIEF_WAHL TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON LG_LOG TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_MITARBEITER TO appuser;
-GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_STIMMZETTEL TO appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON SZ_INVALID TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WA_WAHL TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WH_WAHL_HELFER TO appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON WL_WAHL_LOKAL TO appuser;
@@ -454,6 +491,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WF_FRISTEN to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON WP_WAHLPHASE to appuser;
 
 grant select on ma_liste TO appuser;
 grant select on wa_stamp TO appuser;
@@ -482,6 +520,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON WV_WAHL_VORSTAND TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_PWD TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WA TO appadmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appadmin;
+GRANT INSERT ON WP_WAHLPHASE to appadmin;
 
 GRANT USAGE ON GENERATOR  gen_ad_id TO ROLE appadmin;
 GRANT USAGE ON GENERATOR gen_al_id TO ROLE appadmin;

@@ -56,9 +56,9 @@ var
   waid : integer;
 begin
   Result := TJSONObject.Create;
-  if not TPhasenMod.phaseActive(EWV) then
+  if not TPhasenMod.phaseActive(AWV) then
   begin
-    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    JResult( result, false, 'Es können keinen Änderungen mehr an der Wählerliste vorgenommen werden!');
     exit;
   end;
 

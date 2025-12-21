@@ -66,6 +66,12 @@ var
   client : TWahlModClient;
   editMode : boolean;
 begin
+  if not GM.isPhaseActive(WPE) then
+  begin
+    ShowMessage('Die Wahlplanung ist  bereits abgeschlossen.');
+    exit;
+  end;
+
   client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
   editMode := client.hasWahl;
   client.Free;

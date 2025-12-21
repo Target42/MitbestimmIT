@@ -45,6 +45,7 @@ type
     procedure MitarbeiterBeforeOpen(DataSet: TDataSet);
   private
     function getOldList: IWaehlerListe;
+
     procedure update( list : IWaehlerListe );
     procedure add( list : IWaehlerListe );
     procedure remove(list : IWaehlerListe );
@@ -64,7 +65,7 @@ implementation
 
 uses
   m_db, DSSession, u_Waehlerliste, System.Variants,
-  u_json, m_log;
+  u_json, m_log, m_phase, u_BRWahlFristen;
 
 {$R *.dfm}
 
@@ -135,14 +136,14 @@ begin
   MAQry.Open;
   while not MAQry.Eof do
   begin
-    ma := Result.new;
-    ma.ID     := MAQryMA_ID.AsInteger;
-    ma.PersNr := MAQryMA_PERSNR.AsString;
-    ma.Name   := MAQryMA_NAME.AsString;
-    ma.Vorname:= MAQryMA_VORNAME.AsString;
+    ma            := Result.new;
+    ma.ID         := MAQryMA_ID.AsInteger;
+    ma.PersNr     := MAQryMA_PERSNR.AsString;
+    ma.Name       := MAQryMA_NAME.AsString;
+    ma.Vorname    := MAQryMA_VORNAME.AsString;
     ma.Geschlecht := MAQryMA_GENDER.AsString;
-    ma.Abteilung := MAQryMA_ABTEILUNG.AsString;
-    ma.GebDatum  := FormatDateTime('dd.MM.yyyy', MAQryMA_GEB.AsDateTime );
+    ma.Abteilung  := MAQryMA_ABTEILUNG.AsString;
+    ma.GebDatum   := FormatDateTime('dd.MM.yyyy', MAQryMA_GEB.AsDateTime );
 
     Result.add(ma);
 
@@ -158,6 +159,11 @@ var
   new : IWaehlerListe;
 begin
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(EWV) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    exit;
+  end;
 
   FDTransaction1.StartTransaction;
   try

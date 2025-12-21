@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     16.12.2025  20:50                          */
+/*   Created on:     21.12.2025  14:35                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -105,9 +105,9 @@ begin
 end;/
 set term ;/
 
-/*  Insert trigger "ti_sz_stimmzettel" for table "SZ_STIMMZETTEL"  */
+/*  Insert trigger "ti_sz_stimmzettel" for table "SZ_INVALID"  */
 set term /;
-create trigger ti_sz_stimmzettel for SZ_STIMMZETTEL
+create trigger ti_sz_stimmzettel for SZ_INVALID
 before insert as
 begin
     new.sz_id = gen_id(gen_sz_id, 1);

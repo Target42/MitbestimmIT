@@ -2,8 +2,8 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
   Left = 0
   Top = 0
   Caption = 'Wahlphasen activieren/deactivieren'
-  ClientHeight = 428
-  ClientWidth = 624
+  ClientHeight = 335
+  ClientWidth = 365
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,16 +15,16 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 409
-    Width = 624
+    Top = 316
+    Width = 365
     Height = 19
     Panels = <>
   end
   object DBGrid1: TDBGrid
     Left = 0
     Top = 0
-    Width = 624
-    Height = 336
+    Width = 365
+    Height = 243
     Align = alClient
     DataSource = DataSource1
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -37,42 +37,29 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
     Columns = <
       item
         Expanded = False
-        FieldName = 'WF_ID'
+        FieldName = 'WP_ID'
         Title.Caption = 'Nr'
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'WF_TITEL'
+        FieldName = 'WP_TITLE'
         Title.Caption = 'Titel'
-        Width = 150
+        Width = 200
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'WF_START'
-        Title.Caption = 'Start'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'WF_ENDE'
-        Title.Caption = 'Ende'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'WF_ACTIVE'
+        FieldName = 'WP_ACTIVE'
         Title.Caption = 'Aktiv'
+        Width = 60
         Visible = True
       end>
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 336
-    Width = 624
+    Top = 243
+    Width = 365
     Height = 73
     Align = alBottom
     Caption = 'Aktionen'
@@ -80,18 +67,22 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
     object BitBtn1: TBitBtn
       Left = 24
       Top = 24
-      Width = 75
+      Width = 97
       Height = 25
       Caption = 'Aktivieren'
+      ImageIndex = 6
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
     object BitBtn2: TBitBtn
       Left = 152
       Top = 24
-      Width = 75
+      Width = 97
       Height = 25
       Caption = 'Deaktivieren'
+      ImageIndex = 13
+      Images = ResMod.PngImageList1
       TabOrder = 1
       OnClick = BitBtn2Click
     end
@@ -113,31 +104,22 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
       FieldName = 'WA_ID'
       Required = True
     end
-    object ClientDataSet1WF_ID: TIntegerField
-      FieldName = 'WF_ID'
+    object ClientDataSet1WP_ID: TIntegerField
+      FieldName = 'WP_ID'
       Required = True
     end
-    object ClientDataSet1WF_TITEL: TStringField
-      FieldName = 'WF_TITEL'
+    object ClientDataSet1WP_TITLE: TStringField
+      FieldName = 'WP_TITLE'
       Size = 100
     end
-    object ClientDataSet1WF_START: TSQLTimeStampField
-      FieldName = 'WF_START'
-    end
-    object ClientDataSet1WF_ENDE: TSQLTimeStampField
-      FieldName = 'WF_ENDE'
-    end
-    object ClientDataSet1WF_TYP: TIntegerField
-      FieldName = 'WF_TYP'
-    end
-    object ClientDataSet1WF_ACTIVE: TStringField
-      FieldName = 'WF_ACTIVE'
-      OnGetText = ClientDataSet1WF_ACTIVEGetText
+    object ClientDataSet1WP_ACTIVE: TStringField
+      FieldName = 'WP_ACTIVE'
+      OnGetText = ClientDataSet1WP_ACTIVEGetText
       FixedChar = True
       Size = 1
     end
-    object ClientDataSet1WF_PHASE: TStringField
-      FieldName = 'WF_PHASE'
+    object ClientDataSet1WP_PHASE: TStringField
+      FieldName = 'WP_PHASE'
       Size = 5
     end
   end

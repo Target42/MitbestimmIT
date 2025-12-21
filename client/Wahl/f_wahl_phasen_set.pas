@@ -16,21 +16,18 @@ type
     DBGrid1: TDBGrid;
     GroupBox1: TGroupBox;
     DataSource1: TDataSource;
-    ClientDataSet1WA_ID: TIntegerField;
-    ClientDataSet1WF_ID: TIntegerField;
-    ClientDataSet1WF_TITEL: TStringField;
-    ClientDataSet1WF_START: TSQLTimeStampField;
-    ClientDataSet1WF_ENDE: TSQLTimeStampField;
-    ClientDataSet1WF_TYP: TIntegerField;
-    ClientDataSet1WF_ACTIVE: TStringField;
-    ClientDataSet1WF_PHASE: TStringField;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
+    ClientDataSet1WA_ID: TIntegerField;
+    ClientDataSet1WP_ID: TIntegerField;
+    ClientDataSet1WP_TITLE: TStringField;
+    ClientDataSet1WP_ACTIVE: TStringField;
+    ClientDataSet1WP_PHASE: TStringField;
     procedure FormCreate(Sender: TObject);
-    procedure ClientDataSet1WF_ACTIVEGetText(Sender: TField; var Text: string;
-      DisplayText: Boolean);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure ClientDataSet1WP_ACTIVEGetText(Sender: TField; var Text: string;
+      DisplayText: Boolean);
   private
     procedure change( status : boolean );
   public
@@ -44,7 +41,7 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, u_stub, System.JSON, u_json, u_helper;
+uses m_glob, u_stub, System.JSON, u_json, u_helper, m_res;
 
 procedure TWahlPhasenSEtForm.BitBtn1Click(Sender: TObject);
 begin
@@ -66,7 +63,7 @@ begin
     exit;
 
   data := TJSONObject.Create;
-  JReplace( data, 'nr', ClientDataSet1WF_ID.AsInteger);
+  JReplace( data, 'nr', ClientDataSet1WP_ID.AsInteger);
   JReplace( data, 'status', status );
 
   client := TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
@@ -77,7 +74,7 @@ begin
   ClientDataSet1.Refresh;
 end;
 
-procedure TWahlPhasenSEtForm.ClientDataSet1WF_ACTIVEGetText(Sender: TField;
+procedure TWahlPhasenSEtForm.ClientDataSet1WP_ACTIVEGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
   GM.FlagText(Sender, Text, DisplayText);

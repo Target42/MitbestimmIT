@@ -396,6 +396,14 @@ object MainClientForm: TMainClientForm
       Caption = 'Wahlphasen verwalten'
       OnExecute = ac_wa_activateExecute
     end
+    object ac_aus_start: TAction
+      Category = 'Ausz'#228'hlung'
+      Caption = 'Starten'
+    end
+    object ac_aus_do: TAction
+      Category = 'Ausz'#228'hlung'
+      Caption = 'Ausz'#228'hlen'
+    end
   end
   object Timer1: TTimer
     Enabled = False

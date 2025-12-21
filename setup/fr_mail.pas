@@ -55,6 +55,7 @@ begin
   begin
     port := 25;
     LabeledEdit2.Text := intToStr(port);
+    ComboBox1.ItemIndex := 0;
   end;
   IdSMTP1.Host := LabeledEdit1.Text;
   IdSMTP1.Port := port;
@@ -125,10 +126,7 @@ Implizit (Port 465)
       LabeledEdit2.Text := '465';
     end;
   end;
-  if ComboBox1.ItemIndex = 0 then
 
-  else if ComboBox1.ItemIndex = 1 then
-    ComboBox1.ItemIndex := 0
 end;
 
 function TMailFrame.isOK: boolean;
