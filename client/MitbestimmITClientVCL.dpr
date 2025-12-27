@@ -9,7 +9,6 @@ uses
   f_splash in 'f_splash.pas' {Splashform},
   f_info in 'gui\f_info.pas' {infoForm},
   f_planungsform in 'Planung\f_planungsform.pas' {Planungsform},
-  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
   fr_wahlvorstand in 'Planung\fr_wahlvorstand.pas' {WahlVorstandFrame: TFrame},
   f_WahlVorstandPerson in 'Planung\f_WahlVorstandPerson.pas' {WahlVorstandPersonForm},
   m_res in 'm_res.pas' {ResMod: TDataModule},
@@ -64,7 +63,10 @@ uses
   f_planedit in 'Planung\f_planedit.pas' {PlanEditoForm},
   fr_wahlfristen in 'Planung\fr_wahlfristen.pas' {WahlfristenFrame: TFrame},
   f_wahl_phasen_set in 'Wahl\f_wahl_phasen_set.pas' {WahlPhasenSEtForm},
-  f_auswertung in 'Auszählung\f_auswertung.pas' {AuswertungForm};
+  f_auswertung in 'Auszählung\f_auswertung.pas' {AuswertungForm},
+  u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
+  u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
+  f_wahlliste_import in 'Wahlliste\f_wahlliste_import.pas' {WahllisteImport};
 
 {$R *.res}
 

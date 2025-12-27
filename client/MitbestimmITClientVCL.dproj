@@ -147,7 +147,6 @@
         <DCCReference Include="Planung\f_planungsform.pas">
             <Form>Planungsform</Form>
         </DCCReference>
-        <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
         <DCCReference Include="Planung\fr_wahlvorstand.pas">
             <Form>WahlVorstandFrame</Form>
             <DesignClass>TFrame</DesignClass>
@@ -280,6 +279,12 @@
         </DCCReference>
         <DCCReference Include="Auszählung\f_auswertung.pas">
             <Form>AuswertungForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\berechnungen\u_BER_Berechnungen.pas"/>
+        <DCCReference Include="..\berechnungen\u_BRWahlFristen.pas"/>
+        <DCCReference Include="Wahlliste\f_wahlliste_import.pas">
+            <Form>WahllisteImport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <None Include="..\LICENSE"/>

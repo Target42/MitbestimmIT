@@ -56,7 +56,8 @@ type
 implementation
 
 uses
-  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants;
+  u_glob, u_json, system.Hash, u_totp, FireDAC.Phys.IBWrapper, u_pwd, System.Variants,
+  u_BRWahlFristen;
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
@@ -188,12 +189,12 @@ var
   const
     // 2. Erstellung der konstanten Tabelle (Array of Record)
     PHASEN_TABELLE: array[0..5] of TPhasenEintrag = (
-      (Nr: 1; Titel: 'Wahlvorstand bearbeiten';   Phase: 'WWV'; Aktiv: True),
-      (Nr: 2; Titel: 'Wahllisten bearbeiten';     Phase: 'EWV'; Aktiv: false),
-      (Nr: 3; Titel: 'Auszählung';                Phase: 'SAZ'; Aktiv: False),
-      (Nr: 4; Titel: 'Wählerliste bearbeiten';    Phase: 'AWV'; Aktiv: False),
-      (Nr: 5; Titel: 'Briefwahl';                 Phase: 'BBW'; Aktiv: false),
-      (Nr: 6; Titel: 'Wahlplanung bearbeiten';    Phase: 'WPE'; Aktiv: True)
+      (Nr: 1; Titel: 'Auszählung';                  Phase: SAZ; Aktiv: False),
+      (Nr: 2; Titel: 'Briefwahl';                   Phase: BBW; Aktiv: false),
+      (Nr: 3; Titel: 'Wählerliste bearbeiten';      Phase: EWV; Aktiv: False),
+      (Nr: 4; Titel: 'Vorschlagslisten bearbeiten'; Phase: AWV; Aktiv: false),
+      (Nr: 5; Titel: 'Wahlplanung bearbeiten';      Phase: WPE; Aktiv: True) ,
+      (Nr: 6; Titel: 'Wahlvorstand bearbeiten';     Phase: WWV; Aktiv: True)
     );
   var
     i : integer;

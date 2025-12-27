@@ -12,6 +12,9 @@ type
   TPhasenMod = class(TDataModule)
     Phasen: TFDQuery;
     FDTransaction1: TFDTransaction;
+    Data: TFDQuery;
+    DataQry: TDataSetProvider;
+    procedure DataBeforeOpen(DataSet: TDataSet);
   private
     { Private-Deklarationen }
   public
@@ -38,6 +41,11 @@ begin
   Phasen.Open;
   Result := not Phasen.IsEmpty;
   Phasen.Close;
+end;
+
+procedure TPhasenMod.DataBeforeOpen(DataSet: TDataSet);
+begin
+  Data.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
 end;
 
 class function TPhasenMod.phaseActive(phase: string): Boolean;

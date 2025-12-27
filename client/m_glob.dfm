@@ -20,14 +20,12 @@ object GM: TGM
       'DSAuthenticationPassword=251169'
       'DSAuthenticationUser=stephan')
     AfterDisconnect = SQLConnection1AfterDisconnect
-    Connected = True
     Left = 128
     Top = 40
     UniqueId = '{EB9B5E39-4CF2-45D6-BE61-1B20D4640028}'
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWaehlerMod'
-    Connected = True
     SQLConnection = SQLConnection1
     Left = 256
     Top = 40

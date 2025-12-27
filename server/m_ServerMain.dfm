@@ -214,4 +214,10 @@ object MitbestimmITSrv: TMitbestimmITSrv
     Left = 720
     Top = 88
   end
+  object DSVorschlaglistenImport: TDSServerClass
+    OnGetClass = DSVorschlaglistenImportGetClass
+    Server = DSServer1
+    Left = 824
+    Top = 88
+  end
 end

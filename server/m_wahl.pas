@@ -176,8 +176,6 @@ begin
       JReplaceDouble( row, 'start', PhasenQrx.FieldByName('WF_START').AsDateTime);
       JReplaceDouble( row, 'ende',  PhasenQrx.FieldByName('WF_ENDE').AsDateTime);
       JReplace(       row, 'typ',   PhasenQrx.FieldByName('WF_TYP').AsInteger);
-      JReplace(       row, 'active',(PhasenQrx.FieldByName('WF_ACTIVE').AsString = 'T') );
-      JReplace(       row, 'phase', PhasenQrx.FieldByName('WF_PHASE').AsString );
       arr.Add(row);
       PhasenQrx.Next;
     end;

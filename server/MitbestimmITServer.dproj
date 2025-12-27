@@ -213,6 +213,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="m_VorschlaglistenImport.pas">
+            <Form>DSVorschlagListenImport</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

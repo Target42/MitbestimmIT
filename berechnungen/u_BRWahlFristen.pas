@@ -237,8 +237,6 @@ begin
   Result.add(FillPhase( 9, 'Stimmauszählung'                              , dtTag         ));
   Result.add(FillPhase(10, 'Bekanntgabe des Wahlergebnisses'              , dtTag         ));
   Result.add(FillPhase(11, 'Ende der Anfechtungsfrist'                    , dtZeitraum    ));
-  Result.add(FillPhase(12, 'Aktualisierung Wählerverzeichnis'             , dtZeitraum    ));
-  Result.add(FillPhase(13, 'Beantragung Briefwahl'                        , dtZeitraum    ));
 
   AutoFillNormal( EncodeDate(2026, 5, 15), Result );
 end;
@@ -254,8 +252,6 @@ begin
   Result.add(FillPhase( 6, 'Stimmauszählung'                              , dtTag         ));
   Result.add(FillPhase( 7, 'Bekanntgabe des Wahlergebnisses'              , dtTag         ));
   Result.add(FillPhase( 8, 'Ende der Anfechtungsfrist'                    , dtZeitraum    ));
-  Result.add(FillPhase( 9, 'Aktualisierung Wählerverzeichnis'             , dtZeitraum    ));
-  Result.add(FillPhase(10, 'Beantragung Briefwahl'                        , dtZeitraum    ));
 
   AutoFillEinfach(EncodeDate(2026, 5, 15), Result );
 end;

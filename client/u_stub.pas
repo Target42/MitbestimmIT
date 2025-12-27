@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 19.12.2025 17:37:57
+// 27.12.2025 12:43:36
 //
 
 unit u_stub;
@@ -240,6 +240,36 @@ type
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     function isPhaseActive(phase: string): Boolean;
+  end;
+
+  TAuswertungsmodClient = class(TDSAdminClient)
+  private
+    FDataBeforeOpenCommand: TDBXCommand;
+    FstartCommand: TDBXCommand;
+    FendeCommand: TDBXCommand;
+    FstartCountCommand: TDBXCommand;
+    FendeCountCommand: TDBXCommand;
+    FwahlzettelCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    procedure DataBeforeOpen(DataSet: TDataSet);
+    function start(data: TJSONObject): TJSONObject;
+    function ende(data: TJSONObject): TJSONObject;
+    function startCount(data: TJSONObject): TJSONObject;
+    function endeCount(data: TJSONObject): TJSONObject;
+    function wahlzettel(data: TJSONObject): TJSONObject;
+  end;
+
+  TDSVorschlagListenImportClient = class(TDSAdminClient)
+  private
+    FImportCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function Import(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -1517,6 +1547,140 @@ end;
 destructor TGlobModClient.Destroy;
 begin
   FisPhaseActiveCommand.Free;
+  inherited;
+end;
+
+procedure TAuswertungsmodClient.DataBeforeOpen(DataSet: TDataSet);
+begin
+  if FDataBeforeOpenCommand = nil then
+  begin
+    FDataBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FDataBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDataBeforeOpenCommand.Text := 'TAuswertungsmod.DataBeforeOpen';
+    FDataBeforeOpenCommand.Prepare;
+  end;
+  FDataBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FDataBeforeOpenCommand.ExecuteUpdate;
+end;
+
+function TAuswertungsmodClient.start(data: TJSONObject): TJSONObject;
+begin
+  if FstartCommand = nil then
+  begin
+    FstartCommand := FDBXConnection.CreateCommand;
+    FstartCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FstartCommand.Text := 'TAuswertungsmod.start';
+    FstartCommand.Prepare;
+  end;
+  FstartCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FstartCommand.ExecuteUpdate;
+  Result := TJSONObject(FstartCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TAuswertungsmodClient.ende(data: TJSONObject): TJSONObject;
+begin
+  if FendeCommand = nil then
+  begin
+    FendeCommand := FDBXConnection.CreateCommand;
+    FendeCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FendeCommand.Text := 'TAuswertungsmod.ende';
+    FendeCommand.Prepare;
+  end;
+  FendeCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FendeCommand.ExecuteUpdate;
+  Result := TJSONObject(FendeCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TAuswertungsmodClient.startCount(data: TJSONObject): TJSONObject;
+begin
+  if FstartCountCommand = nil then
+  begin
+    FstartCountCommand := FDBXConnection.CreateCommand;
+    FstartCountCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FstartCountCommand.Text := 'TAuswertungsmod.startCount';
+    FstartCountCommand.Prepare;
+  end;
+  FstartCountCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FstartCountCommand.ExecuteUpdate;
+  Result := TJSONObject(FstartCountCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TAuswertungsmodClient.endeCount(data: TJSONObject): TJSONObject;
+begin
+  if FendeCountCommand = nil then
+  begin
+    FendeCountCommand := FDBXConnection.CreateCommand;
+    FendeCountCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FendeCountCommand.Text := 'TAuswertungsmod.endeCount';
+    FendeCountCommand.Prepare;
+  end;
+  FendeCountCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FendeCountCommand.ExecuteUpdate;
+  Result := TJSONObject(FendeCountCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TAuswertungsmodClient.wahlzettel(data: TJSONObject): TJSONObject;
+begin
+  if FwahlzettelCommand = nil then
+  begin
+    FwahlzettelCommand := FDBXConnection.CreateCommand;
+    FwahlzettelCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FwahlzettelCommand.Text := 'TAuswertungsmod.wahlzettel';
+    FwahlzettelCommand.Prepare;
+  end;
+  FwahlzettelCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FwahlzettelCommand.ExecuteUpdate;
+  Result := TJSONObject(FwahlzettelCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TAuswertungsmodClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TAuswertungsmodClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TAuswertungsmodClient.Destroy;
+begin
+  FDataBeforeOpenCommand.Free;
+  FstartCommand.Free;
+  FendeCommand.Free;
+  FstartCountCommand.Free;
+  FendeCountCommand.Free;
+  FwahlzettelCommand.Free;
+  inherited;
+end;
+
+function TDSVorschlagListenImportClient.Import(data: TJSONObject): TJSONObject;
+begin
+  if FImportCommand = nil then
+  begin
+    FImportCommand := FDBXConnection.CreateCommand;
+    FImportCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FImportCommand.Text := 'TDSVorschlagListenImport.Import';
+    FImportCommand.Prepare;
+  end;
+  FImportCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FImportCommand.ExecuteUpdate;
+  Result := TJSONObject(FImportCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TDSVorschlagListenImportClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TDSVorschlagListenImportClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TDSVorschlagListenImportClient.Destroy;
+begin
+  FImportCommand.Free;
   inherited;
 end;
 

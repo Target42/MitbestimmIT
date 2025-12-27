@@ -70,7 +70,8 @@ uses
   u_imageinfo in '..\lib\u_imageinfo.pas',
   m_phase in 'm_phase.pas' {PhasenMod: TDataModule},
   m_glob in 'm_glob.pas' {GlobMod: TDSServerModule},
-  m_auswertung in 'm_auswertung.pas' {Auswertungsmod: TDSServerModule};
+  m_auswertung in 'm_auswertung.pas' {Auswertungsmod: TDSServerModule},
+  m_VorschlaglistenImport in 'm_VorschlaglistenImport.pas' {DSVorschlagListenImport: TDSServerModule};
 
 {$R *.RES}
 
