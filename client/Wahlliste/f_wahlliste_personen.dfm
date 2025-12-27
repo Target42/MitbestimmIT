@@ -1,7 +1,7 @@
 object WahllistenPersonenForm: TWahllistenPersonenForm
   Left = 0
   Top = 0
-  Caption = 'Mitglieder der Wahlliste'
+  Caption = 'Mitglieder der Vorschlagsliste'
   ClientHeight = 598
   ClientWidth = 985
   Color = clBtnFace
@@ -19,7 +19,7 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     Width = 985
     Height = 73
     Align = alTop
-    Caption = 'Wahlliste'
+    Caption = 'Vorschlagsliste'
     TabOrder = 0
     object LabeledEdit1: TLabeledEdit
       Left = 11
@@ -54,7 +54,7 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     Align = alBottom
     AutoSize = True
     TabOrder = 1
-    ExplicitTop = 456
+    ExplicitTop = 538
     ExplicitWidth = 985
     inherited StatusBar1: TStatusBar
       Width = 985
@@ -83,8 +83,6 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     OnDrawCell = SGDrawCell
     OnKeyPress = SGKeyPress
     OnSelectCell = SGSelectCell
-    ExplicitLeft = -8
-    ExplicitTop = 67
   end
   object GroupBox2: TGroupBox
     Left = 0
@@ -94,7 +92,6 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
     Align = alBottom
     Caption = 'Aktionen'
     TabOrder = 3
-    ExplicitTop = 468
     object BitBtn1: TBitBtn
       Left = 16
       Top = 32
@@ -102,6 +99,7 @@ object WahllistenPersonenForm: TWahllistenPersonenForm
       Height = 25
       Action = ac_paste
       Caption = 'Einf'#252'gen'
+      Images = ResMod.PngImageList1
       TabOrder = 0
     end
   end

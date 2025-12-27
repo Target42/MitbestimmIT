@@ -114,11 +114,12 @@ object WahlfristenFrame: TWahlfristenFrame
       TabOrder = 1
       object BitBtn1: TBitBtn
         Left = 24
-        Top = 8
+        Top = 12
         Width = 75
         Height = 25
         Action = ac_berechnen
         Caption = 'Berechnen'
+        Images = ResMod.PngImageList1
         TabOrder = 0
       end
     end

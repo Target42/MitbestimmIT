@@ -374,7 +374,7 @@ object MainClientForm: TMainClientForm
     end
     object ac_wahlliste: TAction
       Category = 'Vorbereitung'
-      Caption = 'Wahlisten'
+      Caption = 'Vorschlagsliste'
       OnExecute = ac_wahllisteExecute
     end
     object aC_wa_user: TAction
@@ -399,6 +399,7 @@ object MainClientForm: TMainClientForm
     object ac_aus_start: TAction
       Category = 'Ausz'#228'hlung'
       Caption = 'Starten'
+      OnExecute = ac_aus_startExecute
     end
     object ac_aus_do: TAction
       Category = 'Ausz'#228'hlung'

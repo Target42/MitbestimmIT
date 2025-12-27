@@ -1,7 +1,7 @@
 object WahllistenNameForm: TWahllistenNameForm
   Left = 0
   Top = 0
-  Caption = 'Wahllistenname'
+  Caption = 'Vorschlagslistenname'
   ClientHeight = 126
   ClientWidth = 545
   Color = clBtnFace

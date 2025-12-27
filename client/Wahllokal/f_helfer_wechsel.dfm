@@ -116,6 +116,8 @@ object HelferWechselForm: THelferWechselForm
       Width = 75
       Height = 25
       Caption = 'Setzen'
+      ImageIndex = 6
+      Images = ResMod.PngImageList1
       TabOrder = 2
       OnClick = BitBtn1Click
     end

@@ -10,7 +10,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.Comp.BatchMove.DataSet,
   FireDAC.Comp.BatchMove, Vcl.Buttons, u_stub, u_json, u_helper,
-  FireDAC.Stan.StorageXML;
+  FireDAC.Stan.StorageXML, m_res;
 
 type
   TWahlForm = class(TForm)
@@ -44,7 +44,6 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    ma_id : integer;
     procedure UpdateList;
     procedure updateHelfer;
   public

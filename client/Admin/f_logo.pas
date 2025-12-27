@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, fr_base,
-  Vcl.ExtDlgs, Vcl.Buttons;
+  Vcl.ExtDlgs, Vcl.Buttons, m_res;
 
 type
   TLogoForm = class(TForm)

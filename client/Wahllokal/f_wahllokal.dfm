@@ -117,6 +117,8 @@ object WahlForm: TWahlForm
       Width = 217
       Height = 25
       Caption = 'Wahlunterlagen aush'#228'ndigen'
+      ImageIndex = 9
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end
@@ -126,6 +128,8 @@ object WahlForm: TWahlForm
       Width = 177
       Height = 25
       Caption = 'Schriftf'#252'hrer wechseln'
+      ImageIndex = 3
+      Images = ResMod.PngImageList1
       TabOrder = 1
       OnClick = BitBtn2Click
     end

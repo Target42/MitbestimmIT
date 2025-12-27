@@ -64,6 +64,9 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
     Align = alBottom
     Caption = 'Aktionen'
     TabOrder = 2
+    DesignSize = (
+      365
+      73)
     object BitBtn1: TBitBtn
       Left = 24
       Top = 24
@@ -76,10 +79,11 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
       OnClick = BitBtn1Click
     end
     object BitBtn2: TBitBtn
-      Left = 152
+      Left = 248
       Top = 24
       Width = 97
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Deaktivieren'
       ImageIndex = 13
       Images = ResMod.PngImageList1

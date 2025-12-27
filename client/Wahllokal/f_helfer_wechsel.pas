@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.StdCtrls, fr_base, Datasnap.DBClient, Datasnap.DSConnect, Vcl.ComCtrls,
-  Vcl.Buttons, Vcl.Mask, Vcl.ExtCtrls;
+  Vcl.Buttons, Vcl.Mask, Vcl.ExtCtrls, m_res;
 
 type
   THelferWechselForm = class(TForm)

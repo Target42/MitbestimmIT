@@ -38,6 +38,7 @@ type
     MAQryMA_ABTEILUNG: TStringField;
     MAQryMA_GEB: TDateField;
     MAQryWT_WA_JOB: TStringField;
+    BitBtn2: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnEditClick(Sender: TObject);
@@ -45,6 +46,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure MAQryMA_GENDERGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private-Deklarationen }
   public
@@ -57,7 +59,8 @@ var
 implementation
 
 uses
-  u_stub, System.JSON, f_wahlliste_name, f_wahlliste_personen, u_BRWahlFristen;
+  u_stub, System.JSON, f_wahlliste_name, f_wahlliste_personen, u_BRWahlFristen,
+  f_wahlliste_import;
 {$R *.dfm}
 
 { TWahllistenForm }
@@ -105,6 +108,12 @@ begin
   ListenQry.EnableControls;
 
   MAQry.Refresh;
+end;
+
+procedure TWahllistenForm.BitBtn2Click(Sender: TObject);
+begin
+  if TWahllisteImport.execute then
+    ListenQry.Refresh;
 end;
 
 procedure TWahllistenForm.btnAddClick(Sender: TObject);
@@ -195,13 +204,13 @@ begin
   MAQry.Open;
   ListenQry.Open;
 
-
   if not GM.isPhaseActive(EWV) then
   begin
     btnAdd.Enabled  := false;
     btnEdit.Enabled   := false;
     btnDelete.Enabled := false;
     BitBtn1.Enabled   := false;
+    BitBtn2.Enabled   := false;
   end;
 end;
 

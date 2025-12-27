@@ -248,7 +248,6 @@ object WaehlerlisteImportForm: TWaehlerlisteImportForm
     Align = alTop
     Caption = 'Geschlechter'
     TabOrder = 5
-    ExplicitTop = 201
     object Label6: TLabel
       Left = 16
       Top = 14

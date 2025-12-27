@@ -75,8 +75,6 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Style = []
       EnabledButtons = [bkNext, bkCancel]
       Caption = 'JvWizardWelcomePage1'
-      ExplicitWidth = 624
-      ExplicitHeight = 380
       inline WahlverfahrenFrame1: TWahlverfahrenFrame
         Left = 164
         Top = 70
@@ -86,11 +84,10 @@ object Planungsform: TPlanungsform
         TabOrder = 0
         ExplicitLeft = 164
         ExplicitTop = 70
-        ExplicitWidth = 460
-        ExplicitHeight = 310
+        ExplicitWidth = 592
+        ExplicitHeight = 442
         inherited RadioGroup1: TRadioGroup
           Width = 592
-          ExplicitTop = 0
           ExplicitWidth = 592
         end
         inherited RichEdit1: TRichEdit
@@ -121,6 +118,7 @@ object Planungsform: TPlanungsform
       Header.Subtitle.Font.Name = 'Segoe UI'
       Header.Subtitle.Font.Style = []
       EnabledButtons = [bkBack, bkFinish, bkCancel]
+      VisibleButtons = [bkBack, bkFinish, bkCancel]
       Caption = 'JvWizardInteriorPage1'
       OnEnterPage = JvWizardInteriorPage1EnterPage
       OnFinishButtonClick = JvWizardInteriorPage1FinishButtonClick
@@ -149,7 +147,6 @@ object Planungsform: TPlanungsform
           ExplicitWidth = 756
           inherited LV: TListView
             Width = 752
-            ExplicitTop = 19
             ExplicitWidth = 752
           end
           inherited Panel1: TPanel

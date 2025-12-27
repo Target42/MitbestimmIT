@@ -60,9 +60,11 @@ object LogoForm: TLogoForm
     object BitBtn1: TBitBtn
       Left = 24
       Top = 24
-      Width = 75
+      Width = 89
       Height = 25
       Caption = 'Bild laden'
+      ImageIndex = 9
+      Images = ResMod.PngImageList1
       TabOrder = 0
       OnClick = BitBtn1Click
     end

@@ -64,7 +64,8 @@ begin
   result := false;
 
   Application.CreateForm(TSelectWahlLokalForm, SelectWahlLokalForm);
-  if SelectWahlLokalForm.ShowModal = mrOk then
+  if SelectWahlLokalForm.BaseFrame1.OKBtn.Enabled and
+    (SelectWahlLokalForm.ShowModal = mrOk) then
   begin
     Result := SelectWahlLokalForm.LoggedIN;
   end;
@@ -79,7 +80,7 @@ begin
 
   if ClientDataSet1.IsEmpty then
   begin
-    ShowMessage('Du bist in einem Wahllokal eingeteilt!');
+    ShowMessage('Du bist in keinem Wahllokal eingeteilt!');
   end;
 end;
 

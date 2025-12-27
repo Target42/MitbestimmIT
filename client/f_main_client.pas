@@ -110,6 +110,7 @@ type
     procedure ac_wa_lokalExecute(Sender: TObject);
     procedure ac_wa_logoExecute(Sender: TObject);
     procedure ac_wa_activateExecute(Sender: TObject);
+    procedure ac_aus_startExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -138,7 +139,7 @@ uses
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
-  f_wahllokal, u_stub, u_imageinfo, f_logo, f_wahl_phasen_set;
+  f_wahllokal, u_stub, u_imageinfo, f_logo, f_wahl_phasen_set, f_auswertung;
 
 {$R *.dfm}
 
@@ -147,6 +148,11 @@ begin
   Application.CreateForm(TAdminForm, AdminForm);
   AdminForm.ShowModal;
   AdminForm.free;
+end;
+
+procedure TMainClientForm.ac_aus_startExecute(Sender: TObject);
+begin
+  TAuswertungForm.Execute;
 end;
 
 procedure TMainClientForm.ac_connectExecute(Sender: TObject);
@@ -291,6 +297,7 @@ begin
   m_helpMap.AddOrSetValue('TPlanungsform',            '/Wahlplanung');
   m_helpMap.AddOrSetValue('TWahlPhaseForm',           '/Wahlplanung');
   m_helpMap.AddOrSetValue('TWaehlerlisteImportForm',  '/W%C3%A4hlerverzeichnis-aktualisieren');
+  m_helpMap.AddOrSetValue('TWahlPhasenSEtForm',       '/Wahlphasen');
 end;
 
 procedure TMainClientForm.FormCreate(Sender: TObject);

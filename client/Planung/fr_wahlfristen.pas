@@ -26,7 +26,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls,
   VclTee.TeeGDIPlus, JvExControls, JvCalendar, VCLTee.TeEngine, VCLTee.Series, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart,
   u_BRWahlFristen, Vcl.StdCtrls, Vcl.Buttons, System.Generics.Collections,
-  System.Actions, Vcl.ActnList, Vcl.Menus, VCLTee.GanttCh;
+  System.Actions, Vcl.ActnList, Vcl.Menus, VCLTee.GanttCh, m_res;
 
 type
   TWahlfristenFrame = class(TFrame)
@@ -54,7 +54,7 @@ type
     procedure CreateGanttChart;
   public
     procedure init(list : PTWahlPhasenListe);
-    procedure setDefaultDate( date : TDateTime );
+    procedure setDefaultDate( date : TDateTime; verfahren: TWahlVerfahren );
     procedure release;
     procedure updateView;
   end;
@@ -78,7 +78,6 @@ begin
     updateView;
   end;
   WahlDateform.free;
-
 end;
 
 procedure TWahlfristenFrame.ac_editExecute(Sender: TObject);
@@ -145,9 +144,13 @@ begin
 
 end;
 
-
-procedure TWahlfristenFrame.setDefaultDate(date: TDateTime);
+procedure TWahlfristenFrame.setDefaultDate(date: TDateTime; verfahren: TWahlVerfahren);
 begin
+  m_type := verfahren;
+
+  ac_berechnen.Execute;
+  updateView;
+
 end;
 
 procedure TWahlfristenFrame.updateItem(item: TListItem; phase: PTWahlPhase);

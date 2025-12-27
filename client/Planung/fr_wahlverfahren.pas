@@ -39,6 +39,7 @@ type
     m_einfach : TStream;
   public
     procedure setVerfahren( value :TWahlVerfahren );
+    function getVerfahren : TWahlVerfahren;
     procedure init(list : PTWahlPhasenListe);
     procedure release;
   end;
@@ -50,6 +51,14 @@ implementation
 uses u_helper;
 
 { TWahlverfahrenFrame }
+
+function TWahlverfahrenFrame.getVerfahren: TWahlVerfahren;
+begin
+  if RadioGroup1.ItemIndex = 0 then
+    Result := wvAllgemein
+  else
+    Result := wvVereinfacht;
+end;
 
 procedure TWahlverfahrenFrame.init(list : PTWahlPhasenListe);
 begin

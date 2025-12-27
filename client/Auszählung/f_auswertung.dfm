@@ -16,12 +16,11 @@ object AuswertungForm: TAuswertungForm
     Left = 0
     Top = 0
     Width = 624
-    Height = 105
+    Height = 169
     Align = alTop
     Caption = 'GroupBox1'
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitWidth = 185
+    ExplicitLeft = 8
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -29,8 +28,11 @@ object AuswertungForm: TAuswertungForm
     Width = 624
     Height = 19
     Panels = <>
-    ExplicitLeft = 56
-    ExplicitTop = 344
-    ExplicitWidth = 0
+  end
+  object DSProviderConnection1: TDSProviderConnection
+    ServerClassName = 'TWahlMod'
+    SQLConnection = GM.SQLConnection1
+    Left = 88
+    Top = 56
   end
 end

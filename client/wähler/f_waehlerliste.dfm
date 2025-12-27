@@ -21,7 +21,7 @@ object WaehlerListeForm: TWaehlerListeForm
     Align = alBottom
     AutoSize = True
     TabOrder = 0
-    ExplicitTop = 381
+    ExplicitTop = 497
     ExplicitWidth = 624
     inherited StatusBar1: TStatusBar
       Width = 624
@@ -101,7 +101,6 @@ object WaehlerListeForm: TWaehlerListeForm
     Align = alBottom
     Caption = 'Suchern'
     TabOrder = 2
-    ExplicitTop = 412
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 40

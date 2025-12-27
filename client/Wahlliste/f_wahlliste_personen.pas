@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_wahlliste, Vcl.StdCtrls, Vcl.Mask,
   Vcl.ExtCtrls, m_glob, Vcl.Grids, fr_base, Vcl.Menus, u_stub, Vcl.ComCtrls,
-  u_json, Vcl.Buttons, System.Actions, Vcl.ActnList;
+  u_json, Vcl.Buttons, System.Actions, Vcl.ActnList, m_res;
 
 type
   TWahllistenPersonenForm = class(TForm)

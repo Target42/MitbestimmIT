@@ -1,7 +1,7 @@
 object WahllistenForm: TWahllistenForm
   Left = 0
   Top = 0
-  Caption = 'Wahllisten'
+  Caption = 'Vorschlagsliste'
   ClientHeight = 472
   ClientWidth = 873
   Color = clBtnFace
@@ -35,7 +35,7 @@ object WahllistenForm: TWahllistenForm
     Width = 873
     Height = 201
     Align = alTop
-    Caption = 'Wahllisten'
+    Caption = 'Vorschlagsliste'
     TabOrder = 1
     object DBGrid1: TDBGrid
       Left = 2
@@ -113,6 +113,17 @@ object WahllistenForm: TWahllistenForm
         Images = ResMod.PngImageList1
         TabOrder = 2
         OnClick = btnDeleteClick
+      end
+      object BitBtn2: TBitBtn
+        Left = 336
+        Top = 6
+        Width = 75
+        Height = 25
+        Caption = 'Import'
+        ImageIndex = 14
+        Images = ResMod.PngImageList1
+        TabOrder = 3
+        OnClick = BitBtn2Click
       end
     end
   end
@@ -220,7 +231,6 @@ object WahllistenForm: TWahllistenForm
   end
   object DSProviderConnection1: TDSProviderConnection
     ServerClassName = 'TWahlListeMod'
-    Connected = True
     SQLConnection = GM.SQLConnection1
     Left = 64
     Top = 48

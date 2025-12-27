@@ -84,7 +84,8 @@ implementation
 {$R *.dfm}
 
 uses
-  m_res, System.JSON, u_json, u_Waehlerliste, m_glob, i_waehlerliste, u_stub;
+  m_res, System.JSON, u_json, u_Waehlerliste, m_glob, i_waehlerliste, u_stub,
+  u_BRWahlFristen;
 
 { TWaehlerlisteForm }
 
@@ -289,6 +290,12 @@ end;
 
 class procedure TWaehlerlisteImportForm.ExecuteForm;
 begin
+  if not GM.isPhaseActive(EWV) then
+  begin
+    ShowMessage('Die Wählerliste kann nicht mehr bearbeitet werden.');
+    exit;
+  end;
+
   try
     Application.CreateForm(TWaehlerlisteImportForm, WaehlerlisteImportForm);
     WaehlerlisteImportForm.ShowModal;

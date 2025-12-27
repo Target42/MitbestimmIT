@@ -61,8 +61,6 @@ end;
 procedure TWaehlerListeForm.find(text: string; typ: searchType);
 var
   field : string;
-  found : boolean;
-  i: Integer;
   row : integer;
   mask  : TMask;
 begin

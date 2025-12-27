@@ -24,7 +24,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, JvWizard, JvExControls,
   fr_wahlverfahren, fr_wahlfristen, u_BRWahlFristen, fr_wahlvorstand,
-  System.Generics.Collections, u_stub, u_json;
+  System.Generics.Collections, u_stub, u_json, Vcl.WinXCalendars;
 
 type
   TPlanungsform = class(TForm)
@@ -36,10 +36,10 @@ type
     WahlfristenFrame1: TWahlfristenFrame;
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure JvWizardInteriorPage1EnterPage(Sender: TObject;
-      const FromPage: TJvWizardCustomPage);
     procedure JvWizardInteriorPage1FinishButtonClick(Sender: TObject;
       var Stop: Boolean);
+    procedure JvWizardInteriorPage1EnterPage(Sender: TObject;
+      const FromPage: TJvWizardCustomPage);
   private
     m_client : TWahlModClient;
     m_list   : TWahlPhasenListe;
@@ -57,7 +57,7 @@ implementation
 {$R *.dfm}
 
 uses
-  m_glob, System.JSON, f_planedit;
+  m_glob, System.JSON, f_planedit, system.DateUtils;
 
 { TPlanungsform }
 
@@ -114,8 +114,11 @@ end;
 procedure TPlanungsform.JvWizardInteriorPage1EnterPage(Sender: TObject;
   const FromPage: TJvWizardCustomPage);
 begin
-  WahlfristenFrame1.updateView;
-  JvWizardInteriorPage1.VisibleButtons := [bkBack, bkFinish];
+  if WahlverfahrenFrame1.getVerfahren  = wvAllgemein then
+    WahlfristenFrame1.setDefaultDate(now -10 * 7,  WahlverfahrenFrame1.getVerfahren)
+  else
+    WahlfristenFrame1.setDefaultDate(now - 4 * 7, WahlverfahrenFrame1.getVerfahren);
+
 end;
 
 procedure TPlanungsform.JvWizardInteriorPage1FinishButtonClick(Sender: TObject;
