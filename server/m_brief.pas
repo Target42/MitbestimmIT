@@ -38,7 +38,7 @@ implementation
 
 uses
   u_briefwahl, u_json, System.Variants, m_phase, u_BER_Berechnungen,
-  u_BRWahlFristen;
+  u_BRWahlFristen, m_log;
 
 {$R *.dfm}
 
@@ -149,14 +149,17 @@ begin
     etAntrag:
     begin
       ok := add(maid, text);
+      Savelog( true, 'Briefwahlunterlagen beantragt', b.Name );
     end;
     etVErsendet:
     begin
       ok := send(maid, text);
+      Savelog( true, 'Briefwahlunterlagen versendet', b.Name );
     end;
     etEmpfangen:
     begin
       ok := recive(maid, text);
+      Savelog( true, 'Briefwahlunterlagen empfangen', b.Name );
     end;
   end;
   b.Free;
