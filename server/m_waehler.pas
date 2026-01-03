@@ -88,15 +88,17 @@ begin
   AddMAWAQry.ParamByName('WA_ID').AsInteger := waid;
   for ma in list.Items do
   begin
-    NewMaTab.Append;
-    NewMaTab.FieldByName('MA_PERSNR').AsString    := ma.PersNr;
-    NewMaTab.FieldByName('MA_NAME').AsString      := ma.Name;
-    NewMaTab.FieldByName('MA_VORNAME').AsString   := ma.Vorname;
-    NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Geschlecht;
-    NewMaTab.FieldByName('MA_ABTEILUNG').AsString := ma.Abteilung;
-    NewMaTab.FieldByName('MA_GEB').AsDateTime     := safeDate(ma.GebDatum, fmt);
-    NewMaTab.Post;
-
+    if not NewMaTab.Locate('MA_PERSNR', ma.PersNr, [loCaseInsensitive]) then
+    begin
+      NewMaTab.Append;
+      NewMaTab.FieldByName('MA_PERSNR').AsString    := ma.PersNr;
+      NewMaTab.FieldByName('MA_NAME').AsString      := ma.Name;
+      NewMaTab.FieldByName('MA_VORNAME').AsString   := ma.Vorname;
+      NewMaTab.FieldByName('MA_GENDER').AsString    := ma.Geschlecht;
+      NewMaTab.FieldByName('MA_ABTEILUNG').AsString := ma.Abteilung;
+      NewMaTab.FieldByName('MA_GEB').AsDateTime     := safeDate(ma.GebDatum, fmt);
+      NewMaTab.Post;
+    end;
     AddMAWAQry.ParamByName('MA_ID').AsInteger := NewMaTab.FieldByName('MA_ID').AsInteger;
     AddMAWAQry.ExecSQL;
   end;
@@ -221,6 +223,7 @@ begin
     exit;
 
   wa_id := DBMod.WahlID;
+
   DelWahlVorQry.ParamByName('WA_ID').AsInteger    := wa_id;
   DelWahlHelferQry.ParamByName('WA_ID').AsInteger := wa_id;
   DelMaWaQry.ParamByName('WA_ID').AsInteger       := wa_id;
@@ -228,17 +231,20 @@ begin
 
   for ma in list.Items do
   begin
-    DelWahlHelferQry.ParamByName('MA_ID').AsInteger := ma.ID;
-    DelWahlHelferQry.ExecSQL;
+    if DBMod.UserID <> ma.ID then
+    begin
+      DelWahlHelferQry.ParamByName('MA_ID').AsInteger := ma.ID;
+      DelWahlHelferQry.ExecSQL;
 
-    DelWahlVorQry.ParamByName('MA_ID').AsInteger := ma.ID;
-    DelWahlVorQry.ExecSQL;
+      DelWahlVorQry.ParamByName('MA_ID').AsInteger := ma.ID;
+      DelWahlVorQry.ExecSQL;
 
-    DelMaWaQry.ParamByName('MA_ID').AsInteger := ma.ID;
-    DelMaWaQry.ExecSQL;
+      DelMaWaQry.ParamByName('MA_ID').AsInteger := ma.ID;
+      DelMaWaQry.ExecSQL;
 
-    DelWTQry.ParamByName('MA_ID').AsInteger := ma.ID;
-    DelWTQry.ExecSQL;
+      DelWTQry.ParamByName('MA_ID').AsInteger := ma.ID;
+      DelWTQry.ExecSQL;
+    end;
   end;
 
 end;
