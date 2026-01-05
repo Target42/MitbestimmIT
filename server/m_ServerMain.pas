@@ -53,6 +53,7 @@ type
     DSGlob: TDSServerClass;
     DSAuswertung: TDSServerClass;
     DSVorschlaglistenImport: TDSServerClass;
+    DSSim: TDSServerClass;
     procedure DSAuthenticationManager1UserAuthorize(Sender: TObject;
       EventObject: TDSAuthorizeEventObject; var valid: Boolean);
     procedure DSCertFiles1GetPEMFileSBPasskey(ASender: TObject;
@@ -92,6 +93,8 @@ type
       var PersistentClass: TPersistentClass);
     procedure DSVorschlaglistenImportGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSSimGetClass(DSServerClass: TDSServerClass;
+      var PersistentClass: TPersistentClass);
   private
     function startServer : boolean;
     function stopServer : boolean;
@@ -122,7 +125,7 @@ uses
   m_admin, u_config, u_glob, m_db, m_login, u_pwd, m_wahl, m_waehler, m_lokale,
   m_vorstand, u_rollen, m_wahl_liste, m_brief, m_statMod, m_user, Data.DBXTransport,
   m_log, u_debug, m_wahllokal, m_http, m_glob, m_auswertung,
-  m_VorschlaglistenImport;
+  m_VorschlaglistenImport, m_sim;
 
 
 procedure TMitbestimmITSrv.DSAdminGetClass(DSServerClass: TDSServerClass;
@@ -235,6 +238,12 @@ begin
   begin
     session.PutData('remoteip', ClientInfo.IpAddress);
   end;
+end;
+
+procedure TMitbestimmITSrv.DSSimGetClass(DSServerClass: TDSServerClass;
+  var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := m_sim.TDSSim;
 end;
 
 procedure TMitbestimmITSrv.DsStatGetClass(DSServerClass: TDSServerClass;
@@ -457,14 +466,14 @@ begin
       if not GetUserQry.IsEmpty then
       begin
         TDSSessionManager.GetThreadSession.PutData('UserName',
-          format('%s %s', [
+          format('%s %s (%s)', [
             GetUserQry.FieldByName('MA_VORNAME').AsString,
-            GetUserQry.FieldByName('MA_NAME').AsString
+            GetUserQry.FieldByName('MA_NAME').AsString,
+            GetUserQry.FieldByName('MA_PERSNR').AsString
           ]));
       end;
       GetUserQry.Close;
     end;
-
   end;
   UserPWDQry.Close;
 

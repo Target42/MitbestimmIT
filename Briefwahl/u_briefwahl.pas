@@ -13,6 +13,8 @@ type
         bwType = 'typ';
         bwDate = 'date';
         bwError= 'error';
+        bwName = 'name';
+    public
       type
         TEventType = ( etAntrag, etVErsendet, etEmpfangen);
     private
@@ -20,10 +22,14 @@ type
     FErrorText: string;
     FMA_ID: integer;
     FDate: TDateTime;
+    FName: string;
     public
       constructor create;
       Destructor Destroy; override;
+
+
       property MA_ID: integer read FMA_ID write FMA_ID;
+      property Name: string read FName write FName;
       property Date: TDateTime read FDate write FDate;
       property Event: TEventType read FEvent write FEvent;
       property ErrorText: string read FErrorText write FErrorText;
@@ -57,6 +63,7 @@ begin
   FMA_ID     := JInt( data, bwMa);
   FErrorText := JString( data, bwError);
   FDate      := JDouble( data, bwDate);
+  FName      := JString( data, bwName );
 
   s := JString( data, bwType);
   if SameText(s, 'antrag') then            FEvent := etAntrag
@@ -76,6 +83,7 @@ begin
   end;
   JReplaceDouble( result, bwDate, FDate);
   JReplace( result, bwError, FErrorText);
+  JReplace( result, bwName, FName);
 end;
 
 end.

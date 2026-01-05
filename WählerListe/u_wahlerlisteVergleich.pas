@@ -24,23 +24,28 @@ uses
   u_Waehlerliste, System.JSON, i_waehlerliste, System.Classes;
 
 type
+  // Klasse zum Vergleichen von Wählerlisten und Erzeugen der Änderungslisten
   TWaehlerlisteVergleich = class
     private
+      // Ergebnisliste nach Anwendung der Änderungen auf die alte Liste
       m_result : IWaehlerListe;
 
+      // Temporäre Referenzen für neue und alte Liste
       m_new : IWaehlerListe;
       m_old : IWaehlerListe;
 
-      m_add : IWaehlerListe;
-      m_del : IWaehlerListe;
-      m_chg : IWaehlerListe;
+      // Listen mit Differenzen
+      m_add : IWaehlerListe; // hinzugefügt
+      m_del : IWaehlerListe; // gelöscht
+      m_chg : IWaehlerListe; // geändert
 
-      procedure clear;
-      procedure findDeleted;
-      procedure findAdded;
-      procedure findChanged;
+      // Hilfsroutinen zur Durchführung des Vergleichs
+      procedure clear;           // leert alle internen Listen
+      procedure findDeleted;     // ermittelt gelöschte Einträge
+      procedure findAdded;       // ermittelt hinzugekommene Einträge
+      procedure findChanged;     // ermittelt geänderte Einträge
 
-      procedure updateIDs;
+      procedure updateIDs;       // überträgt IDs von alter auf neue Liste
 
     public
       constructor create;
@@ -48,14 +53,16 @@ type
 
       property ResultList : IWaehlerListe read m_result;
 
-
+      // Zugriff auf die Änderungslisten
       property AddList : IWaehlerListe read m_add;
       property DelList : IWaehlerListe read m_del;
       property ChgList : IWaehlerListe read m_chg;
 
+      // Vergleichsoperationen (Overloads)
       procedure execute( newList, oldList : IWaehlerListe ); overload;
       procedure execute( newList : TJSONObject; fname : string ); overload;
 
+      // Änderungsprotokoll schreiben (als Datei oder in einen Stream)
       procedure WriteChangeLog( fname : string ); overload;
       procedure WriteChangeLog( st: TStream ); overload;
 
@@ -66,10 +73,47 @@ implementation
 uses
   system.IOUtils, u_json;
 
+{
+  Diese Unit vergleicht zwei Wählerlisten (alt und neu) und ermittelt
+  hinzugekommene, gelöschte und geänderte Einträge. Sie stellt außerdem
+  Funktionen zum Erzeugen eines Änderungsprotokolls (ChangeLog) bereit.
+
+  Klassenübersicht:
+    - TWaehlerlisteVergleich
+        Vergleicht zwei IWaehlerListe-Instanzen bzw. eine neue Liste und
+        eine aus Datei geladene alte Liste. Ergebnislisten:
+          * ResultList - Ergebnis nach Anwendung der Änderungen auf die alte Liste
+          * AddList    - neu hinzugekommene Wähler
+          * DelList    - gelöschte Wähler
+          * ChgList    - geänderte Wähler
+
+  Wichtige Methoden:
+    - execute(newList, oldList) / execute(newList, fname)
+        Führt den Vergleich durch. Die Overload mit fname lädt die alte
+        Liste aus einer Datei.
+
+    - findAdded, findDeleted, findChanged
+        Interne Hilfsroutinen, die die jeweiligen Differenzen ermitteln.
+
+    - updateIDs
+        Überträgt vorhandene IDs von der alten Liste auf die neue Liste,
+        sofern PersNr in beiden Listen übereinstimmt.
+
+    - WriteChangeLog
+        Schreibt die Add/Del/Change-Listen als JSON in einen Stream oder in
+        eine Datei.
+
+  Hinweise zur Nutzung:
+    - Die Klasse arbeitet mit den Schnittstellen IWaehlerListe / IWaehler.
+      Die Methoden clone, Assign, getWaehler, hasWaehler, etc. müssen
+      von den Implementierungen bereitgestellt werden.
+}
+
 { TWaehlerlisteVergleich }
 
 procedure TWaehlerlisteVergleich.clear;
 begin
+  // Alle internen Listen leeren, damit ein neuer Vergleich sauber startet
   m_result.clear;
 
   m_new.clear;
@@ -83,6 +127,7 @@ end;
 
 constructor TWaehlerlisteVergleich.create;
 begin
+  // Erzeugen der Listen-Objekte (Implementierung liefert IWaehlerListe)
   m_result  := TWaehlerListe.create;
 
   m_new     := TWaehlerListe.create;
@@ -96,6 +141,8 @@ end;
 
 destructor TWaehlerlisteVergleich.Destroy;
 begin
+  // Freigeben der Referenzen (release erwartet, dass die Implementierung die Freigabe
+  // intern regelt, z.B. Referenzzählung oder Ressourcenfreigabe)
   m_result.release;
 
   m_new.release;
@@ -111,15 +158,19 @@ end;
 
 procedure TWaehlerlisteVergleich.execute(newList: TJSONObject; fname : string);
 begin
+  // Variante: neue Liste als JSON übergeben, alte Liste aus Datei laden
   clear;
 
   m_old.loadFromFile(fname);
   m_new.fromJSON(newList);
 
+  // IDs aus alter Liste auf neue Liste übertragen (sofern PersNr gleich)
   updateIDs;
 
+  // Ergebnis beginnt als Kopie der alten Liste
   m_result.Assign(m_old);
 
+  // Differenzen ermitteln
   findAdded;
   findDeleted;
   findChanged;
@@ -127,6 +178,7 @@ end;
 
 procedure TWaehlerlisteVergleich.execute(newList, oldList: IWaehlerListe);
 begin
+  // Variante: beide Listen als IWaehlerListe übergeben
   clear;
 
   m_old.Assign(oldList);
@@ -147,17 +199,21 @@ var
   nw : IWaehler;
   ow : IWaehler;
 begin
+  // Durchlaufen der neuen Liste: Einträge, die in der alten Liste nicht vorhanden sind,
+  // gelten als hinzugefügt.
   for nw in m_new.Items do
   begin
     ow := m_old.getWaehler(nw.PersNr);
 
     if not Assigned(ow) then
     begin
+      // Neu gefundenen Eintrag zu Ergebnis- und Add-Liste hinzufügen (als Kopie)
       m_result.add(nw.clone);
       m_add.add(nw.clone);
     end
     else
     begin
+      // Existierende Einträge erhalten die ID aus der alten Liste
       nw.ID := ow.ID;
     end;
   end;
@@ -167,6 +223,9 @@ procedure TWaehlerlisteVergleich.findChanged;
 var
   new, old : IWaehler;
 begin
+  // Vergleicht die Einträge der Ergebnisliste mit der neuen Liste.
+  // Wenn ein Eintrag existiert, aber sich inhaltlich unterscheidet,
+  // wird er in die Chg-Liste aufgenommen und im Ergebnis aktualisiert.
   for old in m_result.Items do
   begin
     new := m_new.getWaehler(old.PersNr);
@@ -185,6 +244,8 @@ procedure TWaehlerlisteVergleich.findDeleted;
 var
   ow : IWaehler;
 begin
+  // Einträge, die in der alten Liste vorhanden sind, aber in der neuen nicht,
+  // gelten als gelöscht.
   for ow in m_old.Items do
   begin
     if not m_new.hasWaehler(ow.PersNr) then
@@ -200,6 +261,8 @@ var
   nma : IWaehler;
   oma : IWaehler;
 begin
+  // Überträgt IDs von der alten auf die neue Liste basierend auf PersNr,
+  // damit neue Objekte nach dem Vergleich die korrekten IDs behalten.
   for nma in m_new.Items do
   begin
     oma := m_old.getWaehler(nma.PersNr);
@@ -215,6 +278,7 @@ procedure TWaehlerlisteVergleich.WriteChangeLog(st: TStream);
 var
   Result : TJSONObject;
 begin
+  // Erstellt ein JSON-Objekt mit den drei Differenzlisten und schreibt es in den Stream
   Result := TJSONObject.Create;
 
   JReplace(Result, 'add', m_add.toSimpleJSON);
@@ -229,6 +293,7 @@ procedure TWaehlerlisteVergleich.WriteChangeLog( fname : string );
 var
   st : TStream;
 begin
+  // Schreibt das Änderungsprotokoll in eine Datei (Datei wird neu erzeugt)
   st := TFileStream.Create(fname, fmCreate);
   WriteChangeLog( st);
   st.Free;

@@ -96,6 +96,7 @@ begin
   Series1.XValues.Value[2] := JInt( data, 'summe');
 
   Series1.Repaint;
+  Chart1.Refresh;
 
   Gremium.Caption := IntToStr(JInt( data, 'gremium' ));
   Freistellungen.Caption := IntToStr(JInt( data, 'freistellungen' ));

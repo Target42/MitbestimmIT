@@ -183,13 +183,11 @@ begin
 end;
 
 {
-  // Gibt den Hostnamen zurück, basierend auf der Auswahl im Formular.
-  // Wenn die Checkbox (CheckBox1) aktiviert ist, wird "simulation" zurückgegeben.
-  // Andernfalls wird der Text aus dem LabeledEdit1-Feld zurückgegeben, 
+  // Es wird der Text aus dem LabeledEdit1-Feld zurückgegeben,
   // wobei führende und nachfolgende Leerzeichen entfernt werden.
   //
   // Rückgabewert:
-  //   Ein String, der entweder "simulation" oder der bereinigte Text aus LabeledEdit1 ist.
+  //   Ein String der bereinigte Text aus LabeledEdit1 ist.
 }
 function TConnectForm.GetHost: string;
 begin

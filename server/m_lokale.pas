@@ -90,8 +90,7 @@ begin
   WLTab.Close;
   lokal.Free;
 
-  SAveLog(true, 'Wahllokal: add', formatJSON(data));
-
+  SaveLog(true, 'Wahllokal hinzugefügt', formatJSON(data));
 end;
 
 function TLokaleMod.addHelfer(data: TJSONObject): TJSONObject;

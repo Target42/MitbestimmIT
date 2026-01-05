@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, u_simdata,
+  Vcl.Buttons;
 
 type
   TWahlsimulatorForm = class(TForm)
@@ -38,21 +39,21 @@ type
     Minderheit: TLabel;
     Label15: TLabel;
     MinderheitnSitze: TLabel;
+    BitBtn1: TBitBtn;
     procedure ScrollBar1Change(Sender: TObject);
     procedure ScrollBar2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ScrollBar3Change(Sender: TObject);
     procedure ScrollBar4Change(Sender: TObject);
     procedure ScrollBar5Change(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     m_anzahl      : integer;
     m_male        : integer;
     m_female      : integer;
-    m_beteidigung : double;
-    m_brief       : integer;
-    m_doppel      : integer;
-    m_inv_urne    : integer;
-    m_inv_brief   : integer;
+
+    m_simdata       : TSimdata;
 
     procedure rechne;
     procedure UpdateView;
@@ -60,6 +61,9 @@ type
     function perc( sc : TScrollBar ) : integer;
 
     procedure UpdateData;
+    procedure UpdateSimData;
+
+    procedure save;
   public
     class procedure execute;
   end;
@@ -70,11 +74,16 @@ var
 implementation
 
 uses
-  u_stub, System.JSON, m_glob, u_json;
+  u_stub, System.JSON, m_glob, u_json, m_res, u_helper;
 
 {$R *.dfm}
 
 { TWahlsimulatorForm }
+
+procedure TWahlsimulatorForm.BitBtn1Click(Sender: TObject);
+begin
+  save;
+end;
 
 class procedure TWahlsimulatorForm.execute;
 begin
@@ -85,12 +94,20 @@ end;
 
 procedure TWahlsimulatorForm.FormCreate(Sender: TObject);
 begin
+  m_simdata := TSimdata.create;
+
   PageControl1.ActivePage := TabSheet1;
   m_anzahl := 0;
   m_male   := 0;
   m_female := 0;
+
   UpdateData;
   UpdateView;
+end;
+
+procedure TWahlsimulatorForm.FormDestroy(Sender: TObject);
+begin
+  m_simdata.Free;
 end;
 
 function TWahlsimulatorForm.perc(sc: TScrollBar): integer;
@@ -104,10 +121,13 @@ end;
 procedure TWahlsimulatorForm.rechne;
 var
   pers : integer;
+  beteidigung : double;
 begin
-  m_beteidigung := (1.0 * ScrollBar1.Position) / 100.0;
+  beteidigung := (1.0 * ScrollBar1.Position) / 100.0;
 
-  pers       := trunc( m_anzahl * m_beteidigung);
+  pers       := trunc( m_anzahl * beteidigung);
+
+  m_simdata.Summe := pers;
 
   setBar(ScrollBar2, pers);
   setBar(ScrollBar3, pers);
@@ -115,45 +135,58 @@ begin
   setBar(ScrollBar5, pers);
 end;
 
+procedure TWahlsimulatorForm.save;
+var
+  client: TDSSimClient;
+  data  : TJSONObject;
+begin
+  client := TDSSimClient.Create(GM.SQLConnection1.DBXConnection);
+  data := client.setSimData(m_simdata.toJson);
+  ShowResult(data, true);
+
+  TabSheet1.Enabled := false;
+  client.Free;
+end;
+
 procedure TWahlsimulatorForm.ScrollBar1Change(Sender: TObject);
 begin
-
+  m_simdata.Summe := trunc ( 1.0 * m_anzahl * ( ScrollBar1.Position / 100.0));
   labWahlBeteidigung.Caption := Format('%d %% (%d Personen)',
   [
     ScrollBar1.Position,
-    trunc ( 1.0 * m_anzahl * ( ScrollBar1.Position / 100.0))
+    m_simdata.Summe
   ]);
-  setBar(ScrollBar4, ScrollBar1.Position);
+  setBar(ScrollBar4, m_simdata.Summe);
   rechne;
 end;
 
 procedure TWahlsimulatorForm.ScrollBar2Change(Sender: TObject);
 begin
-  m_brief := ScrollBar2.Position;
-  labBrief.Caption := Format('%d (%d %%)', [m_brief, perc(Sender as TScrollBar)]);
+  m_simdata.BriefWaehler := ScrollBar2.Position;
+  labBrief.Caption := Format('%d (%d %%)', [m_simdata.BriefWaehler, perc(Sender as TScrollBar)]);
 
-  setBar(ScrollBar3, m_brief);
+  setBar(ScrollBar3, m_simdata.BriefWaehler);
   setBar(ScrollBar5, ScrollBar2.Position);
 end;
 
 procedure TWahlsimulatorForm.ScrollBar3Change(Sender: TObject);
 begin
-  m_doppel := ScrollBar3.Position;
-  Label7.Caption := Format('%d (%d %%)', [m_doppel, perc(Sender as TScrollBar)]);
+  m_simdata.Doppelt := ScrollBar3.Position;
+  Label7.Caption := Format('%d (%d %%)', [m_simdata.Doppelt, perc(Sender as TScrollBar)]);
 end;
 
 procedure TWahlsimulatorForm.ScrollBar4Change(Sender: TObject);
 begin
-  m_inv_urne := ScrollBar4.Position;
-  Label9.Caption := Format('%d (%d %%)', [m_inv_urne, perc(Sender as TScrollBar)]);
+  m_simdata.Invalid_Urne := ScrollBar4.Position;
+  Label9.Caption := Format('%d (%d %%)', [m_simdata.Invalid_Urne, perc(Sender as TScrollBar)]);
 end;
 
 procedure TWahlsimulatorForm.ScrollBar5Change(Sender: TObject);
 begin
-  m_inv_brief := ScrollBar5.Position;
+  m_simdata.Invalid_Brief := ScrollBar5.Position;
   Label11.Caption := Format('%d (%d %%)',
   [
-    m_inv_brief,
+    m_simdata.Invalid_Brief,
     perc(Sender as TScrollBar)
   ]);
 end;
@@ -191,13 +224,42 @@ begin
       Freistellungen.Caption := IntToStr(JInt( obj, 'freistellungen' ));
       MinderheitnSitze.Caption := IntToStr(JInt( obj, 'minmin' ));
       Minderheit.Caption := JString( obj, 'minderheit');
-
     end;
-
   end;
-
-
   client.Free;
+  UpdateSimData;
+end;
+
+procedure TWahlsimulatorForm.UpdateSimData;
+var
+  client: TDSSimClient;
+  data  : TJSONObject;
+begin
+  client := TDSSimClient.Create(GM.SQLConnection1.DBXConnection);
+
+  data := client.getBasisData;
+  m_simdata.fromJson( data );
+  client.Free;
+
+  if not m_simdata.IsEmpty then
+  begin
+    ScrollBar1.Position := trunc(  100.0 * m_simdata.Waehler  / m_anzahl );
+
+    setBar(ScrollBar1, ScrollBar1.Position);
+    ScrollBar2.Position := m_simdata.BriefWaehler;
+    ScrollBar2Change(ScrollBar2);
+
+    ScrollBar3.Position := m_simdata.Doppelt;
+    ScrollBar3Change(ScrollBar3);
+
+    ScrollBar4.Position := m_simdata.Invalid_Urne;
+    ScrollBar4Change(ScrollBar4);
+
+    ScrollBar5.Position := m_simdata.Invalid_Brief;
+    ScrollBar5Change(ScrollBar5);
+
+    TabSheet1.Enabled := m_simdata.IsEmpty;
+  end;
 end;
 
 procedure TWahlsimulatorForm.UpdateView;
@@ -205,7 +267,6 @@ begin
   Label1.Caption := 'Wahlberechtigt : '+intToStr(m_anzahl);
   Label2.Caption := 'Frauen :'+intToStr(m_female);
   Label3.Caption := 'Männer :'+intToStr(m_male);
-
 end;
 
 end.

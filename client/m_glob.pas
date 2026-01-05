@@ -136,11 +136,28 @@ uses
 
 { TGM }
 
+function TGM.cleanPersNr(persNr: string): string;
+var
+  i : integer;
+begin
+  persNr := trim(persNr );
+
+  for i := 1 to Length(persNr) do
+  begin
+    if persNr[i] = '0' then
+      persNr[i] := ' '
+    else
+      break;
+  end;
+  Result := trim(persNr);
+end;
+
+
 {
   Funktion: TGM.connect
   Beschreibung:
-    Diese Funktion stellt eine Verbindung zu einer Datenbank her. Sie konfiguriert die Verbindungsparameter 
-    basierend auf den Eigenschaften der Klasse und öffnet die Verbindung. Falls die Verbindung fehlschlägt, 
+    Diese Funktion stellt eine Verbindung zu einer Datenbank her. Sie konfiguriert die Verbindungsparameter
+    basierend auf den Eigenschaften der Klasse und öffnet die Verbindung. Falls die Verbindung fehlschlägt,
     wird eine Fehlermeldung angezeigt.
 
   Rückgabewert:
@@ -166,22 +183,6 @@ uses
     - Die Funktion verwendet `SQLConnection1`, um die Verbindung zu konfigurieren und zu öffnen.
     - Die Protokoll- und Portkonfiguration erfolgt basierend auf dem Wert von `FProtokoll`.
 }
-
-function TGM.cleanPersNr(persNr: string): string;
-var
-  i : integer;
-begin
-  persNr := trim(persNr );
-
-  for i := 1 to Length(persNr) do
-  begin
-    if persNr[i] = '0' then
-      persNr[i] := ' '
-    else
-      break;
-  end;
-  Result := trim(persNr);
-end;
 
 function TGM.connect: boolean;
 

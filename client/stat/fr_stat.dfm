@@ -86,7 +86,6 @@ object StatFrame: TStatFrame
     Align = alTop
     Caption = 'Gremium'
     TabOrder = 1
-    ExplicitTop = 181
     object Label1: TLabel
       Left = 16
       Top = 24

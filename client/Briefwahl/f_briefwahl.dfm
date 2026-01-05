@@ -107,6 +107,7 @@ object BriefwahlForm: TBriefwahlForm
     Align = alBottom
     Caption = 'Aktionen'
     TabOrder = 2
+    ExplicitTop = 459
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 40
@@ -138,6 +139,7 @@ object BriefwahlForm: TBriefwahlForm
       Height = 25
       Action = ac_request
       Caption = 'Beantragt'
+      Images = ResMod.PngImageList1
       TabOrder = 2
     end
     object BitBtn2: TBitBtn
@@ -147,6 +149,7 @@ object BriefwahlForm: TBriefwahlForm
       Height = 25
       Action = ac_send
       Caption = 'Versendet'
+      Images = ResMod.PngImageList1
       TabOrder = 3
     end
     object BitBtn3: TBitBtn
@@ -156,6 +159,7 @@ object BriefwahlForm: TBriefwahlForm
       Height = 25
       Action = ac_received
       Caption = 'Empfangen'
+      Images = ResMod.PngImageList1
       TabOrder = 4
     end
   end

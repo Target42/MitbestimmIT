@@ -287,6 +287,11 @@
             <Form>WahllisteImport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Simulation\f_wahl_simulator.pas">
+            <Form>WahlsimulatorForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="..\lib\u_simdata.pas"/>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

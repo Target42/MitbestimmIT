@@ -95,6 +95,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON MC_MA_CHANGE to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;\
 GRANT SELECT, INSERT, UPDATE, DELETE ON WP_WAHLPHASE to appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WZ_SCHEIN TO appuser;\
+GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;\
 \
 grant select on ma_liste TO appuser;\
 grant select on wa_stamp TO appuser;\
@@ -159,7 +161,7 @@ commit;
 
 
 1753814221
-1766328242
+1767632882
 0
 0
 4
@@ -676,6 +678,26 @@ WP_WAHLPHASE
 
 
 23
+3
+4068
+4068
+4
+WZ_SCHEIN
+WZ_SCHEIN
+
+
+
+0
+0
+0
+WZ_SCHEIN
+
+
+
+
+
+
+24
 /END_TABLE AMCTABL
 
 /BEGIN_TABLE AMCCOLN
@@ -2415,10 +2437,10 @@ AW_ERGEBNIS
 
 6
 3
-97
-97
-AW_ID
-AW_ID
+4080
+4080
+WA_ID
+WA_ID
 
 
 
@@ -2445,14 +2467,14 @@ INTEGER
 1
 0
 0
-AW_ID
+WA_ID
 
 1
 3
-790
-790
-WA_ID
-WA_ID
+4083
+4083
+WZ_NR
+WZ_NR
 
 
 
@@ -2473,13 +2495,47 @@ INTEGER
 
 
 
-0
+1
+1
+1
 1
 0
+0
+WZ_NR
+
+2
+3
+4089
+4089
+AW_ID
+AW_ID
+
+
+
+95
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+1
+1
 1
 0
 0
-WA_ID
+AW_ID
 
 3
 3
@@ -2550,40 +2606,6 @@ BLOB
 AW_SZ_DATA
 
 5
-3
-3532
-3532
-SZ_NR
-SZ_NR
-
-
-
-95
-0
-VARCHAR(20)
-20
-0
-0
-
-
-
-
-
-0
-0
-0
-
-
-
-0
-0
-0
-1
-0
-0
-SZ_NR
-
-6
 3
 218
 218
@@ -4458,7 +4480,7 @@ WA_ID
 3525
 3525
 WD_BRIEF
-WB_BRIEF
+WD_BRIEF
 
 
 
@@ -4661,8 +4683,8 @@ WD_ZETTEL
 3
 3530
 3530
-WD_INVALID
-WD_INVALID
+WD_INVALID_URNE
+WD_INVALID_URNE
 
 
 
@@ -4692,6 +4714,40 @@ INTEGER
 WD_INVALID
 
 8
+3
+4305
+4305
+WD_INVALID_BRIEF
+WD_INVALID_BRIEF
+
+
+
+3520
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WD_INVALID_BRIEF
+
+9
 3
 3538
 3538
@@ -4725,7 +4781,7 @@ BLOB
 0
 WD_REM
 
-9
+10
 3
 3743
 3743
@@ -4896,6 +4952,108 @@ VARCHAR(5)
 WP_PHASE
 
 5
+3
+4074
+4074
+WA_ID
+WA_ID
+
+
+
+4068
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+1
+1
+1
+0
+0
+WA_ID
+
+1
+3
+4077
+4077
+WZ_NR
+WZ_NR
+
+
+
+4068
+0
+INTEGER
+0
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+1
+0
+1
+1
+0
+0
+WZ_NR
+
+2
+3
+4078
+4078
+WZ_ID
+WZ_ID
+
+
+
+4068
+0
+VARCHAR(20)
+20
+0
+0
+
+
+
+
+
+0
+0
+0
+
+
+
+0
+0
+0
+1
+0
+0
+WZ_ID
+
+3
 /END_TABLE AMCCOLN
 
 /BEGIN_TABLE AMCREFR
@@ -4955,24 +5113,6 @@ REF_68
 
 2
 3
-96
-96
-Ref_96
-REF_96
-
-
-89
-95
-1
-1
-0
-1
-0
-0
-REF_96
-
-3
-3
 217
 217
 Ref_217
@@ -4989,7 +5129,7 @@ REF_217
 0
 REF_217
 
-4
+3
 3
 225
 225
@@ -5007,7 +5147,7 @@ REF_225
 0
 REF_225
 
-5
+4
 3
 353
 353
@@ -5025,7 +5165,7 @@ REF_353
 0
 REF_353
 
-6
+5
 3
 743
 743
@@ -5043,7 +5183,7 @@ REF_743
 0
 REF_743
 
-7
+6
 3
 747
 747
@@ -5061,7 +5201,7 @@ REF_747
 0
 REF_747
 
-8
+7
 3
 755
 755
@@ -5079,7 +5219,7 @@ REF_755
 0
 REF_755
 
-9
+8
 3
 759
 759
@@ -5097,7 +5237,7 @@ REF_759
 0
 REF_759
 
-10
+9
 3
 766
 766
@@ -5115,7 +5255,7 @@ REF_766
 0
 REF_766
 
-11
+10
 3
 773
 773
@@ -5133,7 +5273,7 @@ REF_773
 0
 REF_773
 
-12
+11
 3
 779
 779
@@ -5151,7 +5291,7 @@ REF_779
 0
 REF_779
 
-13
+12
 3
 786
 786
@@ -5169,7 +5309,7 @@ REF_786
 0
 REF_786
 
-14
+13
 3
 796
 796
@@ -5187,7 +5327,7 @@ REF_796
 0
 REF_796
 
-15
+14
 3
 1018
 1018
@@ -5205,7 +5345,7 @@ REF_1018
 0
 REF_1018
 
-16
+15
 3
 1258
 1258
@@ -5223,7 +5363,7 @@ REF_1258
 0
 REF_1258
 
-17
+16
 3
 1717
 1717
@@ -5241,7 +5381,7 @@ REF_1717
 0
 REF_1717
 
-18
+17
 3
 1724
 1724
@@ -5259,7 +5399,7 @@ REF_1724
 0
 REF_1724
 
-19
+18
 3
 2946
 2946
@@ -5277,7 +5417,7 @@ REF_2946
 0
 REF_2946
 
-20
+19
 3
 2953
 2953
@@ -5295,7 +5435,7 @@ REF_2953
 0
 REF_2953
 
-21
+20
 3
 3521
 3521
@@ -5313,7 +5453,7 @@ REF_3521
 0
 REF_3521
 
-22
+21
 3
 3534
 3534
@@ -5331,7 +5471,7 @@ REF_3534
 0
 REF_3534
 
-23
+22
 3
 3742
 3742
@@ -5349,7 +5489,61 @@ REF_3742
 0
 REF_3742
 
+23
+3
+4073
+4073
+Ref_4073
+REF_4073
+
+
+184
+4068
+1
+1
+1
+1
+0
+0
+REF_4073
+
 24
+3
+4079
+4079
+Ref_4079
+REF_4079
+
+
+4068
+95
+1
+1
+1
+1
+0
+0
+REF_4079
+
+25
+3
+4086
+4086
+Ref_4086
+REF_4086
+
+
+89
+95
+1
+1
+1
+1
+0
+0
+REF_4086
+
+26
 /END_TABLE AMCREFR
 
 /BEGIN_TABLE AMCCCOL
@@ -5440,16 +5634,6 @@ COLN2   N8
 185
 787
 1
-791
-791
-787
-790
-1
-793
-793
-90
-97
-1
 798
 798
 185
@@ -5529,6 +5713,31 @@ COLN2   N8
 3744
 185
 3743
+1
+4075
+4075
+185
+4074
+1
+4081
+4081
+4074
+4080
+1
+4084
+4084
+4077
+4083
+1
+4087
+4087
+787
+4080
+1
+4090
+4090
+90
+4089
 /END_TABLE AMCCCOL
 
 /BEGIN_TABLE AMCCREF
@@ -5557,18 +5766,6 @@ NUMR    N8
 68
 70
 1
-3
-792
-792
-96
-791
-1
-3
-794
-794
-96
-793
-2
 3
 220
 220
@@ -5743,6 +5940,36 @@ NUMR    N8
 3742
 3744
 1
+3
+4076
+4076
+4073
+4075
+1
+3
+4082
+4082
+4079
+4081
+1
+3
+4085
+4085
+4079
+4084
+2
+3
+4088
+4088
+4086
+4087
+1
+3
+4091
+4091
+4086
+4090
+2
 /END_TABLE AMCCREF
 
 /BEGIN_TABLE AMCINDX
@@ -5841,6 +6068,13 @@ NUMR    N8
 63
 1
 1
+3
+4425
+4425
+65
+226
+1
+2
 /END_TABLE AMCCIDX
 
 /BEGIN_TABLE AMCAKEY
@@ -7504,10 +7738,10 @@ OID     N8
 0
 0
 0
--39197
--197
--27723
-5277
+-39198
+-198
+-27724
+5276
 2
 1
 0
@@ -7600,10 +7834,10 @@ OID     N8
 0
 0
 0
-9328
--17598
-20502
--12124
+1451
+-16925
+12625
+-11451
 2
 1
 0
@@ -7664,10 +7898,10 @@ OID     N8
 0
 0
 0
-31262
-135
-44311
-6585
+5230
+-33326
+17979
+-26877
 2
 1
 0
@@ -7696,10 +7930,10 @@ OID     N8
 0
 0
 0
--55297
--31787
--43448
--24363
+-99322
+8563
+-87473
+15987
 2
 1
 0
@@ -8112,10 +8346,10 @@ OID     N8
 0
 0
 0
--19965
--21012
--7966
--10663
+-20609
+-22554
+-7635
+-11230
 2
 1
 0
@@ -8137,17 +8371,17 @@ OID     N8
 3
 2903
 289
-2
+0
 25
 0
 0
 0
 0
 0
--20119
--28366
--7970
--21917
+-97444
+-19966
+-85295
+-13517
 2
 1
 0
@@ -8167,10 +8401,42 @@ OID     N8
 2
 3740
 3
+3044
+289
+0
+26
+0
+0
+0
+0
+0
+-19924
+-32261
+-10400
+-27762
+2
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+
+0
+
+
+
+2
+4068
+3
 1490
 290
 0
-26
+27
 0
 1488
 1489
@@ -8202,7 +8468,7 @@ OID     N8
 1538
 290
 0
-27
+28
 0
 1536
 1537
@@ -8223,45 +8489,13 @@ OID     N8
 0
 0
 2
-917fffffaa050000917fffff68370000
+907fffffa9050000907fffff68370000
 2
 
 
 
 2
 68
-3
-1557
-290
-0
-28
-0
-1553
-1556
-0
-0
-0
-0
-0
-0
-2
-2
-0
-0
-0
-0
-0
-1
-0
-0
-2
-4a9000007ccbffff4a900000f5110000
-2
-
-
-
-2
-96
 3
 1646
 290
@@ -8286,8 +8520,8 @@ OID     N8
 1
 0
 0
-2
-c03effff05d5ffffc03effff8384ffff
+3
+4e21ffffbad4ffff4e21ffff172c0000f18dfeff172c0000
 2
 
 
@@ -8319,7 +8553,7 @@ c03effff05d5ffffc03effff8384ffff
 0
 0
 3
-4b4bffffd7e2ffff4b4bffff100c0000138bffff100c0000
+4b4bffffd7e2ffff4b4bffff0f0c0000128bffff0f0c0000
 2
 
 
@@ -8671,7 +8905,7 @@ ca32ffff8aebffffca32ffffeb5e0000
 0
 0
 3
-dc32ffff9be0ffff2400ffff9be0ffff2400ffff8293ffff
+0834ffffd6d2ffff2400ffffd6d2ffff2400ffff8293ffff
 2
 
 
@@ -8863,7 +9097,7 @@ f6260000d911000041eeffffd911000041eefffff64b0000
 0
 0
 3
-f24affff37e6fffff24affffb0b8ffff55c5ffffb0b8ffff
+f24affff37e6fffff24affffacc4ffff39c1ffffacc4ffff
 2
 
 
@@ -8895,7 +9129,7 @@ f24affff37e6fffff24affffb0b8ffff55c5ffffb0b8ffff
 0
 0
 2
-2ddfffff8cc6ffff212800008cc6ffff
+55e0ffff98c4ffff1109000098c4ffff
 2
 
 
@@ -8926,14 +9160,110 @@ f24affff37e6fffff24affffb0b8ffff55c5ffffb0b8ffff
 1
 0
 0
-3
-8d46ffff9ed9ffff8d46ffff449dffffa4c4ffff449dffff
+4
+b140ffff2fdfffff7deafeff2fdfffff7deafeff29c7ffff2d97feff29c7ffff
 2
 
 
 
 2
 3742
+3
+3048
+290
+0
+50
+0
+1629
+3044
+0
+0
+0
+0
+0
+0
+2
+2
+0
+0
+0
+0
+0
+1
+0
+0
+3
+ca27ffff65e2ffffca27ffffa688ffff75baffffa688ffff
+2
+
+
+
+2
+4073
+3
+3057
+290
+0
+51
+0
+3044
+1556
+0
+0
+0
+0
+0
+0
+2
+2
+0
+0
+0
+0
+0
+1
+0
+0
+2
+ecc8ffff518bffffb41d0000518bffff
+2
+
+
+
+2
+4079
+3
+3060
+290
+0
+52
+0
+1553
+1556
+0
+0
+0
+0
+0
+0
+2
+2
+0
+0
+0
+0
+0
+1
+0
+0
+3
+818d00008bcbffff818d00005b8bffff473e00005b8bffff
+2
+
+
+
+2
+4086
 /END_TABLE AMCSYMB
 
 

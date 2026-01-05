@@ -294,6 +294,9 @@ object MainClientForm: TMainClientForm
       object Wahlen1: TMenuItem
         Action = ac_ad_wahl
       end
+      object Wahlsimulator1: TMenuItem
+        Action = ac_ad_simulator
+      end
     end
     object Windows1: TMenuItem
       Caption = 'Windows'
@@ -404,6 +407,12 @@ object MainClientForm: TMainClientForm
     object ac_aus_do: TAction
       Category = 'Ausz'#228'hlung'
       Caption = 'Ausz'#228'hlen'
+    end
+    object ac_ad_simulator: TAction
+      Category = 'Admin'
+      Caption = 'Wahlsimulator'
+      Visible = False
+      OnExecute = ac_ad_simulatorExecute
     end
   end
   object Timer1: TTimer

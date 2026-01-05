@@ -91,7 +91,7 @@ function JUnQuote( s : string ) : String;
 function JDeleteKey( obj : TJSONObject ; name : String ) : boolean;
 function JExistsKey( obj : TJSONObject ; name : String ) : boolean;
 
-procedure JResult( obj : TJSONObject ; ok : Boolean ; text : string );
+procedure JResult( obj : TJSONObject ; ok : Boolean ; text : string = '' );
 procedure JResponse( data : TJSONObject ; state : boolean ; text : string );
 
 function formatJSON( obj : TJSONObject; indend : integer = -1 ) : string;
@@ -101,6 +101,7 @@ procedure JAction( data : TJSONObject; action : string );
 function JArrayToInteger( arr : TJSONArray ) : TList<integer>; overload;
 function JArrayToInteger( data : TJSONObject; name : string ) : TList<integer>; overload;
 function IntListToJArray( var list : TList<integer> ) : TJSONArray;
+procedure JAdd( dest, src : TJSONObject );
 
 procedure purge( var list : TStringList );
 
@@ -115,6 +116,24 @@ var
 function parseArray( arr : TJSONArray; indent : string ) : string; forward;
 function ParseObject( obj : TJSONObject; indent : string ) : string; forward;
 
+
+{*******************************************************************************
+*                   JRemove
+*******************************************************************************}
+procedure JAdd( dest, src : TJSONObject );
+var
+  i : integer;
+  p : TJSONPair;
+begin
+  if not Assigned(dest)  or not Assigned(src) then
+    exit;
+
+  for i := 0 to pred(src.Count) do
+  begin
+    p := src.Pairs[i];
+    dest.AddPair(p.Clone as TJSONPair);
+  end;
+end;
 
 {*******************************************************************************
 *                   JRemove

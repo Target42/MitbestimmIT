@@ -2,7 +2,7 @@ object WahlsimulatorForm: TWahlsimulatorForm
   Left = 0
   Top = 0
   Caption = 'Wahlsimulator'
-  ClientHeight = 428
+  ClientHeight = 458
   ClientWidth = 653
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,15 +12,15 @@ object WahlsimulatorForm: TWahlsimulatorForm
   Font.Style = []
   Position = poOwnerFormCenter
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 409
+    Top = 439
     Width = 653
     Height = 19
     Panels = <>
-    ExplicitTop = 423
-    ExplicitWidth = 624
+    ExplicitTop = 409
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -30,7 +30,6 @@ object WahlsimulatorForm: TWahlsimulatorForm
     Align = alTop
     Caption = 'Statistik'
     TabOrder = 1
-    ExplicitTop = -6
     object Label1: TLabel
       Left = 15
       Top = 24
@@ -113,14 +112,11 @@ object WahlsimulatorForm: TWahlsimulatorForm
     Left = 0
     Top = 109
     Width = 653
-    Height = 300
+    Height = 330
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 143
-    ExplicitTop = 320
-    ExplicitWidth = 650
-    ExplicitHeight = 385
+    ExplicitHeight = 300
     object TabSheet1: TTabSheet
       Caption = 'Wahldaten'
       object labBrief: TLabel
@@ -237,6 +233,17 @@ object WahlsimulatorForm: TWahlsimulatorForm
         PageSize = 0
         TabOrder = 4
         OnChange = ScrollBar5Change
+      end
+      object BitBtn1: TBitBtn
+        Left = 32
+        Top = 224
+        Width = 75
+        Height = 25
+        Caption = 'Anlegen'
+        ImageIndex = 6
+        Images = ResMod.PngImageList1
+        TabOrder = 5
+        OnClick = BitBtn1Click
       end
     end
   end

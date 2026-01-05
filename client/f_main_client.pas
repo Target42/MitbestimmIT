@@ -90,6 +90,8 @@ type
     Wahlphasenverwalten1: TMenuItem;
     ac_aus_start: TAction;
     ac_aus_do: TAction;
+    ac_ad_simulator: TAction;
+    Wahlsimulator1: TMenuItem;
     procedure ac_infoExecute(Sender: TObject);
     procedure ac_wa_planExecute(Sender: TObject);
     procedure ac_wa_berechtigteExecute(Sender: TObject);
@@ -111,6 +113,7 @@ type
     procedure ac_wa_logoExecute(Sender: TObject);
     procedure ac_wa_activateExecute(Sender: TObject);
     procedure ac_aus_startExecute(Sender: TObject);
+    procedure ac_ad_simulatorExecute(Sender: TObject);
   private
     type
       TMenuState = (msInit = 0, msLoaded, msAdmin);
@@ -139,9 +142,15 @@ uses
   VSoft.CommandLine.Options, Vcl.Dialogs, u_ComandOptions, f_connet,
   f_WahlvorStand, System.JSON, u_json, f_waehlerliste,
   f_admin, f_wahl_select, f_briefwahl, u_msgID, f_User, f_wahllokal_select,
-  f_wahllokal, u_stub, u_imageinfo, f_logo, f_wahl_phasen_set, f_auswertung;
+  f_wahllokal, u_stub, u_imageinfo, f_logo, f_wahl_phasen_set, f_auswertung,
+  f_wahl_simulator;
 
 {$R *.dfm}
+
+procedure TMainClientForm.ac_ad_simulatorExecute(Sender: TObject);
+begin
+  TWahlsimulatorForm.execute;
+end;
 
 procedure TMainClientForm.ac_ad_wahlExecute(Sender: TObject);
 begin
@@ -282,6 +291,10 @@ begin
     begin
       StatBox.Visible := false;
       Splitter1 .Visible := false;
+    end;
+    msgSimulation:
+    begin
+      ac_ad_simulator.Visible := (msg.wParam <> 0 );
     end
   else
     Handled := false;
@@ -338,6 +351,7 @@ begin
         setPanelText(0, '  ');
         setPanelText(1, 'Offline');
       end;
+
     msLoaded:
       begin
         if GM.Simulation then
@@ -352,14 +366,14 @@ begin
         ac_connect.Enabled := false;
         ac_disconnect.Enabled := true;
 
-        Admin1.Enabled     := false;
+        Admin1.Enabled     := true;
         ac_ad_wahl.Enabled := false;
-
 
         setPanelText(0, GM.User);
         setPanelText(1, GM.HostAddress);
       end;
-      msAdmin:
+
+    msAdmin:
       begin
         Label1.Caption     := 'Administratormode';
         Label1.Visible     := true;

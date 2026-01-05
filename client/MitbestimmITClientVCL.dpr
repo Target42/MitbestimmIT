@@ -66,7 +66,9 @@ uses
   f_auswertung in 'Auszählung\f_auswertung.pas' {AuswertungForm},
   u_BER_Berechnungen in '..\berechnungen\u_BER_Berechnungen.pas',
   u_BRWahlFristen in '..\berechnungen\u_BRWahlFristen.pas',
-  f_wahlliste_import in 'Wahlliste\f_wahlliste_import.pas' {WahllisteImport};
+  f_wahlliste_import in 'Wahlliste\f_wahlliste_import.pas' {WahllisteImport},
+  f_wahl_simulator in 'Simulation\f_wahl_simulator.pas' {WahlsimulatorForm},
+  u_simdata in '..\lib\u_simdata.pas';
 
 {$R *.res}
 

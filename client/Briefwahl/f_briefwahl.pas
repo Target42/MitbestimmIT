@@ -10,7 +10,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, FireDAC.Comp.BatchMove.DataSet, FireDAC.Comp.BatchMove,
   Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls, Vcl.Buttons,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, u_briefwahl;
 
 type
   TBriefwahlForm = class(TForm)
@@ -58,6 +58,8 @@ type
       DisplayText: Boolean);
   private
     procedure search( fieldname : string; key : string );
+
+    procedure send( typ : TBriefwahl.TEventType );
   public
     class procedure execute;
   end;
@@ -69,13 +71,9 @@ implementation
 
 {$R *.dfm}
 
-uses m_res, u_briefwahl, System.JSON, u_stub, u_json, u_helper, u_BRWahlFristen;
+uses m_res, System.JSON, u_stub, u_json, u_helper, u_BRWahlFristen;
 
 procedure TBriefwahlForm.ac_receivedExecute(Sender: TObject);
-var
-  brief : TBriefwahl;
-  res   : TJSONObject;
-  client : TBriefWahlModClient;
 begin
   if BriefTab.IsEmpty then
     exit;
@@ -86,29 +84,10 @@ begin
     exit;
   end;
 
-  brief := TBriefwahl.create;
-  brief.Date  := now;
-  brief.MA_ID := BriefTabMA_ID.AsInteger;
-  brief.Event := etEmpfangen;
-
-  client := TBriefWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-  res := Client.setEvent(brief.toJson);
-  if ShowResult(res) then
-  begin
-    BriefTab.Edit;
-    BriefTabBW_EMPFANGEN.AsDateTime := JDouble( res, 'date', now);
-    BriefTab.Post;
-  end;
-  client.Free;
-
-  brief.Free;
+  send( etEmpfangen );
 end;
 
 procedure TBriefwahlForm.ac_requestExecute(Sender: TObject);
-var
-  brief : TBriefwahl;
-  res   : TJSONObject;
-  client : TBriefWahlModClient;
 begin
   if BriefTab.IsEmpty then
     exit;
@@ -118,30 +97,10 @@ begin
     ShowMessage('Die Briefwahl wurde schon beantragt!');
     exit;
   end;
-
-  brief := TBriefwahl.create;
-  brief.Date  := now;
-  brief.MA_ID := BriefTabMA_ID.AsInteger;
-  brief.Event := etAntrag;
-
-  client := TBriefWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-  res := Client.setEvent(brief.toJson);
-  if ShowResult(res) then
-  begin
-    BriefTab.Edit;
-    BriefTabBW_ANTRAG.AsDateTime := JDouble( res, 'date', now);
-    BriefTab.Post;
-  end;
-  client.Free;
-
-  brief.Free;
+  send(etAntrag);
 end;
 
 procedure TBriefwahlForm.ac_sendExecute(Sender: TObject);
-var
-  brief : TBriefwahl;
-  res   : TJSONObject;
-  client : TBriefWahlModClient;
 begin
   if BriefTab.IsEmpty then
     exit;
@@ -152,22 +111,7 @@ begin
     exit;
   end;
 
-  brief := TBriefwahl.create;
-  brief.Date  := now;
-  brief.MA_ID := BriefTabMA_ID.AsInteger;
-  brief.Event := etVErsendet;
-
-  client := TBriefWahlModClient.Create(GM.SQLConnection1.DBXConnection);
-  res := Client.setEvent(brief.toJson);
-  if ShowResult(res) then
-  begin
-    BriefTab.Edit;
-    BriefTabBW_VERSENDET.AsDateTime := JDouble( res, 'date', now);
-    BriefTab.Post;
-  end;
-  client.Free;
-
-  brief.Free;
+  send( etVErsendet );
 end;
 
 procedure TBriefwahlForm.BriefTabBW_ANTRAGGetText(Sender: TField;
@@ -229,6 +173,35 @@ begin
   BriefTab.First;
 
   BriefTab.Locate(fieldname, key, [loCaseInsensitive, loPartialKey]);
+end;
+
+procedure TBriefwahlForm.send(typ: TBriefwahl.TEventType);
+var
+  brief : TBriefwahl;
+  res   : TJSONObject;
+  client : TBriefWahlModClient;
+begin
+  brief := TBriefwahl.create;
+  brief.Date  := now;
+  brief.MA_ID := BriefTabMA_ID.AsInteger;
+  brief.Event := etAntrag;
+  brief.Name  := Format('%s, %s (%s)', [
+    BriefTabMA_NAME.AsString,
+    BriefTabMA_VORNAME.AsString,
+    BriefTabMA_PERSNR.AsString
+  ]);
+
+  client := TBriefWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+  res := Client.setEvent(brief.toJson);
+  if ShowResult(res) then
+  begin
+    BriefTab.Edit;
+    BriefTabBW_ANTRAG.AsDateTime := JDouble( res, 'date', now);
+    BriefTab.Post;
+  end;
+  client.Free;
+
+  brief.Free;
 end;
 
 end.

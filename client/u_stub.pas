@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 27.12.2025 12:43:36
+// 04.01.2026 13:29:18
 //
 
 unit u_stub;
@@ -270,6 +270,20 @@ type
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     function Import(data: TJSONObject): TJSONObject;
+  end;
+
+  TDSSimClient = class(TDSAdminClient)
+  private
+    FgetBasisDataCommand: TDBXCommand;
+    FsetSimDataCommand: TDBXCommand;
+    FAuswertungCommand: TDBXCommand;
+  public
+    constructor Create(ADBXConnection: TDBXConnection); overload;
+    constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
+    destructor Destroy; override;
+    function getBasisData: TJSONObject;
+    function setSimData(data: TJSONObject): TJSONObject;
+    function Auswertung(data: TJSONObject): TJSONObject;
   end;
 
 implementation
@@ -1681,6 +1695,65 @@ end;
 destructor TDSVorschlagListenImportClient.Destroy;
 begin
   FImportCommand.Free;
+  inherited;
+end;
+
+function TDSSimClient.getBasisData: TJSONObject;
+begin
+  if FgetBasisDataCommand = nil then
+  begin
+    FgetBasisDataCommand := FDBXConnection.CreateCommand;
+    FgetBasisDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetBasisDataCommand.Text := 'TDSSim.getBasisData';
+    FgetBasisDataCommand.Prepare;
+  end;
+  FgetBasisDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetBasisDataCommand.Parameters[0].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TDSSimClient.setSimData(data: TJSONObject): TJSONObject;
+begin
+  if FsetSimDataCommand = nil then
+  begin
+    FsetSimDataCommand := FDBXConnection.CreateCommand;
+    FsetSimDataCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetSimDataCommand.Text := 'TDSSim.setSimData';
+    FsetSimDataCommand.Prepare;
+  end;
+  FsetSimDataCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsetSimDataCommand.ExecuteUpdate;
+  Result := TJSONObject(FsetSimDataCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TDSSimClient.Auswertung(data: TJSONObject): TJSONObject;
+begin
+  if FAuswertungCommand = nil then
+  begin
+    FAuswertungCommand := FDBXConnection.CreateCommand;
+    FAuswertungCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FAuswertungCommand.Text := 'TDSSim.Auswertung';
+    FAuswertungCommand.Prepare;
+  end;
+  FAuswertungCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FAuswertungCommand.ExecuteUpdate;
+  Result := TJSONObject(FAuswertungCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+constructor TDSSimClient.Create(ADBXConnection: TDBXConnection);
+begin
+  inherited Create(ADBXConnection);
+end;
+
+constructor TDSSimClient.Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean);
+begin
+  inherited Create(ADBXConnection, AInstanceOwner);
+end;
+
+destructor TDSSimClient.Destroy;
+begin
+  FgetBasisDataCommand.Free;
+  FsetSimDataCommand.Free;
+  FAuswertungCommand.Free;
   inherited;
 end;
 

@@ -40,7 +40,7 @@ var
 implementation
 
 uses
-  System.JSON, u_json;
+  System.JSON, u_json, u_msgID;
 
 {$R *.dfm}
 
@@ -60,6 +60,7 @@ begin
     begin
       GM.WahlName   := JString( data, 'titel');
       GM.Simulation := JBool( data, 'simulation');
+      PostMessage( Application.MainFormHandle, msgSimulation, WPARAM(GM.Simulation), 0 );
     end;
 
   end;

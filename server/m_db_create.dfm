@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     21.12.2025  15:44                          ' +
+            '/*   Created on:     05.01.2026  20:01                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -223,7 +223,7 @@ object CreateDBMode: TCreateDBMode
             '*/'
           
             'create unique ASC index WT_WAHL_LISTE_NAME on WT_WAHL_LISTE (WT_' +
-            'NAME);'
+            'NAME, WA_ID);'
           ''
           
             '/* ============================================================ ' +
@@ -327,7 +327,7 @@ object CreateDBMode: TCreateDBMode
             '    WA_ID                           INTEGER                not n' +
             'ull,'
           
-            '    WB_BRIEF                        INTEGER                     ' +
+            '    WD_BRIEF                        INTEGER                     ' +
             '   ,'
           
             '    WD_WAEHLER                      INTEGER                     ' +
@@ -345,12 +345,38 @@ object CreateDBMode: TCreateDBMode
             '    WD_ZETTEL                       INTEGER                     ' +
             '   ,'
           
-            '    WD_INVALID                      INTEGER                     ' +
+            '    WD_INVALID_URNE                 INTEGER                     ' +
+            '   ,'
+          
+            '    WD_INVALID_BRIEF                INTEGER                     ' +
             '   ,'
           
             '    WD_REM                          BLOB                        ' +
             '   ,'
           '    constraint PK_WD_WAHLDATEN primary key (WA_ID)'
+          ');'
+          ''
+          
+            '/* ============================================================ ' +
+            '*/'
+          
+            '/*   Table: WZ_SCHEIN                                           ' +
+            '*/'
+          
+            '/* ============================================================ ' +
+            '*/'
+          'create table WZ_SCHEIN'
+          '('
+          
+            '    WA_ID                           INTEGER                not n' +
+            'ull,'
+          
+            '    WZ_NR                           INTEGER                not n' +
+            'ull,'
+          
+            '    WZ_ID                           VARCHAR(20)                 ' +
+            '   ,'
+          '    constraint PK_WZ_SCHEIN primary key (WA_ID, WZ_NR)'
           ');'
           ''
           
@@ -516,21 +542,21 @@ object CreateDBMode: TCreateDBMode
           'create table AW_SZ'
           '('
           
-            '    AW_ID                           INTEGER                not n' +
+            '    WA_ID                           INTEGER                not n' +
             'ull,'
           
-            '    WA_ID                           INTEGER                     ' +
-            '   ,'
+            '    WZ_NR                           INTEGER                not n' +
+            'ull,'
+          
+            '    AW_ID                           INTEGER                not n' +
+            'ull,'
           
             '    AW_SZ_STAMP                     TIMESTAMP                   ' +
             '   ,'
           
             '    AW_SZ_DATA                      BLOB                        ' +
             '   ,'
-          
-            '    SZ_NR                           VARCHAR(20)                 ' +
-            '   ,'
-          '    constraint PK_AW_SZ primary key (AW_ID)'
+          '    constraint PK_AW_SZ primary key (WA_ID, WZ_NR, AW_ID)'
           ');'
           ''
           
@@ -826,6 +852,10 @@ object CreateDBMode: TCreateDBMode
           '    add constraint FK_REF_3521 foreign key  (WA_ID)'
           '       references WA_WAHL;'
           ''
+          'alter table WZ_SCHEIN'
+          '    add constraint FK_REF_4073 foreign key  (WA_ID)'
+          '       references WA_WAHL;'
+          ''
           'alter table WH_WAHL_HELFER'
           '    add constraint FK_REF_20 foreign key  (WA_ID, WL_ID)'
           '       references WL_WAHL_LOKAL;'
@@ -855,7 +885,11 @@ object CreateDBMode: TCreateDBMode
           '       references WD_WAHLDATEN;'
           ''
           'alter table AW_SZ'
-          '    add constraint FK_REF_96 foreign key  (WA_ID, AW_ID)'
+          '    add constraint FK_REF_4079 foreign key  (WA_ID, WZ_NR)'
+          '       references WZ_SCHEIN;'
+          ''
+          'alter table AW_SZ'
+          '    add constraint FK_REF_4086 foreign key  (WA_ID, AW_ID)'
           '       references AW_AUSWERTUNG;'
           ''
           'alter table LG_LOG'
@@ -962,6 +996,8 @@ object CreateDBMode: TCreateDBMode
           'GRANT SELECT, INSERT, UPDATE, DELETE ON LO_LOGIN to appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON MA_WL to appuser;'
           'GRANT SELECT, INSERT, UPDATE, DELETE ON WP_WAHLPHASE to appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WZ_SCHEIN TO appuser;'
+          'GRANT SELECT, INSERT, UPDATE, DELETE ON WD_WAHLDATEN TO appuser;'
           ''
           'grant select on ma_liste TO appuser;'
           'grant select on wa_stamp TO appuser;'
@@ -1049,7 +1085,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     21.12.2025  14:35                          ' +
+            '/*   Created on:     05.01.2026  20:01                          ' +
             '*/'
           
             '/* ============================================================ ' +

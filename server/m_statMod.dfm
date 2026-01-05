@@ -34,8 +34,6 @@ object StadMod: TStadMod
       '  WT_WAHL_LISTE a, wt_wa b'
       'where'
       '  a.WA_ID = :wa_id'
-      'and  '
-      '  b.WT_ID = a.WA_ID'
       'group by '
       '  a.wt_name, a.WT_KURZ'
       '   ')
