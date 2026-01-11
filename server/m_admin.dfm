@@ -4,11 +4,12 @@ object AdminMod: TAdminMod
   Width = 640
   object FDConnection1: TFDConnection
     Params.Strings = (
-      'Database=x:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
+      'Database=d:\DelphiBin\MitbestimmIT\Setup\db\WAHL2026.FDB'
       'User_Name=admin_user'
       'Password=snoopy'
       'RoleName=appadmin'
       'DriverID=FB')
+    Connected = True
     LoginPrompt = False
     Transaction = FDTransaction1
     Left = 88
@@ -184,11 +185,6 @@ object AdminMod: TAdminMod
       Origin = 'MW_PWD'
       Size = 64
     end
-    object PwdTabMW_ROLLE: TStringField
-      FieldName = 'MW_ROLLE'
-      Origin = 'MW_ROLLE'
-      Size = 100
-    end
     object PwdTabMW_SECRET: TStringField
       FieldName = 'MW_SECRET'
       Origin = 'MW_SECRET'
@@ -202,10 +198,11 @@ object AdminMod: TAdminMod
   object AddWAQry: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
-      'INSERT INTO MA_WA (WA_ID, MA_ID)'
+      'INSERT INTO MA_WA (WA_ID, MA_ID, MW_ROLLE)'
       'VALUES ('
       '    :WA_ID,'
-      '    :MA_ID'
+      '    :MA_ID,'
+      '    :MW_ROLLE'
       ');'
       '')
     Left = 448
@@ -220,6 +217,12 @@ object AdminMod: TAdminMod
       item
         Name = 'MA_ID'
         DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'MW_ROLLE'
+        DataType = ftString
         ParamType = ptInput
         Value = Null
       end>

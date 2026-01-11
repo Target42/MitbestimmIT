@@ -68,6 +68,7 @@ type
     MAListMA_GEB: TDateField;
     MAListWA_ID: TIntegerField;
     MAListMA_ID_1: TIntegerField;
+    MAListMW_ROLLE: TStringField;
     procedure DataModuleDestroy(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
     procedure SQLConnection1AfterDisconnect(Sender: TObject);

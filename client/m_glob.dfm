@@ -56,7 +56,6 @@ object GM: TGM
     end
     object MAListMA_GENDER: TStringField
       FieldName = 'MA_GENDER'
-      OnGetText = MAListMA_GENDERGetText
       FixedChar = True
       Size = 1
     end
@@ -78,6 +77,11 @@ object GM: TGM
     object MAListMA_ID_1: TIntegerField
       FieldName = 'MA_ID_1'
       ReadOnly = True
+    end
+    object MAListMW_ROLLE: TStringField
+      FieldName = 'MW_ROLLE'
+      ReadOnly = True
+      Size = 100
     end
   end
   object MAUserTab: TFDMemTable
@@ -111,7 +115,7 @@ object GM: TGM
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 480
-    Top = 256
+    Left = 440
+    Top = 288
   end
 end

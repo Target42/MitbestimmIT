@@ -55,7 +55,7 @@ implementation
 
 uses
   m_db, u_json, System.Variants, m_log, u_pwd, u_glob, u_totp, u_BRWahlFristen,
-  m_phase;
+  m_phase, m_rolle;
 
 {$R *.dfm}
 
@@ -91,8 +91,9 @@ begin
     begin
       MAPWDTab.Edit;
     end;
-    MAPWDTab.FieldByName('MW_ROLLE').AsString := DBMod.AddRole(roWahlVorstand, MAPWDTab.FieldByName('MW_ROLLE').AsString);
     MAPWDTab.Post;
+
+    TRollenMod.setRolls(DBMod.WahlID, person.ID, roWahlVorstand );
 
     MAPWDTab.Close;
 

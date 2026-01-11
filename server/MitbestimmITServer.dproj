@@ -224,6 +224,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DesignClass>TDSServerModule</DesignClass>
         </DCCReference>
         <DCCReference Include="..\lib\u_simdata.pas"/>
+        <DCCReference Include="m_rolle.pas">
+            <Form>RollenMod</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <BuildConfiguration Include="Base">

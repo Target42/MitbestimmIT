@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.01.2026  20:01                          ' +
+            '/*   Created on:     11.01.2026  13:47                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -242,6 +242,9 @@ object CreateDBMode: TCreateDBMode
           
             '    MA_ID                           INTEGER                not n' +
             'ull,'
+          
+            '    MW_ROLLE                        VARCHAR(100)                ' +
+            '   ,'
           '    constraint PK_MA_WA primary key (WA_ID, MA_ID)'
           ');'
           ''
@@ -635,9 +638,6 @@ object CreateDBMode: TCreateDBMode
             '    MW_PWD                          VARCHAR(64)                 ' +
             '   ,'
           
-            '    MW_ROLLE                        VARCHAR(100)                ' +
-            '   ,'
-          
             '    MW_SECRET                       VARCHAR(32)                 ' +
             '   ,'
           
@@ -826,7 +826,7 @@ object CreateDBMode: TCreateDBMode
             '_LOKAL.WL_RAUM, '
           'MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID'
           'from MA_WL, WL_WAHL_LOKAL'
-          'where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID;'
+          'where MA_WL.WL_ID = WL_WAHL_LOKAL.WL_ID;'
           ''
           'alter table WT_WAHL_LISTE'
           '    add constraint FK_REF_225 foreign key  (WA_ID)'
@@ -1085,7 +1085,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     05.01.2026  20:01                          ' +
+            '/*   Created on:     11.01.2026  13:47                          ' +
             '*/'
           
             '/* ============================================================ ' +

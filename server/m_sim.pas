@@ -8,7 +8,7 @@ uses
   System.JSON, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client, Data.DB,
-  FireDAC.Comp.DataSet;
+  FireDAC.Comp.DataSet, System.Generics.Collections;
 
 type
   TDSSim = class(TDSServerModule)
@@ -16,7 +16,14 @@ type
     FDTransaction1: TFDTransaction;
     DataTab: TFDTable;
   private
-    { Private-Deklarationen }
+    m_all    : Tlist<Integer>;
+    m_summe  : TList<Integer>;
+    m_brief  : TList<Integer>;
+    m_doppelt: TList<Integer>;
+
+    procedure fillAll;
+    procedure fillSumme;
+    procedure fillBrief;
   public
     function getBasisData : TJSONObject;
     function setSimData( data : TJSONObject ) : TJSONObject;
@@ -37,6 +44,21 @@ uses m_db, u_json, u_simdata;
 function TDSSim.Auswertung(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
+end;
+
+procedure TDSSim.fillAll;
+begin
+
+end;
+
+procedure TDSSim.fillBrief;
+begin
+
+end;
+
+procedure TDSSim.fillSumme;
+begin
+
 end;
 
 function TDSSim.getBasisData: TJSONObject;
@@ -60,7 +82,6 @@ begin
     simdata.Invalid_Brief   := DataQry.FieldByName('WD_INVALID_BRIEF').AsInteger;
     simdata.Rem             := DataQry.FieldByName('WD_REM').AsString;
     simdata.Wahlzettel      := DataQry.FieldByName('WD_ZETTEL').AsInteger;
-
   end;
   DataQry.Close;
 
@@ -88,17 +109,20 @@ begin
     DataTab.Edit;
 
   DataTab.FieldByName('WD_BRIEF').AsInteger         := simdata.BriefWaehler;
-  DataTab.FieldByName('WD_WAEHLER').AsInteger       := simdata.Waehler;
-  DataTab.FieldByName('WD_DOPPELT').AsInteger       := simdata.Doppelt;
   DataTab.FieldByName('WD_SUMME').AsInteger         := simdata.Summe;
+  DataTab.FieldByName('WD_DOPPELT').AsInteger       := simdata.Doppelt;
+
+  DataTab.FieldByName('WD_WAEHLER').AsInteger       := simdata.Waehler;
   DataTab.FieldByName('WD_KORREKTUR').AsInteger     := simdata.Korrektur;
   DataTab.FieldByName('WD_ZETTEL').AsInteger        := simdata.Wahlzettel;
   DataTab.FieldByName('WD_INVALID_URNE').AsInteger  := simdata.Invalid_Urne;
   DataTab.FieldByName('WD_INVALID_BRIEF').AsInteger := simdata.Invalid_Brief;
   DataTab.FieldByName('WD_REM').AsString            := simdata.Rem;
-  DataTab.FieldByName('WD_ZETTEL').AsInteger        := simdata.Summe - simdata.Korrektur - simdata.Invalid_Brief;
+  DataTab.FieldByName('WD_ZETTEL').AsInteger        := simdata.Summe;
 
   DataTab.Post;
+
+
 
   JResult( Result, true, 'Die Simulationsdaten wurden erfolgreich gespeichert.');
 

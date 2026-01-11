@@ -73,7 +73,8 @@ uses
   m_auswertung in 'm_auswertung.pas' {Auswertungsmod: TDSServerModule},
   m_VorschlaglistenImport in 'm_VorschlaglistenImport.pas' {DSVorschlagListenImport: TDSServerModule},
   m_sim in 'm_sim.pas' {DSSim: TDSServerModule},
-  u_simdata in '..\lib\u_simdata.pas';
+  u_simdata in '..\lib\u_simdata.pas',
+  m_rolle in 'm_rolle.pas' {RollenMod: TDataModule};
 
 {$R *.RES}
 

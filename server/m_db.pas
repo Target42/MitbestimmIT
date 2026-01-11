@@ -114,15 +114,27 @@ end;
 function TDBMod.AddRole(newRole, oldRoles: string): string;
 var
   list : TStringList;
+  newList : TStringList;
+  i : integeR;
+  r : string;
 begin
   list := TStringList.Create;
   list.DelimitedText := oldRoles;
 
-  if list.IndexOf(newRole) = -1 then
-    list.Add(newRole);
+  newList := TStringList.Create;
+  newList.DelimitedText := newRole;
+
+  for i := 0 to pred(newList.Count) do
+  begin
+    r := trim(newList[i]);
+
+    if (r <> '' ) and ( list.IndexOf(r) = -1 ) then
+      list.Add(r);
+  end;
 
   Result := list.DelimitedText;
 
+  newList.Free;
   list.Free;
 end;
 

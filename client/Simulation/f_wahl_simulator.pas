@@ -23,12 +23,6 @@ type
     Label6: TLabel;
     Label7: TLabel;
     ScrollBar3: TScrollBar;
-    Label8: TLabel;
-    Label9: TLabel;
-    ScrollBar4: TScrollBar;
-    Label10: TLabel;
-    Label11: TLabel;
-    ScrollBar5: TScrollBar;
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     Label12: TLabel;
@@ -40,12 +34,12 @@ type
     Label15: TLabel;
     MinderheitnSitze: TLabel;
     BitBtn1: TBitBtn;
+    Label8: TLabel;
+    Label9: TLabel;
     procedure ScrollBar1Change(Sender: TObject);
     procedure ScrollBar2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ScrollBar3Change(Sender: TObject);
-    procedure ScrollBar4Change(Sender: TObject);
-    procedure ScrollBar5Change(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
   private
@@ -131,8 +125,6 @@ begin
 
   setBar(ScrollBar2, pers);
   setBar(ScrollBar3, pers);
-  setBar(ScrollBar4, pers);
-  setBar(ScrollBar5, pers);
 end;
 
 procedure TWahlsimulatorForm.save;
@@ -156,7 +148,6 @@ begin
     ScrollBar1.Position,
     m_simdata.Summe
   ]);
-  setBar(ScrollBar4, m_simdata.Summe);
   rechne;
 end;
 
@@ -166,29 +157,12 @@ begin
   labBrief.Caption := Format('%d (%d %%)', [m_simdata.BriefWaehler, perc(Sender as TScrollBar)]);
 
   setBar(ScrollBar3, m_simdata.BriefWaehler);
-  setBar(ScrollBar5, ScrollBar2.Position);
 end;
 
 procedure TWahlsimulatorForm.ScrollBar3Change(Sender: TObject);
 begin
   m_simdata.Doppelt := ScrollBar3.Position;
   Label7.Caption := Format('%d (%d %%)', [m_simdata.Doppelt, perc(Sender as TScrollBar)]);
-end;
-
-procedure TWahlsimulatorForm.ScrollBar4Change(Sender: TObject);
-begin
-  m_simdata.Invalid_Urne := ScrollBar4.Position;
-  Label9.Caption := Format('%d (%d %%)', [m_simdata.Invalid_Urne, perc(Sender as TScrollBar)]);
-end;
-
-procedure TWahlsimulatorForm.ScrollBar5Change(Sender: TObject);
-begin
-  m_simdata.Invalid_Brief := ScrollBar5.Position;
-  Label11.Caption := Format('%d (%d %%)',
-  [
-    m_simdata.Invalid_Brief,
-    perc(Sender as TScrollBar)
-  ]);
 end;
 
 procedure TWahlsimulatorForm.setBar(sc: TScrollBar; max: integer);
@@ -206,7 +180,8 @@ procedure TWahlsimulatorForm.UpdateData;
 var
   client : TStadModClient;
   data   : TJSONObject;
-  obj    :TJSONObject;
+  obj    : TJSONObject;
+  arr    : TJSONArray;
 begin
   client := TStadModClient.Create(GM.SQLConnection1.DBXConnection);
   data   := client.getStats;
@@ -220,10 +195,34 @@ begin
       m_female := JInt(obj, 'w');
       m_male   := JInt(obj, 'm');
 
-      Gremium.Caption := IntToStr(JInt( obj, 'gremium' ));
-      Freistellungen.Caption := IntToStr(JInt( obj, 'freistellungen' ));
-      MinderheitnSitze.Caption := IntToStr(JInt( obj, 'minmin' ));
-      Minderheit.Caption := JString( obj, 'minderheit');
+      Gremium.Caption           := IntToStr(JInt( obj, 'gremium' ));
+      Freistellungen.Caption    := IntToStr(JInt( obj, 'freistellungen' ));
+      MinderheitnSitze.Caption  := IntToStr(JInt( obj, 'minmin' ));
+      Minderheit.Caption        := JString( obj, 'minderheit');
+
+      arr := JArray( data, 'listen');
+
+      if not Assigned(arr) or (arr.Count = 0)then
+      begin
+        Label8.Font.Color := clRed;
+        TabSheet1.Enabled := false;
+      end
+      else
+      begin
+        Label8.Caption := format('Vorschlagslisten : %d', [arr.Count]);
+      end;
+
+      arr := JArray( data, 'lokale');
+      if not Assigned(arr) or (arr.Count = 0)then
+      begin
+        Label9.Font.Color := clRed;
+        TabSheet1.Enabled := false;
+      end
+      else
+      begin
+        Label9.Caption := format('Wahllokale : %d', [arr.Count]);
+      end;
+
     end;
   end;
   client.Free;
@@ -251,12 +250,6 @@ begin
 
     ScrollBar3.Position := m_simdata.Doppelt;
     ScrollBar3Change(ScrollBar3);
-
-    ScrollBar4.Position := m_simdata.Invalid_Urne;
-    ScrollBar4Change(ScrollBar4);
-
-    ScrollBar5.Position := m_simdata.Invalid_Brief;
-    ScrollBar5Change(ScrollBar5);
 
     TabSheet1.Enabled := m_simdata.IsEmpty;
   end;

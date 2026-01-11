@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     05.01.2026  20:01                          */
+/*   Created on:     11.01.2026  13:47                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -106,6 +106,7 @@ create table MA_WA
 (
     WA_ID                           INTEGER                not null,
     MA_ID                           INTEGER                not null,
+    MW_ROLLE                        VARCHAR(100)                   ,
     constraint PK_MA_WA primary key (WA_ID, MA_ID)
 );
 
@@ -280,7 +281,6 @@ create table MA_PWD
 (
     MA_ID                           INTEGER                not null,
     MW_PWD                          VARCHAR(64)                    ,
-    MW_ROLLE                        VARCHAR(100)                   ,
     MW_SECRET                       VARCHAR(32)                    ,
     MW_LOGIN                        VARCHAR(20)                    ,
     MW_MAIL_SEND                    CHAR(1)                        ,
@@ -368,7 +368,7 @@ create view WA_STAMP as
 select WL_WAHL_LOKAL.WL_BAU, WL_WAHL_LOKAL.WL_STOCKWERK, WL_WAHL_LOKAL.WL_RAUM, 
 MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID
 from MA_WL, WL_WAHL_LOKAL
-where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID;
+where MA_WL.WL_ID = WL_WAHL_LOKAL.WL_ID;
 
 alter table WT_WAHL_LISTE
     add constraint FK_REF_225 foreign key  (WA_ID)

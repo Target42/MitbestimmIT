@@ -54,13 +54,18 @@ object WahlMod: TWahlMod
     UpdateOptions.EnableInsert = False
     UpdateOptions.EnableUpdate = False
     SQL.Strings = (
+      'select '
       
-        'select a.wa_id, a.WA_TITLE, a.WA_SIMU, a.WA_ACTIVE, a.WA_TYP, b.' +
-        'MA_ID from WA_WAHL a, MA_WA b'
+        '  a.wa_id, a.WA_TITLE, a.WA_SIMU, a.WA_ACTIVE, a.WA_TYP, b.MA_ID' +
+        ' '
+      'from '
+      '  WA_WAHL a, MA_WA b'
       'where'
       '  a.WA_ID = b.WA_ID'
       'and  '
       '  b.MA_ID = :ma_id'
+      'and'
+      '  b.MW_ROLLE <> '#39#39
       '')
     Left = 328
     Top = 48

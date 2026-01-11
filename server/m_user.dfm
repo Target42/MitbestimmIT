@@ -7,11 +7,15 @@ object UserMod: TUserMod
     Transaction = FDTransaction1
     SQL.Strings = (
       'SELECT  '
-      '    a.*, b.MW_ROLLE, b.MW_LOGIN'
+      '    a.*, c.MW_ROLLE, b.MW_LOGIN'
       'FROM '
-      '    MA_Mitarbeiter a, MA_PWD b'
+      '    MA_Mitarbeiter a, MA_PWD b, ma_wa c'
       'where '
       '  b.MA_ID = a.MA_ID'
+      'and'
+      '  b.MA_ID = c.MA_ID'
+      'and'
+      '  c.WA_ID = :wa_id'
       'and'
       '  b.ma_ID in '
       '('

@@ -38,13 +38,12 @@ type
     WVTabWV_ROLLE: TStringField;
     WVTabWV_CHEF: TStringField;
     PwdTab: TFDTable;
-    PwdTabMA_ID: TIntegerField;
-    PwdTabMW_PWD: TStringField;
-    PwdTabMW_ROLLE: TStringField;
-    PwdTabMW_SECRET: TStringField;
-    PwdTabMW_LOGIN: TStringField;
     AddWAQry: TFDQuery;
     Phasen: TFDQuery;
+    PwdTabMA_ID: TIntegerField;
+    PwdTabMW_PWD: TStringField;
+    PwdTabMW_SECRET: TStringField;
+    PwdTabMW_LOGIN: TStringField;
     procedure DSServerModuleCreate(Sender: TObject);
   private
     function connectDB : boolean;
@@ -152,6 +151,7 @@ var
   begin
     AddWAQry.ParamByName('WA_ID').AsInteger := waid;
     AddWAQry.ParamByName('MA_ID').AsInteger := maid;
+    AddWAQry.ParamByName('MW_ROLLE').AsString := Format('%s,%s,%s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
     AddWAQry.ExecSQL;
 
     WVTab.Append;
@@ -168,7 +168,6 @@ var
     begin
       PwdTab.Append;
       PwdTabMA_ID.AsInteger   := maid;
-      PwdTabMW_ROLLE.AsString := Format('%s %s %s', [ roWahlVorsitz, roWahlVorstand, roPublic]);
       PwdTabMW_SECRET.AsString:= GenerateBase32Secret();
       PwdTabMW_LOGIN.AsString := JString( wv, 'login');
       PwdTabMW_PWD.AsString   := CalcPwdHash(JString( wv, 'pwd'), Glob.ServerSecret);

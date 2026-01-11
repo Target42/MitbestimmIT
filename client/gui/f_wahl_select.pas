@@ -27,6 +27,7 @@ type
     procedure BaseFrame1OKBtnClick(Sender: TObject);
     procedure ClientDataSet1WA_TYPGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     FWAID: integer;
   public
@@ -51,7 +52,8 @@ var
   client : TWahlModClient;
   data   : TJSONObject;
 begin
-  client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
+
+   client:= TWahlModClient.Create(GM.SQLConnection1.DBXConnection);
   if client.setWahl(ClientDataSet1WA_ID.AsInteger) then
   begin
     FWAID := ClientDataSet1WA_ID.AsInteger;
@@ -84,6 +86,12 @@ begin
     0 : Text := 'Normal';
     1 : Text := 'Vereinfacht';
   end;
+end;
+
+procedure TWahlSelectForm.DBGrid1DblClick(Sender: TObject);
+begin
+  if BaseFrame1.OKBtn.Enabled then
+    BaseFrame1.OKBtn.Click;
 end;
 
 class function TWahlSelectForm.execute: boolean;

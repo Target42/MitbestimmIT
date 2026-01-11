@@ -28,6 +28,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure ClientDataSet1WP_ACTIVEGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     procedure change( status : boolean );
   public
@@ -50,7 +51,7 @@ end;
 
 procedure TWahlPhasenSEtForm.BitBtn2Click(Sender: TObject);
 begin
-    change(false);
+  change(false);
 end;
 
 procedure TWahlPhasenSEtForm.change(status: boolean);
@@ -78,6 +79,17 @@ procedure TWahlPhasenSEtForm.ClientDataSet1WP_ACTIVEGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
   GM.FlagText(Sender, Text, DisplayText);
+end;
+
+procedure TWahlPhasenSEtForm.DBGrid1DblClick(Sender: TObject);
+begin
+  if ClientDataSet1.IsEmpty then
+    exit;
+
+  if ClientDataSet1WP_ACTIVE.AsString = 'T' then
+    BitBtn2.Click
+  else
+    BitBtn1.Click;
 end;
 
 class procedure TWahlPhasenSEtForm.execute;

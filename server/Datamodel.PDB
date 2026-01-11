@@ -161,7 +161,7 @@ commit;
 
 
 1753814221
-1767632882
+1767815832
 0
 0
 4
@@ -6373,7 +6373,7 @@ WA_STAMP
 select WL_WAHL_LOKAL.WL_BAU, WL_WAHL_LOKAL.WL_STOCKWERK, WL_WAHL_LOKAL.WL_RAUM, \
 MA_WL.WL_TIMESTAMP, MA_WL.WA_ID, MA_WL.MA_ID\
 from MA_WL, WL_WAHL_LOKAL\
-where WL_WAHL_LOKAL.WL_ID = WL_WAHL_LOKAL.WL_ID
+where MA_WL.WL_ID = WL_WAHL_LOKAL.WL_ID
 0
 1
 0
@@ -7898,10 +7898,10 @@ OID     N8
 0
 0
 0
-5155
--28976
-17904
--22527
+5230
+-33326
+17979
+-26877
 2
 1
 0
@@ -8058,9 +8058,9 @@ OID     N8
 0
 0
 0
--116181
+-116106
 22794
--102157
+-102082
 30218
 2
 1
@@ -8314,9 +8314,9 @@ OID     N8
 0
 0
 0
-51319
-18079
-73768
+51467
+18078
+73916
 27952
 2
 4
@@ -8346,10 +8346,10 @@ OID     N8
 0
 0
 0
--20459
--21504
--7485
--10180
+-20609
+-22554
+-7635
+-11230
 2
 1
 0
@@ -8410,10 +8410,10 @@ OID     N8
 0
 0
 0
--19549
--27761
--10025
--23262
+-19924
+-32261
+-10400
+-27762
 2
 1
 0
@@ -8681,7 +8681,7 @@ ca32ffff8aebffffca32ffffeb5e0000
 0
 0
 2
-5faafeffb1660000ad57feffb1660000
+5faafeffb1660000f857feffb1660000
 2
 
 
@@ -9097,7 +9097,7 @@ f6260000d911000041eeffffd911000041eefffff64b0000
 0
 0
 3
-f24affff37e6fffff24affffc6c8ffffcfc1ffffc6c8ffff
+f24affff37e6fffff24affffacc4ffff39c1ffffacc4ffff
 2
 
 
@@ -9129,7 +9129,7 @@ f24affff37e6fffff24affffc6c8ffffcfc1ffffc6c8ffff
 0
 0
 2
-ebe0ffff1cc8ffff5c0900001cc8ffff
+55e0ffff98c4ffff1109000098c4ffff
 2
 
 
@@ -9193,7 +9193,7 @@ b140ffff2fdfffff7deafeff2fdfffff7deafeff29c7ffff2d97feff29c7ffff
 0
 0
 3
-ca27ffff65e2ffffca27ffff3a9affffecbbffff3a9affff
+ca27ffff65e2ffffca27ffffa688ffff75baffffa688ffff
 2
 
 
@@ -9225,7 +9225,7 @@ ca27ffff65e2ffffca27ffff3a9affffecbbffff3a9affff
 0
 0
 2
-63caffff9a9cffff691d00009a9cffff
+ecc8ffff518bffffb41d0000518bffff
 2
 
 
@@ -9257,7 +9257,7 @@ ca27ffff65e2ffffca27ffff3a9affffecbbffff3a9affff
 0
 0
 3
-818d00008bcbffff818d0000599cfffffc3d0000599cffff
+818d00008bcbffff818d00005b8bffff473e00005b8bffff
 2
 
 

@@ -8,6 +8,7 @@ const
   roWahlVorstand = 'vorstand';
   roWahlHelfer   = 'helfer';
   roPublic       = 'all';
+  roWahlSel      = 'wahlsel';
 
 
 function getRollen : string;

@@ -20,7 +20,6 @@ object WahlsimulatorForm: TWahlsimulatorForm
     Width = 653
     Height = 19
     Panels = <>
-    ExplicitTop = 409
   end
   object GroupBox1: TGroupBox
     Left = 0
@@ -66,7 +65,7 @@ object WahlsimulatorForm: TWahlsimulatorForm
       Caption = '0'
     end
     object Label13: TLabel
-      Left = 135
+      Left = 140
       Top = 45
       Width = 83
       Height = 15
@@ -107,6 +106,20 @@ object WahlsimulatorForm: TWahlsimulatorForm
       Height = 15
       Caption = '0'
     end
+    object Label8: TLabel
+      Left = 24
+      Top = 80
+      Width = 99
+      Height = 15
+      Caption = 'Vorschlagslisten : 0'
+    end
+    object Label9: TLabel
+      Left = 168
+      Top = 80
+      Width = 73
+      Height = 15
+      Caption = 'Wahllokale : 0'
+    end
   end
   object PageControl1: TPageControl
     Left = 0
@@ -116,26 +129,11 @@ object WahlsimulatorForm: TWahlsimulatorForm
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
-    ExplicitHeight = 300
     object TabSheet1: TTabSheet
       Caption = 'Wahldaten'
       object labBrief: TLabel
         Left = 391
         Top = 24
-        Width = 6
-        Height = 15
-        Caption = '0'
-      end
-      object Label10: TLabel
-        Left = 336
-        Top = 144
-        Width = 157
-        Height = 15
-        Caption = 'Ung'#252'ltige Briefwahlstimmen :'
-      end
-      object Label11: TLabel
-        Left = 499
-        Top = 144
         Width = 6
         Height = 15
         Caption = '0'
@@ -164,20 +162,6 @@ object WahlsimulatorForm: TWahlsimulatorForm
       object Label7: TLabel
         Left = 143
         Top = 80
-        Width = 6
-        Height = 15
-        Caption = '0'
-      end
-      object Label8: TLabel
-        Left = 32
-        Top = 144
-        Width = 143
-        Height = 15
-        Caption = 'Ung'#252'ltige Urnenstimmen : '
-      end
-      object Label9: TLabel
-        Left = 181
-        Top = 144
         Width = 6
         Height = 15
         Caption = '0'
@@ -216,24 +200,6 @@ object WahlsimulatorForm: TWahlsimulatorForm
         TabOrder = 2
         OnChange = ScrollBar3Change
       end
-      object ScrollBar4: TScrollBar
-        Left = 32
-        Top = 165
-        Width = 265
-        Height = 17
-        PageSize = 0
-        TabOrder = 3
-        OnChange = ScrollBar4Change
-      end
-      object ScrollBar5: TScrollBar
-        Left = 336
-        Top = 165
-        Width = 265
-        Height = 17
-        PageSize = 0
-        TabOrder = 4
-        OnChange = ScrollBar5Change
-      end
       object BitBtn1: TBitBtn
         Left = 32
         Top = 224
@@ -242,7 +208,7 @@ object WahlsimulatorForm: TWahlsimulatorForm
         Caption = 'Anlegen'
         ImageIndex = 6
         Images = ResMod.PngImageList1
-        TabOrder = 5
+        TabOrder = 3
         OnClick = BitBtn1Click
       end
     end

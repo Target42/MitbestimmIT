@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Datasnap.Provider, u_rollen, u_imageinfo;
+  FireDAC.Comp.Client, Datasnap.Provider, u_rollen, u_imageinfo, CodeSiteLogging;
 
 type
   [TRoleAuth(roWahlVorsitz)]
@@ -85,7 +85,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  m_db, DSSession, u_json, m_log, m_phase, u_BRWahlFristen;
+  m_db, DSSession, u_json, m_log, m_phase, u_BRWahlFristen, m_rolle;
 
 {$R *.dfm}
 
@@ -201,7 +201,12 @@ begin
   UpdateStatusQry.ExecSQL;
 
   if UpdateStatusQry.RowsAffected = 1 then
-    JResult( result, true, 'Die Phase wurde aktiviert.')
+  begin
+    if status  then
+      JResult( result, true, 'Die Phase wurde aktiviert.')
+    else
+      JResult( result, true, 'Die Phase wurde deaktiviert.')
+  end
   else
     JResult( result, false, 'Die Phase wurde nicht gefunden.');
 
@@ -257,15 +262,21 @@ var
   session : TDSSession;
   data    : TJSONObject;
 begin
+  CodeSite.EnterMethod(self, 'setWahl');
+  CodeSite.Send('wahl : ', id);
+
   result := false;
   session := TDSSessionManager.GetThreadSession;
 
-  CheckMAIDQry.ParamByName('MA_ID').AsInteger := DBMod.UserID;;
+  CheckMAIDQry.ParamByName('MA_ID').AsInteger := DBMod.UserID;
   CheckMAIDQry.ParamByName('WA_ID').AsInteger := id;
   CheckMAIDQry.Open;
   if not CheckMAIDQry.IsEmpty then
   begin
     session.PutData('WahlID', CheckMAIDQry.FieldByName('WA_ID').AsString);
+
+    session.UserRoles.DelimitedText := TRollenMod.getRolls(id, DBMod.UserID );
+    CodeSite.Send('rolls: %s', session.UserRoles.DelimitedText );
 
     data := TJSONObject.Create;
     JReplace( data, 'user',     session.GetData('UserName'));
@@ -283,6 +294,8 @@ begin
     SimQry.Close;
 
     result := true;
+    CodeSite.Send('Result', Result);
+    CodeSite.ExitMethod(self, 'setWahl');
   end;
   CheckMAIDQry.Close;
 end;

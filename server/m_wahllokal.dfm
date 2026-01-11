@@ -19,6 +19,8 @@ object WahlLokalMod: TWahlLokalMod
       'and'
       '  a.wa_id = b.wa_id'
       'and'
+      '  a.WL_ID = b.WL_ID  '
+      'and'
       '  b.ma_id = :ma_id'
       '')
     Left = 64

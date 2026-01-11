@@ -10,7 +10,7 @@ object DBMod: TDBMod
       'DriverID=FB')
     LoginPrompt = False
     Transaction = FDTransaction1
-    Left = 56
+    Left = 64
     Top = 32
   end
   object FDTransaction1: TFDTransaction

@@ -57,7 +57,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, u_wahllokal, system.Variants, m_log, u_pwd, u_totp, u_glob;
+  u_json, u_wahllokal, system.Variants, m_log, u_pwd, u_totp, u_glob, m_rolle;
 
 
 {$R *.dfm}
@@ -138,8 +138,10 @@ begin
     MAPwdTab.FieldByName('MW_SECRET').AsString := GenerateBase32Secret;
   end;
 
-  MAPwdTab.FieldByName('MW_ROLLE').AsString := DBMod.AddRole(roWahlHelfer, MAPwdTab.FieldByName('MW_ROLLE').AsString );
+
   MAPwdTab.Post;
+
+  TRollenMod.setRolls(DBMod.WahlID, id, roWahlHelfer+','+roPublic );
 
   MAPwdTab.Close;
 

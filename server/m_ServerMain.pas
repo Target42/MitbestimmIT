@@ -194,6 +194,15 @@ begin
       end;
     end;
   end;
+  if not valid then
+  begin
+    CodeSite.SendError('User: %s', [EventObject.UserName]);
+    CodeSite.SendError('Method: %s', [EventObject.MethodAlias]);
+    if Assigned(EventObject.AuthorizedRoles) then
+      CodeSite.SendError('Authorized: %s', [EventObject.AuthorizedRoles.DelimitedText]);
+    if Assigned(EventObject.UserRoles) then
+      CodeSite.SendError('User Roles: %s', [EventObject.UserRoles.DelimitedText]);
+  end;
 end;
 
 procedure TMitbestimmITSrv.DSBriefwahlGetClass(DSServerClass: TDSServerClass;
@@ -459,7 +468,7 @@ begin
     if Result then
     begin
       session.PutData('UserID', UserPWDQry.FieldByName('MA_ID').AsString);
-      UserRoles.DelimitedText := UserPWDQry.FieldByName('MW_ROLLE').AsString;
+      UserRoles.DelimitedText := roPublic;
 
       GetUserQry.ParamByName('MA_ID').AsInteger := UserPWDQry.FieldByName('MA_ID').AsInteger;
       GetUserQry.Open;
