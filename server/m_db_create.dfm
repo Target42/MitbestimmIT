@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     11.01.2026  13:47                          ' +
+            '/*   Created on:     14.01.2026  19:29                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -746,32 +746,6 @@ object CreateDBMode: TCreateDBMode
             '/* ============================================================ ' +
             '*/'
           
-            '/*   Table: MA_WA_WL                                            ' +
-            '*/'
-          
-            '/* ============================================================ ' +
-            '*/'
-          'create table MA_WA_WL'
-          '('
-          
-            '    WA_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    WL_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    MA_ID                           INTEGER                not n' +
-            'ull,'
-          
-            '    WM_STAMP                        TIMESTAMP                   ' +
-            '   ,'
-          '    constraint PK_MA_WA_WL primary key (WA_ID, WL_ID, MA_ID)'
-          ');'
-          ''
-          
-            '/* ============================================================ ' +
-            '*/'
-          
             '/*   Table: WP_WAHLPHASE                                        ' +
             '*/'
           
@@ -919,14 +893,6 @@ object CreateDBMode: TCreateDBMode
           'alter table MA_WL'
           '    add constraint FK_REF_1724 foreign key  (WA_ID, WL_ID)'
           '       references WL_WAHL_LOKAL;'
-          ''
-          'alter table MA_WA_WL'
-          '    add constraint FK_REF_2946 foreign key  (WA_ID, WL_ID)'
-          '       references WL_WAHL_LOKAL;'
-          ''
-          'alter table MA_WA_WL'
-          '    add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)'
-          '       references MA_WA;'
           ''
           'alter table WP_WAHLPHASE'
           '    add constraint FK_REF_3742 foreign key  (WA_ID)'
@@ -1085,7 +1051,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     11.01.2026  13:47                          ' +
+            '/*   Created on:     14.01.2026  19:29                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -1163,16 +1129,6 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           '    new.ma_id = gen_id(gen_ma_id, 1);'
-          ''
-          'end;/'
-          'set term ;/'
-          ''
-          '/*  Insert trigger "ti_wa_wa_wl" for table "MA_WA_WL"  */'
-          'set term /;'
-          'create trigger ti_wa_wa_wl for MA_WA_WL'
-          'before insert as'
-          'begin'
-          '    new.wm_stamp = CURRENT_TIMESTAMP;'
           ''
           'end;/'
           'set term ;/'

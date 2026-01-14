@@ -138,7 +138,7 @@ object WahlForm: TWahlForm
     ServerClassName = 'TWahlLokalMod'
     SQLConnection = GM.SQLConnection1
     Left = 56
-    Top = 40
+    Top = 48
   end
   object MaListQry: TClientDataSet
     Aggregates = <>

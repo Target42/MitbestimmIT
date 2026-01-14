@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     11.01.2026  13:47                          */
+/*   Created on:     14.01.2026  19:29                          */
 /* ============================================================ */
 
 /*  Insert trigger "ti_ad_admin" for table "AD_ADMIN"  */
@@ -70,16 +70,6 @@ create trigger ti_tab_1 for MA_MITARBEITER
 before insert as
 begin
     new.ma_id = gen_id(gen_ma_id, 1);
-
-end;/
-set term ;/
-
-/*  Insert trigger "ti_wa_wa_wl" for table "MA_WA_WL"  */
-set term /;
-create trigger ti_wa_wa_wl for MA_WA_WL
-before insert as
-begin
-    new.wm_stamp = CURRENT_TIMESTAMP;
 
 end;/
 set term ;/

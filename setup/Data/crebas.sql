@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     11.01.2026  13:47                          */
+/*   Created on:     14.01.2026  19:29                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -329,18 +329,6 @@ create table MA_WL
 );
 
 /* ============================================================ */
-/*   Table: MA_WA_WL                                            */
-/* ============================================================ */
-create table MA_WA_WL
-(
-    WA_ID                           INTEGER                not null,
-    WL_ID                           INTEGER                not null,
-    MA_ID                           INTEGER                not null,
-    WM_STAMP                        TIMESTAMP                      ,
-    constraint PK_MA_WA_WL primary key (WA_ID, WL_ID, MA_ID)
-);
-
-/* ============================================================ */
 /*   Table: WP_WAHLPHASE                                        */
 /* ============================================================ */
 create table WP_WAHLPHASE
@@ -461,14 +449,6 @@ alter table MA_WL
 alter table MA_WL
     add constraint FK_REF_1724 foreign key  (WA_ID, WL_ID)
        references WL_WAHL_LOKAL;
-
-alter table MA_WA_WL
-    add constraint FK_REF_2946 foreign key  (WA_ID, WL_ID)
-       references WL_WAHL_LOKAL;
-
-alter table MA_WA_WL
-    add constraint FK_REF_2953 foreign key  (WA_ID, MA_ID)
-       references MA_WA;
 
 alter table WP_WAHLPHASE
     add constraint FK_REF_3742 foreign key  (WA_ID)
