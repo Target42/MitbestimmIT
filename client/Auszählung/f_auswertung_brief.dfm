@@ -120,7 +120,9 @@ object AuswertungBriefForm: TAuswertungBriefForm
     Height = 190
     Align = alBottom
     Caption = 'Aktionen'
+    Enabled = False
     TabOrder = 2
+    ExplicitTop = 364
     object Splitter1: TSplitter
       Left = 138
       Top = 17
@@ -144,14 +146,15 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Caption = 'Begr'#252'ndung'
       Columns = 2
       Items.Strings = (
-        'Anderer Grund'
+        'Alles OK'
         'Stimmzettel fehlt'
         'Stimmzettel nicht im Umschlag'
         'Stimmzettelumschlaf offen'
         'Mehre Stimmzettelumschl'#228'ge'
         'Wahlschein fehlt'
         'Wahlschein nicht unterschrieben'
-        'Wahlschein manipuliert')
+        'Wahlschein manipuliert'
+        'Anderer Grund')
       TabOrder = 0
     end
     object RadioGroup2: TRadioGroup
@@ -167,6 +170,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
         'Unvollst'#228'ndig'
         'Dopeltw'#228'hler')
       TabOrder = 1
+      OnClick = RadioGroup2Click
     end
     object GroupBox3: TGroupBox
       Left = 607
@@ -205,6 +209,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Height = 25
       Caption = 'Bearbeiten'
       TabOrder = 0
+      OnClick = BitBtn1Click
     end
     object BitBtn2: TBitBtn
       Left = 832
@@ -213,6 +218,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Height = 25
       Caption = 'Abbrechen'
       TabOrder = 1
+      OnClick = BitBtn2Click
     end
     object BitBtn3: TBitBtn
       Left = 992
@@ -221,6 +227,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Height = 25
       Caption = 'Speichern'
       TabOrder = 2
+      OnClick = BitBtn3Click
     end
   end
   object DSProviderConnection1: TDSProviderConnection

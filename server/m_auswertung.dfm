@@ -179,16 +179,16 @@ object Auswertungsmod: TAuswertungsmod
   object SetBriefStreamQry: TFDQuery
     Connection = DBMod.FDConnection1
     SQL.Strings = (
-      'UPDATE BW_BRIEF_WAHL a'
+      'UPDATE BW_BRIEF_WAHL'
       'SET '
-      '    a.BW_ERROR = :BW_ERROR '
-      '    a.BW_DATA = :BW_DATA'
+      '    BW_ERROR = :BW_ERROR, '
+      '    BW_DATA = :BW_DATA'
       'WHERE'
-      '    a.BW_ID = :bw_id '
+      '    BW_ID = :bw_id '
       'AND '
-      '    a.WA_ID = :wa_id '
+      '    WA_ID = :wa_id '
       'AND '
-      '    a.MA_ID = :ma_id'
+      '    MA_ID = :ma_id'
       '')
     Left = 448
     Top = 128
@@ -201,8 +201,9 @@ object Auswertungsmod: TAuswertungsmod
       end
       item
         Name = 'BW_DATA'
-        DataType = ftAutoInc
+        DataType = ftStream
         ParamType = ptInput
+        StreamMode = smOpenWrite
         Value = Null
       end
       item

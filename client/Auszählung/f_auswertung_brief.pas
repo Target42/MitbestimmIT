@@ -64,6 +64,10 @@ type
       DisplayText: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure BriefTabAfterScroll(DataSet: TDataSet);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure RadioGroup2Click(Sender: TObject);
   private
     procedure UpdateText;
     procedure SaveText;
@@ -78,13 +82,34 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, u_stub, System.JSON, u_json;
+uses m_glob, u_stub, System.JSON, u_json, u_helper;
+
+procedure TAuswertungBriefForm.BitBtn1Click(Sender: TObject);
+begin
+  if BriefTab.IsEmpty then
+    exit;
+  GroupBox2.Enabled := true;
+
+end;
+
+procedure TAuswertungBriefForm.BitBtn2Click(Sender: TObject);
+begin
+  BriefTabAfterScroll( BriefTab );
+  GroupBox2.Enabled := false;
+end;
+
+procedure TAuswertungBriefForm.BitBtn3Click(Sender: TObject);
+begin
+  SaveText;
+  GroupBox2.Enabled := false;
+end;
 
 procedure TAuswertungBriefForm.BriefTabAfterScroll(DataSet: TDataSet);
 var
   st : string;
   c  : char;
 begin
+  Memo1.Lines.Clear;
   if BriefTab.IsEmpty then
     exit;
 
@@ -147,9 +172,72 @@ begin
   BriefTab.First;
 end;
 
-procedure TAuswertungBriefForm.SaveText;
+procedure TAuswertungBriefForm.RadioGroup2Click(Sender: TObject);
 begin
+  if RadioGroup2.ItemIndex = 0 then
+    RadioGroup1.ItemIndex := 0
+  else
+    RadioGroup1.ItemIndex := 1;
+end;
 
+procedure TAuswertungBriefForm.SaveText;
+var
+  client : TAuswertungsmodClient;
+  data   : TJSONObject;
+  res    : TJSONObject;
+  s      : string;
+begin
+  client := TAuswertungsmodClient.Create(GM.SQLConnection1.DBXConnection);
+
+  data := TJSONObject.Create;
+
+  JReplace( data, 'bw_id', BriefTabBW_ID.AsInteger);
+  JReplace( data, 'ma_id', BriefTabMA_ID.AsInteger);
+
+  JReplace( data, 'text', Memo1.Lines.Text);
+
+
+  if BriefTabBW_ERROR.AsString <> 'D' then
+  begin
+    case RadioGroup2.ItemIndex of
+      0 : JReplace( data, 'status', 'G');
+      1 : JReplace( data, 'status', 'U');
+      2 : JReplace( data, 'status', 'F');
+      3 : JReplace( data, 'status', 'D')
+      else
+        JReplace( data, 'status', 'F');
+    end;
+  end
+  else
+    JReplace( data, 'status', 'D');
+
+  if RadioGroup2.ItemIndex = -1 then
+    RadioGroup2.ItemIndex := 0;
+
+  JReplace( data, 'grund_id', RadioGroup1.ItemIndex);
+  JReplace( data, 'grund', RadioGroup1.Items[RadioGroup1.ItemIndex]);
+
+  res := client.saveBriefText(data);
+  ShowResult(res);
+
+  if JBool( res, 'result') then
+  begin
+
+    case RadioGroup2.ItemIndex of
+      0 : s := 'G';
+      1 : s := 'U';
+      2 : s := 'F';
+      3 : s := 'D'
+      else
+        s := 'F';
+    end;
+
+    BriefTab.Edit;
+    BriefTabBW_ERROR.AsString := s;
+    BriefTab.Post;
+  end;
+
+  client.Free;
 end;
 
 procedure TAuswertungBriefForm.UpdateText;

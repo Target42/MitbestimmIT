@@ -158,7 +158,6 @@ begin
       JResult( result, false, e.ToString)
     end;
   end;
-  mem.Free;
 
 end;
 
