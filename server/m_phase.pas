@@ -51,17 +51,10 @@ end;
 class function TPhasenMod.phaseActive(phase: string): Boolean;
 var
   PhasenMod: TPhasenMod;
-  session : TDSSession;
 begin
-  session := TDSSessionManager.GetThreadSession;
-
-  result := session.HasData('Simulation');
-  if not Result  then
-  begin
-    Application.CreateForm(TPhasenMod, PhasenMod);
-    Result := PhasenMod.checkPhase(phase);
-    PhasenMod.Free;
-  end;
+  Application.CreateForm(TPhasenMod, PhasenMod);
+  Result := PhasenMod.checkPhase(phase);
+  PhasenMod.Free;
 end;
 
 end.

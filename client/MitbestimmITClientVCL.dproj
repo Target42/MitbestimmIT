@@ -292,6 +292,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\lib\u_simdata.pas"/>
+        <DCCReference Include="Auszählung\f_auswertung_brief.pas">
+            <Form>AuswertungBriefForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="..\LICENSE"/>
         <None Include="..\README.md"/>
         <RcItem Include="..\fonts\static\Montserrat-ExtraBold.ttf">

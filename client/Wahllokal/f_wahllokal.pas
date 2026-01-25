@@ -56,7 +56,7 @@ var
 implementation
 
 uses
-  System.JSON, system.UITypes, f_helfer_wechsel;
+  System.JSON, system.UITypes, f_helfer_wechsel, u_BRWahlFristen;
 
 {$R *.dfm}
 
@@ -136,6 +136,9 @@ begin
   UpdateList;
 //  MAList.SaveToFile('data.xml', sfXML);
   updateHelfer;
+
+  BitBtn1.Enabled := GM.isPhaseActive(BBW);
+  BitBtn2.Enabled := BitBtn1.Enabled;
 end;
 
 procedure TWahlForm.FormDestroy(Sender: TObject);

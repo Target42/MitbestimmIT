@@ -16,7 +16,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     14.01.2026  19:29                          ' +
+            '/*   Created on:     25.01.2026  10:17                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -501,6 +501,9 @@ object CreateDBMode: TCreateDBMode
           '        default '#39'F'#39','
           
             '    BW_DATA                         BLOB                        ' +
+            '   ,'
+          
+            '    BW_CHG                          TIMESTAMP                   ' +
             '   ,'
           
             '    constraint PK_BW_BRIEF_WAHL primary key (BW_ID, WA_ID, MA_ID' +
@@ -1051,7 +1054,7 @@ object CreateDBMode: TCreateDBMode
             '/*   DBMS name:      InterBase                                  ' +
             '*/'
           
-            '/*   Created on:     14.01.2026  19:29                          ' +
+            '/*   Created on:     25.01.2026  10:19                          ' +
             '*/'
           
             '/* ============================================================ ' +
@@ -1098,6 +1101,18 @@ object CreateDBMode: TCreateDBMode
           'before insert as'
           'begin'
           '    new.bw_id = gen_id(gen_bw_id, 1);'
+          '     NEW.BW_CHG = CURRENT_TIMESTAMP;'
+          'end;/'
+          'set term ;/'
+          ''
+          
+            '/*  Insert trigger "tu_bw_brief_wahl" for table "BW_BRIEF_WAHL" ' +
+            ' */'
+          'set term /;'
+          'create trigger tu_bw_brief_wahl for BW_BRIEF_WAHL'
+          'before UPDATE as'
+          'begin'
+          '  NEW.BW_CHG = CURRENT_TIMESTAMP;'
           'end;/'
           'set term ;/'
           ''

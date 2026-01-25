@@ -1,7 +1,7 @@
 /* ============================================================ */
 /*   Database name:  MODEL_4                                    */
 /*   DBMS name:      InterBase                                  */
-/*   Created on:     14.01.2026  19:29                          */
+/*   Created on:     25.01.2026  10:17                          */
 /* ============================================================ */
 
 create generator gen_ad_id;
@@ -220,6 +220,7 @@ create table BW_BRIEF_WAHL
     BW_ERROR                        CHAR                           
         default 'F',
     BW_DATA                         BLOB                           ,
+    BW_CHG                          TIMESTAMP                      ,
     constraint PK_BW_BRIEF_WAHL primary key (BW_ID, WA_ID, MA_ID)
 );
 

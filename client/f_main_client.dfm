@@ -117,7 +117,6 @@ object MainClientForm: TMainClientForm
       end
       inherited GroupBox2: TGroupBox
         Width = 349
-        ExplicitTop = 180
         ExplicitWidth = 349
         inherited Label1: TLabel
           StyleElements = [seFont, seClient, seBorder]
@@ -288,6 +287,12 @@ object MainClientForm: TMainClientForm
     end
     object Auszhlung1: TMenuItem
       Caption = 'Ausz'#228'hlung'
+      object Starten1: TMenuItem
+        Action = ac_aus_start
+      end
+      object Briefwahlunterlagen1: TMenuItem
+        Action = ac_aus_brief
+      end
     end
     object Admin1: TMenuItem
       Caption = 'Admin'
@@ -413,6 +418,11 @@ object MainClientForm: TMainClientForm
       Caption = 'Wahlsimulator'
       Visible = False
       OnExecute = ac_ad_simulatorExecute
+    end
+    object ac_aus_brief: TAction
+      Category = 'Ausz'#228'hlung'
+      Caption = 'Briefwahlunterlagen'
+      OnExecute = ac_aus_briefExecute
     end
   end
   object Timer1: TTimer

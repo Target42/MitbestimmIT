@@ -107,7 +107,6 @@ object BriefwahlForm: TBriefwahlForm
     Align = alBottom
     Caption = 'Aktionen'
     TabOrder = 2
-    ExplicitTop = 459
     object LabeledEdit1: TLabeledEdit
       Left = 16
       Top = 40

@@ -60,7 +60,7 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 uses
-  u_json, DSSession, u_helper, u_pwd, u_glob, m_pwd;
+  u_json, DSSession, u_helper, u_pwd, u_glob, m_pwd, m_phase, u_BRWahlFristen;
 
 {$R *.dfm}
 
@@ -223,6 +223,13 @@ begin
   CodeSite.send(formatJSON(data));
 
   Result := TJSONObject.Create;
+  if not TPhasenMod.phaseActive(BBW) then
+  begin
+    JResult( result, false, 'Es können keinen Änderungen mehr an den Wahllisten vorgenommen werden!');
+    CodeSite.SendError('Die Wahlphase ist abgeschlossen');
+    CodeSite.ExitMethod('wahl');
+    exit;
+  end;
 
   session := TDSSessionManager.GetThreadSession;
   maid := JInt( data, 'maid');

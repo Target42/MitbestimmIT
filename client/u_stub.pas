@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 04.01.2026 13:29:18
+// 21.01.2026 17:31:57
 //
 
 unit u_stub;
@@ -245,21 +245,33 @@ type
   TAuswertungsmodClient = class(TDSAdminClient)
   private
     FDataBeforeOpenCommand: TDBXCommand;
+    FDoppeltBeforeOpenCommand: TDBXCommand;
+    FMarkDoppeltQryBeforeOpenCommand: TDBXCommand;
+    FMarkBeforeOpenCommand: TDBXCommand;
+    FBriefDatenBeforeOpenCommand: TDBXCommand;
     FstartCommand: TDBXCommand;
     FendeCommand: TDBXCommand;
     FstartCountCommand: TDBXCommand;
     FendeCountCommand: TDBXCommand;
     FwahlzettelCommand: TDBXCommand;
+    FgetBriefTextCommand: TDBXCommand;
+    FsaveBriefTextCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     procedure DataBeforeOpen(DataSet: TDataSet);
+    procedure DoppeltBeforeOpen(DataSet: TDataSet);
+    procedure MarkDoppeltQryBeforeOpen(DataSet: TDataSet);
+    procedure MarkBeforeOpen(DataSet: TDataSet);
+    procedure BriefDatenBeforeOpen(DataSet: TDataSet);
     function start(data: TJSONObject): TJSONObject;
     function ende(data: TJSONObject): TJSONObject;
     function startCount(data: TJSONObject): TJSONObject;
     function endeCount(data: TJSONObject): TJSONObject;
     function wahlzettel(data: TJSONObject): TJSONObject;
+    function getBriefText(data: TJSONObject): TJSONObject;
+    function saveBriefText(data: TJSONObject): TJSONObject;
   end;
 
   TDSVorschlagListenImportClient = class(TDSAdminClient)
@@ -274,6 +286,7 @@ type
 
   TDSSimClient = class(TDSAdminClient)
   private
+    FDSServerModuleCreateCommand: TDBXCommand;
     FgetBasisDataCommand: TDBXCommand;
     FsetSimDataCommand: TDBXCommand;
     FAuswertungCommand: TDBXCommand;
@@ -281,6 +294,7 @@ type
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
+    procedure DSServerModuleCreate(Sender: TObject);
     function getBasisData: TJSONObject;
     function setSimData(data: TJSONObject): TJSONObject;
     function Auswertung(data: TJSONObject): TJSONObject;
@@ -1577,6 +1591,58 @@ begin
   FDataBeforeOpenCommand.ExecuteUpdate;
 end;
 
+procedure TAuswertungsmodClient.DoppeltBeforeOpen(DataSet: TDataSet);
+begin
+  if FDoppeltBeforeOpenCommand = nil then
+  begin
+    FDoppeltBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FDoppeltBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDoppeltBeforeOpenCommand.Text := 'TAuswertungsmod.DoppeltBeforeOpen';
+    FDoppeltBeforeOpenCommand.Prepare;
+  end;
+  FDoppeltBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FDoppeltBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TAuswertungsmodClient.MarkDoppeltQryBeforeOpen(DataSet: TDataSet);
+begin
+  if FMarkDoppeltQryBeforeOpenCommand = nil then
+  begin
+    FMarkDoppeltQryBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMarkDoppeltQryBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMarkDoppeltQryBeforeOpenCommand.Text := 'TAuswertungsmod.MarkDoppeltQryBeforeOpen';
+    FMarkDoppeltQryBeforeOpenCommand.Prepare;
+  end;
+  FMarkDoppeltQryBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMarkDoppeltQryBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TAuswertungsmodClient.MarkBeforeOpen(DataSet: TDataSet);
+begin
+  if FMarkBeforeOpenCommand = nil then
+  begin
+    FMarkBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FMarkBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FMarkBeforeOpenCommand.Text := 'TAuswertungsmod.MarkBeforeOpen';
+    FMarkBeforeOpenCommand.Prepare;
+  end;
+  FMarkBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FMarkBeforeOpenCommand.ExecuteUpdate;
+end;
+
+procedure TAuswertungsmodClient.BriefDatenBeforeOpen(DataSet: TDataSet);
+begin
+  if FBriefDatenBeforeOpenCommand = nil then
+  begin
+    FBriefDatenBeforeOpenCommand := FDBXConnection.CreateCommand;
+    FBriefDatenBeforeOpenCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FBriefDatenBeforeOpenCommand.Text := 'TAuswertungsmod.BriefDatenBeforeOpen';
+    FBriefDatenBeforeOpenCommand.Prepare;
+  end;
+  FBriefDatenBeforeOpenCommand.Parameters[0].Value.SetDBXReader(TDBXDataSetReader.Create(DataSet, FInstanceOwner), True);
+  FBriefDatenBeforeOpenCommand.ExecuteUpdate;
+end;
+
 function TAuswertungsmodClient.start(data: TJSONObject): TJSONObject;
 begin
   if FstartCommand = nil then
@@ -1647,6 +1713,34 @@ begin
   Result := TJSONObject(FwahlzettelCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
 end;
 
+function TAuswertungsmodClient.getBriefText(data: TJSONObject): TJSONObject;
+begin
+  if FgetBriefTextCommand = nil then
+  begin
+    FgetBriefTextCommand := FDBXConnection.CreateCommand;
+    FgetBriefTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FgetBriefTextCommand.Text := 'TAuswertungsmod.getBriefText';
+    FgetBriefTextCommand.Prepare;
+  end;
+  FgetBriefTextCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FgetBriefTextCommand.ExecuteUpdate;
+  Result := TJSONObject(FgetBriefTextCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
+function TAuswertungsmodClient.saveBriefText(data: TJSONObject): TJSONObject;
+begin
+  if FsaveBriefTextCommand = nil then
+  begin
+    FsaveBriefTextCommand := FDBXConnection.CreateCommand;
+    FsaveBriefTextCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsaveBriefTextCommand.Text := 'TAuswertungsmod.saveBriefText';
+    FsaveBriefTextCommand.Prepare;
+  end;
+  FsaveBriefTextCommand.Parameters[0].Value.SetJSONValue(data, FInstanceOwner);
+  FsaveBriefTextCommand.ExecuteUpdate;
+  Result := TJSONObject(FsaveBriefTextCommand.Parameters[1].Value.GetJSONValue(FInstanceOwner));
+end;
+
 constructor TAuswertungsmodClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -1660,11 +1754,17 @@ end;
 destructor TAuswertungsmodClient.Destroy;
 begin
   FDataBeforeOpenCommand.Free;
+  FDoppeltBeforeOpenCommand.Free;
+  FMarkDoppeltQryBeforeOpenCommand.Free;
+  FMarkBeforeOpenCommand.Free;
+  FBriefDatenBeforeOpenCommand.Free;
   FstartCommand.Free;
   FendeCommand.Free;
   FstartCountCommand.Free;
   FendeCountCommand.Free;
   FwahlzettelCommand.Free;
+  FgetBriefTextCommand.Free;
+  FsaveBriefTextCommand.Free;
   inherited;
 end;
 
@@ -1696,6 +1796,31 @@ destructor TDSVorschlagListenImportClient.Destroy;
 begin
   FImportCommand.Free;
   inherited;
+end;
+
+procedure TDSSimClient.DSServerModuleCreate(Sender: TObject);
+begin
+  if FDSServerModuleCreateCommand = nil then
+  begin
+    FDSServerModuleCreateCommand := FDBXConnection.CreateCommand;
+    FDSServerModuleCreateCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FDSServerModuleCreateCommand.Text := 'TDSSim.DSServerModuleCreate';
+    FDSServerModuleCreateCommand.Prepare;
+  end;
+  if not Assigned(Sender) then
+    FDSServerModuleCreateCommand.Parameters[0].Value.SetNull
+  else
+  begin
+    FMarshal := TDBXClientCommand(FDSServerModuleCreateCommand.Parameters[0].ConnectionHandler).GetJSONMarshaler;
+    try
+      FDSServerModuleCreateCommand.Parameters[0].Value.SetJSONValue(FMarshal.Marshal(Sender), True);
+      if FInstanceOwner then
+        Sender.Free
+    finally
+      FreeAndNil(FMarshal)
+    end
+  end;
+  FDSServerModuleCreateCommand.ExecuteUpdate;
 end;
 
 function TDSSimClient.getBasisData: TJSONObject;
@@ -1751,6 +1876,7 @@ end;
 
 destructor TDSSimClient.Destroy;
 begin
+  FDSServerModuleCreateCommand.Free;
   FgetBasisDataCommand.Free;
   FsetSimDataCommand.Free;
   FAuswertungCommand.Free;

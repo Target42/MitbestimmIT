@@ -77,6 +77,17 @@ procedure TBriefwahlForm.ac_receivedExecute(Sender: TObject);
 begin
   if BriefTab.IsEmpty then
     exit;
+  if not BriefTabBW_ANTRAG.IsNull then
+  begin
+    ShowMessage('Die Briefwahl wurde noch nicht beantragt!');
+    exit;
+  end;
+
+  if not BriefTab.FieldByName('BW_VERSENDET').IsNull then
+  begin
+    ShowMessage('Die Briefwahlunterlagen noch nicht versendet');
+    exit;
+  end;
 
   if not BriefTab.FieldByName('BW_EMPFANGEN').IsNull then
   begin
@@ -105,6 +116,12 @@ begin
   if BriefTab.IsEmpty then
     exit;
 
+  if not BriefTabBW_ANTRAG.IsNull then
+  begin
+    ShowMessage('Die Briefwahl wurde noch nicht beantragt!');
+    exit;
+  end;
+
   if not BriefTab.FieldByName('BW_VERSENDET').IsNull then
   begin
     ShowMessage('Die Briefwahlunterlagen wurde schon versendet');
@@ -132,12 +149,6 @@ end;
 
 class procedure TBriefwahlForm.execute;
 begin
-  if not GM.isPhaseActive(BBW) then
-  begin
-    ShowMessage('Die Briefwahl ist nicht aktiv.');
-    exit;
-  end;
-
   Application.CreateForm(TBriefwahlForm, BriefwahlForm);
   BriefwahlForm.ShowModal;
   BriefwahlForm.Free;
@@ -145,6 +156,15 @@ end;
 
 procedure TBriefwahlForm.FormCreate(Sender: TObject);
 begin
+  if not GM.isPhaseActive(BBW) then
+  begin
+    ShowMessage('Die Briefwahl ist nicht aktiv.');
+    BitBtn1.Enabled := false;
+    BitBtn3.Enabled := false;
+    BitBtn2.Enabled := false;
+
+  end;
+
   FDBatchMove1.Options := [poClearDest, poCreateDest, poIdentityInsert];
   FDBatchMove1.Execute;
   BriefTab.First;
@@ -181,6 +201,12 @@ var
   res   : TJSONObject;
   client : TBriefWahlModClient;
 begin
+  if not GM.isPhaseActive(BBW) then
+  begin
+    ShowMessage('Es können keine Unterlagen mehr bearbeitet werden!');
+    exit;
+  end;
+
   brief := TBriefwahl.create;
   brief.Date  := now;
   brief.MA_ID := BriefTabMA_ID.AsInteger;
