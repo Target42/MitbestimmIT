@@ -67,6 +67,7 @@ var
   tmp : TList<Integer>;
 begin
 
+// Briefwähler aus der Liste der aller Wähler entnehmen
   for i := 0 to pred( Brief ) do
   begin
     inx := Random(m_all.Count);
@@ -74,6 +75,8 @@ begin
     m_all.Delete(inx);
   end;
 
+
+  // briefwähler in die doppelt liste intragen und in die liste der wähler
   tmp := TList<Integer>.Create(m_brief);
   while m_doppelt.Count < Doppelt do
   begin
@@ -139,6 +142,10 @@ begin
     BWTab.FieldByName('BW_ANTRAG').AsDateTime     := IncDay(now, - 4);
     BWTab.FieldByName('BW_VERSENDET').AsDateTime  := IncDay(now, - 2);
     BWTab.FieldByName('BW_EMPFANGEN').AsDateTime  := now;
+    if m_doppelt.IndexOf(ma_id) > -1 then
+      BWTab.FieldByName('BW_ERROR').AsString := 'D'
+    else
+      BWTab.FieldByName('BW_ERROR').AsString := 'F';
     BWTab.Post;
   end;
   BWTab.Close;
