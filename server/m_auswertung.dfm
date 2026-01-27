@@ -123,8 +123,8 @@ object Auswertungsmod: TAuswertungsmod
       'SELECT '
       
         '    r.BW_ID, r.MA_ID, r.BW_ANTRAG, r.BW_VERSENDET, r.BW_EMPFANGE' +
-        'N, r.BW_ERROR, a.MA_PERSNR, a.MA_NAME, a.MA_VORNAME, a.MA_ABTEIL' +
-        'UNG, a.MA_GENDER, a.MA_GEB'
+        'N, r.BW_ERROR, r.BW_CHG, a.MA_PERSNR, a.MA_NAME, a.MA_VORNAME, a' +
+        '.MA_ABTEILUNG, a.MA_GENDER, a.MA_GEB'
       'FROM '
       '    BW_BRIEF_WAHL r, MA_MITARBEITER a'
       'where'
