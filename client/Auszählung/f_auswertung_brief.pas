@@ -21,30 +21,6 @@ type
     ClientDataSet1: TClientDataSet;
     DataSource1: TDataSource;
     BriefTab: TFDMemTable;
-    ClientDataSet1BW_ID: TIntegerField;
-    ClientDataSet1MA_ID: TIntegerField;
-    ClientDataSet1BW_ANTRAG: TSQLTimeStampField;
-    ClientDataSet1BW_VERSENDET: TSQLTimeStampField;
-    ClientDataSet1BW_EMPFANGEN: TSQLTimeStampField;
-    ClientDataSet1BW_ERROR: TStringField;
-    ClientDataSet1MA_PERSNR: TStringField;
-    ClientDataSet1MA_NAME: TStringField;
-    ClientDataSet1MA_VORNAME: TStringField;
-    ClientDataSet1MA_ABTEILUNG: TStringField;
-    ClientDataSet1MA_GENDER: TStringField;
-    ClientDataSet1MA_GEB: TDateField;
-    BriefTabBW_ID: TIntegerField;
-    BriefTabMA_ID: TIntegerField;
-    BriefTabBW_ANTRAG: TSQLTimeStampField;
-    BriefTabBW_VERSENDET: TSQLTimeStampField;
-    BriefTabBW_EMPFANGEN: TSQLTimeStampField;
-    BriefTabBW_ERROR: TStringField;
-    BriefTabMA_PERSNR: TStringField;
-    BriefTabMA_NAME: TStringField;
-    BriefTabMA_VORNAME: TStringField;
-    BriefTabMA_ABTEILUNG: TStringField;
-    BriefTabMA_GENDER: TStringField;
-    BriefTabMA_GEB: TDateField;
     FDBatchMove1: TFDBatchMove;
     FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader;
     FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter;
@@ -58,6 +34,32 @@ type
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
+    BriefTabBW_ID: TIntegerField;
+    BriefTabMA_ID: TIntegerField;
+    BriefTabBW_ANTRAG: TSQLTimeStampField;
+    BriefTabBW_VERSENDET: TSQLTimeStampField;
+    BriefTabBW_EMPFANGEN: TSQLTimeStampField;
+    BriefTabBW_ERROR: TStringField;
+    BriefTabBW_CHG: TSQLTimeStampField;
+    BriefTabMA_PERSNR: TStringField;
+    BriefTabMA_NAME: TStringField;
+    BriefTabMA_VORNAME: TStringField;
+    BriefTabMA_ABTEILUNG: TStringField;
+    BriefTabMA_GENDER: TStringField;
+    BriefTabMA_GEB: TDateField;
+    ClientDataSet1BW_ID: TIntegerField;
+    ClientDataSet1MA_ID: TIntegerField;
+    ClientDataSet1BW_ANTRAG: TSQLTimeStampField;
+    ClientDataSet1BW_VERSENDET: TSQLTimeStampField;
+    ClientDataSet1BW_EMPFANGEN: TSQLTimeStampField;
+    ClientDataSet1BW_ERROR: TStringField;
+    ClientDataSet1BW_CHG: TSQLTimeStampField;
+    ClientDataSet1MA_PERSNR: TStringField;
+    ClientDataSet1MA_NAME: TStringField;
+    ClientDataSet1MA_VORNAME: TStringField;
+    ClientDataSet1MA_ABTEILUNG: TStringField;
+    ClientDataSet1MA_GENDER: TStringField;
+    ClientDataSet1MA_GEB: TDateField;
     procedure BriefTabMA_GENDERGetText(Sender: TField; var Text: string;
       DisplayText: Boolean);
     procedure BriefTabBW_ERRORGetText(Sender: TField; var Text: string;
@@ -68,6 +70,7 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure RadioGroup2Click(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     procedure UpdateText;
     procedure SaveText;
@@ -90,18 +93,30 @@ begin
     exit;
   GroupBox2.Enabled := true;
 
+  UpdateText;
+  BitBtn1.Enabled := false;
+  BitBtn2.Enabled := true;
+  BitBtn3.Enabled := true;
 end;
 
 procedure TAuswertungBriefForm.BitBtn2Click(Sender: TObject);
 begin
   BriefTabAfterScroll( BriefTab );
   GroupBox2.Enabled := false;
+
+  BitBtn1.Enabled := true;
+  BitBtn2.Enabled := false;
+  BitBtn3.Enabled := false;
 end;
 
 procedure TAuswertungBriefForm.BitBtn3Click(Sender: TObject);
 begin
   SaveText;
   GroupBox2.Enabled := false;
+
+  BitBtn1.Enabled := true;
+  BitBtn2.Enabled := false;
+  BitBtn3.Enabled := false;
 end;
 
 procedure TAuswertungBriefForm.BriefTabAfterScroll(DataSet: TDataSet);
@@ -138,10 +153,10 @@ begin
   c := s[1];
 
   case c of
-    'F' : Text := '';
-    'U' : Text := 'Unvollständig';
+    'F' : Text := 'Unvollständig';
+    'U' : Text := 'Ungültig';
     'D' : Text := 'Doppelt';
-    'I' : Text := 'Ungültig'
+    'G' : Text := 'Gültig'
     else
       Text := 'Unbekannt'
   end;
@@ -152,6 +167,13 @@ procedure TAuswertungBriefForm.BriefTabMA_GENDERGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
   GM.MAListMA_GENDERGetText(Sender, Text, DisplayText);
+end;
+
+procedure TAuswertungBriefForm.DBGrid1DblClick(Sender: TObject);
+begin
+  BitBtn1.Click;
+  if BriefTabBW_ERROR.AsString = 'F' then
+    RadioGroup2.ItemIndex := 0;
 end;
 
 class procedure TAuswertungBriefForm.execute;
@@ -165,10 +187,12 @@ end;
 
 procedure TAuswertungBriefForm.FormCreate(Sender: TObject);
 begin
-  BriefTab.Open;
+  //BriefTab.Open;
+
   ClientDataSet1.Open;
   FDBatchMove1.Execute;
   ClientDataSet1.Close;
+
   BriefTab.First;
 end;
 
@@ -232,9 +256,12 @@ begin
         s := 'F';
     end;
 
-    BriefTab.Edit;
-    BriefTabBW_ERROR.AsString := s;
-    BriefTab.Post;
+    if BriefTabBW_ERROR.AsString <> 'D' then
+    begin
+      BriefTab.Edit;
+      BriefTabBW_ERROR.AsString := s;
+      BriefTab.Post;
+    end;
   end;
 
   client.Free;

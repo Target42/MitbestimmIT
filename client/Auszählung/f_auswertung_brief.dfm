@@ -36,6 +36,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnDblClick = DBGrid1DblClick
       Columns = <
         item
           Expanded = False
@@ -122,7 +123,6 @@ object AuswertungBriefForm: TAuswertungBriefForm
     Caption = 'Aktionen'
     Enabled = False
     TabOrder = 2
-    ExplicitTop = 364
     object Splitter1: TSplitter
       Left = 138
       Top = 17
@@ -202,6 +202,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 3
+    ExplicitTop = 562
     object BitBtn1: TBitBtn
       Left = 32
       Top = 30
@@ -217,6 +218,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Width = 75
       Height = 25
       Caption = 'Abbrechen'
+      Enabled = False
       TabOrder = 1
       OnClick = BitBtn2Click
     end
@@ -226,6 +228,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Width = 75
       Height = 25
       Caption = 'Speichern'
+      Enabled = False
       TabOrder = 2
       OnClick = BitBtn3Click
     end
@@ -273,39 +276,38 @@ object AuswertungBriefForm: TAuswertungBriefForm
       FixedChar = True
       Size = 1
     end
+    object ClientDataSet1BW_CHG: TSQLTimeStampField
+      FieldName = 'BW_CHG'
+      Origin = 'BW_CHG'
+    end
     object ClientDataSet1MA_PERSNR: TStringField
       FieldName = 'MA_PERSNR'
       Origin = 'MA_PERSNR'
       ProviderFlags = []
-      ReadOnly = True
       Size = 10
     end
     object ClientDataSet1MA_NAME: TStringField
       FieldName = 'MA_NAME'
       Origin = 'MA_NAME'
       ProviderFlags = []
-      ReadOnly = True
       Size = 100
     end
     object ClientDataSet1MA_VORNAME: TStringField
       FieldName = 'MA_VORNAME'
       Origin = 'MA_VORNAME'
       ProviderFlags = []
-      ReadOnly = True
       Size = 100
     end
     object ClientDataSet1MA_ABTEILUNG: TStringField
       FieldName = 'MA_ABTEILUNG'
       Origin = 'MA_ABTEILUNG'
       ProviderFlags = []
-      ReadOnly = True
       Size = 100
     end
     object ClientDataSet1MA_GENDER: TStringField
       FieldName = 'MA_GENDER'
       Origin = 'MA_GENDER'
       ProviderFlags = []
-      ReadOnly = True
       FixedChar = True
       Size = 1
     end
@@ -313,92 +315,21 @@ object AuswertungBriefForm: TAuswertungBriefForm
       FieldName = 'MA_GEB'
       Origin = 'MA_GEB'
       ProviderFlags = []
-      ReadOnly = True
     end
   end
   object DataSource1: TDataSource
     DataSet = BriefTab
-    Left = 688
-    Top = 152
+    Left = 696
+    Top = 136
   end
   object BriefTab: TFDMemTable
-    Active = True
     AfterScroll = BriefTabAfterScroll
-    FieldDefs = <
-      item
-        Name = 'BW_ID'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'MA_ID'
-        Attributes = [faRequired]
-        DataType = ftInteger
-      end
-      item
-        Name = 'BW_ANTRAG'
-        DataType = ftTimeStamp
-      end
-      item
-        Name = 'BW_VERSENDET'
-        DataType = ftTimeStamp
-      end
-      item
-        Name = 'BW_EMPFANGEN'
-        DataType = ftTimeStamp
-      end
-      item
-        Name = 'BW_ERROR'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'MA_PERSNR'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 10
-      end
-      item
-        Name = 'MA_NAME'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'MA_VORNAME'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'MA_ABTEILUNG'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'MA_GENDER'
-        Attributes = [faReadonly]
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'MA_GEB'
-        Attributes = [faReadonly]
-        DataType = ftDate
-      end>
+    FieldDefs = <>
     IndexDefs = <
       item
         Name = 'PRIMARY_KEY'
         Fields = 'BW_ID;MA_ID'
         Options = [ixPrimary, ixUnique]
-      end>
-    Indexes = <
-      item
-        Active = True
-        Name = 'PRIMARY_KEY'
-        Fields = 'BW_ID;MA_ID'
-        Options = [soUnique, soPrimary]
       end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -411,52 +342,68 @@ object AuswertungBriefForm: TAuswertungBriefForm
     Left = 616
     Top = 137
     object BriefTabBW_ID: TIntegerField
+      DisplayWidth = 10
       FieldName = 'BW_ID'
       Required = True
     end
     object BriefTabMA_ID: TIntegerField
+      DisplayWidth = 10
       FieldName = 'MA_ID'
       Required = True
     end
     object BriefTabBW_ANTRAG: TSQLTimeStampField
+      DisplayWidth = 34
       FieldName = 'BW_ANTRAG'
       DisplayFormat = 'dd.MM.yyyy hh:mm'
     end
     object BriefTabBW_VERSENDET: TSQLTimeStampField
+      DisplayWidth = 34
       FieldName = 'BW_VERSENDET'
       DisplayFormat = 'dd.MM.yyyy hh:mm'
     end
     object BriefTabBW_EMPFANGEN: TSQLTimeStampField
+      DisplayWidth = 34
       FieldName = 'BW_EMPFANGEN'
       DisplayFormat = 'dd.MM.yyyy hh:mm'
     end
     object BriefTabBW_ERROR: TStringField
+      DisplayWidth = 27
       FieldName = 'BW_ERROR'
       OnGetText = BriefTabBW_ERRORGetText
       Size = 1
     end
+    object BriefTabBW_CHG: TSQLTimeStampField
+      DisplayWidth = 34
+      FieldName = 'BW_CHG'
+    end
     object BriefTabMA_PERSNR: TStringField
+      DisplayWidth = 10
       FieldName = 'MA_PERSNR'
       Size = 10
     end
     object BriefTabMA_NAME: TStringField
+      DisplayWidth = 100
       FieldName = 'MA_NAME'
       Size = 100
     end
     object BriefTabMA_VORNAME: TStringField
+      DisplayWidth = 100
       FieldName = 'MA_VORNAME'
       Size = 100
     end
     object BriefTabMA_ABTEILUNG: TStringField
+      DisplayWidth = 100
       FieldName = 'MA_ABTEILUNG'
       Size = 100
     end
     object BriefTabMA_GENDER: TStringField
+      DisplayWidth = 10
       FieldName = 'MA_GENDER'
       OnGetText = BriefTabMA_GENDERGetText
       Size = 1
     end
     object BriefTabMA_GEB: TDateField
+      DisplayWidth = 10
       FieldName = 'MA_GEB'
     end
   end
@@ -470,12 +417,12 @@ object AuswertungBriefForm: TAuswertungBriefForm
   end
   object FDBatchMoveDataSetReader1: TFDBatchMoveDataSetReader
     DataSet = ClientDataSet1
-    Left = 216
-    Top = 160
+    Left = 224
+    Top = 216
   end
   object FDBatchMoveDataSetWriter1: TFDBatchMoveDataSetWriter
     DataSet = BriefTab
-    Left = 496
-    Top = 155
+    Left = 504
+    Top = 219
   end
 end

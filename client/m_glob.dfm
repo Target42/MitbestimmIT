@@ -40,51 +40,128 @@ object GM: TGM
     Top = 96
     object MAListMA_ID: TIntegerField
       FieldName = 'MA_ID'
+      Origin = 'MA_ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object MAListMA_PERSNR: TStringField
       FieldName = 'MA_PERSNR'
+      Origin = 'MA_PERSNR'
       Size = 10
     end
     object MAListMA_NAME: TStringField
       FieldName = 'MA_NAME'
+      Origin = 'MA_NAME'
       Size = 100
     end
     object MAListMA_VORNAME: TStringField
       FieldName = 'MA_VORNAME'
+      Origin = 'MA_VORNAME'
       Size = 100
     end
     object MAListMA_GENDER: TStringField
       FieldName = 'MA_GENDER'
+      Origin = 'MA_GENDER'
       FixedChar = True
       Size = 1
     end
     object MAListMA_ABTEILUNG: TStringField
       FieldName = 'MA_ABTEILUNG'
+      Origin = 'MA_ABTEILUNG'
       Size = 100
     end
     object MAListMA_MAIL: TStringField
       FieldName = 'MA_MAIL'
+      Origin = 'MA_MAIL'
       Size = 255
     end
     object MAListMA_GEB: TDateField
       FieldName = 'MA_GEB'
+      Origin = 'MA_GEB'
     end
     object MAListWA_ID: TIntegerField
       FieldName = 'WA_ID'
+      Origin = 'WA_ID'
+      ProviderFlags = []
       ReadOnly = True
     end
     object MAListMA_ID_1: TIntegerField
       FieldName = 'MA_ID_1'
+      Origin = 'MA_ID'
+      ProviderFlags = []
       ReadOnly = True
     end
     object MAListMW_ROLLE: TStringField
       FieldName = 'MW_ROLLE'
+      Origin = 'MW_ROLLE'
+      ProviderFlags = []
       ReadOnly = True
       Size = 100
     end
   end
   object MAUserTab: TFDMemTable
+    FieldDefs = <
+      item
+        Name = 'MA_ID'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'MA_PERSNR'
+        DataType = ftString
+        Size = 10
+      end
+      item
+        Name = 'MA_NAME'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'MA_VORNAME'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'MA_GENDER'
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'MA_ABTEILUNG'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'MA_MAIL'
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'MA_GEB'
+        DataType = ftDate
+      end
+      item
+        Name = 'WA_ID'
+        Attributes = [faReadonly]
+        DataType = ftInteger
+      end
+      item
+        Name = 'MA_ID_1'
+        Attributes = [faReadonly]
+        DataType = ftInteger
+      end
+      item
+        Name = 'MW_ROLLE'
+        Attributes = [faReadonly]
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <
+      item
+        Name = 'PRIMARY_KEY'
+        Fields = 'MA_ID'
+        Options = [ixPrimary, ixUnique]
+      end>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -92,6 +169,7 @@ object GM: TGM
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 296
     Top = 296
   end
