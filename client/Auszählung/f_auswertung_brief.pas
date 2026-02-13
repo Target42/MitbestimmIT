@@ -71,6 +71,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure RadioGroup2Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
   private
     procedure UpdateText;
     procedure SaveText;
@@ -85,7 +86,8 @@ implementation
 
 {$R *.dfm}
 
-uses m_glob, u_stub, System.JSON, u_json, u_helper;
+uses
+  m_glob, u_stub, System.JSON, u_json, u_helper, u_BRWahlFristen;
 
 procedure TAuswertungBriefForm.BitBtn1Click(Sender: TObject);
 begin
@@ -153,7 +155,7 @@ begin
   c := s[1];
 
   case c of
-    'F' : Text := 'Unvollständig';
+    'F' : Text := 'Nicht Bearbeitet';
     'U' : Text := 'Ungültig';
     'D' : Text := 'Doppelt';
     'G' : Text := 'Gültig'
@@ -180,6 +182,11 @@ class procedure TAuswertungBriefForm.execute;
 var
   AuswertungBriefForm : TAuswertungBriefForm;
 begin
+  if not GM.isPhaseActive(BWU) then
+  begin
+    MessageDlg('Die Phase, die Briefwahlunterlagen in die Urne zu tun, ist nicht aktiv.',  mtInformation, [mbOK], 0);
+    exit;
+  end;
   Application.CreateForm(TAuswertungBriefForm, AuswertungBriefForm);
   AuswertungBriefForm.ShowModal;
   AuswertungBriefForm.free;
@@ -194,6 +201,15 @@ begin
   ClientDataSet1.Close;
 
   BriefTab.First;
+end;
+
+procedure TAuswertungBriefForm.RadioGroup1Click(Sender: TObject);
+begin
+  if RadioGroup1.ItemIndex = 0 then
+    RadioGroup2.ItemIndex := 0
+  else
+    RadioGroup2.ItemIndex := 1;
+
 end;
 
 procedure TAuswertungBriefForm.RadioGroup2Click(Sender: TObject);

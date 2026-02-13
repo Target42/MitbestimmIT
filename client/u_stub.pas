@@ -1,6 +1,6 @@
 ﻿//
 // Erzeugt vom DataSnap-Proxy-Generator.
-// 21.01.2026 17:31:57
+// 11.02.2026 20:19:59
 //
 
 unit u_stub;
@@ -235,11 +235,13 @@ type
   TGlobModClient = class(TDSAdminClient)
   private
     FisPhaseActiveCommand: TDBXCommand;
+    FsetPhaseActiveCommand: TDBXCommand;
   public
     constructor Create(ADBXConnection: TDBXConnection); overload;
     constructor Create(ADBXConnection: TDBXConnection; AInstanceOwner: Boolean); overload;
     destructor Destroy; override;
     function isPhaseActive(phase: string): Boolean;
+    function setPhaseActive(phase: string; active: Boolean): Boolean;
   end;
 
   TAuswertungsmodClient = class(TDSAdminClient)
@@ -1562,6 +1564,21 @@ begin
   Result := FisPhaseActiveCommand.Parameters[1].Value.GetBoolean;
 end;
 
+function TGlobModClient.setPhaseActive(phase: string; active: Boolean): Boolean;
+begin
+  if FsetPhaseActiveCommand = nil then
+  begin
+    FsetPhaseActiveCommand := FDBXConnection.CreateCommand;
+    FsetPhaseActiveCommand.CommandType := TDBXCommandTypes.DSServerMethod;
+    FsetPhaseActiveCommand.Text := 'TGlobMod.setPhaseActive';
+    FsetPhaseActiveCommand.Prepare;
+  end;
+  FsetPhaseActiveCommand.Parameters[0].Value.SetWideString(phase);
+  FsetPhaseActiveCommand.Parameters[1].Value.SetBoolean(active);
+  FsetPhaseActiveCommand.ExecuteUpdate;
+  Result := FsetPhaseActiveCommand.Parameters[2].Value.GetBoolean;
+end;
+
 constructor TGlobModClient.Create(ADBXConnection: TDBXConnection);
 begin
   inherited Create(ADBXConnection);
@@ -1575,6 +1592,7 @@ end;
 destructor TGlobModClient.Destroy;
 begin
   FisPhaseActiveCommand.Free;
+  FsetPhaseActiveCommand.Free;
   inherited;
 end;
 

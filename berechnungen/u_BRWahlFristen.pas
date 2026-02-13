@@ -34,6 +34,7 @@ const
   AWV = 'AWV';
   BBW = 'BBW';
   WPE = 'WPE';
+  BWU = 'BWU';
 
 
 type

@@ -58,4 +58,37 @@ object PhasenMod: TPhasenMod
     Left = 80
     Top = 288
   end
+  object setPhaseQry: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'UPDATE WP_WAHLPHASE a'
+      'SET '
+      '    a.WP_ACTIVE = :WP_ACTIVE'
+      'WHERE'
+      '    a.WA_ID = :wa_id '
+      'AND '
+      '    a.WP_PHASE = :wp_phase'
+      '')
+    Left = 408
+    Top = 216
+    ParamData = <
+      item
+        Name = 'WP_ACTIVE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'WP_PHASE'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end

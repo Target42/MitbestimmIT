@@ -120,6 +120,7 @@ type
       DisplayText: Boolean);
 
     function isPhaseActive( phase : string ) : Boolean;
+    function setPhase( phase : string; active : boolean ) : Boolean;
   end;
 
 var
@@ -345,12 +346,20 @@ begin
 end;
 
 
+function TGM.setPhase(phase: string; active: boolean): Boolean;
+var
+  client : TGlobModClient;
+begin
+  client := TGlobModClient.Create(SQLConnection1.DBXConnection);
+  Result := client.setPhaseActive(phase, active);
+  client.Free;
+end;
+
 procedure TGM.setUser(value: string);
 begin
   FUser := Trim(value);
   if FUser = '' then
     FUser := GetEnvironmentVariable('USERNAME');
-
 end;
 
 procedure TGM.SQLConnection1AfterDisconnect(Sender: TObject);

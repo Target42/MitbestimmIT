@@ -187,13 +187,14 @@ var
 
   const
     // 2. Erstellung der konstanten Tabelle (Array of Record)
-    PHASEN_TABELLE: array[0..5] of TPhasenEintrag = (
+    PHASEN_TABELLE: array[0..6] of TPhasenEintrag = (
       (Nr: 1; Titel: 'Auszählung';                  Phase: SAZ; Aktiv: False),
       (Nr: 2; Titel: 'Briefwahl';                   Phase: BBW; Aktiv: false),
       (Nr: 3; Titel: 'Wählerliste bearbeiten';      Phase: EWV; Aktiv: False),
       (Nr: 4; Titel: 'Vorschlagslisten bearbeiten'; Phase: AWV; Aktiv: false),
       (Nr: 5; Titel: 'Wahlplanung bearbeiten';      Phase: WPE; Aktiv: True) ,
-      (Nr: 6; Titel: 'Wahlvorstand bearbeiten';     Phase: WWV; Aktiv: True)
+      (Nr: 6; Titel: 'Wahlvorstand bearbeiten';     Phase: WWV; Aktiv: True),
+      (Nr: 7; Titel: 'Briefwahlunterlagen in Urne'; Phase: BWU; Aktiv: True)
     );
   var
     i : integer;

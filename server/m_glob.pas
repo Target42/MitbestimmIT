@@ -12,6 +12,7 @@ type
     { Private-Deklarationen }
   public
     function isPhaseActive( phase : string ) :Boolean;
+    function setPhaseActive( phase : string; active : boolean ) :Boolean;
   end;
 
 implementation
@@ -27,6 +28,11 @@ uses m_phase;
 function TGlobMod.isPhaseActive(phase: string): Boolean;
 begin
   Result := TPhasenMod.phaseActive(phase);
+end;
+
+function TGlobMod.setPhaseActive(phase: string; active: boolean): Boolean;
+begin
+  Result := TPhasenMod.setPhaseActive(phase, active);
 end;
 
 end.

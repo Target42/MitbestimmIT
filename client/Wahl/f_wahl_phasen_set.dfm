@@ -40,6 +40,7 @@ object WahlPhasenSEtForm: TWahlPhasenSEtForm
         Expanded = False
         FieldName = 'WP_ID'
         Title.Caption = 'Nr'
+        Width = 40
         Visible = True
       end
       item

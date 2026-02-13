@@ -156,6 +156,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
         'Wahlschein manipuliert'
         'Anderer Grund')
       TabOrder = 0
+      OnClick = RadioGroup1Click
     end
     object RadioGroup2: TRadioGroup
       Left = 2
@@ -167,7 +168,7 @@ object AuswertungBriefForm: TAuswertungBriefForm
       Items.Strings = (
         'G'#252'ltig'
         'Ung'#252'ltig'
-        'Unvollst'#228'ndig'
+        'Nicht Bearbeitet'
         'Dopeltw'#228'hler')
       TabOrder = 1
       OnClick = RadioGroup2Click
@@ -202,7 +203,6 @@ object AuswertungBriefForm: TAuswertungBriefForm
     Caption = 'Panel1'
     ShowCaption = False
     TabOrder = 3
-    ExplicitTop = 562
     object BitBtn1: TBitBtn
       Left = 32
       Top = 30

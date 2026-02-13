@@ -23,6 +23,8 @@ type
     BriefdatenQry: TDataSetProvider;
     GetBriefStreamQry: TFDQuery;
     SetBriefStreamQry: TFDQuery;
+    DeactivateAll: TFDQuery;
+    Activate: TFDQuery;
     procedure DataBeforeOpen(DataSet: TDataSet);
     procedure DoppeltBeforeOpen(DataSet: TDataSet);
     procedure MarkDoppeltQryBeforeOpen(DataSet: TDataSet);
@@ -48,7 +50,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses u_json, m_phase, u_BRWahlFristen, m_db, u_json_db;
+uses u_json, m_phase, u_BRWahlFristen, m_db, u_json_db, m_glob;
 
 {$R *.dfm}
 
@@ -164,16 +166,27 @@ end;
 function TAuswertungsmod.start(data: TJSONObject): TJSONObject;
 begin
   Result := TJSONObject.Create;
+
+
   if not TPhasenMod.phaseActive(SAZ) then
   begin
-    JResult( result, false, 'Die Auswertung ist nicht aktiv!');
-    exit;
-  end;
+    DeactivateAll.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+    DeactivateAll.ExecSQL;
 
-  // unvollständige unterlagen
-  Mark.ExecSQL;
-  // doppelt Wähler.
-  MarkDoppeltQry.ExecSQL;
+    Activate.ParamByName('WA_ID').AsInteger := DBMod.WahlID;
+    Activate.ExecSQL;
+
+    // unvollständige unterlagen
+    Mark.ExecSQL;
+    // doppelt Wähler.
+    MarkDoppeltQry.ExecSQL;
+
+    JResult( result, false, 'Die Auswertung ist jetzt aktiv!');
+  end
+  else
+  begin
+    JResult( result, false, 'Die Auswertung ist schon aktiv!');
+  end;
 
 end;
 

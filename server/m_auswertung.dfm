@@ -24,8 +24,8 @@ object Auswertungsmod: TAuswertungsmod
   end
   object FDTransaction1: TFDTransaction
     Connection = DBMod.FDConnection1
-    Left = 304
-    Top = 224
+    Left = 288
+    Top = 368
   end
   object DataQry: TDataSetProvider
     DataSet = Data
@@ -220,6 +220,45 @@ object Auswertungsmod: TAuswertungsmod
       end
       item
         Name = 'MA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object DeactivateAll: TFDQuery
+    Connection = DBMod.FDConnection1
+    SQL.Strings = (
+      'UPDATE WP_WAHLPHASE a'
+      'SET '
+      '    a.WP_ACTIVE = '#39'F'#39
+      'WHERE'
+      '    a.WA_ID = :wa_id'
+      '')
+    Left = 288
+    Top = 176
+    ParamData = <
+      item
+        Name = 'WA_ID'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
+  object Activate: TFDQuery
+    SQL.Strings = (
+      'UPDATE WP_WAHLPHASE a'
+      'SET '
+      '    a.WP_ACTIVE = '#39'T'#39
+      'WHERE'
+      '    a.WA_ID = :wa_id '
+      'AND '
+      '    a.WP_PHASE = '#39'SAZ'#39
+      '')
+    Left = 296
+    Top = 248
+    ParamData = <
+      item
+        Name = 'WA_ID'
         DataType = ftInteger
         ParamType = ptInput
         Value = Null
